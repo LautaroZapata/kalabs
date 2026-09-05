@@ -97,7 +97,7 @@ export default function Greca({
   id,
   variant = "zigzag",
   line = "var(--terra)",
-  accent = "var(--teal)",
+  accent = "var(--terra)",
   bg = "transparent",
   scale = 1,
   height = 16,

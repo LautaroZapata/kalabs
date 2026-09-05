@@ -12,7 +12,7 @@ export default function Indice() {
           id="greca-rail"
           variant="rombo"
           line="var(--terra-dim)"
-          accent="var(--teal-dim)"
+          accent="var(--terra-dim)"
           height="100%"
           className={s.railGreca}
         />
@@ -31,7 +31,7 @@ export default function Indice() {
 
       {/* wordmark fracturado */}
       <div className={s.word}>
-        <div className={s.slabTeal} aria-hidden="true" />
+        <div className={s.slabBordo} aria-hidden="true" />
 
         {/* tablero tejido: estructura, no adorno */}
         <div className={s.tablero}>
@@ -40,7 +40,7 @@ export default function Indice() {
               id="greca-tablero"
               variant="escalera"
               line="var(--terra-dim)"
-              accent="var(--teal-dim)"
+              accent="var(--terra-dim)"
               height="100%"
               scale={1.9}
             />
@@ -73,11 +73,9 @@ export default function Indice() {
           ))}
         </p>
         <p className={`${s.coords} monoSm`}>
+          {/* El HUD ya muestra hora y turno: acá alcanza con el lugar y el estado. */}
           <span className="tag">
             <b>UY</b> {SITE.coords}
-          </span>
-          <span className="tag">
-            <b>UTC</b> −03:00
           </span>
           <span className="tag">
             <b>Estado</b> {UI.estadoDisponible}

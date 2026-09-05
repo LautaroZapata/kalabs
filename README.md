@@ -13,40 +13,47 @@ organiza el contenido.
 
 Decisiones concretas:
 
-- **El orden no es el de siempre.** El contacto abre el sitio (arriba a la
-  derecha) y lo cierra. Los **proyectos van antes que los servicios**. Las
-  secciones se numeran `00 → 04` y el índice funciona como navegación.
-- **Nada de grillas parejas.** Los proyectos viven en un riel horizontal de
-  fichas de anchos distintos montadas a alturas distintas; los servicios son
-  tres filas donde *cada fila usa una grilla diferente* (cambian las
-  proporciones, el lado del numeral y la sangría del texto).
+- **Cuatro secciones, nombres directos.** `00 Kalabs → 01 Proyectos →
+  02 Servicios → 03 Contacto`. Nada de metáforas de taller: el visitante no
+  tiene que descifrar qué hay detrás de "Obra" u "Oficio". El contacto abre el
+  sitio (arriba a la derecha) y lo cierra, y el índice funciona como
+  navegación.
+- **El equipo va dentro del contacto.** Quién trabaja acá y cómo escribirnos
+  se leen juntos: se contrata a las personas, no al formulario.
+- **La asimetría la da el tamaño de las celdas, no el desorden.** Los
+  proyectos van en grilla vertical —el destacado ocupa el ancho completo, los
+  otros dos se reparten la fila— y los servicios usan una sola grilla donde lo
+  único que alterna es el lado del numeral. Se ve todo sin gestos ni sorpresas.
 - **La tipografía es un elemento gráfico.** El wordmark está fracturado —`Ka`
   macizo, `labs` en contorno— y se corre hasta cruzar el hilo de la columna
-  vecina, donde se recorta contra un velo. Los numerales de sección se salen
-  del contenedor y se cortan contra el borde.
-- **El solape es estructural.** En *Taller* las placas se montan una sobre
-  otra y giradas, como papeles sobre una mesa.
+  vecina, donde se recorta contra un velo.
 - **La greca hace trabajo estructural**, no decorativo: es la junta entre
-  secciones, el lomo de las fichas y el relleno de los vacíos de la grilla.
-  Son cuatro tramas ortogonales (`zigzag`, `rombo`, `escalera`, `trama`)
-  construidas a base de escalones —geometría abstracta inspirada en el textil
-  sudamericano, sin citar ningún símbolo concreto.
+  secciones y el fondo del bloque de equipo. Son cuatro tramas ortogonales
+  (`zigzag`, `rombo`, `escalera`, `trama`) construidas a base de escalones
+  —geometría abstracta inspirada en el textil sudamericano, sin citar ningún
+  símbolo concreto. Se usan con cuentagotas: una greca de más y la pantalla se
+  llena de ruido.
 - **Riel de estado fijo al pie** con la hora real de Montevideo, la sección
   activa y el avance de lectura. Reemplaza al menú.
-- **El movimiento acompaña, no decora.** El riel de proyectos se arrastra con
-  el mouse y sigue de largo con inercia; las secciones entran al pisar el
-  viewport; las fichas quedan giradas cuando terminan de asentarse.
+- **El movimiento acompaña, no decora.** Las secciones y las fichas entran al
+  pisar el viewport; no hay arrastre ni inercia.
 
 ### Paleta
+
+Toda cálida: naranja y bordo sobre cuatro negros. No hay acento frío —la
+jerarquía la hacen los tonos de fondo y el peso tipográfico, no un segundo
+color.
 
 | Rol | Token | Valor |
 | --- | --- | --- |
 | Fondo | `--ink` | `#0f1214` — carbón frío |
+| Fondo 2 / 3 / 4 | `--ink-2` `--ink-3` `--ink-4` | `#161a1c` `#1e2325` `#262c2f` |
 | Texto | `--bone` | `#efe7d6` — hueso cálido |
-| Acento cálido | `--ember` | `#ff6b1a` |
-| Acento cálido 2 | `--amber` | `#e9b34a` |
-| Acento frío | `--teal` | `#3f9184` |
-| Estructura | `--terra` | `#9c3f26` — líneas y bordes |
+| Texto apagado | `--bone-dim` | `#b9b2a4` |
+| Acento | `--ember` | `#ff6b1a` — lo activo, lo que se toca |
+| Acento quemado | `--ember-dim` | `#db6a20` — segunda voz del mismo acento |
+| Estructura | `--terra` | `#9c3f26` — bordo: líneas, bordes y planos |
+| Estructura oscura | `--terra-dim` | `#6b2b1a` |
 
 ### Tipografía
 
@@ -57,11 +64,12 @@ lo que separa titular de cuerpo es el peso, no la tipografía.
 
 ## Accesibilidad
 
-- Contraste verificado: hueso sobre carbón ~15:1, ámbar ~6.6:1, verde ~5:1.
-  El rojo tierra se usa sólo para bordes y líneas, nunca para texto corrido.
-- Foco de teclado visible en todo el sitio (contorno ámbar de 3px).
-- El riel horizontal de proyectos es enfocable (`role="region"` + `tabindex`)
-  para poder recorrerlo sin mouse.
+- Contraste verificado sobre `--ink`: hueso 15.3:1, hueso apagado 8.9:1,
+  naranja 6.6:1, naranja quemado 5.5:1 (4.6:1 sobre `--ink-3`, el fondo más
+  claro donde aparece). Hueso sobre bordo 5.4:1.
+- **El bordo (`--terra`, 2.8:1) nunca lleva texto.** Es borde, línea, contorno
+  decorativo y plano de fondo; cuando es fondo, el texto encima va en hueso.
+- Foco de teclado visible en todo el sitio (contorno naranja de 3px).
 - Ningún estado se transmite sólo con color: los chips llevan la palabra
   completa (`En producción`, `Socio · a confirmar`) y un signo.
 - Se respeta `prefers-reduced-motion`: no hay entradas por scroll, marquesina
@@ -77,32 +85,31 @@ lo que separa titular de cuerpo es el peso, no la tipografía.
 - Next.js (App Router) + React + TypeScript
 - CSS Modules + custom properties — sin framework de estilos, para que el
   layout no arrastre las convenciones de nadie
-- [Motion](https://motion.dev) para las entradas por scroll y la inercia del
-  arrastre
+- [Motion](https://motion.dev) para las entradas por scroll
 - Sin backend: el formulario arma un `mailto:` con todo cargado. Si algún día
   hay que guardar los mensajes, ahí entra Supabase sin tocar el resto.
 
 ### Notas de implementación
 
-Dos cosas que no son obvias y conviene no deshacer:
-
-- **Las rotaciones de las fichas viven en JS, no en CSS.** Motion escribe el
-  `transform` inline, así que pisaría cualquier `rotate` puesto desde una hoja
-  de estilos. Ver `components/mov/useEscritorio.ts`.
-- **El arrastre no reemplaza al scroll nativo, lo complementa.** El contenedor
-  mantiene su `overflow-x: auto` —así siguen andando el teclado, la rueda del
-  trackpad y el gesto táctil, que ya trae inercia propia— y sólo se agrega el
-  arrastre con mouse. El `scroll-snap` se apaga mientras dura el gesto, porque
-  el imán pelea contra la asignación de `scrollLeft` y el riel deja de seguir
-  al cursor. Ver `components/mov/useArrastre.ts`.
+- **Con movimiento reducido no alcanza con no animar.** Motion escribe
+  `opacity: 0` inline en el HTML servido, así que hay que pedirle explícitamente
+  el estado final en el montaje o el bloque queda invisible para siempre. Eso
+  resuelve `entrada()` en `components/mov/entrada.ts`.
+- **Un componente por sección, con su CSS Module al lado.** `Indice`,
+  `Proyectos`, `Servicios` y `Contacto`; `Formulario` toma sus estilos de
+  `Contacto.module.css` porque vive dentro de esa ficha.
 
 ## Desarrollo
 
+Este proyecto usa **pnpm**. No uses `npm` ni `yarn`: el lockfile versionado es
+`pnpm-lock.yaml` y el gestor queda fijado en el campo `packageManager` del
+`package.json`.
+
 ```bash
-npm install
-npm run dev     # http://localhost:3000
-npm run build
-npm start
+pnpm install
+pnpm dev        # http://localhost:3000
+pnpm build
+pnpm start
 ```
 
 Desplegable en Vercel sin configuración extra.

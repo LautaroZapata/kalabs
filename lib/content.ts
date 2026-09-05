@@ -7,26 +7,27 @@ export const SITE = {
   turno: "22:00 → 04:00",
   email: "hola@kalabs.uy",
   descripcion:
-    "Estudio digital de Montevideo. Desarrollo web, automatizaciones y sistemas a medida para pequeños negocios.",
+    "Estudio digital de Montevideo. Desarrollo web, automatizaciones y sistemas a medida para negocios chicos.",
   url: "https://kalabs.uy",
 };
 
 export const MANIFIESTO = [
-  "Estudio digital de Montevideo.",
-  "Trabajamos de noche,",
-  "con pequeños negocios",
-  "que necesitan destacarse",
-  "y no parecerse a los demás.",
+  "Estudio digital",
+  "de Montevideo.",
+  "Trabajamos de noche",
+  "con negocios chicos",
+  "que no quieren parecerse a nadie.",
 ];
 
 export type Indice = { id: string; num: string; label: string; nota: string };
 
+/* Cuatro secciones, nombres directos: el visitante no tiene que descifrar
+   una metáfora para saber qué hay en cada una. */
 export const INDICE: Indice[] = [
-  { id: "indice", num: "00", label: "Índice", nota: "Presentación" },
-  { id: "obra", num: "01", label: "Obra", nota: "Proyectos realizados" },
-  { id: "oficio", num: "02", label: "Oficio", nota: "Servicios" },
-  { id: "taller", num: "03", label: "Taller", nota: "Equipo" },
-  { id: "senal", num: "04", label: "Señal", nota: "Contacto" },
+  { id: "indice", num: "00", label: "Kalabs", nota: "Estudio digital" },
+  { id: "proyectos", num: "01", label: "Proyectos", nota: "En producción" },
+  { id: "servicios", num: "02", label: "Servicios", nota: "Qué hacemos" },
+  { id: "contacto", num: "03", label: "Contacto", nota: "Equipo y contacto" },
 ];
 
 export type Proyecto = {
@@ -37,21 +38,17 @@ export type Proyecto = {
   detalle: string;
   stack: string[];
   estado: string;
-  ancho: "corto" | "medio" | "largo";
-  offset: 0 | 1 | 2;
 };
 
 export const PROYECTOS: Proyecto[] = [
   {
     num: "01",
     nombre: "ViaGrúa",
-    pitch: "Gestión de flotas de grúas en tiempo real.",
+    pitch: "Flotas de grúas en tiempo real.",
     detalle:
-      "Choferes, servicios y estado de cada unidad en una sola vista. Permite saber qué unidad está disponible y cuál está en camino sin realizar un solo llamado.",
+      "Choferes, servicios y unidades en una sola vista. Quién está libre y quién está en camino, sin un solo llamado.",
     stack: ["Next.js", "Supabase", "Tiempo real"],
     estado: "En producción",
-    ancho: "largo",
-    offset: 0,
   },
   {
     num: "02",
@@ -59,22 +56,18 @@ export const PROYECTOS: Proyecto[] = [
     nombreLargo: "República Oriental de los Gastos",
     pitch: "Finanzas personales.",
     detalle:
-      "Presupuesto, ahorro y flujo de dinero en una sola pantalla, con el detalle de en qué se fue el mes.",
+      "Presupuesto, ahorro y flujo del mes en una pantalla. Y el detalle de en qué se fue.",
     stack: ["Next.js", "Supabase"],
     estado: "En producción",
-    ancho: "corto",
-    offset: 2,
   },
   {
     num: "03",
     nombre: "Mesa",
     pitch: "Registro nutricional del hogar.",
     detalle:
-      "Cada integrante registra sus comidas desde Telegram, sin instalar ni aprender una aplicación nueva.",
+      "Cada integrante carga sus comidas por Telegram. Sin instalar ni aprender nada nuevo.",
     stack: ["Next.js", "Bot de Telegram"],
     estado: "En producción",
-    ancho: "medio",
-    offset: 1,
   },
 ];
 
@@ -91,24 +84,23 @@ export const SERVICIOS: Servicio[] = [
     num: "01",
     titulo: "Desarrollo web",
     bajada: "Sitios y aplicaciones a medida.",
-    cuerpo:
-      "Diseñados para vender, no solo para verse bien. Rápidos en el celular y desarrollados sin plantillas ni plugins innecesarios.",
-    entregables: ["Sitio institucional", "Tienda o catálogo", "Panel de administración", "Medición de resultados"],
+    cuerpo: "Para vender, no para decorar. Rápidos en el celular. Sin plantillas.",
+    entregables: ["Sitio institucional", "Tienda o catálogo", "Panel de administración", "Medición"],
   },
   {
     num: "02",
     titulo: "Automatizaciones",
-    bajada: "Procesos que ahorran horas de trabajo.",
+    bajada: "Menos tareas repetidas.",
     cuerpo:
-      "Las tareas que se repiten todas las semanas se pueden automatizar. Empezamos por la que más tiempo consume.",
-    entregables: ["Bots de WhatsApp y Telegram", "Reportes automáticos", "Integración entre herramientas", "Alertas"],
+      "Lo que hacés todas las semanas a mano lo hace una máquina. Empezamos por lo que más tiempo come.",
+    entregables: ["Bots de WhatsApp y Telegram", "Reportes automáticos", "Integraciones", "Alertas"],
   },
   {
     num: "03",
     titulo: "Sistemas a medida",
-    bajada: "Herramientas simples para problemas puntuales.",
+    bajada: "Una herramienta, un problema.",
     cuerpo:
-      "Turnos, pedidos o control de stock. Una función resuelta correctamente, en lugar de un sistema completo que nadie utiliza.",
+      "Turnos, pedidos, stock. Una función bien resuelta antes que un sistema entero que nadie abre.",
     entregables: ["Turnos y agenda", "Pedidos", "Control de stock", "Fichas de clientes"],
   },
 ];
@@ -125,14 +117,14 @@ export const EQUIPO: Persona[] = [
   {
     nombre: "Lautaro Zapata",
     rol: "Desarrollo y sistemas",
-    bio: "Estudiante de Tecnologías de la Información. Desarrolla tanto la interfaz como la infraestructura de cada proyecto. Fundó Kalabs para trabajar con pequeños negocios con el mismo estándar que con una empresa grande.",
+    bio: "Estudiante de Tecnologías de la Información. Hace la interfaz y la infraestructura. Fundó Kalabs para trabajar con negocios chicos con el estándar de una empresa grande.",
     tag: "Fundador",
     estado: "confirmado",
   },
   {
     nombre: "Mati",
     rol: "Diseño gráfico e identidad",
-    bio: "Responsable de la identidad visual: tipografía, sistema gráfico y todo lo que hace que una marca se reconozca a distancia.",
+    bio: "Identidad visual: tipografía, sistema gráfico y todo lo que hace que una marca se reconozca de lejos.",
     tag: "Socio",
     estado: "pendiente",
   },
@@ -146,19 +138,25 @@ export const ENLACES = [
 
 /** Microcopy de interfaz. Todo el texto del sitio vive en este archivo. */
 export const UI = {
-  citaTaller: "Un pequeño negocio no necesita parecerse a los demás. Necesita que lo recuerden.",
-  obraKicker: "01 — Proyectos en producción",
-  obraHint: "Arrastrar para ver más",
-  obraCierreKicker: "Siguiente",
-  obraCierreTitulo: "Tu proyecto acá",
-  obraCierreNota:
-    "Si tenés algo entre manos, escribinos y lo vemos. La primera conversación no se cobra.",
-  obraCierreAccion: "Escribinos",
-  oficioLead:
-    "02 — Tres formas de resolver el mismo problema: que un pequeño negocio deje de perder tiempo y dinero en tareas que puede hacer una máquina.",
-  tallerKicker: "03 — Equipo",
-  senalKicker: "04 — Contacto",
-  senalCierre: ["Contanos qué necesitás.", "Respondemos dentro de las 24 horas."],
+  /* 01 — proyectos */
+  proyectosKicker: "01 — En producción",
+  proyectosCierreKicker: "Siguiente",
+  proyectosCierreTitulo: "Tu proyecto acá",
+  proyectosCierreNota: "Si tenés algo entre manos, escribinos. La primera charla no se cobra.",
+  proyectosCierreAccion: "Escribinos",
+
+  /* 02 — servicios */
+  serviciosKicker: "02 — Servicios",
+  serviciosLead:
+    "Tres formas de que un negocio chico deje de perder tiempo en lo que puede hacer una máquina.",
+
+  /* 03 — contacto (incluye equipo) */
+  equipoKicker: "Equipo",
+  cita: "Un negocio chico no necesita parecerse a los demás. Necesita que lo recuerden.",
+  contactoKicker: "03 — Contacto",
+  contactoCierre: ["Contanos qué necesitás.", "Respondemos en 24 horas."],
+
+  /* varios */
   chapa: "Est. 2025",
   chapaNota: "Montevideo, Uruguay",
   estadoDisponible: "Disponible",
@@ -174,8 +172,8 @@ export const UI = {
     servicio: "Servicio de interés",
     servicioOtro: "Todavía no lo tengo definido",
     mensaje: "Mensaje",
-    mensajePh: "Describí brevemente qué necesitás.",
+    mensajePh: "Contanos brevemente qué necesitás.",
     enviar: "Enviar mensaje",
-    aviso: "Se abrirá tu aplicación de correo con el mensaje redactado. También podés escribirnos directamente a",
+    aviso: "Se abre tu aplicación de correo con el mensaje redactado. También podés escribirnos a",
   },
 };

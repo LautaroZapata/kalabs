@@ -1,6 +1,10 @@
-/* 04 — SEÑAL
-   El contacto ya apareció arriba; acá se cierra. Una marquesina full-bleed
-   sirve de junta y la ficha del formulario se monta encima de ella. */
+/* 03 — CONTACTO (equipo + contacto)
+   Cierre del sitio en un solo bloque. La marquesina hace de junta, después
+   viene quién trabaja acá y al final cómo escribirnos.
+
+   El equipo ya no son placas giradas y superpuestas: la cita ocupa el ancho
+   completo como declaración y las dos personas se reparten la fila. Se lee
+   igual de duro con la mitad de elementos. */
 
 .wrap {
   position: relative;
@@ -43,7 +47,102 @@
   .marquee { overflow-x: auto; }
 }
 
-/* ---------------- cuerpo ---------------- */
+/* ---------------- equipo ---------------- */
+.equipo {
+  position: relative;
+  background: var(--ink-2);
+  border-bottom: var(--rule);
+  padding: clamp(2.5rem, 7vw, 4.5rem) var(--edge);
+}
+
+/* trama de fondo, muy apagada, que sostiene el bloque */
+.fondo {
+  position: absolute;
+  inset: 0;
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+.equipoKicker { position: relative; z-index: 2; }
+
+.mesa {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+}
+
+/* La cita va sobre plano de bordo: es lo único a color pleno del bloque. */
+.cita {
+  background: var(--terra);
+  color: var(--bone);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.citaTexto {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: clamp(1.2rem, 5vw, 2.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  max-width: 26ch;
+}
+
+.citaPie {
+  margin-top: 1rem;
+  border-top: 2px solid rgba(239, 231, 214, 0.4);
+  padding-top: 0.5rem;
+  font-weight: 700;
+}
+
+.persona {
+  background: var(--ink);
+  border: var(--rule);
+  padding: clamp(1.1rem, 3.5vw, 1.75rem);
+}
+
+.personaTop {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+  border-bottom: var(--hair);
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.85rem;
+}
+
+.nombre {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: clamp(1.3rem, 5vw, 1.9rem);
+  line-height: 0.9;
+  color: var(--bone);
+}
+
+/* El estado se dice con palabras y con un signo, no sólo con el color. */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid currentColor;
+}
+.chipOk { color: var(--ember); }
+.chipPend { color: var(--bone-dim); }
+
+.rol { color: var(--ember); margin-bottom: 0.5rem; }
+
+.bio {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--bone-dim);
+  max-width: 46ch;
+}
+
+/* ---------------- cuerpo del contacto ---------------- */
 .body {
   display: grid;
   gap: clamp(1.5rem, 5vw, 3rem);
@@ -106,7 +205,7 @@
   color: var(--bone);
   padding-left: 0.7rem;
 }
-.enlaceVal { color: var(--teal); }
+.enlaceVal { color: var(--ember); }
 
 /* Cierre tipográfico: llena la columna con una frase, no con relleno. */
 .cierre {
@@ -119,7 +218,7 @@
   letter-spacing: -0.01em;
   max-width: 18ch;
   color: transparent;
-  -webkit-text-stroke: clamp(1px, 0.15vw, 1.5px) var(--teal);
+  -webkit-text-stroke: clamp(1px, 0.15vw, 1.5px) var(--ember-dim);
 }
 .cierre b {
   font-weight: 400;
@@ -217,7 +316,10 @@
 .pie a { border-bottom: 1px solid var(--terra); }
 .pie a:hover { color: var(--ember); border-bottom-color: var(--ember); }
 
-.junta { display: block; }
+@media (min-width: 760px) {
+  .mesa { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cita { grid-column: 1 / -1; }
+}
 
 @media (min-width: 900px) {
   .body {
@@ -226,6 +328,4 @@
   }
   .col { display: flex; flex-direction: column; }
   .cierre { margin-top: auto; padding-top: clamp(2rem, 5vw, 3.5rem); }
-  /* la ficha se monta sobre la marquesina */
-  .ficha { margin-top: clamp(-6rem, -5vw, -2rem); }
 }

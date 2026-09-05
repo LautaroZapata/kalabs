@@ -5,23 +5,24 @@
    ========================================================================== */
 
 :root {
-  /* --- superficie --- */
+  /* --- superficie: la jerarquía la hacen los negros, no un segundo color --- */
   --ink:        #0f1214;  /* carbón frío, no negro puro */
   --ink-2:      #161a1c;
   --ink-3:      #1e2325;
+  --ink-4:      #262c2f;  /* el más claro: separa sin llegar a gris */
 
   /* --- texto --- */
   --bone:       #efe7d6;  /* hueso cálido, no blanco puro */
   --bone-dim:   #b9b2a4;
 
-  /* --- acentos --- */
-  --ember:      #ff6b1a;  /* cálido: fuego */
-  --amber:      #e9b34a;  /* cálido secundario */
-  --teal:       #3f9184;  /* frío: verde azulado apagado */
-  --teal-dim:   #2a5f58;
+  /* --- acento: uno solo, en dos temperaturas --- */
+  --ember:      #ff6b1a;  /* fuego: lo activo, lo que se toca */
+  /* Quemado: segunda voz del mismo acento. Aclarado a propósito hasta pasar
+     AA (5.46:1 sobre --ink, 4.61:1 sobre --ink-3) porque lleva texto chico. */
+  --ember-dim:  #db6a20;
 
-  /* --- estructura --- */
-  --terra:      #9c3f26;  /* rojo tierra: líneas y bordes */
+  /* --- estructura: bordo, líneas y planos --- */
+  --terra:      #9c3f26;  /* rojo tierra: líneas, bordes y planos */
   --terra-dim:  #6b2b1a;
 
   --hair: 1px solid var(--terra-dim);
@@ -134,7 +135,7 @@ input, textarea {
   paint-order: stroke fill;
 }
 .outline--ember { -webkit-text-stroke-color: var(--ember); }
-.outline--teal  { -webkit-text-stroke-color: var(--teal); }
+.outline--emberDim { -webkit-text-stroke-color: var(--ember-dim); }
 .outline--terra { -webkit-text-stroke-color: var(--terra); }
 
 @supports not ((-webkit-text-stroke: 1px black)) {

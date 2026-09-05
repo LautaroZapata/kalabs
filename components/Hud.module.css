@@ -48,7 +48,7 @@
 .now b { color: var(--ember); font-weight: 700; }
 
 .clock {
-  color: var(--teal);
+  color: var(--bone-dim);
   font-variant-numeric: tabular-nums;
 }
 

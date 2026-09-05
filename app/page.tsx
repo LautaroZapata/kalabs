@@ -1,8 +1,7 @@
 import Indice from "@/components/Indice";
-import Obra from "@/components/Obra";
-import Oficio from "@/components/Oficio";
-import Taller from "@/components/Taller";
-import Senal from "@/components/Senal";
+import Proyectos from "@/components/Proyectos";
+import Servicios from "@/components/Servicios";
+import Contacto from "@/components/Contacto";
 import Hud from "@/components/Hud";
 import { PROYECTOS, SERVICIOS, SITE } from "@/lib/content";
 
@@ -42,10 +41,9 @@ export default function Page() {
       />
       <main id="contenido">
         <Indice />
-        <Obra />
-        <Oficio />
-        <Taller />
-        <Senal />
+        <Proyectos />
+        <Servicios />
+        <Contacto />
       </main>
       <Hud />
     </>

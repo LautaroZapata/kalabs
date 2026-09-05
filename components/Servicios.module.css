@@ -1,0 +1,132 @@
+/* 02 — SERVICIOS
+   Antes cada fila usaba una grilla distinta, traía su propia greca y la
+   tercera sumaba un panel tejido: tres sistemas conviviendo en una sección.
+   Ahora hay una sola grilla y lo único que alterna es el lado del numeral.
+   Menos elementos por pantalla, la misma dureza. */
+
+.wrap {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+  border-bottom: var(--rule);
+}
+
+.head {
+  display: grid;
+  gap: clamp(1rem, 3vw, 2rem);
+  padding: clamp(2.5rem, 7vw, 4.5rem) var(--edge) clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.kicker { color: var(--bone-dim); margin-bottom: 0.6rem; }
+
+.title {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: clamp(2.2rem, 9vw, 6.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: var(--bone);
+}
+
+.lead {
+  max-width: 38ch;
+  color: var(--bone-dim);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  border-left: var(--rule);
+  padding-left: 0.9rem;
+  align-self: end;
+}
+
+/* ---------------- fila ---------------- */
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.5rem clamp(1.5rem, 4vw, 3rem);
+  padding: clamp(2rem, 5vw, 3rem) var(--edge);
+  border-top: var(--hair);
+  transition: background 0.3s var(--ease);
+}
+
+.row:hover { background: var(--ink-2); }
+
+.numCell {
+  display: flex;
+  align-items: flex-start;
+  min-height: 0;
+}
+
+.num {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 900;
+  line-height: 0.82;
+  font-size: clamp(3.5rem, 15vw, 9rem);
+  color: transparent;
+  -webkit-text-stroke: 2px var(--terra);
+  user-select: none;
+  transition: -webkit-text-stroke-color 0.3s var(--ease);
+}
+
+.row:hover .num { -webkit-text-stroke-color: var(--ember); }
+
+.content { min-width: 0; }
+
+.servTitle {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: clamp(1.7rem, 6.5vw, 2.9rem);
+  line-height: 0.92;
+  letter-spacing: -0.015em;
+  color: var(--bone);
+}
+
+.bajada {
+  margin-top: 0.5rem;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: clamp(1rem, 4vw, 1.3rem);
+  line-height: 1.05;
+  color: var(--ember-dim);
+  max-width: 26ch;
+}
+
+.cuerpo {
+  margin-top: 1rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--bone-dim);
+  max-width: 48ch;
+}
+
+/* Entregables en una sola columna de hilos: se leen como lista, no como
+   tabla; ocupan menos y no compiten con el cuerpo. */
+.entregables {
+  margin-top: 1.4rem;
+  border-top: var(--hair);
+  max-width: 34rem;
+}
+
+.entregables li {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5rem 0.2rem;
+  border-bottom: var(--hair);
+  color: var(--bone);
+}
+.entregables li span { color: var(--ember); }
+
+@media (min-width: 820px) {
+  .head { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: end; }
+
+  .row { grid-template-columns: clamp(6rem, 14vw, 11rem) minmax(0, 1fr); }
+
+  /* Filas pares: el numeral pasa a la derecha. Es la única variación. */
+  .rowInv { grid-template-columns: minmax(0, 1fr) clamp(6rem, 14vw, 11rem); }
+  .rowInv .numCell { order: 2; justify-content: flex-end; }
+  .rowInv .content { order: 1; }
+}

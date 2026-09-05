@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { SERVICIOS, SITE, UI } from "@/lib/content";
-import s from "./Senal.module.css";
+import s from "./Contacto.module.css";
 
 /**
  * Sin backend: el formulario arma un mailto: con todo cargado.
