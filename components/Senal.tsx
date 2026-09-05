@@ -1,9 +1,9 @@
 import Greca from "./Greca";
 import Formulario from "./Formulario";
-import { ENLACES, SITE } from "@/lib/content";
+import { ENLACES, SITE, UI } from "@/lib/content";
 import s from "./Senal.module.css";
 
-const PALABRAS = ["Hablemos", "Kalabs", "Montevideo", "Turno noche", "Se trabaja de noche"];
+const PALABRAS = UI.marquesina;
 
 function Track({ ariaHidden }: { ariaHidden?: boolean }) {
   return (
@@ -34,7 +34,7 @@ export default function Senal() {
 
       <div className={s.body}>
         <div className={s.col}>
-          <p className={`${s.kicker} mono`}>04 — Mandá un mensaje</p>
+          <p className={`${s.kicker} mono`}>{UI.senalKicker}</p>
           <a className={s.mailto} href={`mailto:${SITE.email}`}>
             <span className={s.mailtoA}>{SITE.email.split("@")[0]}@</span>
             <span className={s.mailtoB}>{SITE.email.split("@")[1]}</span>
@@ -60,7 +60,7 @@ export default function Senal() {
           </ul>
 
           <p className={s.cierre}>
-            Contanos qué te está <b>costando plata</b> y lo miramos esta noche.
+            {UI.senalCierre[0]} <b>{UI.senalCierre[1]}</b>
           </p>
         </div>
 
@@ -81,7 +81,7 @@ export default function Senal() {
           © {anio} Kalabs — {SITE.ciudad}, {SITE.pais}
         </p>
         <p>
-          Hecho a mano con Next.js ·{" "}
+          Hecho con Next.js ·{" "}
           <a href="#indice">Volver al índice ↑</a>
         </p>
       </footer>

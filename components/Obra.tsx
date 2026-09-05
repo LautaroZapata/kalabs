@@ -1,5 +1,5 @@
 import Greca from "./Greca";
-import { PROYECTOS } from "@/lib/content";
+import { PROYECTOS, UI } from "@/lib/content";
 import s from "./Obra.module.css";
 
 export default function Obra() {
@@ -12,10 +12,10 @@ export default function Obra() {
         </h2>
         <div>
           <p className="mono" style={{ color: "var(--bone-dim)", marginBottom: "0.6rem" }}>
-            01 — Tres cosas que existen y andan
+            {UI.obraKicker}
           </p>
           <p className={`${s.hint} monoSm`}>
-            <span aria-hidden="true">↔</span> Arrastrá el riel
+            <span aria-hidden="true">↔</span> {UI.obraHint}
           </p>
         </div>
       </div>

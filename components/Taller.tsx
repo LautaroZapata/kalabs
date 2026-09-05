@@ -1,5 +1,5 @@
 import Greca from "./Greca";
-import { EQUIPO, SITE } from "@/lib/content";
+import { EQUIPO, SITE, UI } from "@/lib/content";
 import s from "./Taller.module.css";
 
 export default function Taller() {
@@ -16,7 +16,7 @@ export default function Taller() {
       />
 
       <div className={s.head}>
-        <p className={`${s.kicker} mono`}>03 — Quién prende la luz</p>
+        <p className={`${s.kicker} mono`}>{UI.tallerKicker}</p>
         <h2 id="taller-t" className={s.title}>
           Taller
         </h2>
@@ -24,9 +24,7 @@ export default function Taller() {
 
       <div className={s.mesa}>
         <blockquote className={`${s.pieza} ${s.cita}`}>
-          <p className={s.citaTexto}>
-            Un negocio chico no necesita verse prolijo. Necesita que lo recuerden.
-          </p>
+          <p className={s.citaTexto}>{UI.citaTaller}</p>
           <p className={`${s.citaPie} monoSm`}>
             Kalabs — {SITE.ciudad}, {SITE.pais} · Turno {SITE.turno}
           </p>
@@ -64,7 +62,7 @@ export default function Taller() {
       </div>
 
       <p className={`${s.sello} monoSm`} aria-hidden="true">
-        Hecho a mano
+        {UI.sello}
       </p>
     </section>
   );

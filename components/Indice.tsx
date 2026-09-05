@@ -1,5 +1,5 @@
 import Greca from "./Greca";
-import { INDICE, MANIFIESTO, SITE } from "@/lib/content";
+import { INDICE, MANIFIESTO, SITE, UI } from "@/lib/content";
 import s from "./Indice.module.css";
 
 export default function Indice() {
@@ -61,7 +61,7 @@ export default function Indice() {
           <span className={`${s.w2} outline outline--ember`}>labs</span>
         </h1>
         <p className={`${s.plate} monoSm`}>
-          Est. 2025 <span aria-hidden="true">▚</span> Se trabaja de noche
+          {UI.chapa} <span aria-hidden="true">▚</span> {UI.chapaNota}
         </p>
       </div>
 
@@ -80,7 +80,7 @@ export default function Indice() {
             <b>UTC</b> −03:00
           </span>
           <span className="tag">
-            <b>Estado</b> Tomando trabajo
+            <b>Estado</b> {UI.estadoDisponible}
           </span>
         </p>
       </div>

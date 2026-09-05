@@ -1,5 +1,5 @@
 import Greca from "./Greca";
-import { SERVICIOS } from "@/lib/content";
+import { SERVICIOS, UI } from "@/lib/content";
 import s from "./Oficio.module.css";
 
 /* Cada fila trae su propia junta: distinta trama, distinta altura. */
@@ -16,10 +16,7 @@ export default function Oficio() {
         <h2 id="oficio-t" className={s.title}>
           Oficio
         </h2>
-        <p className={s.lead}>
-          02 — Tres formas de resolver lo mismo: que un negocio chico deje de perder plata y
-          tiempo en algo que una máquina puede hacer sola.
-        </p>
+        <p className={s.lead}>{UI.oficioLead}</p>
       </div>
 
       {SERVICIOS.map((serv, i) => {

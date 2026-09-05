@@ -7,26 +7,26 @@ export const SITE = {
   turno: "22:00 → 04:00",
   email: "hola@kalabs.uy",
   descripcion:
-    "Estudio digital de Montevideo. Webs, automatizaciones y sistemas a medida para negocios chicos que quieren destacarse.",
+    "Estudio digital de Montevideo. Desarrollo web, automatizaciones y sistemas a medida para pequeños negocios.",
   url: "https://kalabs.uy",
 };
 
 export const MANIFIESTO = [
-  "Mientras todo busca ser minimalista,",
-  "Kalabs elige otra cosa.",
-  "Se trabaja de noche, con amigos,",
-  "para negocios chicos que quieren destacarse",
-  "—no desaparecer en un sitio genérico más.",
+  "Estudio digital de Montevideo.",
+  "Trabajamos de noche,",
+  "con pequeños negocios",
+  "que necesitan destacarse",
+  "y no parecerse a los demás.",
 ];
 
 export type Indice = { id: string; num: string; label: string; nota: string };
 
 export const INDICE: Indice[] = [
-  { id: "indice", num: "00", label: "Índice", nota: "dónde estás parado" },
-  { id: "obra", num: "01", label: "Obra", nota: "tres cosas que existen" },
-  { id: "oficio", num: "02", label: "Oficio", nota: "lo que sabemos hacer" },
-  { id: "taller", num: "03", label: "Taller", nota: "quién prende la luz" },
-  { id: "senal", num: "04", label: "Señal", nota: "mandá un mensaje" },
+  { id: "indice", num: "00", label: "Índice", nota: "Presentación" },
+  { id: "obra", num: "01", label: "Obra", nota: "Proyectos realizados" },
+  { id: "oficio", num: "02", label: "Oficio", nota: "Servicios" },
+  { id: "taller", num: "03", label: "Taller", nota: "Equipo" },
+  { id: "senal", num: "04", label: "Señal", nota: "Contacto" },
 ];
 
 export type Proyecto = {
@@ -47,7 +47,7 @@ export const PROYECTOS: Proyecto[] = [
     nombre: "ViaGrúa",
     pitch: "Gestión de flotas de grúas en tiempo real.",
     detalle:
-      "Choferes, servicios y estado de cada unidad en un solo lugar. Quién está libre, quién está en camino y hace cuánto —sin llamar a nadie.",
+      "Choferes, servicios y estado de cada unidad en una sola vista. Permite saber qué unidad está disponible y cuál está en camino sin realizar un solo llamado.",
     stack: ["Next.js", "Supabase", "Tiempo real"],
     estado: "En producción",
     ancho: "largo",
@@ -57,9 +57,9 @@ export const PROYECTOS: Proyecto[] = [
     num: "02",
     nombre: "ROG",
     nombreLargo: "República Oriental de los Gastos",
-    pitch: "Finanzas personales sin vueltas.",
+    pitch: "Finanzas personales.",
     detalle:
-      "Presupuesto, ahorro y flujo de plata en una sola vista. Hecho para entender en diez segundos en qué se te fue el mes.",
+      "Presupuesto, ahorro y flujo de dinero en una sola pantalla, con el detalle de en qué se fue el mes.",
     stack: ["Next.js", "Supabase"],
     estado: "En producción",
     ancho: "corto",
@@ -68,9 +68,9 @@ export const PROYECTOS: Proyecto[] = [
   {
     num: "03",
     nombre: "Mesa",
-    pitch: "Nutrición compartida del hogar.",
+    pitch: "Registro nutricional del hogar.",
     detalle:
-      "Toda la casa registra lo que come desde Telegram. Sin instalar nada nuevo, sin aprender otra app: se escribe donde ya se escribe.",
+      "Cada integrante registra sus comidas desde Telegram, sin instalar ni aprender una aplicación nueva.",
     stack: ["Next.js", "Bot de Telegram"],
     estado: "En producción",
     ancho: "medio",
@@ -90,25 +90,25 @@ export const SERVICIOS: Servicio[] = [
   {
     num: "01",
     titulo: "Desarrollo web",
-    bajada: "Páginas y sistemas a medida.",
+    bajada: "Sitios y aplicaciones a medida.",
     cuerpo:
-      "Pensados para vender, no solo para verse bien. Rápidos en el celular, escritos a mano, sin quince plugins peleándose entre ellos.",
-    entregables: ["Landing / sitio", "Tienda o catálogo", "Panel de administración", "Medición real"],
+      "Diseñados para vender, no solo para verse bien. Rápidos en el celular y desarrollados sin plantillas ni plugins innecesarios.",
+    entregables: ["Sitio institucional", "Tienda o catálogo", "Panel de administración", "Medición de resultados"],
   },
   {
     num: "02",
     titulo: "Automatizaciones",
-    bajada: "Bots y procesos que devuelven horas.",
+    bajada: "Procesos que ahorran horas de trabajo.",
     cuerpo:
-      "Si algo se hace copiando y pegando todas las semanas, se puede automatizar. Empezamos por lo que más tiempo te come.",
-    entregables: ["Bots de WhatsApp / Telegram", "Reportes automáticos", "Conexión entre herramientas", "Alertas"],
+      "Las tareas que se repiten todas las semanas se pueden automatizar. Empezamos por la que más tiempo consume.",
+    entregables: ["Bots de WhatsApp y Telegram", "Reportes automáticos", "Integración entre herramientas", "Alertas"],
   },
   {
     num: "03",
     titulo: "Sistemas a medida",
-    bajada: "Una herramienta simple para un problema puntual.",
+    bajada: "Herramientas simples para problemas puntuales.",
     cuerpo:
-      "Turnos, pedidos, stock. Nada de suites gigantes que nadie usa: una sola cosa, que hace bien lo que tiene que hacer.",
+      "Turnos, pedidos o control de stock. Una función resuelta correctamente, en lugar de un sistema completo que nadie utiliza.",
     entregables: ["Turnos y agenda", "Pedidos", "Control de stock", "Fichas de clientes"],
   },
 ];
@@ -125,21 +125,52 @@ export const EQUIPO: Persona[] = [
   {
     nombre: "Lautaro Zapata",
     rol: "Desarrollo y sistemas",
-    bio: "Estudiante de Tecnologías de la Información en Uruguay. Construye las cosas que se ven y las que corren atrás. Fundó Kalabs para trabajar con negocios chicos sin tratarlos como clientes chicos.",
+    bio: "Estudiante de Tecnologías de la Información. Desarrolla tanto la interfaz como la infraestructura de cada proyecto. Fundó Kalabs para trabajar con pequeños negocios con el mismo estándar que con una empresa grande.",
     tag: "Fundador",
     estado: "confirmado",
   },
   {
     nombre: "Mati",
     rol: "Diseño gráfico e identidad",
-    bio: "Se encarga de que una marca se reconozca de lejos. Tipografía, sistema visual y todo lo que hace que un negocio no parezca la plantilla de al lado.",
+    bio: "Responsable de la identidad visual: tipografía, sistema gráfico y todo lo que hace que una marca se reconozca a distancia.",
     tag: "Socio",
     estado: "pendiente",
   },
 ];
 
 export const ENLACES = [
-  { label: "Mail", valor: SITE.email, href: `mailto:${SITE.email}` },
+  { label: "Correo", valor: SITE.email, href: `mailto:${SITE.email}` },
   { label: "WhatsApp", valor: "Escribinos", href: `mailto:${SITE.email}?subject=WhatsApp` },
   { label: "GitHub", valor: "LautaroZapata", href: "https://github.com/LautaroZapata" },
 ];
+
+/** Microcopy de interfaz. Todo el texto del sitio vive en este archivo. */
+export const UI = {
+  citaTaller: "Un pequeño negocio no necesita parecerse a los demás. Necesita que lo recuerden.",
+  obraKicker: "01 — Proyectos en producción",
+  obraHint: "Arrastrar para ver más",
+  oficioLead:
+    "02 — Tres formas de resolver el mismo problema: que un pequeño negocio deje de perder tiempo y dinero en tareas que puede hacer una máquina.",
+  tallerKicker: "03 — Equipo",
+  senalKicker: "04 — Contacto",
+  senalCierre: ["Contanos qué necesitás.", "Respondemos dentro de las 24 horas."],
+  chapa: "Est. 2025",
+  chapaNota: "Montevideo, Uruguay",
+  estadoDisponible: "Disponible",
+  sello: "Hecho a mano",
+  marquesina: ["Kalabs", "Estudio digital", "Montevideo", "Uruguay", "Hablemos"],
+  form: {
+    titulo: "Formulario de contacto",
+    respuesta: "Respuesta en 24 horas",
+    nombre: "Nombre",
+    nombrePh: "Nombre y apellido",
+    negocio: "Negocio (opcional)",
+    negocioPh: "Panadería, estudio, kiosco…",
+    servicio: "Servicio de interés",
+    servicioOtro: "Todavía no lo tengo definido",
+    mensaje: "Mensaje",
+    mensajePh: "Describí brevemente qué necesitás.",
+    enviar: "Enviar mensaje",
+    aviso: "Se abrirá tu aplicación de correo con el mensaje redactado. También podés escribirnos directamente a",
+  },
+};
