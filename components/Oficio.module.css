@@ -1,0 +1,160 @@
+/* 02 — OFICIO
+   Tres servicios, tres filas. Ninguna fila usa la misma grilla que la
+   anterior: cambian las proporciones, el lado del numeral y la sangría del
+   texto. Los numerales se salen del contenedor y se recortan contra el borde. */
+
+.wrap {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+  border-bottom: var(--rule);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.75rem 1.5rem;
+  padding: clamp(2.5rem, 7vw, 4.5rem) var(--edge) clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.title {
+  font-family: var(--font-display), sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(2.6rem, 12vw, 9rem);
+  line-height: 0.8;
+  letter-spacing: -0.02em;
+  color: var(--bone);
+}
+
+.lead {
+  max-width: 34ch;
+  color: var(--bone-dim);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  border-left: var(--rule);
+  padding-left: 0.9rem;
+}
+
+/* ---------------- fila ---------------- */
+.row {
+  position: relative;
+  display: grid;
+  gap: 0 clamp(1rem, 3vw, 2.5rem);
+  padding: clamp(2rem, 6vw, 3.5rem) var(--edge);
+  border-top: var(--hair);
+  transition: background 0.3s var(--ease);
+}
+
+.row:hover { background: var(--ink-2); }
+
+/* celda del numeral */
+.numCell {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  min-height: 0;
+}
+
+.num {
+  font-family: var(--font-display), sans-serif;
+  line-height: 0.72;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--terra);
+  user-select: none;
+  transition: -webkit-text-stroke-color 0.3s var(--ease), transform 0.4s var(--ease);
+  font-size: clamp(6rem, 30vw, 16rem);
+}
+
+.row:hover .num { -webkit-text-stroke-color: var(--ember); }
+
+.content { min-width: 0; }
+
+.servTitle {
+  font-family: var(--font-display), sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(2rem, 8vw, 3.4rem);
+  line-height: 0.86;
+  letter-spacing: -0.015em;
+  color: var(--bone);
+}
+
+.bajada {
+  margin-top: 0.5rem;
+  font-family: var(--font-display), sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(1rem, 4vw, 1.3rem);
+  line-height: 1.05;
+  color: var(--teal);
+  max-width: 26ch;
+}
+
+.cuerpo {
+  margin-top: 1rem;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--bone-dim);
+  max-width: 48ch;
+}
+
+.entregables {
+  margin-top: 1.4rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: 0;
+  border-top: var(--hair);
+  max-width: 42rem;
+}
+
+.entregables li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 0.2rem;
+  border-bottom: var(--hair);
+  color: var(--bone);
+}
+.entregables li span { color: var(--ember); }
+
+/* panel tejido, sólo en la tercera fila */
+.panel {
+  display: none;
+  border: var(--hair);
+  background: var(--ink-3);
+  min-height: 12rem;
+}
+
+/* junta entre filas: cada una con distinta altura y trama */
+.junta { display: block; }
+
+/* ---------------- escritorio: cada fila cambia de grilla ---------------- */
+@media (min-width: 820px) {
+  .row1 {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2.35fr);
+  }
+  /* el numeral se recorta contra el borde izquierdo */
+  .row1 .num { transform: translateX(-16%); }
+
+  .row2 {
+    grid-template-columns: minmax(0, 2.1fr) minmax(0, 1fr);
+  }
+  .row2 .numCell { order: 2; justify-content: flex-end; }
+  .row2 .content { order: 1; padding-left: 12%; }
+  .row2 .num { transform: translateX(18%); }
+  .row2 .entregables { margin-left: auto; }
+
+  .row3 {
+    grid-template-columns: minmax(0, 0.62fr) minmax(0, 1.75fr) minmax(0, 0.85fr);
+    align-items: stretch;
+  }
+  .row3 .num { font-size: clamp(5rem, 11vw, 10rem); transform: translateY(-8%); }
+  .row3 .content { padding-top: 2.5rem; }
+  .row3 .panel { display: block; }
+}
+
+@media (max-width: 819px) {
+  .row { grid-template-columns: minmax(0, 1fr); }
+  .numCell { margin-bottom: -0.22em; }
+  .num { font-size: clamp(5.5rem, 26vw, 11rem); transform: translateX(-10%); }
+  .row2 .content { padding-left: 1.5rem; border-left: var(--hair); }
+}

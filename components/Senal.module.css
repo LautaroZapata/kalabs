@@ -1,0 +1,227 @@
+/* 04 — SEÑAL
+   El contacto ya apareció arriba; acá se cierra. Una marquesina full-bleed
+   sirve de junta y la ficha del formulario se monta encima de ella. */
+
+.wrap {
+  position: relative;
+  background: var(--ink);
+  overflow: hidden;
+}
+
+/* ---------------- marquesina ---------------- */
+.marquee {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  border-block: var(--rule);
+  background: var(--ember);
+  color: var(--ink);
+  padding-block: 0.5rem;
+  user-select: none;
+}
+
+.track {
+  display: flex;
+  flex: none;
+  gap: 1.5rem;
+  padding-right: 1.5rem;
+  align-items: center;
+  white-space: nowrap;
+  animation: slide 26s linear infinite;
+  font-family: var(--font-display), sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(1.4rem, 5vw, 2.6rem);
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+.marquee:hover .track { animation-play-state: paused; }
+
+@media (prefers-reduced-motion: reduce) {
+  .track { animation: none; }
+  .marquee { overflow-x: auto; }
+}
+
+/* ---------------- cuerpo ---------------- */
+.body {
+  display: grid;
+  gap: clamp(1.5rem, 5vw, 3rem);
+  padding: clamp(2.5rem, 7vw, 4.5rem) var(--edge) clamp(2rem, 5vw, 3rem);
+}
+
+.kicker { color: var(--bone-dim); margin-bottom: 0.75rem; }
+
+/* El mailto se corta donde queremos, no donde cae: "hola@" arriba en
+   contorno y el dominio abajo, macizo y a tamaño de titular. */
+.mailto {
+  display: block;
+  font-family: var(--font-display), sans-serif;
+  text-transform: uppercase;
+  line-height: 0.8;
+  letter-spacing: -0.03em;
+  color: var(--bone);
+  transition: color 0.2s var(--ease);
+}
+
+.mailtoA {
+  display: block;
+  font-size: clamp(1.5rem, 6vw, 3.2rem);
+  color: transparent;
+  -webkit-text-stroke: clamp(1px, 0.2vw, 2px) var(--ember);
+  padding-left: 0.1em;
+}
+
+.mailtoB {
+  display: block;
+  font-size: clamp(2.4rem, 12.5vw, 6.6rem);
+  margin-top: -0.04em;
+  white-space: nowrap;
+}
+
+.mailto:hover .mailtoB,
+.mailto:focus-visible .mailtoB { color: var(--ember); }
+.mailto:hover .mailtoA,
+.mailto:focus-visible .mailtoA { -webkit-text-stroke-color: var(--bone); }
+
+.enlaces {
+  margin-top: clamp(1.5rem, 4vw, 2.25rem);
+  border-top: var(--rule);
+}
+
+.enlace {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0.2rem;
+  border-bottom: var(--hair);
+  color: var(--bone-dim);
+  transition: background 0.18s var(--ease), padding-left 0.18s var(--ease);
+}
+.enlace:hover,
+.enlace:focus-visible {
+  background: var(--ink-2);
+  color: var(--bone);
+  padding-left: 0.7rem;
+}
+.enlaceVal { color: var(--teal); }
+
+/* Cierre tipográfico: llena la columna con una frase, no con relleno. */
+.cierre {
+  margin-top: clamp(1.5rem, 4vw, 2.5rem);
+  font-family: var(--font-display), sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(1.3rem, 5vw, 2.6rem);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  max-width: 18ch;
+  color: transparent;
+  -webkit-text-stroke: clamp(1px, 0.15vw, 1.5px) var(--teal);
+}
+.cierre b {
+  font-weight: 400;
+  color: var(--bone);
+  -webkit-text-stroke: 0;
+}
+
+/* ---------------- ficha del formulario ---------------- */
+.ficha {
+  background: var(--ink-2);
+  border: var(--rule);
+  padding: clamp(1.1rem, 3.5vw, 1.75rem);
+  align-self: start;
+}
+
+.fichaTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-bottom: var(--hair);
+  padding-bottom: 0.7rem;
+  margin-bottom: 1rem;
+  color: var(--bone-dim);
+}
+.fichaTop b { color: var(--ember); font-weight: 700; }
+
+.campo { display: block; margin-bottom: 1rem; }
+
+.label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--bone-dim);
+}
+
+.input,
+.select,
+.area {
+  width: 100%;
+  background: var(--ink);
+  border: var(--hair);
+  border-bottom: 2px solid var(--terra);
+  padding: 0.6rem 0.7rem;
+  color: var(--bone);
+  font-size: 0.9375rem;
+  border-radius: 0;
+  transition: border-color 0.18s var(--ease);
+}
+
+.input:focus,
+.select:focus,
+.area:focus { border-bottom-color: var(--ember); }
+
+.input::placeholder,
+.area::placeholder { color: #6f6a61; }
+
+.area { resize: vertical; min-height: 6.5rem; }
+
+.select { appearance: none; cursor: pointer; }
+
+.enviar {
+  width: 100%;
+  background: var(--ember);
+  color: var(--ink);
+  border: 2px solid var(--ember);
+  padding: 0.8rem 1rem;
+  font-family: var(--font-display), sans-serif;
+  text-transform: uppercase;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+  transition: background 0.18s var(--ease), color 0.18s var(--ease);
+}
+.enviar:hover,
+.enviar:focus-visible { background: transparent; color: var(--ember); }
+
+.aviso {
+  margin-top: 0.7rem;
+  color: var(--bone-dim);
+  line-height: 1.5;
+}
+
+/* ---------------- pie ---------------- */
+.pie {
+  border-top: var(--rule);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem 1.5rem;
+  padding: 1rem var(--edge);
+  color: var(--bone-dim);
+  background: var(--ink-2);
+}
+.pie a { border-bottom: 1px solid var(--terra); }
+.pie a:hover { color: var(--ember); border-bottom-color: var(--ember); }
+
+.junta { display: block; }
+
+@media (min-width: 900px) {
+  .body {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    align-items: stretch;
+  }
+  .col { display: flex; flex-direction: column; }
+  .cierre { margin-top: auto; padding-top: clamp(2rem, 5vw, 3.5rem); }
+  /* la ficha se monta sobre la marquesina */
+  .ficha { margin-top: clamp(-6rem, -5vw, -2rem); }
+}
