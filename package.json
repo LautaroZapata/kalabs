@@ -2,11 +2,14 @@
   "name": "kalabs",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.34.1",
+  "engines": {
+    "pnpm": ">=10"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
     "motion": "^13.2.0",
