@@ -30,13 +30,6 @@
   background: var(--ink-2);
 }
 
-.railText {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  color: var(--bone-dim);
-  letter-spacing: 0.3em;
-}
-
 .railGreca { flex: 1; width: 100%; min-height: 60px; }
 
 /* ---------------- barra superior ---------------- */
@@ -171,16 +164,7 @@
 .manifiesto span { display: block; }
 .manifiesto span:nth-child(2) { padding-left: 1.2em; }
 .manifiesto span:nth-child(3) { padding-left: 0.4em; color: var(--ember-dim); }
-.manifiesto span:nth-child(4) { padding-left: 2em; }
-.manifiesto span:nth-child(5) { color: var(--ember); }
-
-.coords {
-  margin-top: 1.25rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  color: var(--bone-dim);
-}
+.manifiesto span:nth-child(4) { padding-left: 2em; color: var(--ember); }
 
 /* ---------------- índice / navegación ---------------- */
 .foot {

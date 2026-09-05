@@ -1,8 +1,8 @@
 # Kalabs
 
-Landing/portfolio de una página para **Kalabs**, estudio digital nocturno de
-Montevideo, Uruguay. Desarrollo web, automatizaciones y sistemas a medida para
-negocios chicos.
+Landing/portfolio de una página para **Kalabs**, estudio digital de Montevideo,
+Uruguay. Desarrollo web, automatizaciones y sistemas a medida para negocios
+chicos.
 
 ## Dirección de diseño
 
@@ -24,6 +24,9 @@ Decisiones concretas:
   proyectos van en grilla vertical —el destacado ocupa el ancho completo, los
   otros dos se reparten la fila— y los servicios usan una sola grilla donde lo
   único que alterna es el lado del numeral. Se ve todo sin gestos ni sorpresas.
+- **Cada proyecto se muestra, no se cuenta.** La ficha abre con una maqueta
+  animada del producto y enlaza al sitio en vivo. No lleva stack: al cliente
+  que la mira no le dice nada que haya Supabase abajo.
 - **La tipografía es un elemento gráfico.** El wordmark está fracturado —`Ka`
   macizo, `labs` en contorno— y se corre hasta cruzar el hilo de la columna
   vecina, donde se recorta contra un velo.
@@ -98,6 +101,19 @@ lo que separa titular de cuerpo es el peso, no la tipografía.
 - **Un componente por sección, con su CSS Module al lado.** `Indice`,
   `Proyectos`, `Servicios` y `Contacto`; `Formulario` toma sus estilos de
   `Contacto.module.css` porque vive dentro de esa ficha.
+- **Las maquetas de los proyectos son SVG generado, no capturas.** Viven en
+  `components/Maqueta.tsx`, una por proyecto (`flota`, `gastos`, `mesa`), y
+  toman el color de los tokens. **Si aparecen capturas reales**, alcanza con
+  dejar el archivo en `public/proyectos/` y completar `imagen` en el proyecto
+  correspondiente de `lib/content.ts`: el componente usa la imagen y descarta
+  la maqueta, sin tocar código.
+- **El hover de la ficha llega a la maqueta por custom properties**
+  (`--mq-ruta`, `--mq-barra`, `--mq-linea`), no por clases globales: cada
+  módulo sigue siendo dueño de sus nombres.
+- **El enlace del proyecto envuelve al título y se estira con `::after`.**
+  Toda la ficha es clicable, pero el destino que anuncia un lector de pantalla
+  es el nombre del proyecto y el foco de teclado se dibuja sobre el texto, no
+  sobre la tarjeta entera.
 
 ## Desarrollo
 

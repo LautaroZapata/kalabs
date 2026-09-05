@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { INDICE, SITE } from "@/lib/content";
+import { INDICE } from "@/lib/content";
 import s from "./Hud.module.css";
 
 /**
@@ -90,10 +90,6 @@ export default function Hud() {
 
       <div className={`${s.cell} ${s.grow} ${s.hideSm} monoSm`}>
         <span>{activa.nota}</span>
-      </div>
-
-      <div className={`${s.cell} ${s.hideSm} monoSm`}>
-        <span>Turno {SITE.turno}</span>
       </div>
 
       <div className={`${s.cell} ${s.clock} monoSm`}>

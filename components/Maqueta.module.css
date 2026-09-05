@@ -1,0 +1,94 @@
+/* Maquetas de los proyectos.
+   Geometría plana, sin degradados ni sombras: la misma gramática que las
+   grecas. El color lo ponen los tokens, así que si cambia la paleta cambian
+   solas. */
+
+.wrap {
+  position: relative;
+  background: var(--ink);
+  border-bottom: var(--rule);
+  overflow: hidden;
+  /* la maqueta manda la proporción; el texto se acomoda abajo */
+  aspect-ratio: 2 / 1;
+}
+
+.svg,
+.img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.img { object-fit: cover; }
+
+/* ---------------- comunes ---------------- */
+.grilla line {
+  stroke: var(--ink-4);
+  stroke-width: 1;
+}
+
+.eje {
+  stroke: var(--terra-dim);
+  stroke-width: 2;
+}
+
+/* ---------------- 01 · flota ---------------- */
+/* Los colores que reaccionan al hover salen de custom properties con valor
+   por defecto. La ficha las pisa desde Proyectos.module.css: así el hover
+   cruza el límite del módulo sin clases globales. */
+.ruta {
+  fill: none;
+  stroke: var(--mq-ruta, var(--terra));
+  stroke-width: 3;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+  transition: stroke 0.3s var(--ease);
+}
+
+.nodo {
+  fill: var(--ink);
+  stroke: var(--bone-dim);
+  stroke-width: 2;
+}
+
+.nodoDestino {
+  fill: var(--ember);
+  stroke: var(--ember);
+  stroke-width: 2;
+}
+
+.unidad {
+  fill: var(--ember);
+}
+
+/* ---------------- 02 · gastos ---------------- */
+.barra {
+  fill: var(--mq-barra, var(--terra-dim));
+  transition: fill 0.3s var(--ease);
+}
+
+.barraExcede { fill: var(--ember); }
+
+.tope {
+  stroke: var(--bone-dim);
+  stroke-width: 2;
+  stroke-dasharray: 10 7;
+}
+
+/* ---------------- 03 · mesa ---------------- */
+.chip {
+  fill: var(--ink);
+  stroke: var(--bone-dim);
+  stroke-width: 2;
+}
+
+.chipAcento {
+  fill: var(--ember);
+}
+
+.linea {
+  fill: var(--mq-linea, var(--terra));
+  transition: fill 0.3s var(--ease);
+}
+
+.lineaTenue { fill: var(--ink-4); }

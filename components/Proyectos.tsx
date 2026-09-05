@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
+import Maqueta from "./Maqueta";
 import { entrada } from "./mov/entrada";
 import { PROYECTOS, UI } from "@/lib/content";
 import s from "./Proyectos.module.css";
@@ -26,20 +27,38 @@ export default function Proyectos() {
             className={`${s.card} ${i === 0 ? s.cardAncha : ""}`}
             {...entrada({ quieto, y: 30, delay: i * 0.08 })}
           >
-            <span className={`${s.num} display`} aria-hidden="true">
-              {p.num}
-            </span>
+            <Maqueta proyecto={p} />
 
-            <h3 className={s.nombre}>{p.nombre}</h3>
-            {p.nombreLargo && <p className={`${s.largo} monoSm`}>{p.nombreLargo}</p>}
-            <p className={s.pitch}>{p.pitch}</p>
-            <p className={s.detalle}>{p.detalle}</p>
-
-            <div className={s.meta}>
-              <span className={`${s.estado} monoSm`}>
-                <span aria-hidden="true">●</span> {p.estado}
+            <div className={s.cuerpo}>
+              <span className={`${s.num} display`} aria-hidden="true">
+                {p.num}
               </span>
-              <span className={`${s.stack} monoSm`}>{p.stack.join(" / ")}</span>
+
+              <h3 className={s.nombre}>
+                {/* El enlace envuelve al título y se estira sobre la ficha
+                    entera con ::after: así el destino queda claro para un
+                    lector de pantalla y toda la tarjeta sigue siendo clicable. */}
+                <a
+                  className={s.enlace}
+                  href={p.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  {p.nombre}
+                </a>
+              </h3>
+              {p.nombreLargo && <p className={`${s.largo} monoSm`}>{p.nombreLargo}</p>}
+              <p className={s.pitch}>{p.pitch}</p>
+              <p className={s.detalle}>{p.detalle}</p>
+
+              <div className={s.meta}>
+                <span className={`${s.estado} monoSm`}>
+                  <span aria-hidden="true">●</span> {p.estado}
+                </span>
+                <span className={`${s.visitar} mono`} aria-hidden="true">
+                  {UI.proyectosVer} <span className={s.flecha}>↗</span>
+                </span>
+              </div>
             </div>
           </motion.article>
         ))}

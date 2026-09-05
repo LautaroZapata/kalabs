@@ -1,10 +1,8 @@
 export const SITE = {
   nombre: "Kalabs",
-  tagline: "Estudio digital nocturno",
+  tagline: "Estudio digital",
   ciudad: "Montevideo",
   pais: "Uruguay",
-  coords: "34°54′S 56°10′O",
-  turno: "22:00 → 04:00",
   email: "hola@kalabs.uy",
   descripcion:
     "Estudio digital de Montevideo. Desarrollo web, automatizaciones y sistemas a medida para negocios chicos.",
@@ -14,8 +12,7 @@ export const SITE = {
 export const MANIFIESTO = [
   "Estudio digital",
   "de Montevideo.",
-  "Trabajamos de noche",
-  "con negocios chicos",
+  "Trabajamos con negocios chicos",
   "que no quieren parecerse a nadie.",
 ];
 
@@ -36,8 +33,18 @@ export type Proyecto = {
   nombreLargo?: string;
   pitch: string;
   detalle: string;
-  stack: string[];
   estado: string;
+  /** El sitio en vivo. La ficha entera enlaza acá. */
+  href: string;
+  /** Dominio que se muestra en la ficha. */
+  sitio: string;
+  /** Maqueta generada que va arriba de la ficha. */
+  maqueta: "flota" | "gastos" | "mesa";
+  /**
+   * Captura real, opcional. Si se completa (ej. "/proyectos/viagrua.png"),
+   * pisa a la maqueta generada sin tocar el componente.
+   */
+  imagen?: string;
 };
 
 export const PROYECTOS: Proyecto[] = [
@@ -47,8 +54,10 @@ export const PROYECTOS: Proyecto[] = [
     pitch: "Flotas de grúas en tiempo real.",
     detalle:
       "Choferes, servicios y unidades en una sola vista. Quién está libre y quién está en camino, sin un solo llamado.",
-    stack: ["Next.js", "Supabase", "Tiempo real"],
     estado: "En producción",
+    href: "https://via-grua.vercel.app",
+    sitio: "via-grua.vercel.app",
+    maqueta: "flota",
   },
   {
     num: "02",
@@ -57,8 +66,10 @@ export const PROYECTOS: Proyecto[] = [
     pitch: "Finanzas personales.",
     detalle:
       "Presupuesto, ahorro y flujo del mes en una pantalla. Y el detalle de en qué se fue.",
-    stack: ["Next.js", "Supabase"],
     estado: "En producción",
+    href: "https://urugastos.vercel.app",
+    sitio: "urugastos.vercel.app",
+    maqueta: "gastos",
   },
   {
     num: "03",
@@ -66,8 +77,10 @@ export const PROYECTOS: Proyecto[] = [
     pitch: "Registro nutricional del hogar.",
     detalle:
       "Cada integrante carga sus comidas por Telegram. Sin instalar ni aprender nada nuevo.",
-    stack: ["Next.js", "Bot de Telegram"],
     estado: "En producción",
+    href: "https://mesa-five-tan.vercel.app",
+    sitio: "mesa-five-tan.vercel.app",
+    maqueta: "mesa",
   },
 ];
 
@@ -140,6 +153,7 @@ export const ENLACES = [
 export const UI = {
   /* 01 — proyectos */
   proyectosKicker: "01 — En producción",
+  proyectosVer: "Ver sitio",
   proyectosCierreKicker: "Siguiente",
   proyectosCierreTitulo: "Tu proyecto acá",
   proyectosCierreNota: "Si tenés algo entre manos, escribinos. La primera charla no se cobra.",
@@ -159,8 +173,6 @@ export const UI = {
   /* varios */
   chapa: "Est. 2025",
   chapaNota: "Montevideo, Uruguay",
-  estadoDisponible: "Disponible",
-  sello: "Hecho a mano",
   marquesina: ["Kalabs", "Estudio digital", "Montevideo", "Uruguay", "Hablemos"],
   form: {
     titulo: "Formulario de contacto",

@@ -61,7 +61,7 @@ export default function Contacto() {
           <motion.blockquote className={s.cita} {...entrada({ quieto, y: 30 })}>
             <p className={s.citaTexto}>{UI.cita}</p>
             <p className={`${s.citaPie} monoSm`}>
-              Kalabs — {SITE.ciudad}, {SITE.pais} · Turno {SITE.turno}
+              Kalabs — {SITE.ciudad}, {SITE.pais}
             </p>
           </motion.blockquote>
 

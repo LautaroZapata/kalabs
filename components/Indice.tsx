@@ -5,9 +5,8 @@ import s from "./Indice.module.css";
 export default function Indice() {
   return (
     <section id="indice" className={s.panel} aria-label="00. Índice">
-      {/* riel de canto */}
+      {/* riel de canto: sólo trama, sin datos sueltos */}
       <div className={s.rail}>
-        <span className={`${s.railText} monoSm`}>{SITE.coords}</span>
         <Greca
           id="greca-rail"
           variant="rombo"
@@ -16,7 +15,6 @@ export default function Indice() {
           height="100%"
           className={s.railGreca}
         />
-        <span className={`${s.railText} monoSm`}>Turno noche</span>
       </div>
 
       {/* barra superior: el contacto abre el sitio, no lo cierra */}
@@ -71,15 +69,6 @@ export default function Indice() {
           {MANIFIESTO.map((linea) => (
             <span key={linea}>{linea}</span>
           ))}
-        </p>
-        <p className={`${s.coords} monoSm`}>
-          {/* El HUD ya muestra hora y turno: acá alcanza con el lugar y el estado. */}
-          <span className="tag">
-            <b>UY</b> {SITE.coords}
-          </span>
-          <span className="tag">
-            <b>Estado</b> {UI.estadoDisponible}
-          </span>
         </p>
       </div>
 

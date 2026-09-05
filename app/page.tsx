@@ -28,6 +28,7 @@ const jsonLd = {
     "@type": "SoftwareApplication",
     name: p.nombre,
     description: p.pitch,
+    url: p.href,
     applicationCategory: "BusinessApplication",
   })),
 };

@@ -2,7 +2,10 @@
    Antes era un riel horizontal con arrastre: escondía dos de los tres
    proyectos y obligaba a un gesto para verlos. Ahora es una grilla vertical.
    La asimetría la da el tamaño de las celdas, no el desorden: la primera
-   ficha ocupa el ancho completo y las otras dos se reparten la fila. */
+   ficha ocupa el ancho completo y las otras dos se reparten la fila.
+
+   Cada ficha abre arriba con una maqueta del proyecto y enlaza al sitio en
+   vivo: la tarjeta con puro texto no mostraba nada de lo que se hizo. */
 
 .wrap {
   position: relative;
@@ -45,14 +48,30 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.7rem;
   background: var(--ink-2);
   border: var(--rule);
-  padding: clamp(1.25rem, 3.5vw, 2rem);
-  transition: background 0.25s var(--ease);
+  transition: background 0.25s var(--ease), border-color 0.25s var(--ease);
 }
 
-.card:hover { background: var(--ink-3); }
+/* El hover de la ficha maneja también los colores de la maqueta: son las
+   custom properties que Maqueta.module.css lee con valor por defecto. */
+.card:hover,
+.card:focus-within {
+  background: var(--ink-3);
+  border-color: var(--ember);
+  --mq-ruta: var(--ember);
+  --mq-barra: var(--terra);
+  --mq-linea: var(--ember-dim);
+}
+
+.cuerpo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  flex: 1;
+  padding: clamp(1.25rem, 3.5vw, 2rem);
+}
 
 /* Numeral en la esquina: presente pero sin invadir el texto. */
 .num {
@@ -69,7 +88,8 @@
   transition: -webkit-text-stroke-color 0.25s var(--ease);
 }
 
-.card:hover .num { -webkit-text-stroke-color: var(--ember); }
+.card:hover .num,
+.card:focus-within .num { -webkit-text-stroke-color: var(--ember); }
 
 .nombre {
   font-family: var(--font-display), sans-serif;
@@ -81,6 +101,18 @@
   color: var(--bone);
   max-width: 8ch;
 }
+
+/* El enlace del título cubre la ficha entera. El foco sigue viviendo en el
+   texto, así que el contorno de teclado no se dispara al tamaño de la
+   tarjeta. */
+.enlace { display: inline-block; }
+.enlace::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+.card:hover .enlace { color: var(--ember); }
 
 .largo {
   color: var(--ember-dim);
@@ -113,9 +145,8 @@
   flex-wrap: wrap;
   gap: 0.4rem 0.75rem;
   align-items: center;
+  justify-content: space-between;
 }
-
-.stack { color: var(--bone-dim); }
 
 /* El estado no depende del color: lleva un signo y la palabra completa. */
 .estado {
@@ -126,6 +157,25 @@
   color: var(--bone);
   padding: 0.25rem 0.5rem;
 }
+
+.visitar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--bone-dim);
+  transition: color 0.25s var(--ease);
+}
+
+.flecha {
+  display: inline-block;
+  transition: transform 0.25s var(--spring);
+}
+
+.card:hover .visitar,
+.card:focus-within .visitar { color: var(--ember); }
+
+.card:hover .flecha,
+.card:focus-within .flecha { transform: translate(3px, -3px); }
 
 /* ---------------- ficha de cierre ---------------- */
 .cierre {
@@ -166,4 +216,20 @@
   .cardAncha { grid-column: 1 / -1; }
   .cardAncha .detalle { max-width: 60ch; }
   .cierre { grid-column: 1 / -1; }
+}
+
+/* El destacado va apaisado: la maqueta al lado del texto, no encima. */
+@media (min-width: 1000px) {
+  .cardAncha { flex-direction: row; }
+  .cardAncha > :first-child {
+    flex: 1 1 46%;
+    border-bottom: 0;
+    border-right: var(--rule);
+    aspect-ratio: auto;
+  }
+  .cardAncha .cuerpo { flex: 1 1 54%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flecha { transition: none; }
 }
