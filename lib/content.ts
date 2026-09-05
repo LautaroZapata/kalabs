@@ -149,6 +149,11 @@ export const UI = {
   citaTaller: "Un pequeño negocio no necesita parecerse a los demás. Necesita que lo recuerden.",
   obraKicker: "01 — Proyectos en producción",
   obraHint: "Arrastrar para ver más",
+  obraCierreKicker: "Siguiente",
+  obraCierreTitulo: "Tu proyecto acá",
+  obraCierreNota:
+    "Si tenés algo entre manos, escribinos y lo vemos. La primera conversación no se cobra.",
+  obraCierreAccion: "Escribinos",
   oficioLead:
     "02 — Tres formas de resolver el mismo problema: que un pequeño negocio deje de perder tiempo y dinero en tareas que puede hacer una máquina.",
   tallerKicker: "03 — Equipo",

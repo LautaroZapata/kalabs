@@ -1,4 +1,8 @@
+"use client";
+
+import { motion, useReducedMotion } from "motion/react";
 import Greca from "./Greca";
+import { entrada } from "./mov/entrada";
 import { SERVICIOS, UI } from "@/lib/content";
 import s from "./Oficio.module.css";
 
@@ -10,6 +14,8 @@ const JUNTAS = [
 ] as const;
 
 export default function Oficio() {
+  const quieto = useReducedMotion();
+
   return (
     <section id="oficio" className={s.wrap} aria-labelledby="oficio-t">
       <div className={s.head}>
@@ -33,7 +39,10 @@ export default function Oficio() {
               className={s.junta}
             />
 
-            <article className={`${s.row} ${s[`row${i + 1}`]}`}>
+            <motion.article
+              className={`${s.row} ${s[`row${i + 1}`]}`}
+              {...entrada({ quieto, y: 30, margin: "-8% 0px -14% 0px" })}
+            >
               <div className={s.numCell}>
                 <span className={s.num} aria-hidden="true">
                   {serv.num}
@@ -68,7 +77,7 @@ export default function Oficio() {
                   />
                 </div>
               )}
-            </article>
+            </motion.article>
           </div>
         );
       })}

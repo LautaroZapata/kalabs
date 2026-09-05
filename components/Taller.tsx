@@ -1,8 +1,23 @@
+"use client";
+
+import { motion, useReducedMotion } from "motion/react";
 import Greca from "./Greca";
+import { useEscritorio } from "./mov/useEscritorio";
+import { entrada } from "./mov/entrada";
 import { EQUIPO, SITE, UI } from "@/lib/content";
 import s from "./Taller.module.css";
 
 export default function Taller() {
+  const quieto = useReducedMotion();
+  const escritorio = useEscritorio();
+
+  /* Giro de cada placa: más marcado en escritorio, casi nulo en mobile. */
+  const GIROS = escritorio ? [-2.4, 1.4, -1.2, 1.8] : [-1.6, 1.1, -0.9, 0];
+
+  /* Las placas entran una atrás de otra, como si se fueran apoyando. */
+  const entra = (i: number) =>
+    entrada({ quieto, y: 34, rotate: GIROS[i], delay: i * 0.12 });
+
   return (
     <section id="taller" className={s.wrap} aria-labelledby="taller-t">
       <Greca
@@ -23,17 +38,18 @@ export default function Taller() {
       </div>
 
       <div className={s.mesa}>
-        <blockquote className={`${s.pieza} ${s.cita}`}>
+        <motion.blockquote className={`${s.pieza} ${s.cita}`} {...entra(0)}>
           <p className={s.citaTexto}>{UI.citaTaller}</p>
           <p className={`${s.citaPie} monoSm`}>
             Kalabs — {SITE.ciudad}, {SITE.pais} · Turno {SITE.turno}
           </p>
-        </blockquote>
+        </motion.blockquote>
 
         {EQUIPO.map((p, i) => (
-          <article
+          <motion.article
             key={p.nombre}
             className={`${s.pieza} ${s.ficha} ${i === 1 ? s.ficha2 : ""}`}
+            {...entra(i + 1)}
           >
             <div className={s.fichaTop}>
               <h3 className={s.nombre}>{p.nombre}</h3>
@@ -47,9 +63,9 @@ export default function Taller() {
             </div>
             <p className={`${s.rol} monoSm`}>{p.rol}</p>
             <p className={s.bio}>{p.bio}</p>
-          </article>
+          </motion.article>
         ))}
-        <div className={`${s.pieza} ${s.telar}`} aria-hidden="true">
+        <motion.div className={`${s.pieza} ${s.telar}`} aria-hidden="true" {...entra(3)}>
           <Greca
             id="greca-telar"
             variant="rombo"
@@ -58,7 +74,7 @@ export default function Taller() {
             height="100%"
             scale={1.35}
           />
-        </div>
+        </motion.div>
       </div>
 
       <p className={`${s.sello} monoSm`} aria-hidden="true">

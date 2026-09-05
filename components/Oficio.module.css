@@ -20,9 +20,10 @@
 
 .title {
   font-family: var(--font-display), sans-serif;
+  font-weight: 900;
   text-transform: uppercase;
-  font-size: clamp(2.6rem, 12vw, 9rem);
-  line-height: 0.8;
+  font-size: clamp(2.2rem, 9vw, 6.5rem);
+  line-height: 0.9;
   letter-spacing: -0.02em;
   color: var(--bone);
 }
@@ -58,12 +59,13 @@
 
 .num {
   font-family: var(--font-display), sans-serif;
-  line-height: 0.72;
+  font-weight: 900;
+  line-height: 0.9;
   color: transparent;
   -webkit-text-stroke: 2px var(--terra);
   user-select: none;
   transition: -webkit-text-stroke-color 0.3s var(--ease), transform 0.4s var(--ease);
-  font-size: clamp(6rem, 30vw, 16rem);
+  font-size: clamp(4.5rem, 22vw, 12rem);
 }
 
 .row:hover .num { -webkit-text-stroke-color: var(--ember); }
@@ -72,9 +74,10 @@
 
 .servTitle {
   font-family: var(--font-display), sans-serif;
+  font-weight: 900;
   text-transform: uppercase;
-  font-size: clamp(2rem, 8vw, 3.4rem);
-  line-height: 0.86;
+  font-size: clamp(1.7rem, 6.5vw, 2.9rem);
+  line-height: 0.92;
   letter-spacing: -0.015em;
   color: var(--bone);
 }
@@ -82,6 +85,7 @@
 .bajada {
   margin-top: 0.5rem;
   font-family: var(--font-display), sans-serif;
+  font-weight: 900;
   text-transform: uppercase;
   font-size: clamp(1rem, 4vw, 1.3rem);
   line-height: 1.05;
@@ -133,21 +137,21 @@
     grid-template-columns: minmax(0, 1fr) minmax(0, 2.35fr);
   }
   /* el numeral se recorta contra el borde izquierdo */
-  .row1 .num { transform: translateX(-16%); }
+  .row1 .num { transform: translateX(-28%); }
 
   .row2 {
     grid-template-columns: minmax(0, 2.1fr) minmax(0, 1fr);
   }
   .row2 .numCell { order: 2; justify-content: flex-end; }
   .row2 .content { order: 1; padding-left: 12%; }
-  .row2 .num { transform: translateX(18%); }
+  .row2 .num { transform: translateX(26%); }
   .row2 .entregables { margin-left: auto; }
 
   .row3 {
     grid-template-columns: minmax(0, 0.62fr) minmax(0, 1.75fr) minmax(0, 0.85fr);
     align-items: stretch;
   }
-  .row3 .num { font-size: clamp(5rem, 11vw, 10rem); transform: translateY(-8%); }
+  .row3 .num { font-size: clamp(4rem, 9vw, 8rem); transform: translateY(-8%); }
   .row3 .content { padding-top: 2.5rem; }
   .row3 .panel { display: block; }
 }
@@ -155,6 +159,6 @@
 @media (max-width: 819px) {
   .row { grid-template-columns: minmax(0, 1fr); }
   .numCell { margin-bottom: -0.22em; }
-  .num { font-size: clamp(5.5rem, 26vw, 11rem); transform: translateX(-10%); }
+  .num { font-size: clamp(4.5rem, 21vw, 9rem); transform: translateX(-18%); }
   .row2 .content { padding-left: 1.5rem; border-left: var(--hair); }
 }

@@ -1,24 +1,19 @@
-import { Anton, Archivo, Space_Mono } from "next/font/google";
+import { Schibsted_Grotesk, JetBrains_Mono } from "next/font/google";
 
-/** Titulares: condensada, pesada, sin aire. */
-export const display = Anton({
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-  variable: "--font-display",
-});
-
-/** Cuerpo: limpia pero con carácter. */
-export const body = Archivo({
+/**
+ * Una sola grotesca para titulares y cuerpo, llevada a dos extremos de peso:
+ * 900 con tracking cerrado para los titulares, 400 para leer. El sistema
+ * queda cohesivo sin necesitar una familia display aparte.
+ */
+export const sans = Schibsted_Grotesk({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-body",
+  variable: "--font-sans",
 });
 
-/** Etiquetas chicas, datos, estados. */
-export const mono = Space_Mono({
+/** Etiquetas chicas, datos y estados. */
+export const mono = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["400", "700"],
   display: "swap",
   variable: "--font-mono",
 });

@@ -1,5 +1,6 @@
 import Greca from "./Greca";
 import Formulario from "./Formulario";
+import Reveal from "./mov/Reveal";
 import { ENLACES, SITE, UI } from "@/lib/content";
 import s from "./Senal.module.css";
 
@@ -33,7 +34,7 @@ export default function Senal() {
       </div>
 
       <div className={s.body}>
-        <div className={s.col}>
+        <Reveal className={s.col}>
           <p className={`${s.kicker} mono`}>{UI.senalKicker}</p>
           <a className={s.mailto} href={`mailto:${SITE.email}`}>
             <span className={s.mailtoA}>{SITE.email.split("@")[0]}@</span>
@@ -62,9 +63,11 @@ export default function Senal() {
           <p className={s.cierre}>
             {UI.senalCierre[0]} <b>{UI.senalCierre[1]}</b>
           </p>
-        </div>
+        </Reveal>
 
-        <Formulario />
+        <Reveal delay={0.12}>
+          <Formulario />
+        </Reveal>
       </div>
 
       <Greca

@@ -33,6 +33,9 @@ Decisiones concretas:
   sudamericano, sin citar ningún símbolo concreto.
 - **Riel de estado fijo al pie** con la hora real de Montevideo, la sección
   activa y el avance de lectura. Reemplaza al menú.
+- **El movimiento acompaña, no decora.** El riel de proyectos se arrastra con
+  el mouse y sigue de largo con inercia; las secciones entran al pisar el
+  viewport; las fichas quedan giradas cuando terminan de asentarse.
 
 ### Paleta
 
@@ -45,8 +48,12 @@ Decisiones concretas:
 | Acento frío | `--teal` | `#3f9184` |
 | Estructura | `--terra` | `#9c3f26` — líneas y bordes |
 
-Tipografías: **Anton** (titulares condensados), **Archivo** (cuerpo),
-**Space Mono** (etiquetas y datos).
+### Tipografía
+
+Una sola grotesca, **Schibsted Grotesk**, llevada a dos extremos: peso 900 con
+tracking cerrado (`-0.04em`) para los titulares y 400 para leer. Las etiquetas,
+datos y estados van en **JetBrains Mono**. No hay una familia display aparte:
+lo que separa titular de cuerpo es el peso, no la tipografía.
 
 ## Accesibilidad
 
@@ -57,8 +64,11 @@ Tipografías: **Anton** (titulares condensados), **Archivo** (cuerpo),
   para poder recorrerlo sin mouse.
 - Ningún estado se transmite sólo con color: los chips llevan la palabra
   completa (`En producción`, `Socio · a confirmar`) y un signo.
-- Se respeta `prefers-reduced-motion`: se detienen la marquesina y las
-  rotaciones.
+- Se respeta `prefers-reduced-motion`: no hay entradas por scroll, marquesina
+  ni inercia. El contenido aparece directamente visible, no oculto esperando un
+  disparador.
+- Con JavaScript deshabilitado el contenido sigue visible: hay un `<noscript>`
+  que neutraliza el estado inicial que Motion escribe en el HTML servido.
 - Enlace "Saltar al contenido", jerarquía de encabezados `h1 → h2 → h3` y
   todas las tramas SVG marcadas como decorativas.
 
@@ -67,8 +77,24 @@ Tipografías: **Anton** (titulares condensados), **Archivo** (cuerpo),
 - Next.js (App Router) + React + TypeScript
 - CSS Modules + custom properties — sin framework de estilos, para que el
   layout no arrastre las convenciones de nadie
+- [Motion](https://motion.dev) para las entradas por scroll y la inercia del
+  arrastre
 - Sin backend: el formulario arma un `mailto:` con todo cargado. Si algún día
   hay que guardar los mensajes, ahí entra Supabase sin tocar el resto.
+
+### Notas de implementación
+
+Dos cosas que no son obvias y conviene no deshacer:
+
+- **Las rotaciones de las fichas viven en JS, no en CSS.** Motion escribe el
+  `transform` inline, así que pisaría cualquier `rotate` puesto desde una hoja
+  de estilos. Ver `components/mov/useEscritorio.ts`.
+- **El arrastre no reemplaza al scroll nativo, lo complementa.** El contenedor
+  mantiene su `overflow-x: auto` —así siguen andando el teclado, la rueda del
+  trackpad y el gesto táctil, que ya trae inercia propia— y sólo se agrega el
+  arrastre con mouse. El `scroll-snap` se apaga mientras dura el gesto, porque
+  el imán pelea contra la asignación de `scrollLeft` y el riel deja de seguir
+  al cursor. Ver `components/mov/useArrastre.ts`.
 
 ## Desarrollo
 

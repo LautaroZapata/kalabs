@@ -56,8 +56,9 @@
 
 .mail {
   font-family: var(--font-display), sans-serif;
+  font-weight: 900;
   text-transform: uppercase;
-  font-size: clamp(1rem, 3.6vw, 1.6rem);
+  font-size: clamp(0.9rem, 3vw, 1.35rem);
   letter-spacing: 0.01em;
   color: var(--ember);
   border-bottom: 3px solid var(--ember);
@@ -71,7 +72,7 @@
   grid-area: word;
   position: relative;
   padding: clamp(2rem, 9vw, 5rem) 1rem clamp(3rem, 10vw, 6rem);
-  --w: clamp(4.6rem, 25vw, 13rem);
+  --w: clamp(3.6rem, 19vw, 10rem);
   display: flex;
   flex-direction: column;
 }
@@ -158,9 +159,10 @@
 
 .manifiesto {
   font-family: var(--font-display), sans-serif;
+  font-weight: 900;
   text-transform: uppercase;
   line-height: 0.96;
-  font-size: clamp(1.15rem, 4.6vw, 1.9rem);
+  font-size: clamp(1rem, 3.9vw, 1.65rem);
   color: var(--bone);
   max-width: 30ch;
 }
@@ -211,8 +213,9 @@
 .itemNum {
   display: block;
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(1.6rem, 6vw, 2.4rem);
-  line-height: 0.8;
+  font-weight: 900;
+  font-size: clamp(1.4rem, 5vw, 2rem);
+  line-height: 0.9;
   color: var(--terra);
   transition: color 0.18s var(--ease);
 }
@@ -221,6 +224,7 @@
   display: block;
   margin-top: 0.4rem;
   font-family: var(--font-display), sans-serif;
+  font-weight: 900;
   text-transform: uppercase;
   font-size: 1.05rem;
   letter-spacing: 0.02em;
@@ -252,13 +256,13 @@
 
   /* el wordmark se centra en el aire que queda bajo el tablero */
   .wordMark {
-    --w: clamp(7rem, 19.5vw, 17rem);
+    --w: clamp(5.5rem, 15.5vw, 12.5rem);
     font-size: var(--w);
     margin-block: auto;
   }
 
   /* corrido a la derecha hasta cruzar el hilo de la columna vecina */
-  .w2 { margin-left: 1.3em; }
+  .w2 { margin-left: 1.75em; }
 
   .side {
     border-top: 0;

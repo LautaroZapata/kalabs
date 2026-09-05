@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { display, body, mono } from "./fonts";
+import { sans, mono } from "./fonts";
 import { SITE } from "@/lib/content";
 import "./globals.css";
 
@@ -41,11 +41,17 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es-UY" className={`${display.variable} ${body.variable} ${mono.variable}`}>
+    <html lang="es-UY" className={`${sans.variable} ${mono.variable}`}>
       <body>
         <a className="skip" href="#contenido">
           Saltar al contenido
         </a>
+        {/* Motion escribe el estado inicial (opacity:0) en el HTML servido.
+            Sin JavaScript nadie lo anima, así que el contenido quedaría
+            invisible: esto lo devuelve a la vista. */}
+        <noscript>
+          <style>{`[style*="opacity:0"]{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
         {children}
         <div className="grain" aria-hidden="true" />
       </body>
