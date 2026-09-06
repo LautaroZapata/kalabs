@@ -14,7 +14,7 @@ export default function Proyectos() {
     <section id="proyectos" className={s.pagina} aria-labelledby="proyectos-t">
       <Cabezal
         id="proyectos-t"
-        folio="2"
+        folio="3"
         antetitulo={UI.proyectosAntetitulo}
         titulo="Proyectos"
         bajada={UI.proyectosBajada}

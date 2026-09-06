@@ -30,10 +30,12 @@ export type Indice = { id: string; folio: string; label: string; nota: string };
 
 /* Las secciones son páginas del diario. El folio (p. 2) es una convención de
    imprenta, no la numeración 00/01/02 de siempre. */
+/* Los servicios van antes que los proyectos: primero qué podemos hacer por
+   quien llega, después la prueba de que sabemos hacerlo. */
 export const INDICE: Indice[] = [
   { id: "portada", folio: "1", label: "Portada", nota: "Kalabs" },
-  { id: "proyectos", folio: "2", label: "Proyectos", nota: "En producción" },
-  { id: "servicios", folio: "3", label: "Servicios", nota: "Qué hacemos" },
+  { id: "servicios", folio: "2", label: "Servicios", nota: "Qué hacemos" },
+  { id: "proyectos", folio: "3", label: "Proyectos", nota: "En producción" },
   { id: "contacto", folio: "4", label: "Contacto", nota: "Equipo y contacto" },
 ];
 
@@ -105,6 +107,13 @@ export const PROYECTOS: Proyecto[] = [
 
 export type Servicio = {
   num: string;
+  /**
+   * El problema del que llega, en segunda persona. Va primero y va grande.
+   * Antes el titular era el nombre del servicio, que es una capacidad
+   * nuestra: a nadie le mueve nada lo que sabemos hacer, le mueve lo que le
+   * está pasando.
+   */
+  problema: string;
   titulo: string;
   bajada: string;
   cuerpo: string;
@@ -114,25 +123,29 @@ export type Servicio = {
 export const SERVICIOS: Servicio[] = [
   {
     num: "01",
+    problema: "Te buscan en internet y encuentran a tu competencia.",
     titulo: "Desarrollo web",
     bajada: "Sitios y aplicaciones a medida.",
-    cuerpo: "Para vender, no para decorar. Rápidos en el celular. Sin plantillas.",
+    cuerpo:
+      "Hacemos el sitio que te encuentra el que te está buscando. Para vender, no para decorar: rápido en el celular, sin plantillas y con la medición puesta desde el primer día.",
     entregables: ["Sitio institucional", "Tienda o catálogo", "Panel de administración", "Medición"],
   },
   {
     num: "02",
+    problema: "Esta semana hacés a mano lo mismo que hiciste la semana pasada.",
     titulo: "Automatizaciones",
     bajada: "Menos tareas repetidas.",
     cuerpo:
-      "Lo que hacés todas las semanas a mano lo hace una máquina. Empezamos por lo que más tiempo come.",
+      "Lo que se repite lo hace una máquina. Empezamos por la tarea que más horas te come, la dejamos andando sola, y recién después vamos por la siguiente.",
     entregables: ["Bots de WhatsApp y Telegram", "Reportes automáticos", "Integraciones", "Alertas"],
   },
   {
     num: "03",
+    problema: "Los pedidos los anotás en un cuaderno y el cuaderno se pierde.",
     titulo: "Sistemas a medida",
     bajada: "Una herramienta, un problema.",
     cuerpo:
-      "Turnos, pedidos, stock. Una función bien resuelta antes que un sistema entero que nadie abre.",
+      "Turnos, pedidos o stock: una función bien resuelta antes que un sistema entero que nadie abre. Si con una pantalla alcanza, hacemos una pantalla.",
     entregables: ["Turnos y agenda", "Pedidos", "Control de stock", "Fichas de clientes"],
   },
 ];
@@ -143,7 +156,6 @@ export type Persona = {
       alcanzan, y quien quiera más entra al LinkedIn. */
   rol: string;
   tag: string;
-  estado: "confirmado" | "pendiente";
   linkedin: string;
 };
 
@@ -152,14 +164,12 @@ export const EQUIPO: Persona[] = [
     nombre: "Lautaro Zapata",
     rol: "Desarrollo y sistemas",
     tag: "Fundador",
-    estado: "confirmado",
     linkedin: "https://www.linkedin.com/in/lautarozc/",
   },
   {
-    nombre: "Mati",
+    nombre: "Matías Sosa",
     rol: "Diseño gráfico e identidad",
     tag: "Socio",
-    estado: "pendiente",
     linkedin: "https://www.linkedin.com/in/matiassxsa/",
   },
 ];

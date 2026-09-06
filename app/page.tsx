@@ -42,8 +42,8 @@ export default function Page() {
       />
       <main id="contenido">
         <Portada />
-        <Proyectos />
         <Servicios />
+        <Proyectos />
         <Contacto />
       </main>
       <Folio />

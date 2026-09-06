@@ -204,9 +204,7 @@
   color: var(--bone-dim);
 }
 
-/* El estado se dice con la palabra, no sólo con el color. */
-.marcaOk { color: var(--ember); }
-.marcaPend { color: var(--terra-lit); }
+.autorTag { color: var(--ember); }
 
 /* ---------------- colofón ---------------- */
 .colofon {

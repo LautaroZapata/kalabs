@@ -95,10 +95,7 @@ export default function Contacto() {
               </h3>
               <p className={`${s.autorRol} dato`}>
                 {p.rol}
-                <span className={p.estado === "confirmado" ? s.marcaOk : s.marcaPend}>
-                  {p.tag}
-                  {p.estado === "pendiente" ? " · a confirmar" : ""}
-                </span>
+                <span className={s.autorTag}>{p.tag}</span>
               </p>
             </motion.article>
           ))}

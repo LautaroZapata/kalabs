@@ -32,8 +32,15 @@ convención de imprenta con siglos encima.
   con la maqueta apaisada y dos secundarias abajo, separadas por filete. Sin
   cajas: las notas de un diario no llevan borde. La caja queda reservada para
   el aviso clasificado, que sí es publicidad.
-- **Los servicios son un listado con ladillo**, no tres tarjetas en fila:
-  títulos al margen, texto al cuerpo, entregables a dos columnas con corondel.
+- **Los servicios abren con el problema, no con el servicio.** Lo que va
+  grande y primero es lo que le pasa a quien está leyendo, en segunda persona
+  ("Te buscan en internet y encuentran a tu competencia"). El nombre del
+  servicio baja a etiqueta al margen y los entregables bajan a una línea
+  corrida al pie. Antes esto era una tabla —nombre de un lado, grilla de
+  cuatro ítems del otro—: un catálogo de capacidades nuestras, que es
+  exactamente lo que a nadie le mueve nada.
+- **Los servicios van antes que los proyectos.** Primero qué podemos hacer por
+  quien llega, después la prueba de que sabemos hacerlo.
 - **Cada proyecto se muestra, no se cuenta.** La nota abre con la **captura
   real** del sitio en vivo y enlaza ahí. Antes había maquetas dibujadas en
   SVG: servían de sustituto, pero cualquiera nota que no son el producto.
