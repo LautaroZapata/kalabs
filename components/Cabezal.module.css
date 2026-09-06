@@ -1,0 +1,45 @@
+/* Cabezal de sección. Filete grueso arriba, como el arranque de una página
+   nueva del diario; el folio va pegado al antetítulo, al margen. */
+
+.cabezal {
+  border-top: var(--filete-grue);
+  padding: clamp(1rem, 3vw, 1.75rem) var(--edge) clamp(1rem, 2.5vw, 1.5rem);
+  display: grid;
+  gap: 0.5rem;
+}
+
+.antetitulo {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  color: var(--ember);
+}
+
+.folio {
+  color: var(--terra-lit);
+  border-right: var(--filete);
+  padding-right: 0.75rem;
+}
+
+.titulo {
+  font-size: clamp(2.4rem, 11vw, 6.5rem);
+  color: var(--bone);
+  max-width: 16ch;
+}
+
+.bajada {
+  font-size: clamp(1rem, 2.6vw, 1.25rem);
+  max-width: 46ch;
+  padding-top: 0.6rem;
+  border-top: var(--filete-med);
+}
+
+@media (min-width: 900px) {
+  .cabezal {
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    align-items: end;
+    column-gap: clamp(1.5rem, 4vw, 3rem);
+  }
+  .antetitulo { grid-column: 1 / -1; }
+  .bajada { border-top: 0; border-left: var(--filete-med); padding: 0 0 0.4rem 1rem; }
+}

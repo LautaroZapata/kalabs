@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { sans, mono } from "./fonts";
+import { display, body, mono } from "./fonts";
 import { SITE } from "@/lib/content";
 import "./globals.css";
 
@@ -41,7 +41,10 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es-UY" className={`${sans.variable} ${mono.variable}`}>
+    <html
+      lang="es-UY"
+      className={`${display.variable} ${body.variable} ${mono.variable}`}
+    >
       <body>
         <a className="skip" href="#contenido">
           Saltar al contenido

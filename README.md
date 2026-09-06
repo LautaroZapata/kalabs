@@ -6,40 +6,51 @@ chicos.
 
 ## Dirección de diseño
 
-Brutalismo web + retrofuturismo con raíces. La apuesta está en la
-**composición**, no sólo en la paleta: una paleta oscura con dos acentos no
-alcanza para no sentirse genérico, así que lo que cambia acá es cómo se
-organiza el contenido.
+**Broadsheet brutalista**: un diario impreso llevado al extremo.
 
-Decisiones concretas:
+La versión anterior era brutalismo web de manual —grotesca 900 en versalita
+con tracking cerrado, mono con mucho tracking para las microetiquetas,
+secciones numeradas `00/01/02`, wordmark gigante partido en dos, marquesina
+infinita, riel de estado con reloj en vivo—. Cada una de esas decisiones es
+defendible por separado; juntas son la receta que produce cualquier modelo
+cuando se le pide "brutalista", y se reconoce a un metro.
 
-- **Cuatro secciones, nombres directos.** `00 Kalabs → 01 Proyectos →
-  02 Servicios → 03 Contacto`. Nada de metáforas de taller: el visitante no
-  tiene que descifrar qué hay detrás de "Obra" u "Oficio". El contacto abre el
-  sitio (arriba a la derecha) y lo cierra, y el índice funciona como
-  navegación.
-- **El equipo va dentro del contacto.** Quién trabaja acá y cómo escribirnos
-  se leen juntos: se contrata a las personas, no al formulario.
-- **La asimetría la da el tamaño de las celdas, no el desorden.** Los
-  proyectos van en grilla vertical —el destacado ocupa el ancho completo, los
-  otros dos se reparten la fila— y los servicios usan una sola grilla donde lo
-  único que alterna es el lado del numeral. Se ve todo sin gestos ni sorpresas.
-- **Cada proyecto se muestra, no se cuenta.** La ficha abre con una maqueta
+El cambio de fondo es de dónde sale el maximalismo: ya no de efectos sino de
+**densidad de tipografía y de filetes**. Todo lo que acá parece adorno es una
+convención de imprenta con siglos encima.
+
+- **La portada es una primera plana, no un hero.** Cintillo con los datos de
+  la edición, cabecera a filete doble con el nombre en caja baja y al ras, y
+  abajo tres columnas de ancho distinto separadas por corondel: sumario ("En
+  este número"), nota de tapa con capitular a dos columnas, y un recuadro.
+  Nada centrado, nada flotando en el medio de la pantalla.
+- **Las secciones son páginas.** El folio (`p. 2`) es una convención de
+  imprenta; la numeración `00/01/02` en mono es un tic de plantilla. El
+  cabezal de sección —antetítulo, título, bajada, folio al margen— lo comparten
+  las tres páginas interiores para que el sitio se lea como un mismo impreso.
+- **Los proyectos se arman como una plana.** Nota principal a todo el ancho
+  con la maqueta apaisada y dos secundarias abajo, separadas por filete. Sin
+  cajas: las notas de un diario no llevan borde. La caja queda reservada para
+  el aviso clasificado, que sí es publicidad.
+- **Los servicios son un listado con ladillo**, no tres tarjetas en fila:
+  títulos al margen, texto al cuerpo, entregables a dos columnas con corondel.
+- **Cada proyecto se muestra, no se cuenta.** La nota abre con una maqueta
   animada del producto y enlaza al sitio en vivo. No lleva stack: al cliente
   que la mira no le dice nada que haya Supabase abajo.
-- **La tipografía es un elemento gráfico.** El wordmark está fracturado —`Ka`
-  macizo, `labs` en contorno— y se corre hasta cruzar el hilo de la columna
-  vecina, donde se recorta contra un velo.
-- **La greca hace trabajo estructural**, no decorativo: es la junta entre
-  secciones y el fondo del bloque de equipo. Son cuatro tramas ortogonales
-  (`zigzag`, `rombo`, `escalera`, `trama`) construidas a base de escalones
-  —geometría abstracta inspirada en el textil sudamericano, sin citar ningún
-  símbolo concreto. Se usan con cuentagotas: una greca de más y la pantalla se
-  llena de ruido.
-- **Riel de estado fijo al pie** con la hora real de Montevideo, la sección
-  activa y el avance de lectura. Reemplaza al menú.
-- **El movimiento acompaña, no decora.** Las secciones y las fichas entran al
-  pisar el viewport; no hay arrastre ni inercia.
+- **El folio al pie reemplaza al riel de estado.** El reloj en vivo y la barra
+  de progreso eran decoración retrofuturista que no le servía a nadie; el
+  folio dice en qué página estás y te lleva a otra, que es lo que un lector
+  necesita.
+- **La greca aparece una sola vez**, como orla superior de la portada. Son
+  cuatro tramas ortogonales (`zigzag`, `rombo`, `escalera`, `trama`)
+  construidas a base de escalones —geometría abstracta inspirada en el textil
+  sudamericano, sin citar ningún símbolo concreto—. Es lo más propio que tiene
+  el sitio, y por eso vale más una que diez repartidas.
+- **El equipo son fichas de autor**, de las que van al pie de una nota, y el
+  sitio cierra con un colofón declarando con qué tipografías se compuso.
+- **La portada entra sin JavaScript.** El escalonado lo hace CSS con
+  `animation-delay`, así el contenido más importante no queda en `opacity: 0`
+  esperando a que cargue un bundle.
 
 ### Paleta
 
@@ -60,23 +71,38 @@ color.
 
 ### Tipografía
 
-Una sola grotesca, **Schibsted Grotesk**, llevada a dos extremos: peso 900 con
-tracking cerrado (`-0.04em`) para los titulares y 400 para leer. Las etiquetas,
-datos y estados van en **JetBrains Mono**. No hay una familia display aparte:
-lo que separa titular de cuerpo es el peso, no la tipografía.
+Tres familias, lógica de imprenta. Todas de Google Fonts, cargadas con
+`next/font`.
+
+| Rol | Familia | Por qué |
+| --- | --- | --- |
+| Titulares | **Fraunces** | Variable, con dos ejes que casi ninguna otra tiene: `SOFT` redondea los remates y `WONK` mete las formas torcidas de la itálica dentro de la redonda. Con los dos al máximo la letra deja de verse calculada. |
+| Cuerpo | **Newsreader** | Serif editorial, pensada para párrafos largos. El serif es lo que da la sensación de que atrás hay alguien. |
+| Datos y folios | **Martian Mono** | Ancha y dura de fábrica. No es la mono de programador de siempre. |
+
+Dos reglas que sostienen el sistema:
+
+- **Los titulares van en caja baja.** La versalita 900 con tracking cerrado es
+  el titular que escribe todo el mundo.
+- **La mono va con tracking negativo.** Martian Mono ya es ancha; sumarle
+  `letter-spacing: 0.14em` la convertiría en la etiqueta de siempre.
+
+La capitular de la nota de tapa es de tres líneas, como manda el oficio.
 
 ## Accesibilidad
 
 - Contraste verificado sobre `--ink`: hueso 15.3:1, hueso apagado 8.9:1,
-  naranja 6.6:1, naranja quemado 5.5:1 (4.6:1 sobre `--ink-3`, el fondo más
-  claro donde aparece). Hueso sobre bordo 5.4:1.
-- **El bordo (`--terra`, 2.8:1) nunca lleva texto.** Es borde, línea, contorno
-  decorativo y plano de fondo; cuando es fondo, el texto encima va en hueso.
+  naranja 6.6:1, naranja quemado 5.5:1, bordo aclarado 5.5:1 (4.6:1 sobre
+  `--ink-3`, el fondo más claro donde aparecen). Hueso sobre bordo 5.4:1.
+- **El bordo (`--terra`, 2.8:1) nunca lleva texto.** Es filete, borde y plano
+  de fondo; cuando es fondo, el texto encima va en hueso. Para la tinta de los
+  folios y las líneas de sumario está `--terra-lit`, que es el mismo tono
+  aclarado hasta pasar AA. Si hace falta bordo sobre texto, se usa ése.
 - Foco de teclado visible en todo el sitio (contorno naranja de 3px).
-- Ningún estado se transmite sólo con color: los chips llevan la palabra
-  completa (`En producción`, `Socio · a confirmar`) y un signo.
-- Se respeta `prefers-reduced-motion`: no hay entradas por scroll, marquesina
-  ni inercia. El contenido aparece directamente visible, no oculto esperando un
+- Ningún estado se transmite sólo con color: lleva la palabra completa
+  (`En producción`, `Socio · a confirmar`).
+- Se respeta `prefers-reduced-motion`: no hay entradas por scroll ni escalonado
+  de portada. El contenido aparece directamente visible, no oculto esperando un
   disparador.
 - Con JavaScript deshabilitado el contenido sigue visible: hay un `<noscript>`
   que neutraliza el estado inicial que Motion escribe en el HTML servido.

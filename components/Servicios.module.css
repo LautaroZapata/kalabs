@@ -1,132 +1,99 @@
-/* 02 — SERVICIOS
-   Antes cada fila usaba una grilla distinta, traía su propia greca y la
-   tercera sumaba un panel tejido: tres sistemas conviviendo en una sección.
-   Ahora hay una sola grilla y lo único que alterna es el lado del numeral.
-   Menos elementos por pantalla, la misma dureza. */
+/* SERVICIOS — p. 3
+   Listado, no tarjetas. Cada servicio es una entrada de dos bloques: los
+   títulos al margen izquierdo y el texto al cuerpo, como una nota con
+   ladillo. Se separan con filetes; ninguna entrada lleva caja. */
 
-.wrap {
+.pagina {
   position: relative;
-  overflow: hidden;
   background: var(--ink);
-  border-bottom: var(--rule);
 }
 
-.head {
+.listado {
+  padding-inline: var(--edge);
+  padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  border-top: var(--filete-med);
+}
+
+.entrada {
   display: grid;
-  gap: clamp(1rem, 3vw, 2rem);
-  padding: clamp(2.5rem, 7vw, 4.5rem) var(--edge) clamp(1.5rem, 4vw, 2.5rem);
-}
-
-.kicker { color: var(--bone-dim); margin-bottom: 0.6rem; }
-
-.title {
-  font-family: var(--font-display), sans-serif;
-  font-weight: 900;
-  text-transform: uppercase;
-  font-size: clamp(2.2rem, 9vw, 6.5rem);
-  line-height: 0.9;
-  letter-spacing: -0.02em;
-  color: var(--bone);
-}
-
-.lead {
-  max-width: 38ch;
-  color: var(--bone-dim);
-  font-size: 0.95rem;
-  line-height: 1.55;
-  border-left: var(--rule);
-  padding-left: 0.9rem;
-  align-self: end;
-}
-
-/* ---------------- fila ---------------- */
-.row {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0.5rem clamp(1.5rem, 4vw, 3rem);
-  padding: clamp(2rem, 5vw, 3rem) var(--edge);
-  border-top: var(--hair);
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+  padding-block: clamp(1.5rem, 4vw, 2.5rem);
+  border-bottom: var(--filete);
   transition: background 0.3s var(--ease);
 }
+.entrada:last-child { border-bottom: 0; }
+.entrada:hover { background: var(--ink-2); }
 
-.row:hover { background: var(--ink-2); }
+/* ---------------- títulos ---------------- */
+.titulos { min-width: 0; }
 
-.numCell {
-  display: flex;
-  align-items: flex-start;
-  min-height: 0;
+/* El orden va chico y al margen. El numeral gigante en contorno era el
+   recurso de siempre; acá es una marca de listado, como en un clasificado. */
+.orden {
+  color: var(--terra-lit);
+  padding-bottom: 0.35rem;
+  margin-bottom: 0.5rem;
+  border-bottom: var(--filete);
 }
 
-.num {
-  font-family: var(--font-display), sans-serif;
-  font-weight: 900;
-  line-height: 0.82;
-  font-size: clamp(3.5rem, 15vw, 9rem);
-  color: transparent;
-  -webkit-text-stroke: 2px var(--terra);
-  user-select: none;
-  transition: -webkit-text-stroke-color 0.3s var(--ease);
-}
-
-.row:hover .num { -webkit-text-stroke-color: var(--ember); }
-
-.content { min-width: 0; }
-
-.servTitle {
-  font-family: var(--font-display), sans-serif;
-  font-weight: 900;
-  text-transform: uppercase;
-  font-size: clamp(1.7rem, 6.5vw, 2.9rem);
-  line-height: 0.92;
-  letter-spacing: -0.015em;
+.titulo {
+  font-size: clamp(1.9rem, 6.5vw, 3.4rem);
   color: var(--bone);
 }
 
-.bajada {
-  margin-top: 0.5rem;
-  font-family: var(--font-display), sans-serif;
-  font-weight: 900;
-  text-transform: uppercase;
-  font-size: clamp(1rem, 4vw, 1.3rem);
-  line-height: 1.05;
+.bajadaServ {
+  margin-top: 0.4rem;
+  font-size: clamp(1rem, 2.6vw, 1.2rem);
   color: var(--ember-dim);
-  max-width: 26ch;
 }
 
-.cuerpo {
-  margin-top: 1rem;
-  font-size: 0.9375rem;
-  line-height: 1.6;
-  color: var(--bone-dim);
-  max-width: 48ch;
-}
+/* ---------------- texto ---------------- */
+.texto { min-width: 0; }
 
-/* Entregables en una sola columna de hilos: se leen como lista, no como
-   tabla; ocupan menos y no compiten con el cuerpo. */
+.cuerpo { color: var(--bone-dim); }
+
 .entregables {
-  margin-top: 1.4rem;
-  border-top: var(--hair);
-  max-width: 34rem;
+  margin-top: 1.1rem;
+  padding-top: 0.7rem;
+  border-top: var(--filete-med);
+}
+
+.entregablesTitulo {
+  color: var(--ember);
+  margin-bottom: 0.4rem;
+}
+
+.entregables ul {
+  columns: 2;
+  column-gap: clamp(1rem, 3vw, 2rem);
+  column-rule: var(--filete);
 }
 
 .entregables li {
-  display: flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.5rem 0.2rem;
-  border-bottom: var(--hair);
+  padding: 0.35rem 0;
+  font-size: 0.95rem;
   color: var(--bone);
+  break-inside: avoid;
 }
-.entregables li span { color: var(--ember); }
 
-@media (min-width: 820px) {
-  .head { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: end; }
+/* Guion de listado, como en el papel. No un ▚ ni un bullet redondo. */
+.entregables li::before {
+  content: "—";
+  color: var(--terra-lit);
+  margin-right: 0.5rem;
+}
 
-  .row { grid-template-columns: clamp(6rem, 14vw, 11rem) minmax(0, 1fr); }
+@media (min-width: 900px) {
+  .entrada {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    column-gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: start;
+  }
 
-  /* Filas pares: el numeral pasa a la derecha. Es la única variación. */
-  .rowInv { grid-template-columns: minmax(0, 1fr) clamp(6rem, 14vw, 11rem); }
-  .rowInv .numCell { order: 2; justify-content: flex-end; }
-  .rowInv .content { order: 1; }
+  /* corondel entre el bloque de títulos y el cuerpo */
+  .texto {
+    padding-left: clamp(1.5rem, 4vw, 3rem);
+    border-left: var(--filete);
+    margin-left: calc(clamp(1.5rem, 4vw, 3rem) * -1);
+  }
 }

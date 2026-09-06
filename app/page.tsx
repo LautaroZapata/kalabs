@@ -1,8 +1,8 @@
-import Indice from "@/components/Indice";
+import Portada from "@/components/Portada";
 import Proyectos from "@/components/Proyectos";
 import Servicios from "@/components/Servicios";
 import Contacto from "@/components/Contacto";
-import Hud from "@/components/Hud";
+import Folio from "@/components/Folio";
 import { PROYECTOS, SERVICIOS, SITE } from "@/lib/content";
 
 /* Datos estructurados: que Google entienda que esto es un estudio de Montevideo. */
@@ -41,12 +41,12 @@ export default function Page() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <main id="contenido">
-        <Indice />
+        <Portada />
         <Proyectos />
         <Servicios />
         <Contacto />
       </main>
-      <Hud />
+      <Folio />
     </>
   );
 }

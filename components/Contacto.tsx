@@ -1,137 +1,105 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import Greca from "./Greca";
+import Cabezal from "./Cabezal";
 import Formulario from "./Formulario";
-import Reveal from "./mov/Reveal";
 import { entrada } from "./mov/entrada";
 import { ENLACES, EQUIPO, SITE, UI } from "@/lib/content";
 import s from "./Contacto.module.css";
 
-const PALABRAS = UI.marquesina;
-
-function Track({ ariaHidden }: { ariaHidden?: boolean }) {
-  return (
-    <div className={s.track} aria-hidden={ariaHidden ? "true" : undefined}>
-      {PALABRAS.map((p) => (
-        <span key={p}>
-          {p} <span aria-hidden="true">▚</span>
-        </span>
-      ))}
-    </div>
-  );
-}
-
 /**
- * Cierre del sitio. Antes eran dos secciones (Taller y Señal): quién trabaja
- * acá y cómo escribirnos. Van juntas porque se leen juntas — se contrata a
- * las personas, no al formulario.
+ * Contratapa. Cierra el impreso: la firma del estudio, quiénes lo hacen y
+ * cómo escribirnos.
+ *
+ * Antes abría con una marquesina infinita —el recurso más repetido del
+ * género— y el equipo era una sección aparte con placas giradas y superpuestas.
+ * Acá el equipo son dos fichas de autor, como las que van al pie de una nota.
  */
 export default function Contacto() {
   const quieto = useReducedMotion();
   const anio = new Date().getFullYear();
 
   return (
-    <section id="contacto" className={s.wrap} aria-labelledby="contacto-t">
-      <h2 id="contacto-t" className="sr">
-        03. Contacto
-      </h2>
+    <section id="contacto" className={s.pagina} aria-labelledby="contacto-t">
+      <Cabezal
+        id="contacto-t"
+        folio="4"
+        antetitulo={UI.contactoAntetitulo}
+        titulo="Contacto"
+        bajada={UI.contactoCierre.join(" ")}
+      />
 
-      {/* marquesina: dos copias idénticas, la segunda oculta al lector de pantalla */}
-      <div className={s.marquee}>
-        <Track />
-        <Track ariaHidden />
-      </div>
-
-      {/* ---------------- equipo ---------------- */}
-      <div className={s.equipo}>
-        <Greca
-          id="greca-equipo-fondo"
-          variant="trama"
-          line="var(--ink-3)"
-          accent="var(--ink)"
-          height="100%"
-          scale={3}
-          className={s.fondo}
-        />
-
-        <p className={`${s.kicker} ${s.equipoKicker} mono`}>{UI.equipoKicker}</p>
-
-        <div className={s.mesa}>
-          <motion.blockquote className={s.cita} {...entrada({ quieto, y: 30 })}>
-            <p className={s.citaTexto}>{UI.cita}</p>
-            <p className={`${s.citaPie} monoSm`}>
-              Kalabs — {SITE.ciudad}, {SITE.pais}
-            </p>
-          </motion.blockquote>
-
-          {EQUIPO.map((p, i) => (
-            <motion.article
-              key={p.nombre}
-              className={s.persona}
-              {...entrada({ quieto, y: 30, delay: (i + 1) * 0.1 })}
-            >
-              <div className={s.personaTop}>
-                <h3 className={s.nombre}>{p.nombre}</h3>
-                <span
-                  className={`${s.chip} ${p.estado === "confirmado" ? s.chipOk : s.chipPend} monoSm`}
-                >
-                  <span aria-hidden="true">{p.estado === "confirmado" ? "●" : "◐"}</span>
-                  {p.tag}
-                  {p.estado === "pendiente" ? " · a confirmar" : ""}
-                </span>
-              </div>
-              <p className={`${s.rol} monoSm`}>{p.rol}</p>
-              <p className={s.bio}>{p.bio}</p>
-            </motion.article>
-          ))}
-        </div>
-      </div>
-
-      {/* ---------------- contacto ---------------- */}
-      <div className={s.body}>
-        <Reveal className={s.col}>
-          <p className={`${s.kicker} mono`}>{UI.contactoKicker}</p>
+      <div className={s.plana}>
+        {/* ---------------- columna de contacto ---------------- */}
+        <motion.div className={s.columna} {...entrada({ quieto, y: 24 })}>
           <a className={s.mailto} href={`mailto:${SITE.email}`}>
-            <span className={s.mailtoA}>{SITE.email.split("@")[0]}@</span>
-            <span className={s.mailtoB}>{SITE.email.split("@")[1]}</span>
+            <span className={`${s.mailtoTitular} titular`}>{SITE.email}</span>
           </a>
 
           <ul className={s.enlaces}>
             {ENLACES.map((e) => (
               <li key={e.label}>
                 <a
-                  className={`${s.enlace} mono`}
+                  className={s.enlace}
                   href={e.href}
                   {...(e.href.startsWith("http")
                     ? { target: "_blank", rel: "noreferrer noopener" }
                     : {})}
                 >
-                  <span>{e.label}</span>
-                  <span className={s.enlaceVal}>
-                    {e.valor} <span aria-hidden="true">↗</span>
-                  </span>
+                  <span className="dato dato--caja">{e.label}</span>
+                  <span className={s.enlaceVal}>{e.valor}</span>
                 </a>
               </li>
             ))}
           </ul>
 
-          <p className={s.cierre}>
-            {UI.contactoCierre[0]} <b>{UI.contactoCierre[1]}</b>
-          </p>
-        </Reveal>
+          {/* La cita cierra la columna: es la única mancha de color pleno. */}
+          <blockquote className={s.cita}>
+            <p className={`${s.citaTexto} titular titular--sec`}>{UI.cita}</p>
+            <footer className={`${s.citaPie} dato dato--caja`}>
+              {SITE.nombre} — {SITE.ciudad}, {SITE.pais}
+            </footer>
+          </blockquote>
+        </motion.div>
 
-        <Reveal delay={0.12}>
+        {/* ---------------- formulario ---------------- */}
+        <motion.div className={s.columnaForm} {...entrada({ quieto, y: 24, delay: 0.1 })}>
           <Formulario />
-        </Reveal>
+        </motion.div>
       </div>
 
-      <footer className={`${s.pie} monoSm`}>
+      {/* ---------------- fichas de autor ---------------- */}
+      <div className={s.autores}>
+        <p className={`${s.autoresTitulo} dato dato--caja`}>{UI.equipoAntetitulo}</p>
+
+        <div className={s.autoresGrid}>
+          {EQUIPO.map((p, i) => (
+            <motion.article
+              key={p.nombre}
+              className={s.autor}
+              {...entrada({ quieto, y: 20, delay: i * 0.08 })}
+            >
+              <h3 className={`${s.autorNombre} titular titular--sec`}>{p.nombre}</h3>
+              <p className={`${s.autorRol} dato dato--caja`}>
+                {p.rol}
+                <span className={p.estado === "confirmado" ? s.marcaOk : s.marcaPend}>
+                  {p.tag}
+                  {p.estado === "pendiente" ? " · a confirmar" : ""}
+                </span>
+              </p>
+              <p className={`${s.autorBio} parrafo`}>{p.bio}</p>
+            </motion.article>
+          ))}
+        </div>
+      </div>
+
+      <footer className={`${s.colofon} dato dato--caja`}>
         <p>
-          © {anio} Kalabs — {SITE.ciudad}, {SITE.pais}
+          © {anio} {SITE.nombre} — {SITE.ciudad}, {SITE.pais}
         </p>
         <p>
-          Hecho con Next.js · <a href="#indice">Volver arriba ↑</a>
+          Compuesto en Fraunces, Newsreader y Martian Mono ·{" "}
+          <a href="#portada">Volver a la portada ↑</a>
         </p>
       </footer>
     </section>

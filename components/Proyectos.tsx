@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
+import Cabezal from "./Cabezal";
 import Maqueta from "./Maqueta";
 import { entrada } from "./mov/entrada";
 import { PROYECTOS, UI } from "@/lib/content";
@@ -10,34 +11,38 @@ export default function Proyectos() {
   const quieto = useReducedMotion();
 
   return (
-    <section id="proyectos" className={s.wrap} aria-labelledby="proyectos-t">
-      <div className={s.head}>
-        <h2 id="proyectos-t" className={s.title}>
-          Proyectos
-        </h2>
-        <p className={`${s.kicker} mono`}>{UI.proyectosKicker}</p>
-      </div>
+    <section id="proyectos" className={s.pagina} aria-labelledby="proyectos-t">
+      <Cabezal
+        id="proyectos-t"
+        folio="2"
+        antetitulo={UI.proyectosAntetitulo}
+        titulo="Proyectos"
+        bajada={UI.proyectosBajada}
+      />
 
-      {/* Grilla vertical: los tres proyectos se ven de una, sin arrastrar.
-          El primero ocupa el ancho completo; es el que más tiene para contar. */}
-      <div className={s.grid}>
+      {/* Jerarquía de plana: una nota principal a todo el ancho y dos
+          secundarias abajo. Es cómo se arma una página, no una grilla de
+          tarjetas iguales. */}
+      <div className={s.plana}>
         {PROYECTOS.map((p, i) => (
           <motion.article
             key={p.num}
-            className={`${s.card} ${i === 0 ? s.cardAncha : ""}`}
-            {...entrada({ quieto, y: 30, delay: i * 0.08 })}
+            className={`${s.nota} ${i === 0 ? s.notaPrincipal : ""}`}
+            {...entrada({ quieto, y: 24, delay: i * 0.08 })}
           >
             <Maqueta proyecto={p} />
 
             <div className={s.cuerpo}>
-              <span className={`${s.num} display`} aria-hidden="true">
-                {p.num}
-              </span>
+              {/* Línea de sumario: el lugar del proyecto en la lista. En el
+                  papel es la línea de sección, no un numeral gigante. */}
+              <p className={`${s.slug} dato dato--caja`}>
+                <span>
+                  {p.num} / {String(PROYECTOS.length).padStart(2, "0")}
+                </span>
+                <span className={s.slugEstado}>{p.estado}</span>
+              </p>
 
-              <h3 className={s.nombre}>
-                {/* El enlace envuelve al título y se estira sobre la ficha
-                    entera con ::after: así el destino queda claro para un
-                    lector de pantalla y toda la tarjeta sigue siendo clicable. */}
+              <h3 className={`${s.titulo} titular`}>
                 <a
                   className={s.enlace}
                   href={p.href}
@@ -47,36 +52,37 @@ export default function Proyectos() {
                   {p.nombre}
                 </a>
               </h3>
-              {p.nombreLargo && <p className={`${s.largo} monoSm`}>{p.nombreLargo}</p>}
-              <p className={s.pitch}>{p.pitch}</p>
-              <p className={s.detalle}>{p.detalle}</p>
 
-              <div className={s.meta}>
-                <span className={`${s.estado} monoSm`}>
-                  <span aria-hidden="true">●</span> {p.estado}
+              {p.nombreLargo && <p className={`${s.largo} bajada`}>{p.nombreLargo}</p>}
+
+              <p className={`${s.pitch} titular titular--sec`}>{p.pitch}</p>
+              <p className={`${s.detalle} parrafo`}>{p.detalle}</p>
+
+              <p className={`${s.pieNota} dato dato--caja`}>
+                <span className={s.sitio}>{p.sitio}</span>
+                <span className={s.visitar} aria-hidden="true">
+                  {UI.proyectosVer}
+                  <span className={s.flecha}>→</span>
                 </span>
-                <span className={`${s.visitar} mono`} aria-hidden="true">
-                  {UI.proyectosVer} <span className={s.flecha}>↗</span>
-                </span>
-              </div>
+              </p>
             </div>
           </motion.article>
         ))}
 
-        {/* La grilla no termina en el vacío: cierra con la invitación. */}
+        {/* Aviso clasificado: el espacio que queda libre en la plana. */}
         <motion.a
           href="#contacto"
-          className={s.cierre}
-          {...entrada({ quieto, y: 30, delay: 0.24 })}
+          className={s.aviso}
+          {...entrada({ quieto, y: 24, delay: 0.24 })}
         >
-          <p className="monoSm" style={{ color: "var(--ember-dim)" }}>
+          <span className={`${s.avisoKicker} dato dato--caja`}>
             {UI.proyectosCierreKicker}
-          </p>
-          <h3 className={s.cierreTitulo}>{UI.proyectosCierreTitulo}</h3>
-          <p className={s.cierreNota}>{UI.proyectosCierreNota}</p>
-          <p className={`${s.cierreAccion} mono`}>
+          </span>
+          <span className={`${s.avisoTitulo} titular`}>{UI.proyectosCierreTitulo}</span>
+          <span className={`${s.avisoNota} parrafo`}>{UI.proyectosCierreNota}</span>
+          <span className={`${s.avisoAccion} dato dato--caja`}>
             {UI.proyectosCierreAccion} <span aria-hidden="true">→</span>
-          </p>
+          </span>
         </motion.a>
       </div>
     </section>

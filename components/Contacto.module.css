@@ -1,192 +1,43 @@
-/* 03 — CONTACTO (equipo + contacto)
-   Cierre del sitio en un solo bloque. La marquesina hace de junta, después
-   viene quién trabaja acá y al final cómo escribirnos.
+/* CONTACTO — p. 4
+   Contratapa. Dos columnas separadas por corondel: a la izquierda la
+   dirección y la cita, a la derecha el formulario. Abajo, las fichas de
+   autor y el colofón —esa nota al pie donde una imprenta declara con qué
+   tipografías se compuso el libro. */
 
-   El equipo ya no son placas giradas y superpuestas: la cita ocupa el ancho
-   completo como declaración y las dos personas se reparten la fila. Se lee
-   igual de duro con la mitad de elementos. */
-
-.wrap {
+.pagina {
   position: relative;
   background: var(--ink);
-  overflow: hidden;
 }
 
-/* ---------------- marquesina ---------------- */
-.marquee {
-  position: relative;
-  display: flex;
-  overflow: hidden;
-  border-block: var(--rule);
-  background: var(--ember);
-  color: var(--ink);
-  padding-block: 0.5rem;
-  user-select: none;
-}
-
-.track {
-  display: flex;
-  flex: none;
-  gap: 1.5rem;
-  padding-right: 1.5rem;
-  align-items: center;
-  white-space: nowrap;
-  animation: slide 26s linear infinite;
-  font-family: var(--font-display), sans-serif;
-  font-weight: 900;
-  text-transform: uppercase;
-  font-size: clamp(1.1rem, 4vw, 2rem);
-  line-height: 1;
-  letter-spacing: 0.01em;
-}
-
-.marquee:hover .track { animation-play-state: paused; }
-
-@media (prefers-reduced-motion: reduce) {
-  .track { animation: none; }
-  .marquee { overflow-x: auto; }
-}
-
-/* ---------------- equipo ---------------- */
-.equipo {
-  position: relative;
-  background: var(--ink-2);
-  border-bottom: var(--rule);
-  padding: clamp(2.5rem, 7vw, 4.5rem) var(--edge);
-}
-
-/* trama de fondo, muy apagada, que sostiene el bloque */
-.fondo {
-  position: absolute;
-  inset: 0;
-  opacity: 0.28;
-  pointer-events: none;
-}
-
-.equipoKicker { position: relative; z-index: 2; }
-
-.mesa {
-  position: relative;
-  z-index: 2;
+.plana {
   display: grid;
-  gap: clamp(0.75rem, 2vw, 1.25rem);
+  gap: clamp(1.5rem, 4vw, 2.5rem);
+  padding: clamp(1.5rem, 4vw, 2.5rem) var(--edge);
+  border-top: var(--filete-med);
 }
 
-/* La cita va sobre plano de bordo: es lo único a color pleno del bloque. */
-.cita {
-  background: var(--terra);
-  color: var(--bone);
-  padding: clamp(1.5rem, 4vw, 2.5rem);
-}
-
-.citaTexto {
-  font-family: var(--font-display), sans-serif;
-  font-weight: 900;
-  text-transform: uppercase;
-  font-size: clamp(1.2rem, 5vw, 2.2rem);
-  line-height: 0.98;
-  letter-spacing: -0.01em;
-  max-width: 26ch;
-}
-
-.citaPie {
-  margin-top: 1rem;
-  border-top: 2px solid rgba(239, 231, 214, 0.4);
-  padding-top: 0.5rem;
-  font-weight: 700;
-}
-
-.persona {
-  background: var(--ink);
-  border: var(--rule);
-  padding: clamp(1.1rem, 3.5vw, 1.75rem);
-}
-
-.personaTop {
+.columna {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.5rem;
-  border-bottom: var(--hair);
-  padding-bottom: 0.6rem;
-  margin-bottom: 0.85rem;
+  flex-direction: column;
+  min-width: 0;
 }
 
-.nombre {
-  font-family: var(--font-display), sans-serif;
-  font-weight: 900;
-  text-transform: uppercase;
-  font-size: clamp(1.3rem, 5vw, 1.9rem);
-  line-height: 0.9;
-  color: var(--bone);
-}
+/* ---------------- dirección ---------------- */
+.mailto { display: block; }
 
-/* El estado se dice con palabras y con un signo, no sólo con el color. */
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.25rem 0.5rem;
-  border: 1px solid currentColor;
-}
-.chipOk { color: var(--ember); }
-.chipPend { color: var(--bone-dim); }
-
-.rol { color: var(--ember); margin-bottom: 0.5rem; }
-
-.bio {
-  font-size: 0.9375rem;
-  line-height: 1.6;
-  color: var(--bone-dim);
-  max-width: 46ch;
-}
-
-/* ---------------- cuerpo del contacto ---------------- */
-.body {
-  display: grid;
-  gap: clamp(1.5rem, 5vw, 3rem);
-  padding: clamp(2.5rem, 7vw, 4.5rem) var(--edge) clamp(2rem, 5vw, 3rem);
-}
-
-.kicker { color: var(--bone-dim); margin-bottom: 0.75rem; }
-
-/* El mailto se corta donde queremos, no donde cae: "hola@" arriba en
-   contorno y el dominio abajo, macizo y a tamaño de titular. */
-.mailto {
+.mailtoTitular {
   display: block;
-  font-family: var(--font-display), sans-serif;
-  font-weight: 900;
-  text-transform: uppercase;
-  line-height: 0.9;
-  letter-spacing: -0.03em;
+  font-size: clamp(1.5rem, 6.5vw, 3.6rem);
   color: var(--bone);
+  overflow-wrap: anywhere;
   transition: color 0.2s var(--ease);
 }
-
-.mailtoA {
-  display: block;
-  font-size: clamp(1.2rem, 4.5vw, 2.4rem);
-  color: transparent;
-  -webkit-text-stroke: clamp(1px, 0.2vw, 2px) var(--ember);
-  padding-left: 0.1em;
-}
-
-.mailtoB {
-  display: block;
-  font-size: clamp(1.9rem, 9.5vw, 5rem);
-  margin-top: -0.04em;
-  white-space: nowrap;
-}
-
-.mailto:hover .mailtoB,
-.mailto:focus-visible .mailtoB { color: var(--ember); }
-.mailto:hover .mailtoA,
-.mailto:focus-visible .mailtoA { -webkit-text-stroke-color: var(--bone); }
+.mailto:hover .mailtoTitular,
+.mailto:focus-visible .mailtoTitular { color: var(--ember); }
 
 .enlaces {
-  margin-top: clamp(1.5rem, 4vw, 2.25rem);
-  border-top: var(--rule);
+  margin-top: clamp(1.25rem, 3vw, 1.75rem);
+  border-top: var(--filete-med);
 }
 
 .enlace {
@@ -194,63 +45,68 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.7rem 0.2rem;
-  border-bottom: var(--hair);
+  padding: 0.7rem 0;
+  border-bottom: var(--filete);
   color: var(--bone-dim);
-  transition: background 0.18s var(--ease), padding-left 0.18s var(--ease);
+  transition: padding-left 0.2s var(--ease), color 0.2s var(--ease);
 }
 .enlace:hover,
 .enlace:focus-visible {
-  background: var(--ink-2);
+  padding-left: 0.5rem;
   color: var(--bone);
-  padding-left: 0.7rem;
-}
-.enlaceVal { color: var(--ember); }
-
-/* Cierre tipográfico: llena la columna con una frase, no con relleno. */
-.cierre {
-  margin-top: clamp(1.5rem, 4vw, 2.5rem);
-  font-family: var(--font-display), sans-serif;
-  font-weight: 900;
-  text-transform: uppercase;
-  font-size: clamp(1.1rem, 4vw, 2.1rem);
-  line-height: 0.95;
-  letter-spacing: -0.01em;
-  max-width: 18ch;
-  color: transparent;
-  -webkit-text-stroke: clamp(1px, 0.15vw, 1.5px) var(--ember-dim);
-}
-.cierre b {
-  font-weight: 400;
-  color: var(--bone);
-  -webkit-text-stroke: 0;
 }
 
-/* ---------------- ficha del formulario ---------------- */
+.enlaceVal {
+  font-family: var(--font-body), Georgia, serif;
+  font-style: italic;
+  color: var(--ember);
+  overflow-wrap: anywhere;
+}
+
+/* ---------------- cita ---------------- */
+.cita {
+  margin-top: auto;
+  padding-top: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.citaTexto {
+  background: var(--terra);
+  color: var(--bone);
+  padding: clamp(1rem, 3vw, 1.5rem);
+  font-size: clamp(1.15rem, 3.4vw, 1.7rem);
+  max-width: 26ch;
+}
+
+.citaPie {
+  margin-top: 0.5rem;
+  color: var(--bone-dim);
+}
+
+/* ---------------- formulario ---------------- */
+.columnaForm { min-width: 0; }
+
 .ficha {
+  border: var(--filete-med);
   background: var(--ink-2);
-  border: var(--rule);
   padding: clamp(1.1rem, 3.5vw, 1.75rem);
-  align-self: start;
 }
 
 .fichaTop {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
   gap: 0.75rem;
-  border-bottom: var(--hair);
-  padding-bottom: 0.7rem;
+  border-bottom: var(--filete);
+  padding-bottom: 0.6rem;
   margin-bottom: 1rem;
-  color: var(--bone-dim);
+  color: var(--ember);
 }
-.fichaTop b { color: var(--ember); font-weight: 700; }
 
-.campo { display: block; margin-bottom: 1rem; }
+.campo { display: block; margin-bottom: 0.9rem; }
 
 .label {
   display: block;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.3rem;
   color: var(--bone-dim);
 }
 
@@ -259,11 +115,11 @@
 .area {
   width: 100%;
   background: var(--ink);
-  border: var(--hair);
+  border: var(--filete);
   border-bottom: 2px solid var(--terra);
-  padding: 0.6rem 0.7rem;
+  padding: 0.55rem 0.7rem;
   color: var(--bone);
-  font-size: 0.9375rem;
+  font-size: 1rem;
   border-radius: 0;
   transition: border-color 0.18s var(--ease);
 }
@@ -273,9 +129,9 @@
 .area:focus { border-bottom-color: var(--ember); }
 
 .input::placeholder,
-.area::placeholder { color: #6f6a61; }
+.area::placeholder { color: #6f6a61; font-style: italic; }
 
-.area { resize: vertical; min-height: 6.5rem; }
+.area { resize: vertical; min-height: 6rem; }
 
 .select { appearance: none; cursor: pointer; }
 
@@ -284,48 +140,85 @@
   background: var(--ember);
   color: var(--ink);
   border: 2px solid var(--ember);
-  padding: 0.8rem 1rem;
-  font-family: var(--font-display), sans-serif;
+  padding: 0.7rem 1rem;
+  font-family: var(--font-display), Georgia, serif;
   font-weight: 900;
-  text-transform: uppercase;
-  font-size: 1.15rem;
-  letter-spacing: 0.02em;
+  font-variation-settings: "opsz" 72, "SOFT" 100, "WONK" 1;
+  font-size: 1.25rem;
   transition: background 0.18s var(--ease), color 0.18s var(--ease);
 }
 .enviar:hover,
 .enviar:focus-visible { background: transparent; color: var(--ember); }
 
 .aviso {
-  margin-top: 0.7rem;
+  margin-top: 0.6rem;
   color: var(--bone-dim);
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
-/* ---------------- pie ---------------- */
-.pie {
-  border-top: var(--rule);
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.6rem 1.5rem;
-  padding: 1rem var(--edge);
-  color: var(--bone-dim);
+/* ---------------- fichas de autor ---------------- */
+.autores {
+  padding: clamp(1.25rem, 3vw, 2rem) var(--edge);
+  border-top: var(--filete-med);
   background: var(--ink-2);
 }
-.pie a { border-bottom: 1px solid var(--terra); }
-.pie a:hover { color: var(--ember); border-bottom-color: var(--ember); }
 
-@media (min-width: 760px) {
-  .mesa { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .cita { grid-column: 1 / -1; }
+.autoresTitulo {
+  color: var(--ember);
+  padding-bottom: 0.4rem;
+  border-bottom: var(--filete);
+  margin-bottom: 1rem;
 }
 
+.autoresGrid { display: grid; gap: clamp(1rem, 3vw, 2rem); }
+
+.autor { min-width: 0; }
+
+.autorNombre { font-size: clamp(1.3rem, 4vw, 1.8rem); color: var(--bone); }
+
+.autorRol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 0.75rem;
+  margin: 0.4rem 0 0.6rem;
+  color: var(--bone-dim);
+}
+
+/* El estado se dice con la palabra, no sólo con el color. */
+.marcaOk { color: var(--ember); }
+.marcaPend { color: var(--terra-lit); }
+
+.autorBio { color: var(--bone-dim); font-size: 0.98rem; }
+
+/* ---------------- colofón ---------------- */
+.colofon {
+  border-top: var(--filete-med);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding: 0.9rem var(--edge);
+  color: var(--bone-dim);
+}
+.colofon a { color: var(--ember); border-bottom: 1px solid currentColor; }
+.colofon a:hover { color: var(--bone); }
+
 @media (min-width: 900px) {
-  .body {
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-    align-items: stretch;
+  .plana {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   }
-  .col { display: flex; flex-direction: column; }
-  .cierre { margin-top: auto; padding-top: clamp(2rem, 5vw, 3.5rem); }
+  /* corondel entre la dirección y el formulario */
+  .columnaForm {
+    padding-left: clamp(1.5rem, 4vw, 2.5rem);
+    border-left: var(--filete);
+    margin-left: calc(clamp(1.5rem, 4vw, 2.5rem) * -1);
+  }
+
+  .autoresGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .autor:first-child {
+    padding-right: clamp(1rem, 3vw, 2rem);
+    border-right: var(--filete);
+  }
 }

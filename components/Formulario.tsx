@@ -32,15 +32,15 @@ export default function Formulario() {
 
   return (
     <form className={s.ficha} onSubmit={enviar}>
-      <p className={`${s.fichaTop} monoSm`}>
+      <p className={`${s.fichaTop} dato dato--caja`}>
         <span>
-          <b>▚</b> {UI.form.titulo}
+          <b aria-hidden="true">¶</b> {UI.form.titulo}
         </span>
         <span>{UI.form.respuesta}</span>
       </p>
 
       <label className={s.campo}>
-        <span className={`${s.label} monoSm`}>{UI.form.nombre}</span>
+        <span className={`${s.label} dato dato--caja`}>{UI.form.nombre}</span>
         <input
           className={s.input}
           name="nombre"
@@ -53,7 +53,7 @@ export default function Formulario() {
       </label>
 
       <label className={s.campo}>
-        <span className={`${s.label} monoSm`}>{UI.form.negocio}</span>
+        <span className={`${s.label} dato dato--caja`}>{UI.form.negocio}</span>
         <input
           className={s.input}
           name="negocio"
@@ -65,7 +65,7 @@ export default function Formulario() {
       </label>
 
       <label className={s.campo}>
-        <span className={`${s.label} monoSm`}>{UI.form.servicio}</span>
+        <span className={`${s.label} dato dato--caja`}>{UI.form.servicio}</span>
         <select
           className={s.select}
           name="necesito"
@@ -82,7 +82,7 @@ export default function Formulario() {
       </label>
 
       <label className={s.campo}>
-        <span className={`${s.label} monoSm`}>{UI.form.mensaje}</span>
+        <span className={`${s.label} dato dato--caja`}>{UI.form.mensaje}</span>
         <textarea
           className={s.area}
           name="mensaje"
@@ -97,7 +97,7 @@ export default function Formulario() {
         {UI.form.enviar}
       </button>
 
-      <p className={`${s.aviso} monoSm`}>
+      <p className={`${s.aviso} dato dato--caja`}>
         {UI.form.aviso} {SITE.email}.
       </p>
     </form>

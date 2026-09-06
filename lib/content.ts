@@ -9,22 +9,32 @@ export const SITE = {
   url: "https://kalabs.uy",
 };
 
-export const MANIFIESTO = [
-  "Estudio digital",
-  "de Montevideo.",
-  "Trabajamos con negocios chicos",
-  "que no quieren parecerse a nadie.",
-];
+/** La portada: cabecera, titular de tapa y entrada con capitular. */
+export const PORTADA = {
+  cintillo: ["Montevideo, Uruguay", "Est. 2025", "Estudio digital"],
+  titular: "Trabajamos con negocios chicos que no quieren parecerse a nadie.",
+  bajada: "Desarrollo web, automatizaciones y sistemas a medida.",
+  entrada:
+    "Hacemos sitios, automatizaciones y sistemas a medida para negocios de Montevideo. Cosas que salen a producción y quedan andando, no demostraciones. Abajo están los tres que están en la calle hoy, lo que sabemos hacer y cómo escribirnos.",
+  recuadro: {
+    titulo: "Cómo trabajamos",
+    puntos: [
+      "La primera conversación no se cobra.",
+      "Presupuesto cerrado antes de empezar.",
+      "Respondemos en 24 horas.",
+    ],
+  },
+};
 
-export type Indice = { id: string; num: string; label: string; nota: string };
+export type Indice = { id: string; folio: string; label: string; nota: string };
 
-/* Cuatro secciones, nombres directos: el visitante no tiene que descifrar
-   una metáfora para saber qué hay en cada una. */
+/* Las secciones son páginas del diario. El folio (p. 2) es una convención de
+   imprenta, no la numeración 00/01/02 de siempre. */
 export const INDICE: Indice[] = [
-  { id: "indice", num: "00", label: "Kalabs", nota: "Estudio digital" },
-  { id: "proyectos", num: "01", label: "Proyectos", nota: "En producción" },
-  { id: "servicios", num: "02", label: "Servicios", nota: "Qué hacemos" },
-  { id: "contacto", num: "03", label: "Contacto", nota: "Equipo y contacto" },
+  { id: "portada", folio: "1", label: "Portada", nota: "Kalabs" },
+  { id: "proyectos", folio: "2", label: "Proyectos", nota: "En producción" },
+  { id: "servicios", folio: "3", label: "Servicios", nota: "Qué hacemos" },
+  { id: "contacto", folio: "4", label: "Contacto", nota: "Equipo y contacto" },
 ];
 
 export type Proyecto = {
@@ -151,29 +161,26 @@ export const ENLACES = [
 
 /** Microcopy de interfaz. Todo el texto del sitio vive en este archivo. */
 export const UI = {
-  /* 01 — proyectos */
-  proyectosKicker: "01 — En producción",
-  proyectosVer: "Ver sitio",
-  proyectosCierreKicker: "Siguiente",
+  /* p. 2 — proyectos */
+  proyectosAntetitulo: "En producción",
+  proyectosBajada: "Tres productos que hoy usan personas reales, todos los días.",
+  proyectosVer: "Ver el sitio",
+  proyectosCierreKicker: "Espacio disponible",
   proyectosCierreTitulo: "Tu proyecto acá",
-  proyectosCierreNota: "Si tenés algo entre manos, escribinos. La primera charla no se cobra.",
+  proyectosCierreNota: "Si tenés algo entre manos, escribinos. La primera conversación no se cobra.",
   proyectosCierreAccion: "Escribinos",
 
-  /* 02 — servicios */
-  serviciosKicker: "02 — Servicios",
-  serviciosLead:
+  /* p. 3 — servicios */
+  serviciosAntetitulo: "Qué hacemos",
+  serviciosBajada:
     "Tres formas de que un negocio chico deje de perder tiempo en lo que puede hacer una máquina.",
+  serviciosEntregables: "Incluye",
 
-  /* 03 — contacto (incluye equipo) */
-  equipoKicker: "Equipo",
+  /* p. 4 — contacto (incluye equipo) */
+  equipoAntetitulo: "Quiénes",
   cita: "Un negocio chico no necesita parecerse a los demás. Necesita que lo recuerden.",
-  contactoKicker: "03 — Contacto",
+  contactoAntetitulo: "Escribinos",
   contactoCierre: ["Contanos qué necesitás.", "Respondemos en 24 horas."],
-
-  /* varios */
-  chapa: "Est. 2025",
-  chapaNota: "Montevideo, Uruguay",
-  marquesina: ["Kalabs", "Estudio digital", "Montevideo", "Uruguay", "Hablemos"],
   form: {
     titulo: "Formulario de contacto",
     respuesta: "Respuesta en 24 horas",
