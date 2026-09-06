@@ -34,9 +34,13 @@ convención de imprenta con siglos encima.
   el aviso clasificado, que sí es publicidad.
 - **Los servicios son un listado con ladillo**, no tres tarjetas en fila:
   títulos al margen, texto al cuerpo, entregables a dos columnas con corondel.
-- **Cada proyecto se muestra, no se cuenta.** La nota abre con una maqueta
-  animada del producto y enlaza al sitio en vivo. No lleva stack: al cliente
-  que la mira no le dice nada que haya Supabase abajo.
+- **Cada proyecto se muestra, no se cuenta.** La nota abre con la **captura
+  real** del sitio en vivo y enlaza ahí. Antes había maquetas dibujadas en
+  SVG: servían de sustituto, pero cualquiera nota que no son el producto.
+  Encima de la captura va una viñeta animada que pone en movimiento lo que el
+  proyecto hace —una grúa que cruza, un mes que se llena, un pistón que
+  trabaja—. Ninguna nota lleva stack: al cliente que la mira no le dice nada
+  que haya Supabase abajo.
 - **El folio al pie reemplaza al riel de estado.** El reloj en vivo y la barra
   de progreso eran decoración retrofuturista que no le servía a nadie; el
   folio dice en qué página estás y te lleva a otra, que es lo que un lector
@@ -71,23 +75,44 @@ color.
 
 ### Tipografía
 
-Tres familias, lógica de imprenta. Todas de Google Fonts, cargadas con
-`next/font`.
+**Dos familias, no más.** Una redonda y una cursiva; cada rol sabe a cuál
+pertenece. Las dos de Google Fonts, cargadas con `next/font`.
 
-| Rol | Familia | Por qué |
+| Familia | Rol | Por qué |
 | --- | --- | --- |
-| Titulares | **Fraunces** | Variable, con dos ejes que casi ninguna otra tiene: `SOFT` redondea los remates y `WONK` mete las formas torcidas de la itálica dentro de la redonda. Con los dos al máximo la letra deja de verse calculada. |
-| Cuerpo | **Newsreader** | Serif editorial, pensada para párrafos largos. El serif es lo que da la sensación de que atrás hay alguien. |
-| Datos y folios | **Martian Mono** | Ancha y dura de fábrica. No es la mono de programador de siempre. |
+| **Fraunces** | Titulares, siempre vertical | Variable, con dos ejes que casi ninguna otra tiene: `SOFT` redondea los remates y `WONK` mete las formas torcidas de la itálica dentro de la redonda. Con los dos al máximo la letra deja de verse calculada. |
+| **Newsreader** | Cuerpo, bajadas, datos y folios | Serif editorial, pensada para párrafos largos. El serif es lo que da la sensación de que atrás hay alguien. |
 
-Dos reglas que sostienen el sistema:
+Las reglas que sostienen el sistema:
 
+- **Una sola cursiva: la itálica de Newsreader.** Fraunces nunca va inclinada
+  —su inquietud ya viene del eje `WONK`— y la itálica no se usa para enfatizar
+  dentro de un párrafo: marca un solo rol, el de la voz que explica (bajadas,
+  valores, pies).
 - **Los titulares van en caja baja.** La versalita 900 con tracking cerrado es
   el titular que escribe todo el mundo.
-- **La mono va con tracking negativo.** Martian Mono ya es ancha; sumarle
-  `letter-spacing: 0.14em` la convertiría en la etiqueta de siempre.
+- **Los datos van en versalitas, no en monoespaciada.** Una tercera familia
+  para escribir "p. 2" era una voz de más.
 
 La capitular de la nota de tapa es de tres líneas, como manda el oficio.
+
+### Rugosidad
+
+Los titulares llevan un filtro SVG que les come el borde por desplazamiento de
+ruido (`components/Rugosidad.tsx`): el efecto es el de una letra entintada
+sobre papel poroso, y el trazo pierde el filo perfecto que delata a la
+pantalla. Va en dos intensidades —`.rugoso` para los titulares grandes,
+`.rugoso--leve` para los de cuerpo medio— porque el mismo desplazamiento que a
+10 rem se lee como textura, a 2 rem empasta la contraforma.
+
+Se aplica sobre texto vivo: sigue siendo seleccionable, indexable y legible por
+un lector de pantalla, y si el navegador no soporta el filtro la letra se ve
+nítida y no se pierde nada.
+
+> **Cuidado al aplicarlo.** `filter` convierte al elemento en bloque contenedor
+> de sus descendientes absolutos. Si se pone en un titular que adentro tiene el
+> `::after` estirado sobre una ficha, ese overlay se recorta al titular y la
+> tarjeta deja de ser clicable entera. En esos casos va en un `<span>` interno.
 
 ## Accesibilidad
 
@@ -127,15 +152,15 @@ La capitular de la nota de tapa es de tres líneas, como manda el oficio.
 - **Un componente por sección, con su CSS Module al lado.** `Indice`,
   `Proyectos`, `Servicios` y `Contacto`; `Formulario` toma sus estilos de
   `Contacto.module.css` porque vive dentro de esa ficha.
-- **Las maquetas de los proyectos son SVG generado, no capturas.** Viven en
-  `components/Maqueta.tsx`, una por proyecto (`flota`, `gastos`, `mesa`), y
-  toman el color de los tokens. **Si aparecen capturas reales**, alcanza con
-  dejar el archivo en `public/proyectos/` y completar `imagen` en el proyecto
-  correspondiente de `lib/content.ts`: el componente usa la imagen y descarta
-  la maqueta, sin tocar código.
-- **El hover de la ficha llega a la maqueta por custom properties**
-  (`--mq-ruta`, `--mq-barra`, `--mq-linea`), no por clases globales: cada
-  módulo sigue siendo dueño de sus nombres.
+- **Las capturas se versionan, no se piden en vivo.** Están en
+  `public/proyectos/` y se refrescan con `node scripts/capturas.mjs` cuando
+  alguno de los proyectos cambia de portada. Playwright no es dependencia del
+  sitio: se usa con `pnpm dlx` y nada más, porque meter un navegador de 300 MB
+  en las dependencias de un sitio estático no se justifica por tres PNG. Que
+  las imágenes estén en el repo también significa que el build no depende de
+  que los otros sitios estén levantados.
+- **La URL de cada captura es la primera pantalla real**: la portada si el
+  proyecto tiene una, el alta si vive detrás de un login.
 - **El enlace del proyecto envuelve al título y se estira con `::after`.**
   Toda la ficha es clicable, pero el destino que anuncia un lector de pantalla
   es el nombre del proyecto y el foco de teclado se dibuja sobre el texto, no

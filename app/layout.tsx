@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { display, body, mono } from "./fonts";
+import { display, body } from "./fonts";
+import Rugosidad from "@/components/Rugosidad";
 import { SITE } from "@/lib/content";
 import "./globals.css";
 
@@ -43,7 +44,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="es-UY"
-      className={`${display.variable} ${body.variable} ${mono.variable}`}
+      className={`${display.variable} ${body.variable}`}
     >
       <body>
         <a className="skip" href="#contenido">
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <style>{`[style*="opacity:0"]{opacity:1!important;transform:none!important}`}</style>
         </noscript>
         {children}
+        <Rugosidad />
         <div className="grain" aria-hidden="true" />
       </body>
     </html>

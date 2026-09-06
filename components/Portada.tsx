@@ -49,7 +49,7 @@ export default function Portada() {
           Sistemas a medida
         </p>
 
-        <h1 className={`${s.nombre} titular`}>{SITE.nombre}</h1>
+        <h1 className={`${s.nombre} titular rugoso`}>{SITE.nombre}</h1>
 
         <p className={`${s.flancoDer} dato dato--caja`}>
           {SITE.ciudad}
@@ -80,7 +80,7 @@ export default function Portada() {
         </nav>
 
         <article className={s.nota}>
-          <h2 className={`${s.titular} titular`}>{PORTADA.titular}</h2>
+          <h2 className={`${s.titular} titular rugoso`}>{PORTADA.titular}</h2>
           <p className={`${s.bajadaTapa} bajada`}>{PORTADA.bajada}</p>
           <div className={`${s.cuerpoNota} columnas`}>
             <p className="capitular parrafo">{PORTADA.entrada}</p>

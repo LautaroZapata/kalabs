@@ -33,7 +33,9 @@ export default function Contacto() {
         {/* ---------------- columna de contacto ---------------- */}
         <motion.div className={s.columna} {...entrada({ quieto, y: 24 })}>
           <a className={s.mailto} href={`mailto:${SITE.email}`}>
-            <span className={`${s.mailtoTitular} titular`}>{SITE.email}</span>
+            {/* La rugosidad va en el span, no en el <a>: si fuera al enlace,
+                su ::after dejaría de estirarse sobre la ficha. */}
+            <span className={`${s.mailtoTitular} titular rugoso--leve`}>{SITE.email}</span>
           </a>
 
           <ul className={s.enlaces}>
@@ -98,7 +100,7 @@ export default function Contacto() {
           © {anio} {SITE.nombre} — {SITE.ciudad}, {SITE.pais}
         </p>
         <p>
-          Compuesto en Fraunces, Newsreader y Martian Mono ·{" "}
+          Compuesto en Fraunces y Newsreader ·{" "}
           <a href="#portada">Volver a la portada ↑</a>
         </p>
       </footer>

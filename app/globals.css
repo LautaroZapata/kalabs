@@ -126,6 +126,22 @@ input, textarea, select {
   text-wrap: balance;
 }
 
+/* ---- rugosidad ----
+   Erosiona el borde de la letra: entintado sobre papel poroso. Va sobre texto
+   vivo (sigue siendo seleccionable) y el filtro lo define Rugosidad.tsx.
+
+   CUIDADO: `filter` convierte al elemento en bloque contenedor de sus
+   descendientes absolutos. Nunca ponerlo en un elemento que tenga adentro un
+   `::after` estirado sobre una ficha —se recorta al titular y la tarjeta deja
+   de ser clicable—; en esos casos va en un <span> interno. */
+.rugoso { filter: url(#rugosidad); }
+.rugoso--leve { filter: url(#rugosidad-leve); }
+
+/* A cuerpos chicos el desplazamiento empasta la letra, así que se apaga. */
+@media (max-width: 480px) {
+  .rugoso--leve { filter: none; }
+}
+
 /* Titular secundario: mismo cuerpo, un punto menos de peso y sin WONK, para
    que no compita con el de arriba. */
 .titular--sec {
@@ -135,7 +151,19 @@ input, textarea, select {
   letter-spacing: -0.012em;
 }
 
-/* Bajada: la línea que explica el titular. Itálica, como en el papel. */
+/* ---- la cursiva ----
+   Una sola: la itálica de Newsreader. Fraunces nunca va inclinada, ni
+   siquiera en titulares; su inquietud ya viene del eje WONK. Y la itálica
+   nunca se usa para enfatizar dentro de un párrafo: marca un solo rol, el de
+   la voz que explica —bajadas, valores, pies. */
+.cursiva {
+  font-family: var(--font-body), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  text-wrap: pretty;
+}
+
+/* Bajada: la línea que explica el titular. */
 .bajada {
   font-family: var(--font-body), Georgia, serif;
   font-style: italic;
@@ -145,19 +173,17 @@ input, textarea, select {
   text-wrap: pretty;
 }
 
-/* Datos y folios. Martian Mono ya es ancha de fábrica: sumarle tracking la
-   convertiría en la etiqueta mono de siempre, así que va en negativo. */
+/* Datos y folios en versalitas, que es como firma un diario. Antes iban en
+   monoespaciada; una tercera familia para escribir "p. 2" era una voz de más. */
 .dato {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 0.6rem;
-  letter-spacing: -0.03em;
+  font-family: var(--font-body), Georgia, serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.82rem;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.07em;
   line-height: 1.5;
   font-variant-numeric: tabular-nums lining-nums;
-}
-
-.dato--caja {
-  text-transform: uppercase;
-  letter-spacing: 0.01em;
 }
 
 /* Párrafo de lectura: ancho de columna de diario, no de pantalla. */
@@ -214,8 +240,9 @@ input, textarea, select {
   background: var(--ember);
   color: var(--ink);
   padding: 0.75rem 1.25rem;
-  font-family: var(--font-mono), monospace;
-  font-size: 0.7rem;
+  font-family: var(--font-body), Georgia, serif;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.07em;
 }
 .skip:focus { transform: translateY(0); }
 

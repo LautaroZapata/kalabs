@@ -48,13 +48,12 @@ export type Proyecto = {
   href: string;
   /** Dominio que se muestra en la ficha. */
   sitio: string;
-  /** Maqueta generada que va arriba de la ficha. */
-  maqueta: "flota" | "gastos" | "mesa";
-  /**
-   * Captura real, opcional. Si se completa (ej. "/proyectos/viagrua.png"),
-   * pisa a la maqueta generada sin tocar el componente.
-   */
-  imagen?: string;
+  /** Captura real del proyecto, en public/proyectos/. */
+  imagen: string;
+  /** Qué se ve en la captura, para el alt. */
+  imagenAlt: string;
+  /** Viñeta animada que se monta sobre la captura. */
+  vineta: "grua" | "barras" | "piston";
 };
 
 export const PROYECTOS: Proyecto[] = [
@@ -67,7 +66,10 @@ export const PROYECTOS: Proyecto[] = [
     estado: "En producción",
     href: "https://via-grua.vercel.app",
     sitio: "via-grua.vercel.app",
-    maqueta: "flota",
+    imagen: "/proyectos/viagrua.png",
+    imagenAlt:
+      "Portada de ViaGrúa: el titular «Sabé qué hace cada chofer sin tener que llamarlo» junto al panel de traslados en un celular.",
+    vineta: "grua",
   },
   {
     num: "02",
@@ -79,18 +81,25 @@ export const PROYECTOS: Proyecto[] = [
     estado: "En producción",
     href: "https://urugastos.vercel.app",
     sitio: "urugastos.vercel.app",
-    maqueta: "gastos",
+    imagen: "/proyectos/rog.png",
+    imagenAlt:
+      "Portada de República Oriental de los Gastos: el resumen mensual con cuentas, presupuesto y ahorro.",
+    vineta: "barras",
   },
   {
     num: "03",
-    nombre: "Mesa",
-    pitch: "Registro nutricional del hogar.",
+    nombre: "Oleo Cáceres",
+    nombreLargo: "Oleohidráulica Cáceres",
+    pitch: "Sitio institucional industrial.",
     detalle:
-      "Cada integrante carga sus comidas por Telegram. Sin instalar ni aprender nada nuevo.",
+      "Veinte años de oficio contados en una página: qué fabrican, qué reparan y para quién trabajan. Con ANCAP, UTE y la Armada entre los clientes, la web tenía que estar a esa altura.",
     estado: "En producción",
-    href: "https://mesa-five-tan.vercel.app",
-    sitio: "mesa-five-tan.vercel.app",
-    maqueta: "mesa",
+    href: "https://oleocaceres-web.vercel.app",
+    sitio: "oleocaceres-web.vercel.app",
+    imagen: "/proyectos/oleocaceres.png",
+    imagenAlt:
+      "Portada de Oleohidráulica Cáceres: el nombre de la empresa a gran tamaño y la fila de logos de los clientes con los que trabaja.",
+    vineta: "piston",
   },
 ];
 

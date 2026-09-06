@@ -27,7 +27,7 @@ export default function Cabezal({
         </span>
         {antetitulo}
       </p>
-      <h2 id={id} className={`${s.titulo} titular`}>
+      <h2 id={id} className={`${s.titulo} titular rugoso`}>
         {titulo}
       </h2>
       <p className={`${s.bajada} bajada`}>{bajada}</p>

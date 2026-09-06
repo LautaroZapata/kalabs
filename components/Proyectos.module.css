@@ -139,10 +139,12 @@
   .plana { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(1.5rem, 4vw, 3rem); }
 
   /* La principal ocupa las dos columnas y se arma apaisada. */
+  /* `stretch` y no `start`: así la columna de texto toma el alto de la
+     captura y el pie de nota se apoya abajo en vez de dejar un hueco. */
   .notaPrincipal {
     grid-column: 1 / -1;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: start;
+    align-items: stretch;
     border-bottom: var(--filete-med);
   }
   .notaPrincipal .titulo { font-size: clamp(3rem, 6vw, 5rem); }

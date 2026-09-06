@@ -1,7 +1,17 @@
 /* SERVICIOS — p. 3
    Listado, no tarjetas. Cada servicio es una entrada de dos bloques: los
    títulos al margen izquierdo y el texto al cuerpo, como una nota con
-   ladillo. Se separan con filetes; ninguna entrada lleva caja. */
+   ladillo.
+
+   Dos cosas que estaban en contra de la lectura y se corrigieron:
+
+   1. Los entregables iban en dos columnas CSS. Con `columns` el ojo baja por
+      la primera y recién después salta a la segunda, que es lo contrario de
+      lo que uno espera de una lista corta. Ahora van en una sola columna,
+      una línea por renglón.
+   2. Todo estaba a 0.95rem o menos, incluida la etiqueta "Incluye". Ahora el
+      cuerpo va al tamaño de lectura del sitio y cada entregable es un
+      renglón con aire, no una fila apretada. */
 
 .pagina {
   position: relative;
@@ -16,8 +26,8 @@
 
 .entrada {
   display: grid;
-  gap: clamp(0.75rem, 2vw, 1.25rem);
-  padding-block: clamp(1.5rem, 4vw, 2.5rem);
+  gap: clamp(1rem, 2.5vw, 1.5rem);
+  padding-block: clamp(1.75rem, 4.5vw, 2.75rem);
   border-bottom: var(--filete);
   transition: background 0.3s var(--ease);
 }
@@ -32,68 +42,76 @@
 .orden {
   color: var(--terra-lit);
   padding-bottom: 0.35rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
   border-bottom: var(--filete);
 }
 
 .titulo {
-  font-size: clamp(1.9rem, 6.5vw, 3.4rem);
+  font-size: clamp(2rem, 7vw, 3.4rem);
   color: var(--bone);
 }
 
 .bajadaServ {
-  margin-top: 0.4rem;
-  font-size: clamp(1rem, 2.6vw, 1.2rem);
+  margin-top: 0.5rem;
+  font-size: clamp(1.1rem, 2.8vw, 1.35rem);
   color: var(--ember-dim);
+  max-width: 24ch;
 }
 
 /* ---------------- texto ---------------- */
 .texto { min-width: 0; }
 
-.cuerpo { color: var(--bone-dim); }
+.cuerpo {
+  font-size: 1.0625rem;
+  line-height: 1.62;
+  color: var(--bone-dim);
+}
 
+/* ---------------- entregables ---------------- */
 .entregables {
-  margin-top: 1.1rem;
-  padding-top: 0.7rem;
-  border-top: var(--filete-med);
+  margin-top: clamp(1.25rem, 3vw, 1.75rem);
+  max-width: 34rem;
 }
 
 .entregablesTitulo {
   color: var(--ember);
-  margin-bottom: 0.4rem;
+  padding-bottom: 0.4rem;
+  border-bottom: var(--filete-med);
 }
 
-.entregables ul {
-  columns: 2;
-  column-gap: clamp(1rem, 3vw, 2rem);
-  column-rule: var(--filete);
-}
-
+/* Una línea por renglón, con aire: se lee de arriba abajo sin saltos. */
 .entregables li {
-  padding: 0.35rem 0;
-  font-size: 0.95rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.6rem 0;
+  border-bottom: var(--filete);
+  font-size: 1rem;
+  line-height: 1.4;
   color: var(--bone);
-  break-inside: avoid;
 }
 
 /* Guion de listado, como en el papel. No un ▚ ni un bullet redondo. */
 .entregables li::before {
   content: "—";
   color: var(--terra-lit);
-  margin-right: 0.5rem;
+  flex: none;
 }
 
 @media (min-width: 900px) {
+  /* El corondel se hace con el borde de la segunda columna y su padding.
+     Antes había un margen negativo compensando el gap, que es un ajuste que
+     se desalinea al primer cambio de medida. Con gap 0 no hace falta. */
   .entrada {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
-    column-gap: clamp(1.5rem, 4vw, 3rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr);
+    column-gap: 0;
     align-items: start;
   }
 
-  /* corondel entre el bloque de títulos y el cuerpo */
+  .titulos { padding-right: clamp(1.5rem, 4vw, 3rem); }
+
   .texto {
     padding-left: clamp(1.5rem, 4vw, 3rem);
     border-left: var(--filete);
-    margin-left: calc(clamp(1.5rem, 4vw, 3rem) * -1);
   }
 }
