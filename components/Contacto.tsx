@@ -79,15 +79,27 @@ export default function Contacto() {
               className={s.autor}
               {...entrada({ quieto, y: 20, delay: i * 0.08 })}
             >
-              <h3 className={`${s.autorNombre} titular titular--sec`}>{p.nombre}</h3>
-              <p className={`${s.autorRol} dato dato--caja`}>
+              <h3 className={`${s.autorNombre} titular titular--sec`}>
+                <a
+                  className={s.autorEnlace}
+                  href={p.linkedin}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  {p.nombre}
+                  <span className="sr"> — perfil de LinkedIn</span>
+                  <span className={s.autorFlecha} aria-hidden="true">
+                    ↗
+                  </span>
+                </a>
+              </h3>
+              <p className={`${s.autorRol} dato`}>
                 {p.rol}
                 <span className={p.estado === "confirmado" ? s.marcaOk : s.marcaPend}>
                   {p.tag}
                   {p.estado === "pendiente" ? " · a confirmar" : ""}
                 </span>
               </p>
-              <p className={`${s.autorBio} parrafo`}>{p.bio}</p>
             </motion.article>
           ))}
         </div>

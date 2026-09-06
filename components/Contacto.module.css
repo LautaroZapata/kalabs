@@ -176,20 +176,37 @@
 
 .autorNombre { font-size: clamp(1.3rem, 4vw, 1.8rem); color: var(--bone); }
 
+.autorEnlace {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  transition: color 0.2s var(--ease);
+}
+.autorEnlace:hover,
+.autorEnlace:focus-visible { color: var(--ember); }
+
+.autorFlecha {
+  font-size: 0.6em;
+  color: var(--terra-lit);
+  transition: transform 0.25s var(--spring), color 0.2s var(--ease);
+}
+.autorEnlace:hover .autorFlecha {
+  color: var(--ember);
+  transform: translate(2px, -2px);
+}
+
 .autorRol {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 0.5rem 0.75rem;
-  margin: 0.4rem 0 0.6rem;
+  gap: 0.4rem 0.75rem;
+  margin-top: 0.35rem;
   color: var(--bone-dim);
 }
 
 /* El estado se dice con la palabra, no sólo con el color. */
 .marcaOk { color: var(--ember); }
 .marcaPend { color: var(--terra-lit); }
-
-.autorBio { color: var(--bone-dim); font-size: 0.98rem; }
 
 /* ---------------- colofón ---------------- */
 .colofon {

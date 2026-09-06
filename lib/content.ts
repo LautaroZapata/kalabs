@@ -139,26 +139,28 @@ export const SERVICIOS: Servicio[] = [
 
 export type Persona = {
   nombre: string;
+  /** A qué se dedica, en una línea. Sin biografía: el nombre y el oficio
+      alcanzan, y quien quiera más entra al LinkedIn. */
   rol: string;
-  bio: string;
   tag: string;
   estado: "confirmado" | "pendiente";
+  linkedin: string;
 };
 
 export const EQUIPO: Persona[] = [
   {
     nombre: "Lautaro Zapata",
     rol: "Desarrollo y sistemas",
-    bio: "Estudiante de Tecnologías de la Información. Hace la interfaz y la infraestructura. Fundó Kalabs para trabajar con negocios chicos con el estándar de una empresa grande.",
     tag: "Fundador",
     estado: "confirmado",
+    linkedin: "https://www.linkedin.com/in/lautarozc/",
   },
   {
     nombre: "Mati",
     rol: "Diseño gráfico e identidad",
-    bio: "Identidad visual: tipografía, sistema gráfico y todo lo que hace que una marca se reconozca de lejos.",
     tag: "Socio",
     estado: "pendiente",
+    linkedin: "https://www.linkedin.com/in/matiassxsa/",
   },
 ];
 
