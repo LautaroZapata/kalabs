@@ -49,10 +49,7 @@ export default function Proyectos() {
                   target="_blank"
                   rel="noreferrer noopener"
                 >
-                  {/* La rugosidad va adentro del enlace: puesta en el <a> o en
-                      el <h3>, el ::after que cubre la nota se recortaría al
-                      titular y la ficha dejaría de ser clicable entera. */}
-                  <span className="rugoso--leve">{p.nombre}</span>
+                  {p.nombre}
                 </a>
               </h3>
 
@@ -81,9 +78,7 @@ export default function Proyectos() {
           <span className={`${s.avisoKicker} dato dato--caja`}>
             {UI.proyectosCierreKicker}
           </span>
-          <span className={`${s.avisoTitulo} titular rugoso--leve`}>
-            {UI.proyectosCierreTitulo}
-          </span>
+          <span className={`${s.avisoTitulo} titular`}>{UI.proyectosCierreTitulo}</span>
           <span className={`${s.avisoNota} parrafo`}>{UI.proyectosCierreNota}</span>
           <span className={`${s.avisoAccion} dato dato--caja`}>
             {UI.proyectosCierreAccion} <span aria-hidden="true">→</span>

@@ -33,7 +33,7 @@ export default function Servicios() {
               <p className={`${s.orden} dato dato--caja`} aria-hidden="true">
                 {serv.num}
               </p>
-              <h3 className={`${s.titulo} titular rugoso--leve`}>{serv.titulo}</h3>
+              <h3 className={`${s.titulo} titular`}>{serv.titulo}</h3>
               <p className={`${s.bajadaServ} bajada`}>{serv.bajada}</p>
             </div>
 

@@ -80,7 +80,7 @@ export default function Portada() {
         </nav>
 
         <article className={s.nota}>
-          <h2 className={`${s.titular} titular rugoso`}>{PORTADA.titular}</h2>
+          <h2 className={`${s.titular} titular`}>{PORTADA.titular}</h2>
           <p className={`${s.bajadaTapa} bajada`}>{PORTADA.bajada}</p>
           <div className={`${s.cuerpoNota} columnas`}>
             <p className="capitular parrafo">{PORTADA.entrada}</p>

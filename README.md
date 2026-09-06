@@ -98,21 +98,25 @@ La capitular de la nota de tapa es de tres líneas, como manda el oficio.
 
 ### Rugosidad
 
-Los titulares llevan un filtro SVG que les come el borde por desplazamiento de
-ruido (`components/Rugosidad.tsx`): el efecto es el de una letra entintada
-sobre papel poroso, y el trazo pierde el filo perfecto que delata a la
-pantalla. Va en dos intensidades —`.rugoso` para los titulares grandes,
-`.rugoso--leve` para los de cuerpo medio— porque el mismo desplazamiento que a
-10 rem se lee como textura, a 2 rem empasta la contraforma.
+El "Kalabs" de la cabecera lleva un filtro SVG que le come el borde por
+desplazamiento de ruido (`components/Rugosidad.tsx`): el efecto es el de una
+letra entintada sobre papel poroso, y el trazo pierde el filo perfecto que
+delata a la pantalla.
+
+**Va en un solo elemento de todo el sitio.** Aplicado a todos los titulares la
+textura dejaba de ser un acento y se volvía ruido de fondo: a esa escala
+compite con el texto en vez de sostenerlo. Un elemento rugoso contra tres
+páginas de letra limpia se nota más que veinte.
 
 Se aplica sobre texto vivo: sigue siendo seleccionable, indexable y legible por
 un lector de pantalla, y si el navegador no soporta el filtro la letra se ve
 nítida y no se pierde nada.
 
-> **Cuidado al aplicarlo.** `filter` convierte al elemento en bloque contenedor
-> de sus descendientes absolutos. Si se pone en un titular que adentro tiene el
-> `::after` estirado sobre una ficha, ese overlay se recorta al titular y la
-> tarjeta deja de ser clicable entera. En esos casos va en un `<span>` interno.
+> **Cuidado si se extiende a otro elemento.** `filter` convierte al elemento en
+> bloque contenedor de sus descendientes absolutos. Puesto en un titular que
+> adentro tenga el `::after` estirado sobre una ficha, ese overlay se recorta al
+> titular y la tarjeta deja de ser clicable entera. En esos casos va en un
+> `<span>` interno.
 
 ## Accesibilidad
 

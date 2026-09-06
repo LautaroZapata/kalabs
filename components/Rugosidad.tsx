@@ -1,5 +1,5 @@
 /**
- * Filtro de rugosidad para los titulares.
+ * Filtro de rugosidad para la cabecera.
  *
  * En vez de cambiar a una tipografía "distressed" —que además de romper el
  * límite de dos familias suele ser un display de novedad—, se erosiona el
@@ -7,12 +7,14 @@
  * letra entintada sobre papel poroso: el trazo pierde el filo perfecto que
  * delata a la pantalla.
  *
+ * Se usa en un solo lugar: el "Kalabs" de la cabecera. Aplicado a todos los
+ * titulares del sitio la textura dejaba de ser un acento y se volvía ruido de
+ * fondo —a esa escala compite con el texto en vez de sostenerlo—. Un elemento
+ * rugoso contra tres páginas de letra limpia se nota más que veinte.
+ *
  * Va sobre texto vivo, así que sigue siendo seleccionable, indexable y
  * legible por un lector de pantalla. Si el navegador no aplica el filtro, la
  * letra se ve nítida y no se pierde nada.
- *
- * `scale` es bajo a propósito: pasado de 1.5 la letra se empasta y a cuerpos
- * chicos deja de leerse. Por eso el filtro sólo se usa en titulares grandes.
  */
 export default function Rugosidad() {
   return (
@@ -40,32 +42,6 @@ export default function Rugosidad() {
             in="SourceGraphic"
             in2="ruido"
             scale="7"
-            xChannelSelector="R"
-            yChannelSelector="G"
-          />
-        </filter>
-
-        {/* Variante para los titulares de cuerpo medio: mismo carácter, con
-            el desplazamiento contenido para no comerse la contraforma. */}
-        <filter
-          id="rugosidad-leve"
-          x="-3%"
-          y="-3%"
-          width="106%"
-          height="106%"
-          colorInterpolationFilters="sRGB"
-        >
-          <feTurbulence
-            type="fractalNoise"
-            baseFrequency="0.09 0.17"
-            numOctaves="3"
-            seed="3"
-            result="ruido"
-          />
-          <feDisplacementMap
-            in="SourceGraphic"
-            in2="ruido"
-            scale="3.2"
             xChannelSelector="R"
             yChannelSelector="G"
           />

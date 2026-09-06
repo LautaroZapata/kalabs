@@ -33,9 +33,7 @@ export default function Contacto() {
         {/* ---------------- columna de contacto ---------------- */}
         <motion.div className={s.columna} {...entrada({ quieto, y: 24 })}>
           <a className={s.mailto} href={`mailto:${SITE.email}`}>
-            {/* La rugosidad va en el span, no en el <a>: si fuera al enlace,
-                su ::after dejaría de estirarse sobre la ficha. */}
-            <span className={`${s.mailtoTitular} titular rugoso--leve`}>{SITE.email}</span>
+            <span className={`${s.mailtoTitular} titular`}>{SITE.email}</span>
           </a>
 
           <ul className={s.enlaces}>

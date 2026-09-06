@@ -130,17 +130,14 @@ input, textarea, select {
    Erosiona el borde de la letra: entintado sobre papel poroso. Va sobre texto
    vivo (sigue siendo seleccionable) y el filtro lo define Rugosidad.tsx.
 
-   CUIDADO: `filter` convierte al elemento en bloque contenedor de sus
-   descendientes absolutos. Nunca ponerlo en un elemento que tenga adentro un
-   `::after` estirado sobre una ficha —se recorta al titular y la tarjeta deja
-   de ser clicable—; en esos casos va en un <span> interno. */
-.rugoso { filter: url(#rugosidad); }
-.rugoso--leve { filter: url(#rugosidad-leve); }
+   Se usa SÓLO en el "Kalabs" de la cabecera. Repartida por todos los
+   titulares deja de ser un acento y se vuelve ruido de fondo.
 
-/* A cuerpos chicos el desplazamiento empasta la letra, así que se apaga. */
-@media (max-width: 480px) {
-  .rugoso--leve { filter: none; }
-}
+   CUIDADO si algún día se aplica en otro lado: `filter` convierte al elemento
+   en bloque contenedor de sus descendientes absolutos. Puesto en un titular
+   que adentro tenga un `::after` estirado sobre una ficha, ese overlay se
+   recorta al titular y la tarjeta deja de ser clicable entera. */
+.rugoso { filter: url(#rugosidad); }
 
 /* Titular secundario: mismo cuerpo, un punto menos de peso y sin WONK, para
    que no compita con el de arriba. */
