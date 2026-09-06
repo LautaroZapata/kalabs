@@ -22,7 +22,7 @@ const jsonLd = {
   founder: { "@type": "Person", name: "Lautaro Zapata" },
   makesOffer: SERVICIOS.map((s) => ({
     "@type": "Offer",
-    itemOffered: { "@type": "Service", name: s.titulo, description: s.bajada },
+    itemOffered: { "@type": "Service", name: s.titulo, description: s.cuerpo },
   })),
   owns: PROYECTOS.map((p) => ({
     "@type": "SoftwareApplication",

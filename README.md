@@ -32,13 +32,22 @@ convención de imprenta con siglos encima.
   con la maqueta apaisada y dos secundarias abajo, separadas por filete. Sin
   cajas: las notas de un diario no llevan borde. La caja queda reservada para
   el aviso clasificado, que sí es publicidad.
-- **Los servicios abren con el problema, no con el servicio.** Lo que va
-  grande y primero es lo que le pasa a quien está leyendo, en segunda persona
-  ("Te buscan en internet y encuentran a tu competencia"). El nombre del
-  servicio baja a etiqueta al margen y los entregables bajan a una línea
-  corrida al pie. Antes esto era una tabla —nombre de un lado, grilla de
-  cuatro ítems del otro—: un catálogo de capacidades nuestras, que es
-  exactamente lo que a nadie le mueve nada.
+- **Los servicios son una plana de clasificados, no una lista.** Cinco avisos
+  de tamaños distintos encastrados en una grilla de seis columnas: los tres
+  rubros, uno que dice lo que **no** se hace y uno de cierre. La jerarquía la
+  da el tamaño del módulo, no el orden de lectura, y la sección entra en una
+  pantalla.
+
+  Hubo dos versiones antes de esta y las dos fallaban por lo mismo aunque se
+  vieran distinto: eran tres bloques iguales apilados a lo largo de la página.
+  Como tabla o como titular, el ojo leía "tres cosas, una atrás de otra", y se
+  comían tres pantallas para decir algo que entra en una.
+
+  El texto va en el impersonal del clasificado uruguayo —"se hacen", "se
+  automatizan", "se arman"—, que es el registro de quien ofrece un oficio y no
+  el de quien vende una solución. Y hay un aviso para lo que no se hace:
+  define mejor a un estudio que la lista de lo que sí, porque cualquiera dice
+  que hace de todo.
 - **Los servicios van antes que los proyectos.** Primero qué podemos hacer por
   quien llega, después la prueba de que sabemos hacerlo.
 - **Cada proyecto se muestra, no se cuenta.** La nota abre con la **captura

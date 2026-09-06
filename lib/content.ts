@@ -108,14 +108,13 @@ export const PROYECTOS: Proyecto[] = [
 export type Servicio = {
   num: string;
   /**
-   * El problema del que llega, en segunda persona. Va primero y va grande.
-   * Antes el titular era el nombre del servicio, que es una capacidad
-   * nuestra: a nadie le mueve nada lo que sabemos hacer, le mueve lo que le
-   * está pasando.
+   * El encabezado del aviso, en el impersonal del clasificado uruguayo:
+   * "se hacen", "se automatizan", "se arman". Es el registro de quien ofrece
+   * un oficio, no el de quien vende una solución.
    */
-  problema: string;
+  rubro: string;
+  /** Nombre corriente del servicio. Lo usa el desplegable del formulario. */
   titulo: string;
-  bajada: string;
   cuerpo: string;
   entregables: string[];
 };
@@ -123,29 +122,26 @@ export type Servicio = {
 export const SERVICIOS: Servicio[] = [
   {
     num: "01",
-    problema: "Te buscan en internet y encuentran a tu competencia.",
+    rubro: "Se hacen sitios web",
     titulo: "Desarrollo web",
-    bajada: "Sitios y aplicaciones a medida.",
     cuerpo:
-      "Hacemos el sitio que te encuentra el que te está buscando. Para vender, no para decorar: rápido en el celular, sin plantillas y con la medición puesta desde el primer día.",
-    entregables: ["Sitio institucional", "Tienda o catálogo", "Panel de administración", "Medición"],
+      "Para negocios que necesitan que los encuentren. Rápidos en el celular, sin plantillas y con la medición puesta desde el primer día. Se entrega andando, con el dominio configurado y alguien del otro lado si algo se rompe.",
+    entregables: ["Institucional", "Tienda o catálogo", "Panel de administración", "Medición"],
   },
   {
     num: "02",
-    problema: "Esta semana hacés a mano lo mismo que hiciste la semana pasada.",
+    rubro: "Se automatizan tareas",
     titulo: "Automatizaciones",
-    bajada: "Menos tareas repetidas.",
     cuerpo:
-      "Lo que se repite lo hace una máquina. Empezamos por la tarea que más horas te come, la dejamos andando sola, y recién después vamos por la siguiente.",
-    entregables: ["Bots de WhatsApp y Telegram", "Reportes automáticos", "Integraciones", "Alertas"],
+      "Lo que hacés todas las semanas a mano lo pasa a hacer una máquina. Se empieza por la que más horas come.",
+    entregables: ["Bots de WhatsApp y Telegram", "Reportes", "Integraciones", "Alertas"],
   },
   {
     num: "03",
-    problema: "Los pedidos los anotás en un cuaderno y el cuaderno se pierde.",
+    rubro: "Se arman sistemas a medida",
     titulo: "Sistemas a medida",
-    bajada: "Una herramienta, un problema.",
     cuerpo:
-      "Turnos, pedidos o stock: una función bien resuelta antes que un sistema entero que nadie abre. Si con una pantalla alcanza, hacemos una pantalla.",
+      "Turnos, pedidos o control de stock. Una función bien resuelta antes que un sistema entero que nadie abre.",
     entregables: ["Turnos y agenda", "Pedidos", "Control de stock", "Fichas de clientes"],
   },
 ];
@@ -191,11 +187,22 @@ export const UI = {
   proyectosCierreNota: "Si tenés algo entre manos, escribinos. La primera conversación no se cobra.",
   proyectosCierreAccion: "Escribinos",
 
-  /* p. 3 — servicios */
-  serviciosAntetitulo: "Qué hacemos",
-  serviciosBajada:
-    "Tres formas de que un negocio chico deje de perder tiempo en lo que puede hacer una máquina.",
+  /* p. 2 — servicios, compuestos como plana de clasificados */
+  serviciosAntetitulo: "Rubros",
+  serviciosBajada: "Tres oficios y una condición: si no sirve, se dice antes de empezar.",
   serviciosEntregables: "Incluye",
+  /* Un aviso dice lo que no se hace. Define mejor a un estudio que la lista
+     de lo que sí: cualquiera dice que hace de todo. */
+  serviciosNoTitulo: "No se hacen",
+  serviciosNo: [
+    "Sitios armados sobre veinte plantillas.",
+    "Sistemas que necesitan un manual.",
+    "Apps que nadie va a descargar.",
+  ],
+  serviciosCtaTitulo: "¿No sabés cuál te sirve?",
+  serviciosCtaCuerpo:
+    "Contanos qué te está pasando y lo vemos juntos. Si el trabajo no da para cobrarlo, te lo decimos.",
+  serviciosCtaAccion: "Escribinos",
 
   /* p. 4 — contacto (incluye equipo) */
   equipoAntetitulo: "Quiénes",

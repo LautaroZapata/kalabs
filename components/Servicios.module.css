@@ -1,112 +1,168 @@
 /* SERVICIOS — p. 2
-   Tres bloques, uno debajo del otro, a todo el ancho de la caja.
+   Plana de clasificados.
 
-   La jerarquía está dada vuelta respecto de la versión anterior: lo grande
-   es el problema del que lee, no el nombre del servicio. El nombre baja a
-   etiqueta al margen y los entregables bajan a una línea corrida al pie.
-   Sin tabla, sin grilla de cuatro ítems compitiendo con el texto. */
+   Cinco avisos de tamaños distintos encastrados en una grilla de seis
+   columnas. No es una lista de tres cosas apiladas: es una página, y la
+   jerarquía la da el tamaño del módulo.
+
+   Truco de los filetes: la grilla tiene el bordo de fondo y un gap de 2px;
+   cada aviso pinta el suyo de --ink encima. Así cada separación es UNA línea
+   y no dos bordes pegados —que es lo que pasa cuando cada módulo trae el
+   suyo propio y terminan sumando 4px donde debería haber 2—. */
 
 .pagina {
   position: relative;
   background: var(--ink);
 }
 
-.listado {
-  padding-inline: var(--edge);
-  border-top: var(--filete-med);
-}
-
-.bloque {
-  padding-block: clamp(2rem, 5.5vw, 3.5rem);
-  border-bottom: var(--filete);
-  transition: background 0.3s var(--ease);
-}
-.bloque:last-child { border-bottom: 0; }
-.bloque:hover { background: var(--ink-2); }
-
-/* ---------------- el problema ---------------- */
-.problema {
-  font-size: clamp(1.8rem, 5.6vw, 3.6rem);
-  color: var(--bone);
-  max-width: 21ch;
-}
-
-/* Marca de párrafo colgada al margen: el bloque arranca con un signo de
-   imprenta, no con un bullet ni un ícono. */
-.problema::before {
-  content: "¶";
-  display: block;
-  font-size: 0.3em;
-  color: var(--ember);
-  margin-bottom: 0.5em;
-}
-
-/* ---------------- la respuesta ---------------- */
-.respuesta {
+.plana {
   display: grid;
-  gap: clamp(1rem, 2.5vw, 1.5rem);
-  margin-top: clamp(1.25rem, 3vw, 2rem);
-  padding-top: clamp(1rem, 2.5vw, 1.5rem);
+  gap: 2px;
+  background: var(--terra);
   border-top: var(--filete-med);
+  border-bottom: var(--filete-med);
 }
 
-.etiqueta { min-width: 0; }
+.aviso {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: var(--ink);
+  padding: clamp(1.1rem, 2.8vw, 1.75rem);
+  transition: background 0.25s var(--ease);
+}
 
-.orden {
+.aviso:hover { background: var(--ink-2); }
+
+/* ---------------- avisos de rubro ---------------- */
+.rubroNum {
   color: var(--terra-lit);
-  margin-bottom: 0.35rem;
+  padding-bottom: 0.35rem;
+  border-bottom: var(--filete);
 }
 
-.titulo {
-  font-size: clamp(1.35rem, 3.4vw, 1.9rem);
-  color: var(--ember);
+.rubro {
+  font-size: clamp(1.5rem, 3.6vw, 2.3rem);
+  color: var(--bone);
+  text-wrap: balance;
 }
-
-.bajadaServ {
-  margin-top: 0.2rem;
-  font-size: 1.05rem;
-}
-
-.desarrollo { min-width: 0; }
 
 .cuerpo {
-  font-size: 1.0625rem;
-  line-height: 1.62;
   color: var(--bone-dim);
+  font-size: 1rem;
+  line-height: 1.58;
 }
 
-/* Línea corrida al pie: la letra chica del aviso. */
 .entregables {
-  margin-top: clamp(0.9rem, 2vw, 1.25rem);
-  padding-top: 0.6rem;
+  margin-top: auto;
+  padding-top: 0.7rem;
   border-top: var(--filete);
   color: var(--bone-dim);
-  line-height: 1.9;
+  line-height: 1.85;
 }
 
 .entregablesTitulo {
   color: var(--ember);
-  margin-right: 0.75rem;
-  padding-right: 0.75rem;
+  margin-right: 0.6rem;
+  padding-right: 0.6rem;
   border-right: var(--filete);
 }
 
+/* El aviso principal va más grande de cuerpo, no sólo más grande de caja. */
+.aviso01 .rubro { font-size: clamp(1.8rem, 5vw, 3.2rem); }
+.aviso01 .cuerpo { font-size: 1.0625rem; }
+
+/* Entregables del aviso grande: en lista, para llenar la caja alta y
+   distinguirlo de los chicos, que los llevan en línea corrida. */
+.incluyeLista { margin-top: auto; padding-top: 0.8rem; }
+
+.incluyeTitulo {
+  display: block;
+  margin: 0 0 0.2rem;
+  padding: 0 0 0.4rem;
+  border-right: 0;
+  border-bottom: var(--filete-med);
+}
+
+.incluyeLista li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  padding: 0.5rem 0;
+  border-bottom: var(--filete);
+  color: var(--bone);
+  font-size: 1rem;
+}
+.incluyeLista li:last-child { border-bottom: 0; }
+.incluyeLista li::before {
+  content: "—";
+  color: var(--terra-lit);
+  flex: none;
+}
+
+/* ---------------- aviso de lo que no se hace ---------------- */
+.avisoNo { background: var(--ink-2); }
+.avisoNo:hover { background: var(--ink-3); }
+
+.noTitulo {
+  color: var(--terra-lit);
+  padding-bottom: 0.35rem;
+  border-bottom: var(--filete);
+}
+
+.noLista { display: grid; gap: 0.15rem; }
+
+.noLista li {
+  padding: 0.4rem 0;
+  border-bottom: var(--filete);
+  color: var(--bone-dim);
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+.noLista li:last-child { border-bottom: 0; }
+
+/* Los tachados se dicen con la palabra "No se hacen" del encabezado; el
+   guion es la marca de listado, no un signo de prohibición. */
+.noLista li::before {
+  content: "—";
+  color: var(--terra-lit);
+  margin-right: 0.5rem;
+}
+
+/* ---------------- aviso de cierre ---------------- */
+.avisoCta {
+  background: var(--ember);
+  color: var(--ink);
+}
+.avisoCta:hover { background: var(--bone); }
+
+.ctaTitulo { font-size: clamp(1.4rem, 3.4vw, 2rem); }
+
+.ctaCuerpo { font-size: 1rem; line-height: 1.55; max-width: 46ch; }
+
+.ctaAccion {
+  margin-top: auto;
+  padding-top: 0.7rem;
+  border-top: 2px solid rgba(15, 18, 20, 0.35);
+  font-weight: 700;
+}
+
+/* ============ la plana, en seis columnas ============ */
 @media (min-width: 900px) {
-  /* El problema no ocupa el ancho completo: se corta a la medida de una
-     columna de titular para que se lea de un golpe de vista. */
-  .problema { max-width: 18ch; }
+  .plana { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 
-  .respuesta {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-    column-gap: 0;
-    align-items: start;
-  }
+  /* 01 manda: ocupa media plana y dos filas de alto. */
+  .aviso01 { grid-column: 1 / 4; grid-row: 1 / 3; }
+  .aviso02 { grid-column: 4 / 7; }
+  .aviso03 { grid-column: 4 / 7; }
+  .avisoNo { grid-column: 1 / 3; }
+  .avisoCta { grid-column: 3 / 7; }
+}
 
-  .etiqueta { padding-right: clamp(1.5rem, 4vw, 3rem); }
-
-  /* corondel entre la etiqueta y el desarrollo */
-  .desarrollo {
-    padding-left: clamp(1.5rem, 4vw, 3rem);
-    border-left: var(--filete);
-  }
+/* En el medio, dos columnas: el aviso grande y el de cierre a todo el ancho. */
+@media (min-width: 620px) and (max-width: 899px) {
+  .plana { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .aviso01 { grid-column: 1 / -1; }
+  .avisoCta { grid-column: 1 / -1; }
 }
