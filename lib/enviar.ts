@@ -1,7 +1,8 @@
 "use server";
 
-import { SITE, UI } from "./content";
+import { CORREO, SITE, UI } from "./content";
 import { OPCIONES, type Estado, type Valores } from "./consulta";
+import { acuseHtml, acuseTexto, avisoHtml, avisoTexto } from "./correos";
 
 /**
  * El formulario dejó de armar un `mailto:`.
@@ -22,10 +23,59 @@ import { OPCIONES, type Estado, type Valores } from "./consulta";
 /* Validación deliberadamente laxa: la única forma de saber si una dirección
    existe es escribirle. Esto descarta lo que no puede ser un correo y nada
    más; rechazar de más es peor que dejar pasar una consulta con un typo. */
-const CORREO = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const ES_CORREO = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const texto = (dato: FormDataEntryValue | null) =>
   typeof dato === "string" ? dato.trim() : "";
+
+type Mensaje = {
+  a: { email: string; name: string };
+  responderA: { email: string; name: string };
+  asunto: string;
+  html: string;
+  plano: string;
+};
+
+/**
+ * Una llamada a Brevo. Devuelve si salió o no, sin tirar: quién decide qué
+ * hacer con un fallo depende de cuál de los dos correos era.
+ *
+ * El remitente siempre es el dominio propio. Mandar con el `from` de un
+ * tercero —el correo de quien completó el formulario, por ejemplo— es lo que
+ * hace que el mensaje caiga en spam: el SPF y el DKIM de `kalabs.dev` no
+ * firman a nombre de nadie más.
+ */
+async function mandar(clave: string, mensaje: Mensaje): Promise<boolean> {
+  try {
+    const respuesta = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: {
+        "api-key": clave,
+        "content-type": "application/json",
+        accept: "application/json",
+      },
+      body: JSON.stringify({
+        sender: { name: SITE.nombre, email: SITE.email },
+        to: [mensaje.a],
+        replyTo: mensaje.responderA,
+        subject: mensaje.asunto,
+        htmlContent: mensaje.html,
+        /* La versión plana no es un trámite: es lo que ve quien lee en modo
+           texto y lo que miran los filtros al decidir si esto es legítimo. */
+        textContent: mensaje.plano,
+      }),
+    });
+
+    if (!respuesta.ok) {
+      console.error("[contacto] Brevo respondió", respuesta.status, await respuesta.text());
+      return false;
+    }
+    return true;
+  } catch (falla) {
+    console.error("[contacto] no se pudo llamar a Brevo", falla);
+    return false;
+  }
+}
 
 export async function enviarConsulta(_previo: Estado, form: FormData): Promise<Estado> {
   const valores: Valores = {
@@ -44,7 +94,7 @@ export async function enviarConsulta(_previo: Estado, form: FormData): Promise<E
   const error = (mensaje: string): Estado => ({ estado: "error", mensaje, valores });
 
   if (valores.nombre.length < 2) return error(UI.form.errorNombre);
-  if (!CORREO.test(valores.correo)) return error(UI.form.errorCorreo);
+  if (!ES_CORREO.test(valores.correo)) return error(UI.form.errorCorreo);
   if (valores.mensaje.length < 10) return error(UI.form.errorMensaje);
   if (valores.mensaje.length > 5000) return error(UI.form.errorLargo);
   /* El servicio llega de un radio, así que sólo puede venir mal si alguien
@@ -57,43 +107,34 @@ export async function enviarConsulta(_previo: Estado, form: FormData): Promise<E
     return error(UI.form.errorServidor);
   }
 
-  const cuerpo = [
-    `Nombre:   ${valores.nombre}`,
-    `Correo:   ${valores.correo}`,
-    `Empresa:  ${valores.negocio || "—"}`,
-    `Servicio: ${necesito}`,
-    "",
-    valores.mensaje,
-  ].join("\n");
+  const datos: Valores = { ...valores, necesito };
+  const persona = { email: valores.correo, name: valores.nombre };
+  const estudio = { email: SITE.email, name: SITE.nombre };
 
-  try {
-    const respuesta = await fetch("https://api.brevo.com/v3/smtp/email", {
-      method: "POST",
-      headers: {
-        "api-key": clave,
-        "content-type": "application/json",
-        accept: "application/json",
-      },
-      body: JSON.stringify({
-        /* Remite el dominio propio, no la persona: mandar con el `from` de un
-           tercero es lo que hace que el correo caiga en spam. Quien escribió
-           va en `replyTo`, así responder desde la bandeja le llega a él. */
-        sender: { name: `${SITE.nombre} — formulario`, email: SITE.email },
-        to: [{ email: SITE.email, name: SITE.nombre }],
-        replyTo: { email: valores.correo, name: valores.nombre },
-        subject: `[${SITE.nombre}] ${necesito} — ${valores.negocio || valores.nombre}`,
-        textContent: cuerpo,
-      }),
-    });
+  /* El aviso al estudio es el que no puede fallar: si no sale, la consulta se
+     perdió y hay que decírselo a quien la escribió. */
+  const salio = await mandar(clave, {
+    a: estudio,
+    responderA: persona,
+    asunto: `[${SITE.nombre}] ${necesito} — ${valores.negocio || valores.nombre}`,
+    html: avisoHtml(datos),
+    plano: avisoTexto(datos),
+  });
 
-    if (!respuesta.ok) {
-      console.error("[contacto] Brevo respondió", respuesta.status, await respuesta.text());
-      return error(UI.form.errorServidor);
-    }
-  } catch (falla) {
-    console.error("[contacto] no se pudo llamar a Brevo", falla);
-    return error(UI.form.errorServidor);
-  }
+  if (!salio) return error(UI.form.errorServidor);
+
+  /* El acuse es cortesía: la consulta ya está en la bandeja del estudio. Si
+     Brevo lo rechaza —una casilla que no existe, la cuota del día— queda en el
+     log y no se le muestra un error a alguien cuyo mensaje sí llegó. */
+  const acuse = await mandar(clave, {
+    a: persona,
+    responderA: estudio,
+    asunto: `${CORREO.acuse.asunto} — ${SITE.nombre}`,
+    html: acuseHtml(datos),
+    plano: acuseTexto(datos),
+  });
+
+  if (!acuse) console.error("[contacto] el aviso salió pero el acuse no:", valores.correo);
 
   return { estado: "ok" };
 }

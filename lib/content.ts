@@ -158,6 +158,42 @@ export const ENLACES = [
   { label: "GitHub", valor: "LautaroZapata", href: "https://github.com/LautaroZapata" },
 ];
 
+/**
+ * El texto de los dos correos que dispara el formulario.
+ *
+ * Vive acá y no en `correos.ts` por la misma regla que el resto del sitio: el
+ * texto en un solo archivo, el markup en otro. `correos.ts` arma las tablas y
+ * los filetes; lo que dicen se edita desde acá sin abrir una plantilla HTML.
+ */
+export const CORREO = {
+  /* El que te llega a vos con la consulta. */
+  aviso: {
+    kicker: "Consulta desde el sitio",
+    titulo: "Nueva consulta.",
+    mensajeLabel: "Mensaje",
+    pie: "Respondé este correo y le llega directo a quien escribió.",
+  },
+
+  /* El acuse automático para quien completó el formulario. Antes no existía:
+     veía el acuse en pantalla y no le quedaba nada en la casilla. Un mail que
+     confirma es también la primera prueba de que del otro lado hay alguien. */
+  acuse: {
+    asunto: "Recibimos tu mensaje",
+    kicker: "Acuse de recibo",
+    titulo: "Recibimos tu mensaje.",
+    saludo: (nombre: string) => `Hola ${nombre},`,
+    cuerpo: [
+      "Gracias por escribirnos. Tu consulta ya está en nuestra bandeja y te contestamos dentro de las 24 horas hábiles.",
+      "Si necesitás agregar algo, respondé este mismo correo: llega a la misma conversación.",
+    ],
+    copiaLabel: "Copia de lo que nos mandaste",
+    pie: "No hace falta que respondas este correo si no querés agregar nada.",
+  },
+
+  /* Común a los dos. */
+  verSitio: "Ver el sitio",
+} as const;
+
 /** Microcopy de interfaz. Todo el texto del sitio vive en este archivo. */
 export const UI = {
   /* proyectos */

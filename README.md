@@ -212,6 +212,36 @@ ahí no dejaba rastro: no había forma de saber cuántas hubo.
 Necesita `BREVO_API_KEY` en el entorno. Sin esa variable el envío responde el
 error de servidor y deja el motivo en el log; no falla el build.
 
+### Los dos correos
+
+Cada consulta dispara dos: el **aviso** al estudio y el **acuse** a quien
+escribió. El acuse antes no existía —veía la confirmación en pantalla y no le
+quedaba nada en la casilla—, y un mail que confirma es también la primera
+prueba de que del otro lado hay alguien.
+
+- **El aviso es el que no puede fallar.** Si no sale, la consulta se perdió y
+  hay que decirlo. El acuse es cortesía: si Brevo lo rechaza queda en el log y
+  no se le muestra un error a alguien cuyo mensaje sí llegó.
+- **Las dos plantillas viven en `lib/correos.ts` y el texto en `lib/content.ts`**
+  (`CORREO`), igual que el resto del sitio: el markup en un archivo, lo que
+  dice en otro.
+- **Tablas y estilo en línea.** Es la única forma de que un correo se vea igual
+  en Gmail, Apple Mail y Outlook, que compone con el motor de Word y descarta
+  casi todo lo demás. Nada de flex, de grid ni de hojas de estilo.
+- **Georgia y no Fraunces.** Un correo no puede cargar fuentes con garantías,
+  así que se usa la serif que ya está instalada en todos lados.
+- **Todo lo que escribió un desconocido se escapa antes de entrar al HTML.** El
+  cuerpo lo redacta cualquiera que pase por el formulario; sin eso, una
+  etiqueta en el campo mensaje se interpreta al abrir el correo en la bandeja
+  del estudio.
+- **Los dos llevan versión de texto plano.** No es un trámite: es lo que ve
+  quien lee en modo texto y lo que miran los filtros de spam al decidir si esto
+  es legítimo.
+
+Las plantillas para escribirle a clientes —primer contacto, presupuesto,
+seguimiento, entrega— están en [`docs/plantillas-correo.md`](docs/plantillas-correo.md).
+Ésas no son código: van en las plantillas de Gmail.
+
 ### Notas de implementación
 
 - **Con movimiento reducido no alcanza con no animar.** Motion escribe
