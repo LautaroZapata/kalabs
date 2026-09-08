@@ -155,7 +155,7 @@ export const EQUIPO: Persona[] = [
    del resto del sitio. Cuando haya número, vuelve como `https://wa.me/…`. */
 export const ENLACES = [
   { label: "Correo", valor: SITE.email, href: `mailto:${SITE.email}` },
-  { label: "GitHub", valor: "LautaroZapata", href: "https://github.com/LautaroZapata" },
+  { label: "Instagram", valor: "@kalabs.dev", href: "https://www.instagram.com/kalabs.dev" },
 ];
 
 /**
