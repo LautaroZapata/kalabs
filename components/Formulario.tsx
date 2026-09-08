@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { UI } from "@/lib/content";
 import { ESTADO_INICIAL, OPCIONES, VALORES_VACIOS } from "@/lib/consulta";
 import { enviarConsulta } from "@/lib/enviar";
@@ -29,15 +29,11 @@ const TRAZOS = [
   { x1: 16, y1: 4, x2: 4, y2: 16 },
 ];
 
-/* La fecha del sello, armada a mano y no con `toLocaleDateString`: el formato
-   del navegador depende del sistema de quien mira, y un sello que a veces dice
-   09.09.2026 y a veces 9/9/2026 deja de parecer un sello. */
-function fecha() {
-  const hoy = new Date();
-  const dd = String(hoy.getDate()).padStart(2, "0");
-  const mm = String(hoy.getMonth() + 1).padStart(2, "0");
-  return `${dd}.${mm}.${hoy.getFullYear()}`;
-}
+/* Una sola curva para todo el envío, y sin rebote: sale rápido y frena largo.
+   Un resorte que pasa de largo y vuelve es simpático en un botón y fuera de
+   lugar en un acuse —lo que se está confirmando es que llegó un mensaje, no
+   celebrando nada—. */
+const SUAVE = [0.22, 1, 0.36, 1] as const;
 
 export default function Formulario() {
   const quieto = useReducedMotion();
@@ -48,10 +44,19 @@ export default function Formulario() {
   const [necesito, setNecesito] = useState(previo.necesito);
 
   /* Enviado: el formulario se va y queda el acuse. Dejar los campos llenos
-     invita a apretar otra vez y mandar la misma consulta por duplicado. */
-  if (estado.estado === "ok") {
-    return (
-      <div className={s.ficha} role="status">
+     invita a apretar otra vez y mandar la misma consulta por duplicado.
+     Los dos van dentro de un `AnimatePresence` con `mode="wait"`: el
+     formulario termina de irse antes de que entre el acuse, así no hay dos
+     bloques encimados ni un salto de alto a mitad de camino. */
+  const acuse = (
+    <motion.div
+        key="acuse"
+        className={s.ficha}
+        role="status"
+        initial={quieto ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={quieto ? { duration: 0 } : { duration: 0.3, ease: SUAVE }}
+      >
         <p className={`${s.fichaTop} dato dato--caja`}>
           <span>
             <b aria-hidden="true">¶</b> {UI.form.okFicha}
@@ -59,39 +64,48 @@ export default function Formulario() {
           <span>{UI.form.respuesta}</span>
         </p>
 
-        {/* El sello cae sobre el papel: entra grande y torcido y se asienta,
-            que es lo que hace un sello de goma contra el mostrador. Con
-            movimiento reducido aparece puesto, sin el golpe. */}
-        <motion.p
-          className={s.sello}
-          aria-hidden="true"
-          initial={quieto ? false : { scale: 1.6, rotate: -14, opacity: 0 }}
-          animate={{ scale: 1, rotate: -3, opacity: 1 }}
-          transition={
-            quieto
-              ? { duration: 0 }
-              : { type: "spring", stiffness: 620, damping: 24, mass: 0.8 }
-          }
-        >
-          <span className={s.selloTexto}>{UI.form.okKicker}</span>
-          <span className={s.selloFecha}>{fecha()}</span>
-        </motion.p>
+        {/* Un filete doble que se traza de izquierda a derecha, como se cierra
+            una nota. Es el mismo recurso que estructura el resto del sitio: no
+            se agrega un objeto nuevo para decir que llegó, se usa la línea que
+            ya está en todas partes. El segundo trazo sale apenas después, que
+            es lo que hace que se lea como filete doble y no como una línea
+            gorda. */}
+        <div className={s.acuseFilete} aria-hidden="true">
+          {[0, 0.08].map((espera, i) => (
+            <motion.span
+              key={i}
+              className={i === 0 ? s.acuseFiletePrimero : s.acuseFileteSegundo}
+              initial={quieto ? false : { scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={
+                quieto ? { duration: 0 } : { duration: 0.55, delay: espera, ease: SUAVE }
+              }
+            />
+          ))}
+        </div>
 
-        {/* El texto entra después: primero se estampa, después se lee. */}
+        {/* El texto sube detrás del filete: primero se cierra la nota, después
+            se lee lo que dice. */}
         <motion.div
-          initial={quieto ? false : { opacity: 0, y: 10 }}
+          initial={quieto ? false : { opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={quieto ? { duration: 0 } : { duration: 0.3, delay: 0.22, ease: "easeOut" }}
+          transition={quieto ? { duration: 0 } : { duration: 0.45, delay: 0.2, ease: SUAVE }}
         >
           <p className={`${s.acuseTitulo} titular titular--sec`}>{UI.form.okTitulo}</p>
           <p className={s.acuseCuerpo}>{UI.form.okCuerpo}</p>
         </motion.div>
-      </div>
-    );
-  }
+      </motion.div>
+  );
 
-  return (
-    <form className={s.ficha} action={accion} aria-busy={enviando}>
+  const formulario = (
+    <motion.form
+      key="formulario"
+      className={s.ficha}
+      action={accion}
+      aria-busy={enviando}
+      exit={quieto ? undefined : { opacity: 0, y: -6 }}
+      transition={quieto ? { duration: 0 } : { duration: 0.22, ease: SUAVE }}
+    >
       <p className={`${s.fichaTop} dato dato--caja`}>
         <span>
           <b aria-hidden="true">¶</b> {UI.form.titulo}
@@ -205,6 +219,12 @@ export default function Formulario() {
       <button className={s.enviar} type="submit" disabled={enviando}>
         {enviando ? UI.form.enviando : UI.form.enviar}
       </button>
-    </form>
+    </motion.form>
+  );
+
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      {estado.estado === "ok" ? acuse : formulario}
+    </AnimatePresence>
   );
 }

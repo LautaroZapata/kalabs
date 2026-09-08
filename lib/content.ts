@@ -211,12 +211,8 @@ export const UI = {
     enviando: "Enviando…",
 
     /* Acuse de recibo. Reemplaza al formulario una vez enviado: dejar los
-       campos llenos invita a apretar de nuevo y mandar todo por duplicado.
-       `okFicha` encabeza la ficha y `okKicker` es lo que dice el sello: si los
-       dos dijeran «Recibido», la palabra aparecería dos veces en cuatro
-       centímetros. */
+       campos llenos invita a apretar de nuevo y mandar todo por duplicado. */
     okFicha: "Acuse de recibo",
-    okKicker: "Recibido",
     okTitulo: "Tu mensaje está en camino.",
     okCuerpo: "Te contestamos dentro de las 24 horas al correo que dejaste.",
 
