@@ -1,4 +1,8 @@
-/* Folio al pie: de qué página estás leyendo, y cómo ir a otra. */
+/* Barra al pie: en qué sección estás, y cómo ir a otra.
+
+   Va de lado a lado, fuera de la caja, pero su contenido se alinea con ella
+   (--sangria): con el margen fijo, en un monitor ancho la firma arrancaba
+   medio metro antes que todo lo demás. */
 
 .folio {
   position: fixed;
@@ -10,7 +14,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem 1.25rem;
-  padding-inline: var(--edge);
+  padding-inline: var(--sangria);
   background: var(--ink-2);
   border-top: var(--filete-med);
   color: var(--bone-dim);
@@ -32,7 +36,7 @@
 }
 .pagina:hover { color: var(--bone); }
 
-/* La página actual se marca con un filete debajo, no con un puntito. */
+/* La sección actual se marca con un filete debajo, no con un puntito. */
 .paginaActiva { color: var(--ember); }
 .paginaActiva::after {
   content: "";
@@ -43,13 +47,8 @@
   border-bottom: 2px solid var(--ember);
 }
 
-.numero {
-  color: var(--terra-lit);
-  white-space: nowrap;
-}
-
-/* En pantallas chicas el folio se queda con lo esencial: las páginas y el
-   número. El pie de imprenta sobra cuando no hay lugar. */
+/* En pantallas chicas la barra se queda con lo esencial: los enlaces. La
+   firma del estudio sobra cuando no hay lugar. */
 @media (max-width: 700px) {
   .pie { display: none; }
   .paginas { margin-inline: 0 auto; gap: 0 0.75rem; }

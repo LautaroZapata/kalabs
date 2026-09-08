@@ -1,14 +1,14 @@
-/* SERVICIOS — p. 2
-   Plana de clasificados.
+/* SERVICIOS
 
-   Cinco avisos de tamaños distintos encastrados en una grilla de seis
-   columnas. No es una lista de tres cosas apiladas: es una página, y la
-   jerarquía la da el tamaño del módulo.
+   Sin cajas. Antes cada módulo era un recuadro con fondo propio encastrado en
+   una grilla de filetes de 2px: la sección se leía como una planilla y la
+   jerarquía dependía del tamaño del recuadro, no de lo que decía.
 
-   Truco de los filetes: la grilla tiene el bordo de fondo y un gap de 2px;
-   cada aviso pinta el suyo de --ink encima. Así cada separación es UNA línea
-   y no dos bordes pegados —que es lo que pasa cuando cada módulo trae el
-   suyo propio y terminan sumando 4px donde debería haber 2—. */
+   Acá los módulos son columnas de texto y lo que los separa es el aire. La
+   jerarquía la hace el cuerpo de la letra: el 01 va grande, los otros dos
+   entran en la mitad derecha en cuerpo chico. Los únicos dos trazos que
+   quedan son el filete que abre la banda de "cómo trabajamos" y el plano
+   naranja del cierre, que es el único elemento de la sección que se toca. */
 
 .pagina {
   position: relative;
@@ -17,32 +17,32 @@
 
 .plana {
   display: grid;
-  gap: 2px;
-  background: var(--terra);
-  border-top: var(--filete-med);
-  border-bottom: var(--filete-med);
+  padding-inline: var(--edge);
+  padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  row-gap: clamp(2.5rem, 6vw, 4rem);
+  column-gap: clamp(2rem, 5vw, 4.5rem);
 }
 
 .aviso {
-  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  background: var(--ink);
-  padding: clamp(1.1rem, 2.8vw, 1.75rem);
-  transition: background 0.25s var(--ease);
+  gap: 0.6rem;
+  align-self: start;
+  min-width: 0;
 }
 
-.aviso:hover { background: var(--ink-2); }
-
-/* ---------------- avisos de rubro ---------------- */
-.rubroNum {
-  color: var(--terra-lit);
-  padding-bottom: 0.35rem;
-  border-bottom: var(--filete);
+/* ---------------- módulos de servicio ----------------
+   El numeral es grande y en bordo: reemplaza al recuadro como marca de que
+   ahí empieza un módulo, y de paso mete un salto de escala en una sección
+   que si no sería toda del mismo tamaño. */
+.servicioNum {
+  font-size: clamp(1.9rem, 3.6vw, 2.9rem);
+  line-height: 1;
+  color: var(--terra);
+  letter-spacing: 0.02em;
 }
 
-.rubro {
+.servicioTitulo {
   font-size: clamp(1.5rem, 3.6vw, 2.3rem);
   color: var(--bone);
   text-wrap: balance;
@@ -52,12 +52,11 @@
   color: var(--bone-dim);
   font-size: 1rem;
   line-height: 1.58;
+  max-width: 46ch;
 }
 
 .entregables {
-  margin-top: auto;
-  padding-top: 0.7rem;
-  border-top: var(--filete);
+  margin-top: 0.35rem;
   color: var(--bone-dim);
   line-height: 1.85;
 }
@@ -69,27 +68,28 @@
   border-right: var(--filete);
 }
 
-/* El aviso principal va más grande de cuerpo, no sólo más grande de caja. */
-.aviso01 .rubro { font-size: clamp(1.8rem, 5vw, 3.2rem); }
+/* El módulo principal va más grande de cuerpo, no sólo más ancho de columna. */
+.aviso01 .servicioNum { font-size: clamp(2.6rem, 6vw, 4.5rem); }
+.aviso01 .servicioTitulo { font-size: clamp(2rem, 5.5vw, 3.6rem); }
 .aviso01 .cuerpo { font-size: 1.0625rem; }
 
-/* Entregables del aviso grande: en lista, para llenar la caja alta y
-   distinguirlo de los chicos, que los llevan en línea corrida. */
-.incluyeLista { margin-top: auto; padding-top: 0.8rem; }
+/* Entregables del módulo grande: en lista, para que la columna ancha no
+   termine en una línea corrida de tres palabras. */
+.incluyeLista { margin-top: 0.5rem; }
 
 .incluyeTitulo {
   display: block;
   margin: 0 0 0.2rem;
   padding: 0 0 0.4rem;
   border-right: 0;
-  border-bottom: var(--filete-med);
+  border-bottom: var(--filete);
 }
 
 .incluyeLista li {
   display: flex;
   align-items: baseline;
   gap: 0.55rem;
-  padding: 0.5rem 0;
+  padding: 0.45rem 0;
   border-bottom: var(--filete);
   color: var(--bone);
   font-size: 1rem;
@@ -101,68 +101,100 @@
   flex: none;
 }
 
-/* ---------------- aviso de lo que no se hace ---------------- */
-.avisoNo { background: var(--ink-2); }
-.avisoNo:hover { background: var(--ink-3); }
-
-.noTitulo {
-  color: var(--terra-lit);
-  padding-bottom: 0.35rem;
-  border-bottom: var(--filete);
+/* ---------------- banda de la forma de trabajo ----------------
+   Cruza la plana entera. A lo ancho los tres pasos entran en columnas y se
+   leen como una secuencia —01, 02, 03— y no como una lista de viñetas. Un
+   solo filete arriba la separa de los servicios: ya no es una caja. */
+.avisoComo {
+  grid-column: 1 / -1;
+  gap: clamp(0.9rem, 2.2vw, 1.3rem);
+  padding-top: clamp(1.5rem, 3.5vw, 2.5rem);
+  border-top: var(--filete-med);
 }
 
-.noLista { display: grid; gap: 0.15rem; }
+.comoTitulo { color: var(--ember); }
 
-.noLista li {
-  padding: 0.4rem 0;
+.comoLista { display: grid; }
+
+.comoPaso {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  padding: 0.55rem 0;
   border-bottom: var(--filete);
-  color: var(--bone-dim);
-  font-size: 0.98rem;
+}
+.comoPaso:last-child { border-bottom: 0; }
+
+.comoNum {
+  flex: none;
+  font-size: 1.15rem;
+  color: var(--terra-lit);
+}
+
+.comoTexto {
+  color: var(--bone);
+  font-size: 1rem;
   line-height: 1.45;
 }
-.noLista li:last-child { border-bottom: 0; }
 
-/* Los tachados se dicen con la palabra "No se hacen" del encabezado; el
-   guion es la marca de listado, no un signo de prohibición. */
-.noLista li::before {
-  content: "—";
-  color: var(--terra-lit);
-  margin-right: 0.5rem;
+/* Desde que hay ancho, los pasos se ponen uno al lado del otro, el numeral
+   arriba del texto y un filete vertical entre medio. */
+@media (min-width: 700px) {
+  .comoLista { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .comoPaso {
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0 clamp(1rem, 3vw, 2.25rem);
+    border-bottom: 0;
+    border-left: var(--filete);
+  }
+  .comoPaso:first-child { padding-left: 0; border-left: 0; }
+  .comoPaso:last-child { padding-right: 0; }
 }
 
-/* ---------------- aviso de cierre ---------------- */
+/* ---------------- cierre ----------------
+   El único plano de color pleno de la sección y lo único que se toca. Sale
+   del margen de la plana y toma el ancho entero de la caja: después de tanto
+   aire, el corte de color es el que cierra. */
 .avisoCta {
+  grid-column: 1 / -1;
+  gap: clamp(0.5rem, 1.5vw, 0.9rem);
+  margin-inline: calc(var(--edge) * -1);
+  margin-top: clamp(1rem, 3vw, 2rem);
+  padding: clamp(1.75rem, 5vw, 3.5rem) var(--edge);
   background: var(--ember);
   color: var(--ink);
+  transition: background 0.25s var(--ease);
 }
-.avisoCta:hover { background: var(--bone); }
+.avisoCta:hover,
+.avisoCta:focus-visible { background: var(--bone); }
 
-.ctaTitulo { font-size: clamp(1.4rem, 3.4vw, 2rem); }
+.ctaTitulo {
+  font-size: clamp(2rem, 7vw, 4.5rem);
+  max-width: 18ch;
+}
 
-.ctaCuerpo { font-size: 1rem; line-height: 1.55; max-width: 46ch; }
+.ctaCuerpo { font-size: 1.0625rem; line-height: 1.55; max-width: 52ch; }
 
 .ctaAccion {
-  margin-top: auto;
-  padding-top: 0.7rem;
-  border-top: 2px solid rgba(15, 18, 20, 0.35);
+  margin-top: 0.6rem;
   font-weight: 700;
+  font-size: 1rem;
 }
 
 /* ============ la plana, en seis columnas ============ */
 @media (min-width: 900px) {
   .plana { grid-template-columns: repeat(6, minmax(0, 1fr)); }
 
-  /* 01 manda: ocupa media plana y dos filas de alto. */
+  /* 01 manda: se queda con media plana; 02 y 03 se reparten la otra mitad. */
   .aviso01 { grid-column: 1 / 4; grid-row: 1 / 3; }
   .aviso02 { grid-column: 4 / 7; }
   .aviso03 { grid-column: 4 / 7; }
-  .avisoNo { grid-column: 1 / 3; }
-  .avisoCta { grid-column: 3 / 7; }
 }
 
-/* En el medio, dos columnas: el aviso grande y el de cierre a todo el ancho. */
+/* En el medio, dos columnas: el módulo grande toma la fila entera. */
 @media (min-width: 620px) and (max-width: 899px) {
   .plana { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .aviso01 { grid-column: 1 / -1; }
-  .avisoCta { grid-column: 1 / -1; }
 }

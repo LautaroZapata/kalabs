@@ -4,8 +4,7 @@
 
    El maximalismo viene de la densidad de tipografía y de filetes, no de
    efectos. Todo lo que acá parece adorno es una convención de imprenta:
-   el cintillo, la cabecera a filete doble, la capitular, el corondel entre
-   columnas, el folio al pie.
+   el cintillo, la cabecera a filete doble, el folio al pie.
    ========================================================================== */
 
 :root {
@@ -43,6 +42,15 @@
   --gut: clamp(1rem, 4vw, 2.5rem);
   --edge: clamp(1rem, 5vw, 4rem);
   --folio-h: 38px;
+
+  /* --- la caja ---
+     El ancho del pliego. Sin tope, en un monitor de 2560 la línea de texto se
+     estira hasta donde el ojo ya no vuelve solo al margen izquierdo. */
+  --ancho: 1440px;
+  /* Sangría para lo que va a sangre: mete el contenido hasta la misma línea
+     que la caja, pero deja los filetes cruzando la pantalla entera. Cuando la
+     ventana es más angosta que la caja se reduce al margen de siempre. */
+  --sangria: max(var(--edge), calc((100% - var(--ancho)) / 2 + var(--edge)));
 
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --spring: cubic-bezier(0.34, 1.3, 0.44, 1);
@@ -189,18 +197,6 @@ input, textarea, select {
   text-wrap: pretty;
 }
 
-/* Capitular. Tres líneas de alto, como manda el oficio. */
-.capitular::first-letter {
-  float: left;
-  font-family: var(--font-display), Georgia, serif;
-  font-weight: 900;
-  font-variation-settings: "opsz" 144, "SOFT" 100, "WONK" 1;
-  font-size: 3.5em;
-  line-height: 0.78;
-  padding: 0.06em 0.09em 0 0;
-  color: var(--ember);
-}
-
 /* ==========================================================================
    PRIMITIVAS DE IMPRENTA
    ========================================================================== */
@@ -212,13 +208,20 @@ input, textarea, select {
   box-shadow: 0 4px 0 -1px var(--terra-dim);
 }
 
-/* Corondel: la línea vertical que separa columnas de texto. */
-.columnas {
-  column-gap: clamp(1.25rem, 3vw, 2.5rem);
-  column-rule: var(--filete);
+.edge { padding-inline: var(--edge); }
+
+/* La caja: el pliego donde se compone todo menos la portada, que va a sangre.
+   Los filetes laterales aparecen sólo cuando la ventana es más ancha que la
+   caja; sin ellos el contenido termina en el aire y parece cortado. */
+.caja {
+  width: 100%;
+  max-width: var(--ancho);
+  margin-inline: auto;
 }
 
-.edge { padding-inline: var(--edge); }
+@media (min-width: 1441px) {
+  .caja { border-inline: var(--filete); }
+}
 
 .sr {
   position: absolute;

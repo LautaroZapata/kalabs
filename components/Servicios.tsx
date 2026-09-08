@@ -7,21 +7,20 @@ import { SERVICIOS, UI } from "@/lib/content";
 import s from "./Servicios.module.css";
 
 /**
- * Servicios, compuestos como una plana de clasificados.
+ * Servicios.
  *
  * Las dos versiones anteriores fallaban por lo mismo, aunque se vieran
  * distinto: eran tres bloques iguales apilados a lo largo de la página. Como
  * lista o como titular, el ojo leía "tres cosas, una atrás de otra", y la
  * sección se comía tres pantallas para decir algo que entra en una.
  *
- * Acá no hay tres bloques: hay una sola composición. Cinco avisos de tamaños
- * distintos encastrados en una grilla, separados por filetes, como la página
- * de clasificados de un diario. La jerarquía la da el tamaño del módulo, no
- * el orden de lectura.
+ * La tercera los metió en una grilla de recuadros con fondo propio, y esa
+ * falló por lo contrario: tanto borde convertía la sección en una planilla.
  *
- * El texto también cambia de registro: el impersonal del clasificado
- * uruguayo —"se hacen", "se automatizan", "se arman"—, que es el de quien
- * ofrece un oficio y no el de quien vende una solución.
+ * Acá no hay cajas. Son columnas de texto separadas por aire, con la
+ * jerarquía puesta en el cuerpo de la letra —01 grande a la izquierda, 02 y
+ * 03 chicos a la derecha—, la banda de cómo trabajamos cruzando abajo y el
+ * plano naranja del cierre como único elemento que se toca.
  */
 export default function Servicios() {
   const quieto = useReducedMotion();
@@ -30,21 +29,15 @@ export default function Servicios() {
     <section id="servicios" className={s.pagina} aria-labelledby="servicios-t">
       <Cabezal
         id="servicios-t"
-        folio="2"
         antetitulo={UI.serviciosAntetitulo}
         titulo="Servicios"
-        bajada={UI.serviciosBajada}
       />
 
-      {/* La grilla lleva el color de los filetes de fondo y cada aviso tapa lo
-          suyo: así las separaciones son una línea sola y no dos bordes
-          pegados, que es lo que pasa cuando cada módulo trae el suyo. */}
       <div className={s.plana}>
         {SERVICIOS.map((serv, i) => {
-          /* El aviso principal ocupa el doble de alto, así que sus
+          /* El módulo principal ocupa el doble de alto, así que sus
              entregables van en lista al pie en vez de en una línea corrida:
-             llenan la caja y de paso distinguen al módulo grande de los
-             chicos, como pasa en una plana de clasificados de verdad. */
+             llenan la caja y de paso lo distinguen de los chicos. */
           const destacado = i === 0;
 
           return (
@@ -53,10 +46,10 @@ export default function Servicios() {
               className={`${s.aviso} ${s[`aviso${serv.num}`]}`}
               {...entrada({ quieto, y: 20, margin: "-6% 0px -10% 0px", delay: i * 0.06 })}
             >
-              <p className={`${s.rubroNum} dato`} aria-hidden="true">
+              <p className={`${s.servicioNum} dato`} aria-hidden="true">
                 {serv.num}
               </p>
-              <h3 className={`${s.rubro} titular titular--sec`}>{serv.rubro}</h3>
+              <h3 className={`${s.servicioTitulo} titular titular--sec`}>{serv.titulo}</h3>
               <p className={`${s.cuerpo} parrafo`}>{serv.cuerpo}</p>
 
               {destacado ? (
@@ -80,18 +73,25 @@ export default function Servicios() {
           );
         })}
 
-        {/* Aviso al pie: lo que no se hace. Define mejor a un estudio que la
-            lista de lo que sí —cualquiera dice que hace de todo—. */}
+        {/* La forma de trabajo, cruzando la plana entera: tres pasos en
+            columnas, en el orden en que pasan. Estaba en la portada, pero ahí
+            llegaba antes de que nadie supiera qué hacemos; acá contesta la
+            pregunta que sigue a la lista de servicios. */}
         <motion.aside
-          className={`${s.aviso} ${s.avisoNo}`}
+          className={`${s.aviso} ${s.avisoComo}`}
           {...entrada({ quieto, y: 20, delay: 0.18 })}
         >
-          <h3 className={`${s.noTitulo} dato`}>{UI.serviciosNoTitulo}</h3>
-          <ul className={s.noLista}>
-            {UI.serviciosNo.map((n) => (
-              <li key={n}>{n}</li>
+          <h3 className={`${s.comoTitulo} dato dato--caja`}>{UI.serviciosComoTitulo}</h3>
+          <ol className={s.comoLista}>
+            {UI.serviciosComo.map((paso, i) => (
+              <li key={paso} className={s.comoPaso}>
+                <span className={`${s.comoNum} dato`} aria-hidden="true">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span className={s.comoTexto}>{paso}</span>
+              </li>
             ))}
-          </ul>
+          </ol>
         </motion.aside>
 
         <motion.a

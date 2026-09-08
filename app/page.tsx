@@ -40,11 +40,16 @@ export default function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      {/* La portada va a sangre —los filetes cruzan la pantalla— y las tres
+          secciones interiores se componen dentro de la caja. El pie queda
+          afuera de <main>, así que sigue de lado a lado. */}
       <main id="contenido">
         <Portada />
-        <Servicios />
-        <Proyectos />
-        <Contacto />
+        <div className="caja">
+          <Servicios />
+          <Proyectos />
+          <Contacto />
+        </div>
       </main>
       <Folio />
     </>

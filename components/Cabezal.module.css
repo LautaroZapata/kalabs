@@ -1,11 +1,27 @@
-/* Cabezal de sección. Filete grueso arriba, como el arranque de una página
-   nueva del diario; el folio va pegado al antetítulo, al margen. */
+/* Cabezal de sección.
+
+   El filete de arriba es un elemento propio y no un `border-top`, porque se
+   dibuja: crece en X desde el margen izquierdo cuando la sección entra.
+
+   El aire de arriba es mucho a propósito. Es el respiro que separa una
+   sección de la anterior y el que hace que el título se lea como un salto de
+   escala y no como una línea más de una página pareja. */
 
 .cabezal {
-  border-top: var(--filete-grue);
-  padding: clamp(1rem, 3vw, 1.75rem) var(--edge) clamp(1rem, 2.5vw, 1.5rem);
+  position: relative;
+  padding: clamp(2.5rem, 7vw, 5.5rem) var(--edge) clamp(1.25rem, 3vw, 2rem);
   display: grid;
-  gap: 0.5rem;
+  gap: clamp(0.6rem, 1.5vw, 1rem);
+}
+
+.filete {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: var(--bone);
+  transform-origin: left center;
 }
 
 .antetitulo {
@@ -15,31 +31,8 @@
   color: var(--ember);
 }
 
-.folio {
-  color: var(--terra-lit);
-  border-right: var(--filete);
-  padding-right: 0.75rem;
-}
-
 .titulo {
-  font-size: clamp(2.4rem, 11vw, 6.5rem);
+  font-size: clamp(3rem, 13vw, 8.5rem);
   color: var(--bone);
-  max-width: 16ch;
-}
-
-.bajada {
-  font-size: clamp(1rem, 2.6vw, 1.25rem);
-  max-width: 46ch;
-  padding-top: 0.6rem;
-  border-top: var(--filete-med);
-}
-
-@media (min-width: 900px) {
-  .cabezal {
-    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
-    align-items: end;
-    column-gap: clamp(1.5rem, 4vw, 3rem);
-  }
-  .antetitulo { grid-column: 1 / -1; }
-  .bajada { border-top: 0; border-left: var(--filete-med); padding: 0 0 0.4rem 1rem; }
+  max-width: 14ch;
 }

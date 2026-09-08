@@ -1,13 +1,15 @@
 import Greca from "./Greca";
-import { INDICE, PORTADA, SITE } from "@/lib/content";
+import Composicion from "./Composicion";
+import { PORTADA, SITE } from "@/lib/content";
 import s from "./Portada.module.css";
 
 /**
  * Portada.
  *
- * No es un hero: es la primera plana de un diario. Cintillo con los datos de
- * la edición, cabecera a filete doble con el nombre, y abajo tres columnas
- * separadas por corondel — sumario, nota de tapa con capitular y recuadro.
+ * Orla, cintillo con los datos del estudio y el nombre a filete doble, con la
+ * caja de composición al costado. Nada más: la portada presenta y deja pasar.
+ * Lo que hay para decir —qué hacemos, cómo trabajamos, qué hicimos— lo dicen
+ * las secciones de abajo.
  *
  * Componente de servidor a propósito: la entrada la hace CSS con retardos
  * escalonados, así el contenido más importante del sitio no depende de que
@@ -29,7 +31,7 @@ export default function Portada() {
         className={s.orla}
       />
 
-      {/* cintillo: los datos de la edición, como arriba de toda cabecera */}
+      {/* cintillo: los datos del estudio, como arriba de toda cabecera */}
       <div className={`${s.cintillo} dato dato--caja`}>
         {PORTADA.cintillo.map((t) => (
           <span key={t}>{t}</span>
@@ -41,66 +43,9 @@ export default function Portada() {
 
       {/* cabecera: el nombre a caja baja, entre filete grueso y filete medio */}
       <header className={s.cabecera}>
-        <p className={`${s.flancoIzq} dato dato--caja`}>
-          Desarrollo web
-          <br />
-          Automatizaciones
-          <br />
-          Sistemas a medida
-        </p>
-
         <h1 className={`${s.nombre} titular rugoso`}>{SITE.nombre}</h1>
-
-        <p className={`${s.flancoDer} dato dato--caja`}>
-          {SITE.ciudad}
-          <br />
-          {SITE.pais}
-          <br />
-          34°54′S
-        </p>
+        <Composicion />
       </header>
-
-      {/* cuerpo de la plana: sumario · nota de tapa · recuadro */}
-      <div className={s.plana}>
-        <nav className={s.sumario} aria-label="Índice del sitio">
-          <h2 className={`${s.sumarioTitulo} dato dato--caja`}>En este número</h2>
-          <ol>
-            {INDICE.filter((i) => i.id !== "portada").map((i) => (
-              <li key={i.id}>
-                <a className={s.sumarioItem} href={`#${i.id}`}>
-                  <span className={`${s.sumarioLabel} titular titular--sec`}>{i.label}</span>
-                  <span className={`${s.sumarioNota} bajada`}>{i.nota}</span>
-                  <span className={`${s.sumarioFolio} dato`} aria-hidden="true">
-                    p.&nbsp;{i.folio}
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
-
-        <article className={s.nota}>
-          <h2 className={`${s.titular} titular`}>{PORTADA.titular}</h2>
-          <p className={`${s.bajadaTapa} bajada`}>{PORTADA.bajada}</p>
-          <div className={`${s.cuerpoNota} columnas`}>
-            <p className="capitular parrafo">{PORTADA.entrada}</p>
-          </div>
-        </article>
-
-        <aside className={s.recuadro}>
-          <h2 className={`${s.recuadroTitulo} dato dato--caja`}>{PORTADA.recuadro.titulo}</h2>
-          <ul>
-            {PORTADA.recuadro.puntos.map((p) => (
-              <li key={p} className={s.recuadroItem}>
-                {p}
-              </li>
-            ))}
-          </ul>
-          <a className={`${s.recuadroAccion} dato dato--caja`} href="#contacto">
-            Escribinos
-          </a>
-        </aside>
-      </div>
     </section>
   );
 }

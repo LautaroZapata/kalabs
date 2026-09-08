@@ -122,7 +122,7 @@ export default function Maqueta({ proyecto }: { proyecto: Proyecto }) {
         width={1600}
         height={1000}
         className={s.img}
-        sizes="(min-width: 900px) 50vw, 100vw"
+        sizes="(min-width: 900px) 33vw, 100vw"
       />
 
       {/* Velo: baja el contraste del pie de la captura para que la viñeta se

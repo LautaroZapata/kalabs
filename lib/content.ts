@@ -5,38 +5,26 @@ export const SITE = {
   pais: "Uruguay",
   email: "hola@kalabs.uy",
   descripcion:
-    "Estudio digital de Montevideo. Desarrollo web, automatizaciones y sistemas a medida para negocios chicos.",
+    "Estudio digital de Montevideo. Desarrollo web, automatizaciones y sistemas a medida.",
   url: "https://kalabs.uy",
 };
 
-/** La portada: cabecera, titular de tapa y entrada con capitular. */
+/** La portada: cintillo y nombre, nada más. */
 export const PORTADA = {
   cintillo: ["Montevideo, Uruguay", "Est. 2025", "Estudio digital"],
-  titular: "Trabajamos con negocios chicos que no quieren parecerse a nadie.",
-  bajada: "Desarrollo web, automatizaciones y sistemas a medida.",
-  entrada:
-    "Hacemos sitios, automatizaciones y sistemas a medida para negocios de Montevideo. Cosas que salen a producción y quedan andando, no demostraciones. Abajo están los tres que están en la calle hoy, lo que sabemos hacer y cómo escribirnos.",
-  recuadro: {
-    titulo: "Cómo trabajamos",
-    puntos: [
-      "La primera conversación no se cobra.",
-      "Presupuesto cerrado antes de empezar.",
-      "Respondemos en 24 horas.",
-    ],
-  },
 };
 
-export type Indice = { id: string; folio: string; label: string; nota: string };
+export type Indice = { id: string; label: string };
 
-/* Las secciones son páginas del diario. El folio (p. 2) es una convención de
-   imprenta, no la numeración 00/01/02 de siempre. */
+/* Las secciones del sitio, en orden. Lo usa la barra del pie para marcar
+   dónde está el visitante. */
 /* Los servicios van antes que los proyectos: primero qué podemos hacer por
    quien llega, después la prueba de que sabemos hacerlo. */
 export const INDICE: Indice[] = [
-  { id: "portada", folio: "1", label: "Portada", nota: "Kalabs" },
-  { id: "servicios", folio: "2", label: "Servicios", nota: "Qué hacemos" },
-  { id: "proyectos", folio: "3", label: "Proyectos", nota: "En producción" },
-  { id: "contacto", folio: "4", label: "Contacto", nota: "Equipo y contacto" },
+  { id: "portada", label: "Portada" },
+  { id: "servicios", label: "Servicios" },
+  { id: "proyectos", label: "Proyectos" },
+  { id: "contacto", label: "Contacto" },
 ];
 
 export type Proyecto = {
@@ -107,13 +95,7 @@ export const PROYECTOS: Proyecto[] = [
 
 export type Servicio = {
   num: string;
-  /**
-   * El encabezado del aviso, en el impersonal del clasificado uruguayo:
-   * "se hacen", "se automatizan", "se arman". Es el registro de quien ofrece
-   * un oficio, no el de quien vende una solución.
-   */
-  rubro: string;
-  /** Nombre corriente del servicio. Lo usa el desplegable del formulario. */
+  /** Nombre del servicio. Lo usa el desplegable del formulario. */
   titulo: string;
   cuerpo: string;
   entregables: string[];
@@ -122,36 +104,32 @@ export type Servicio = {
 export const SERVICIOS: Servicio[] = [
   {
     num: "01",
-    rubro: "Se hacen sitios web",
     titulo: "Desarrollo web",
     cuerpo:
-      "Para negocios que necesitan que los encuentren. Rápidos en el celular, sin plantillas y con la medición puesta desde el primer día. Se entrega andando, con el dominio configurado y alguien del otro lado si algo se rompe.",
+      "Sitios para negocios que necesitan que los encuentren. Rápidos en el celular, sin plantillas y con la medición configurada desde el primer día. Se entregan en producción, con el dominio andando y soporte del otro lado.",
     entregables: ["Institucional", "Tienda o catálogo", "Panel de administración", "Medición"],
   },
   {
     num: "02",
-    rubro: "Se automatizan tareas",
     titulo: "Automatizaciones",
     cuerpo:
-      "Lo que hacés todas las semanas a mano lo pasa a hacer una máquina. Se empieza por la que más horas come.",
+      "Las tareas manuales que se repiten todas las semanas pasan a ejecutarse solas. Empezamos por la que más horas consume.",
     entregables: ["Bots de WhatsApp y Telegram", "Reportes", "Integraciones", "Alertas"],
   },
   {
     num: "03",
-    rubro: "Se arman sistemas a medida",
     titulo: "Sistemas a medida",
     cuerpo:
-      "Turnos, pedidos o control de stock. Una función bien resuelta antes que un sistema entero que nadie abre.",
+      "Turnos, pedidos o control de stock. Una función bien resuelta antes que un sistema entero que después nadie abre.",
     entregables: ["Turnos y agenda", "Pedidos", "Control de stock", "Fichas de clientes"],
   },
 ];
 
 export type Persona = {
   nombre: string;
-  /** A qué se dedica, en una línea. Sin biografía: el nombre y el oficio
-      alcanzan, y quien quiera más entra al LinkedIn. */
+  /** A qué se dedica, en una línea. Sin biografía y sin cargo: lo que hace
+      dice más que el título, y quien quiera más entra al LinkedIn. */
   rol: string;
-  tag: string;
   linkedin: string;
 };
 
@@ -159,13 +137,11 @@ export const EQUIPO: Persona[] = [
   {
     nombre: "Lautaro Zapata",
     rol: "Desarrollo y sistemas",
-    tag: "Fundador",
     linkedin: "https://www.linkedin.com/in/lautarozc/",
   },
   {
     nombre: "Matías Sosa",
     rol: "Diseño gráfico e identidad",
-    tag: "Socio",
     linkedin: "https://www.linkedin.com/in/matiassxsa/",
   },
 ];
@@ -178,49 +154,48 @@ export const ENLACES = [
 
 /** Microcopy de interfaz. Todo el texto del sitio vive en este archivo. */
 export const UI = {
-  /* p. 2 — proyectos */
+  /* proyectos */
   proyectosAntetitulo: "En producción",
-  proyectosBajada: "Tres productos que hoy usan personas reales, todos los días.",
   proyectosVer: "Ver el sitio",
-  proyectosCierreKicker: "Espacio disponible",
+  proyectosCierreKicker: "Próximo proyecto",
   proyectosCierreTitulo: "Tu proyecto acá",
-  proyectosCierreNota: "Si tenés algo entre manos, escribinos. La primera conversación no se cobra.",
+  proyectosCierreNota:
+    "Si tenés un proyecto en marcha, escribinos. La primera consulta no tiene costo.",
   proyectosCierreAccion: "Escribinos",
 
-  /* p. 2 — servicios, compuestos como plana de clasificados */
-  serviciosAntetitulo: "Rubros",
-  serviciosBajada: "Tres oficios y una condición: si no sirve, se dice antes de empezar.",
+  /* servicios */
+  serviciosAntetitulo: "Áreas de trabajo",
   serviciosEntregables: "Incluye",
-  /* Un aviso dice lo que no se hace. Define mejor a un estudio que la lista
-     de lo que sí: cualquiera dice que hace de todo. */
-  serviciosNoTitulo: "No se hacen",
-  serviciosNo: [
-    "Sitios armados sobre veinte plantillas.",
-    "Sistemas que necesitan un manual.",
-    "Apps que nadie va a descargar.",
+  /* La forma de trabajo bajó de la portada: acá, después de la lista de
+     servicios, es donde alguien la busca. Van en el orden en que pasan. */
+  serviciosComoTitulo: "Cómo trabajamos",
+  serviciosComo: [
+    "La primera consulta no tiene costo.",
+    "Presupuesto cerrado antes de empezar.",
+    "Respuesta dentro de las 24 horas.",
   ],
-  serviciosCtaTitulo: "¿No sabés cuál te sirve?",
+  serviciosCtaTitulo: "¿No sabés cuál necesitás?",
   serviciosCtaCuerpo:
-    "Contanos qué te está pasando y lo vemos juntos. Si el trabajo no da para cobrarlo, te lo decimos.",
+    "Contanos qué necesitás resolver y lo evaluamos juntos. Si no amerita un desarrollo, te lo decimos.",
   serviciosCtaAccion: "Escribinos",
 
-  /* p. 4 — contacto (incluye equipo) */
-  equipoAntetitulo: "Quiénes",
-  cita: "Un negocio chico no necesita parecerse a los demás. Necesita que lo recuerden.",
+  /* contacto (incluye equipo) */
+  equipoAntetitulo: "Equipo",
+  /* La única mancha de color pleno del sitio, y va pegada al formulario: por
+     eso el eslogan promete algo y señala la acción que está al lado. */
+  cita: "Posicionarte digitalmente está a un click.",
   contactoAntetitulo: "Escribinos",
-  contactoCierre: ["Contanos qué necesitás.", "Respondemos en 24 horas."],
   form: {
     titulo: "Formulario de contacto",
     respuesta: "Respuesta en 24 horas",
     nombre: "Nombre",
     nombrePh: "Nombre y apellido",
-    negocio: "Negocio (opcional)",
-    negocioPh: "Panadería, estudio, kiosco…",
+    negocio: "Empresa (opcional)",
+    negocioPh: "Nombre o rubro",
     servicio: "Servicio de interés",
     servicioOtro: "Todavía no lo tengo definido",
     mensaje: "Mensaje",
     mensajePh: "Contanos brevemente qué necesitás.",
     enviar: "Enviar mensaje",
-    aviso: "Se abre tu aplicación de correo con el mensaje redactado. También podés escribirnos a",
   },
 };

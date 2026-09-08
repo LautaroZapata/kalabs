@@ -1,8 +1,7 @@
 # Kalabs
 
 Landing/portfolio de una página para **Kalabs**, estudio digital de Montevideo,
-Uruguay. Desarrollo web, automatizaciones y sistemas a medida para negocios
-chicos.
+Uruguay. Desarrollo web, automatizaciones y sistemas a medida.
 
 ## Dirección de diseño
 
@@ -19,55 +18,78 @@ El cambio de fondo es de dónde sale el maximalismo: ya no de efectos sino de
 **densidad de tipografía y de filetes**. Todo lo que acá parece adorno es una
 convención de imprenta con siglos encima.
 
-- **La portada es una primera plana, no un hero.** Cintillo con los datos de
-  la edición, cabecera a filete doble con el nombre en caja baja y al ras, y
-  abajo tres columnas de ancho distinto separadas por corondel: sumario ("En
-  este número"), nota de tapa con capitular a dos columnas, y un recuadro.
-  Nada centrado, nada flotando en el medio de la pantalla.
-- **Las secciones son páginas.** El folio (`p. 2`) es una convención de
-  imprenta; la numeración `00/01/02` en mono es un tic de plantilla. El
-  cabezal de sección —antetítulo, título, bajada, folio al margen— lo comparten
-  las tres páginas interiores para que el sitio se lea como un mismo impreso.
-- **Los proyectos se arman como una plana.** Nota principal a todo el ancho
-  con la maqueta apaisada y dos secundarias abajo, separadas por filete. Sin
-  cajas: las notas de un diario no llevan borde. La caja queda reservada para
-  el aviso clasificado, que sí es publicidad.
-- **Los servicios son una plana de clasificados, no una lista.** Cinco avisos
-  de tamaños distintos encastrados en una grilla de seis columnas: los tres
-  rubros, uno que dice lo que **no** se hace y uno de cierre. La jerarquía la
-  da el tamaño del módulo, no el orden de lectura, y la sección entra en una
-  pantalla.
+- **La portada presenta y deja pasar.** Cintillo con los datos del estudio,
+  cabecera a filete doble con el nombre en caja baja y al ras, y un único
+  recuadro al margen derecho con la forma de trabajo. Nada centrado, nada
+  flotando en el medio de la pantalla, y ningún párrafo de relleno: lo que hay
+  para decir lo dicen Servicios, Proyectos y Contacto.
+- **El cabezal de sección se comparte.** Antetítulo, título y bajada, iguales
+  en las tres secciones interiores, para que el sitio se lea como una sola
+  pieza. La numeración `00/01/02` en mono es un tic de plantilla y no está.
+- **No hay cajas.** Ni en servicios, ni en proyectos, ni en el formulario. Lo
+  que separa es el aire y, donde hace falta, un filete. Una página llena de
+  recuadros con fondo propio se lee como una planilla: cada módulo se defiende
+  solo y ninguno respira. Los dos únicos planos de color pleno que quedan son
+  el cierre de Servicios y la cita de Contacto, y los dos son eso justamente
+  porque son la excepción.
+- **Proyectos entra en una pantalla.** Los tres en fila, y el conjunto
+  —cabezal, capturas y cierre— dentro de un viewport. La altura no la fija el
+  contenido: la sección es una columna flexible y las capturas se estiran para
+  llenar lo que sobra, así que en un monitor alto se ven grandes y en uno bajo
+  más chicas, pero nunca hay scroll de más. Antes cada proyecto se comía su
+  propia pantalla y había que bajar tres veces para enterarse de qué hace el
+  estudio. Ninguna nota lleva stack: al cliente que la mira no le dice nada
+  que haya Supabase abajo.
+- **Los servicios son una composición, no una lista.** Los tres en columnas:
+  el 01 se queda con media plana en cuerpo grande, el 02 y el 03 se reparten
+  la otra mitad en cuerpo chico. La jerarquía la hace el tamaño de la letra y
+  el numeral en bordo, no un recuadro. Abajo cruza la banda de **cómo
+  trabajamos** y cierra el plano naranja.
 
-  Hubo dos versiones antes de esta y las dos fallaban por lo mismo aunque se
-  vieran distinto: eran tres bloques iguales apilados a lo largo de la página.
-  Como tabla o como titular, el ojo leía "tres cosas, una atrás de otra", y se
-  comían tres pantallas para decir algo que entra en una.
+  Hubo tres versiones antes de esta. Las dos primeras fallaban por lo mismo
+  aunque se vieran distinto: eran tres bloques iguales apilados a lo largo de
+  la página, y el ojo leía "tres cosas, una atrás de otra". La tercera las
+  metió en una grilla de recuadros y falló por lo contrario: tanto borde
+  convertía la sección en una planilla.
 
-  El texto va en el impersonal del clasificado uruguayo —"se hacen", "se
-  automatizan", "se arman"—, que es el registro de quien ofrece un oficio y no
-  el de quien vende una solución. Y hay un aviso para lo que no se hace:
-  define mejor a un estudio que la lista de lo que sí, porque cualquiera dice
-  que hace de todo.
+  La forma de trabajo vive acá y no en la portada: ahí llegaba antes de que
+  nadie supiera qué hacemos. A todo el ancho los tres pasos entran en columnas
+  numeradas y se leen como una secuencia, no como viñetas.
+- **El filete de cada sección se dibuja.** No es un `border-top`: es un
+  elemento propio que crece en X desde el margen izquierdo cuando la sección
+  entra en pantalla, como la regla que se tira antes de componer una página.
+  Es el mismo gesto que hace la caja de composición de la portada, y es lo que
+  ata las dos puntas del sitio.
 - **Los servicios van antes que los proyectos.** Primero qué podemos hacer por
   quien llega, después la prueba de que sabemos hacerlo.
-- **Cada proyecto se muestra, no se cuenta.** La nota abre con la **captura
-  real** del sitio en vivo y enlaza ahí. Antes había maquetas dibujadas en
-  SVG: servían de sustituto, pero cualquiera nota que no son el producto.
-  Encima de la captura va una viñeta animada que pone en movimiento lo que el
-  proyecto hace —una grúa que cruza, un mes que se llena, un pistón que
-  trabaja—. Ninguna nota lleva stack: al cliente que la mira no le dice nada
-  que haya Supabase abajo.
-- **El folio al pie reemplaza al riel de estado.** El reloj en vivo y la barra
-  de progreso eran decoración retrofuturista que no le servía a nadie; el
-  folio dice en qué página estás y te lleva a otra, que es lo que un lector
-  necesita.
+- **Cada proyecto se muestra, no se cuenta.** La captura es del sitio en vivo
+  y la nota entera enlaza ahí. Antes había maquetas dibujadas en SVG: servían
+  de sustituto, pero cualquiera nota que no son el producto. Encima va una
+  viñeta animada que pone en movimiento lo que el proyecto hace —una grúa que
+  cruza, un mes que se llena, un pistón que trabaja—.
+- **La portada va a sangre; el resto, en la caja.** Los filetes de la portada
+  cruzan la pantalla entera, pero su contenido se mete hasta la misma línea
+  que las secciones de abajo (`--sangria`), así el wordmark arranca donde
+  arrancan los cabezales. Todo lo demás se compone dentro de `--ancho`
+  (1440px): sin tope, en un monitor de 2560 la línea de texto se estira hasta
+  donde el ojo ya no vuelve solo al margen izquierdo.
+- **La caja de composición.** Al costado del nombre hay una página armándose
+  sola: bajan los corondeles, entra el titular, se llenan las líneas de texto
+  y aparece el recuadro de foto con su aspa; cuando la maqueta está completa
+  se levanta y empieza otra de las tres. No es un mockup de navegador ni una
+  terminal con código corriendo —los dos clichés del rubro—: es el mismo
+  vocabulario del sitio puesto en movimiento. Aparece recién a partir de
+  1100px, porque abajo de eso el wordmark ocupa la cabecera entera.
+- **La barra al pie reemplaza al riel de estado.** El reloj en vivo y la barra
+  de progreso eran decoración retrofuturista que no le servía a nadie; la
+  barra dice en qué sección estás y te lleva a otra, que es lo que hace falta.
 - **La greca aparece una sola vez**, como orla superior de la portada. Son
   cuatro tramas ortogonales (`zigzag`, `rombo`, `escalera`, `trama`)
   construidas a base de escalones —geometría abstracta inspirada en el textil
   sudamericano, sin citar ningún símbolo concreto—. Es lo más propio que tiene
   el sitio, y por eso vale más una que diez repartidas.
-- **El equipo son fichas de autor**, de las que van al pie de una nota, y el
-  sitio cierra con un colofón declarando con qué tipografías se compuso.
+- **El equipo son dos fichas sobrias** al pie: nombre, oficio y el enlace al
+  LinkedIn. Sin biografías.
 - **La portada entra sin JavaScript.** El escalonado lo hace CSS con
   `animation-delay`, así el contenido más importante no queda en `opacity: 0`
   esperando a que cargue un bundle.
@@ -97,7 +119,7 @@ pertenece. Las dos de Google Fonts, cargadas con `next/font`.
 | Familia | Rol | Por qué |
 | --- | --- | --- |
 | **Fraunces** | Titulares, siempre vertical | Variable, con dos ejes que casi ninguna otra tiene: `SOFT` redondea los remates y `WONK` mete las formas torcidas de la itálica dentro de la redonda. Con los dos al máximo la letra deja de verse calculada. |
-| **Newsreader** | Cuerpo, bajadas, datos y folios | Serif editorial, pensada para párrafos largos. El serif es lo que da la sensación de que atrás hay alguien. |
+| **Newsreader** | Cuerpo, bajadas y datos | Serif editorial, pensada para párrafos largos. El serif es lo que da la sensación de que atrás hay alguien. |
 
 Las reglas que sostienen el sistema:
 
@@ -108,9 +130,7 @@ Las reglas que sostienen el sistema:
 - **Los titulares van en caja baja.** La versalita 900 con tracking cerrado es
   el titular que escribe todo el mundo.
 - **Los datos van en versalitas, no en monoespaciada.** Una tercera familia
-  para escribir "p. 2" era una voz de más.
-
-La capitular de la nota de tapa es de tres líneas, como manda el oficio.
+  para cuatro etiquetas era una voz de más.
 
 ### Rugosidad
 
@@ -140,12 +160,12 @@ nítida y no se pierde nada.
   naranja 6.6:1, naranja quemado 5.5:1, bordo aclarado 5.5:1 (4.6:1 sobre
   `--ink-3`, el fondo más claro donde aparecen). Hueso sobre bordo 5.4:1.
 - **El bordo (`--terra`, 2.8:1) nunca lleva texto.** Es filete, borde y plano
-  de fondo; cuando es fondo, el texto encima va en hueso. Para la tinta de los
-  folios y las líneas de sumario está `--terra-lit`, que es el mismo tono
-  aclarado hasta pasar AA. Si hace falta bordo sobre texto, se usa ése.
+  de fondo; cuando es fondo, el texto encima va en hueso. Para los datos y las
+  marcas de listado está `--terra-lit`, que es el mismo tono aclarado hasta
+  pasar AA. Si hace falta bordo sobre texto, se usa ése.
 - Foco de teclado visible en todo el sitio (contorno naranja de 3px).
 - Ningún estado se transmite sólo con color: lleva la palabra completa
-  (`En producción`, `Socio · a confirmar`).
+  (`En producción`, `Desarrollo y sistemas`).
 - Se respeta `prefers-reduced-motion`: no hay entradas por scroll ni escalonado
   de portada. El contenido aparece directamente visible, no oculto esperando un
   disparador.
@@ -169,9 +189,10 @@ nítida y no se pierde nada.
   `opacity: 0` inline en el HTML servido, así que hay que pedirle explícitamente
   el estado final en el montaje o el bloque queda invisible para siempre. Eso
   resuelve `entrada()` en `components/mov/entrada.ts`.
-- **Un componente por sección, con su CSS Module al lado.** `Indice`,
-  `Proyectos`, `Servicios` y `Contacto`; `Formulario` toma sus estilos de
-  `Contacto.module.css` porque vive dentro de esa ficha.
+- **Un componente por sección, con su CSS Module al lado.** `Portada`,
+  `Servicios`, `Proyectos` y `Contacto`, más `Folio` para la barra del pie;
+  `Formulario` toma sus estilos de `Contacto.module.css` porque vive dentro de
+  esa ficha.
 - **Las capturas se versionan, no se piden en vivo.** Están en
   `public/proyectos/` y se refrescan con `node scripts/capturas.mjs` cuando
   alguno de los proyectos cambia de portada. Playwright no es dependencia del

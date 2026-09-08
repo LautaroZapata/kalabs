@@ -1,13 +1,16 @@
-/* PORTADA — p. 1
-   Primera plana. La composición es la de un diario: cintillo, cabecera a
-   filete doble y tres columnas de ancho distinto separadas por corondel.
+/* PORTADA — orla, cintillo y cabecera a filete doble.
 
-   Nada de esto está centrado. El nombre va a caja baja y pegado al filete,
-   no flotando en el medio de la pantalla. */
+   Va a sangre: los filetes cruzan la pantalla entera aunque el resto del
+   sitio se componga dentro de la caja. Lo que sí se alinea con la caja es el
+   contenido —de eso se encarga --sangria—, así el nombre arranca en la misma
+   línea que los cabezales de abajo.
+
+   El nombre va a caja baja y pegado al filete, no flotando en el medio de la
+   pantalla. El cierre lo hace el filete doble de la cabecera; abajo sólo
+   queda el aire que la separa de Servicios. */
 
 .portada {
   position: relative;
-  border-bottom: var(--filete-med);
   padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
 }
 
@@ -23,7 +26,7 @@
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0.35rem 1.25rem;
-  padding: 0.5rem var(--edge);
+  padding: 0.5rem var(--sangria);
   color: var(--bone-dim);
   border-bottom: var(--filete);
 }
@@ -44,15 +47,22 @@
 
 /* ---------------- cabecera ---------------- */
 .cabecera {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0.75rem;
-  align-items: end;
-  padding: clamp(1rem, 3vw, 1.75rem) var(--edge) clamp(0.5rem, 1.5vw, 1rem);
+  padding: clamp(1rem, 3vw, 1.75rem) var(--sangria) clamp(0.5rem, 1.5vw, 1rem);
   border-top: var(--filete-grue);
   border-bottom: var(--filete-med);
   /* el filete doble de verdad: una segunda línea fina bajo la gruesa */
   box-shadow: 0 5px 0 -2px var(--terra-dim);
+}
+
+/* Desde que hay ancho de sobra, la caja de composición se sienta al lado del
+   nombre y las dos cosas apoyan sobre el mismo filete. */
+@media (min-width: 1100px) {
+  .cabecera {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: end;
+    column-gap: clamp(1.5rem, 4vw, 3.5rem);
+  }
 }
 
 /* El nombre en caja baja y al ras. Fraunces con SOFT y WONK al máximo: los
@@ -66,157 +76,15 @@
   letter-spacing: -0.035em;
 }
 
-.flancoIzq,
-.flancoDer {
-  color: var(--bone-dim);
-  line-height: 1.75;
-}
-
-.flancoDer { text-align: right; }
-
-/* ---------------- la plana ---------------- */
-.plana {
-  display: grid;
-  gap: clamp(1.25rem, 3vw, 2rem);
-  padding: clamp(1.25rem, 3vw, 2rem) var(--edge) 0;
-}
-
-/* ---------------- sumario ---------------- */
-.sumarioTitulo {
-  color: var(--ember);
-  padding-bottom: 0.4rem;
-  border-bottom: var(--filete-med);
-  margin-bottom: 0.25rem;
-}
-
-.sumarioItem {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: baseline;
-  gap: 0 0.75rem;
-  padding: 0.7rem 0;
-  border-bottom: var(--filete);
-  transition: padding-left 0.2s var(--ease), color 0.2s var(--ease);
-}
-
-.sumarioItem:hover,
-.sumarioItem:focus-visible { padding-left: 0.5rem; }
-.sumarioItem:hover .sumarioLabel { color: var(--ember); }
-
-.sumarioLabel {
-  font-size: clamp(1.4rem, 4vw, 1.8rem);
-  color: var(--bone);
-  transition: color 0.2s var(--ease);
-}
-
-.sumarioNota {
-  grid-column: 1 / 2;
-  font-size: 0.9rem;
-}
-
-.sumarioFolio {
-  grid-row: 1 / 3;
-  grid-column: 2 / 3;
-  align-self: center;
-  color: var(--terra-lit);
-  white-space: nowrap;
-}
-
-/* ---------------- nota de tapa ---------------- */
-.titular {
-  font-size: clamp(2.1rem, 7.5vw, 4.4rem);
-  color: var(--bone);
-}
-
-.bajadaTapa {
-  margin-top: 0.75rem;
-  font-size: clamp(1.05rem, 3vw, 1.35rem);
-  padding-bottom: 0.9rem;
-  border-bottom: var(--filete-med);
-}
-
-.cuerpoNota {
-  margin-top: 1rem;
-  color: var(--bone-dim);
-}
-
-/* ---------------- recuadro ---------------- */
-.recuadro {
-  border: var(--filete-med);
-  background: var(--ink-2);
-  padding: clamp(0.9rem, 2.5vw, 1.25rem);
-  align-self: start;
-}
-
-.recuadroTitulo {
-  color: var(--ember);
-  padding-bottom: 0.5rem;
-  margin-bottom: 0.5rem;
-  border-bottom: var(--filete);
-}
-
-.recuadroItem {
-  padding: 0.5rem 0;
-  border-bottom: var(--filete);
-  font-size: 0.95rem;
-  line-height: 1.45;
-  color: var(--bone);
-}
-.recuadroItem:last-child { border-bottom: 0; }
-
-.recuadroAccion {
-  display: block;
-  margin-top: 0.9rem;
-  background: var(--ember);
-  color: var(--ink);
-  text-align: center;
-  padding: 0.6rem 0.75rem;
-  transition: background 0.2s var(--ease), color 0.2s var(--ease);
-}
-.recuadroAccion:hover,
-.recuadroAccion:focus-visible {
-  background: var(--ink);
-  color: var(--ember);
-  box-shadow: inset 0 0 0 2px var(--ember);
-}
-
-/* ============ escritorio: la plana se arma en tres columnas ============ */
-@media (min-width: 900px) {
-  .cabecera {
-    grid-template-columns: minmax(0, auto) minmax(0, 1fr) minmax(0, auto);
-    gap: 0 clamp(1rem, 3vw, 2.5rem);
-  }
-
-  .plana {
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 2.1fr) minmax(0, 0.85fr);
-    /* corondel: la línea vertical entre columnas la ponen los bordes */
-    align-items: start;
-  }
-
-  .nota {
-    padding-inline: clamp(1rem, 2.5vw, 2rem);
-    border-inline: var(--filete);
-  }
-
-  /* La nota de tapa se lee en dos columnas, como una nota impresa. */
-  .cuerpoNota { columns: 2; }
-}
-
 /* ============ entrada escalonada, sin JavaScript ============ */
 @media (prefers-reduced-motion: no-preference) {
   .cintillo,
-  .cabecera,
-  .sumario,
-  .nota,
-  .recuadro {
+  .cabecera {
     animation: entra 0.75s cubic-bezier(0.16, 1, 0.3, 1) backwards;
   }
 
   .cintillo { animation-delay: 0.05s; }
   .cabecera { animation-delay: 0.14s; }
-  .nota     { animation-delay: 0.3s; }
-  .sumario  { animation-delay: 0.4s; }
-  .recuadro { animation-delay: 0.48s; }
 }
 
 @keyframes entra {

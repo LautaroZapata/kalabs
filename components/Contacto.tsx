@@ -8,12 +8,11 @@ import { ENLACES, EQUIPO, SITE, UI } from "@/lib/content";
 import s from "./Contacto.module.css";
 
 /**
- * Contratapa. Cierra el impreso: la firma del estudio, quiénes lo hacen y
- * cómo escribirnos.
+ * Cierre del sitio: la firma del estudio, quiénes lo hacen y cómo escribirnos.
  *
  * Antes abría con una marquesina infinita —el recurso más repetido del
  * género— y el equipo era una sección aparte con placas giradas y superpuestas.
- * Acá el equipo son dos fichas de autor, como las que van al pie de una nota.
+ * Acá el equipo son dos fichas sobrias, al pie.
  */
 export default function Contacto() {
   const quieto = useReducedMotion();
@@ -23,10 +22,8 @@ export default function Contacto() {
     <section id="contacto" className={s.pagina} aria-labelledby="contacto-t">
       <Cabezal
         id="contacto-t"
-        folio="4"
         antetitulo={UI.contactoAntetitulo}
         titulo="Contacto"
-        bajada={UI.contactoCierre.join(" ")}
       />
 
       <div className={s.plana}>
@@ -93,10 +90,7 @@ export default function Contacto() {
                   </span>
                 </a>
               </h3>
-              <p className={`${s.autorRol} dato`}>
-                {p.rol}
-                <span className={s.autorTag}>{p.tag}</span>
-              </p>
+              <p className={`${s.autorRol} dato`}>{p.rol}</p>
             </motion.article>
           ))}
         </div>
@@ -107,8 +101,7 @@ export default function Contacto() {
           © {anio} {SITE.nombre} — {SITE.ciudad}, {SITE.pais}
         </p>
         <p>
-          Compuesto en Fraunces y Newsreader ·{" "}
-          <a href="#portada">Volver a la portada ↑</a>
+          <a href="#portada">Volver al inicio ↑</a>
         </p>
       </footer>
     </section>

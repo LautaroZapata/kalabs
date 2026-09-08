@@ -10,7 +10,12 @@
   overflow: hidden;
   background: var(--ink-2);
   border: var(--filete);
-  aspect-ratio: 16 / 10;
+  /* Quien la usa decide el recorte. Con --mq-alto la captura deja de imponer
+     su altura y se estira para llenar el hueco que le dejen: es lo que hace
+     que un proyecto entre justo en una pantalla. */
+  aspect-ratio: var(--mq-aspecto, 16 / 10);
+  height: var(--mq-alto, auto);
+  min-height: 0;
 }
 
 .img {

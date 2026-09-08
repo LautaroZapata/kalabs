@@ -5,12 +5,11 @@ import { INDICE, SITE } from "@/lib/content";
 import s from "./Folio.module.css";
 
 /**
- * Folio al pie.
+ * Barra de navegación al pie.
  *
  * Reemplaza al HUD con reloj en vivo y barra de progreso: ese riel de estado
  * es el cliché "retrofuturista" que sale por defecto y no aportaba nada que
- * el visitante necesite. Acá cumple la función de un folio impreso —de qué
- * página estás leyendo— y de paso hace de navegación.
+ * el visitante necesite. Acá marca en qué sección está y permite ir a otra.
  */
 export default function Folio() {
   const [activa, setActiva] = useState(INDICE[0]);
@@ -59,10 +58,6 @@ export default function Folio() {
           );
         })}
       </ul>
-
-      <span className={s.numero}>
-        <span className="sr">Estás en la página </span>p.&nbsp;{activa.folio}
-      </span>
     </nav>
   );
 }

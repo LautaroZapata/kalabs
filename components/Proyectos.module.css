@@ -1,9 +1,17 @@
-/* PROYECTOS — p. 2
-   Una plana de diario: nota principal a todo el ancho con la maqueta
-   apaisada, dos notas secundarias abajo y un aviso clasificado cerrando.
+/* PROYECTOS — la sección entera en una pantalla.
 
-   Las notas no llevan caja: se separan con filetes, como en el papel. El
-   recuadro con borde queda reservado para el aviso, que sí es publicidad. */
+   Con cada proyecto ocupando su propio alto había que bajar tres pantallas
+   para enterarse de qué hace el estudio, y en el camino no quedaba claro
+   dónde terminaba uno y empezaba el otro. Acá los tres van en fila, en tres
+   columnas, y el conjunto —cabezal, capturas y cierre— entra en un viewport.
+
+   La altura no la fija el contenido: la fija la pantalla. La sección es una
+   columna flexible y las capturas se estiran para llenar lo que sobra
+   después del cabezal, el texto y el cierre. En un monitor alto se ven más
+   grandes; en uno bajo, más chicas. Nunca hay scroll de más.
+
+   Sin cajas: lo que separa las columnas es el aire y el filete del sumario
+   que abre cada una. */
 
 .pagina {
   position: relative;
@@ -12,24 +20,15 @@
 
 .plana {
   display: grid;
-  gap: 0;
+  gap: clamp(1.5rem, 4vw, 2.5rem);
   padding-inline: var(--edge);
-  padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
-  border-top: var(--filete-med);
 }
 
 /* ---------------- nota ---------------- */
 .nota {
+  position: relative;
   display: grid;
-  gap: clamp(0.9rem, 2.5vw, 1.4rem);
-  padding-block: clamp(1.5rem, 4vw, 2.25rem);
-  border-bottom: var(--filete);
-}
-
-.cuerpo {
-  display: flex;
-  flex-direction: column;
-  gap: 0.55rem;
+  gap: clamp(0.6rem, 1.4vw, 0.9rem);
   min-width: 0;
 }
 
@@ -40,14 +39,22 @@
   justify-content: space-between;
   gap: 1rem;
   color: var(--terra-lit);
-  padding-bottom: 0.4rem;
-  border-bottom: var(--filete);
+  padding-bottom: 0.45rem;
+  border-bottom: var(--filete-med);
 }
 
 .slugEstado { color: var(--ember); }
 
+.cuerpo {
+  display: grid;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.identidad { min-width: 0; }
+
 .titulo {
-  font-size: clamp(2rem, 8vw, 3.6rem);
+  font-size: clamp(2rem, 8vw, 2.8rem);
   color: var(--bone);
 }
 
@@ -59,22 +66,31 @@
   inset: 0;
   z-index: 2;
 }
-.nota { position: relative; }
 .nota:hover .enlace { color: var(--ember); }
 
-.largo { font-size: 0.95rem; margin-top: -0.2rem; }
+.largo { font-size: 0.92rem; margin-top: 0.15rem; }
+
+.texto {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  min-width: 0;
+}
 
 .pitch {
-  font-size: clamp(1.1rem, 3vw, 1.5rem);
+  font-size: clamp(1.05rem, 2.6vw, 1.3rem);
   color: var(--ember);
   max-width: 26ch;
 }
 
-.detalle { color: var(--bone-dim); }
+.detalle {
+  color: var(--bone-dim);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
 
 .pieNota {
-  margin-top: auto;
-  padding-top: 0.7rem;
+  padding-top: 0.55rem;
   border-top: var(--filete);
   display: flex;
   align-items: baseline;
@@ -98,7 +114,7 @@
 .nota:hover .visitar { color: var(--ember); }
 .nota:hover .flecha { transform: translateX(4px); }
 
-/* La nota principal hereda del hover de la ficha los colores de la maqueta. */
+/* La nota le pasa a la maqueta los colores del hover. */
 .nota:hover,
 .nota:focus-within {
   --mq-ruta: var(--ember);
@@ -106,55 +122,80 @@
   --mq-linea: var(--ember-dim);
 }
 
-/* ---------------- aviso clasificado ---------------- */
+/* ---------------- cierre ----------------
+   Una sola línea al pie. Como bloque se comía justo el alto que necesitan
+   las capturas, y era el elemento menos importante de la sección. */
 .aviso {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 0.55rem;
-  margin-top: clamp(1.25rem, 3vw, 2rem);
-  padding: clamp(1.1rem, 3vw, 1.75rem);
-  border: var(--filete-med);
-  border-color: var(--ember);
+  gap: 0.5rem;
+  margin-inline: var(--edge);
+  margin-top: clamp(1.25rem, 3vh, 2rem);
+  padding: clamp(1rem, 2.5vh, 1.5rem) 0 clamp(1.5rem, 4vw, 2.5rem);
+  border-top: var(--filete-med);
   color: var(--bone);
-  transition: background 0.25s var(--ease);
 }
-.aviso:hover,
-.aviso:focus-visible { background: var(--ink-2); }
+
+.avisoIzq {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
 
 .avisoKicker { color: var(--ember); }
 
-.avisoTitulo { font-size: clamp(1.7rem, 6vw, 2.6rem); }
+.avisoTitulo {
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
+  transition: color 0.2s var(--ease);
+}
+.aviso:hover .avisoTitulo,
+.aviso:focus-visible .avisoTitulo { color: var(--ember); }
 
-.avisoNota { color: var(--bone-dim); font-size: 0.98rem; }
-
-.avisoAccion {
-  margin-top: 0.4rem;
-  padding-top: 0.7rem;
-  border-top: var(--filete);
-  color: var(--ember);
+.avisoNota {
+  color: var(--bone-dim);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  max-width: 48ch;
 }
 
-/* ============ escritorio ============ */
+.avisoAccion { color: var(--ember); white-space: nowrap; }
+
+/* ============ escritorio: todo en una pantalla ============ */
 @media (min-width: 900px) {
-  .plana { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(1.5rem, 4vw, 3rem); }
+  .pagina {
+    min-height: calc(100svh - var(--folio-h));
+    display: flex;
+    flex-direction: column;
+  }
 
-  /* La principal ocupa las dos columnas y se arma apaisada. */
-  /* `stretch` y no `start`: así la columna de texto toma el alto de la
-     captura y el pie de nota se apoya abajo en vez de dejar un hueco. */
-  .notaPrincipal {
-    grid-column: 1 / -1;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  /* El cabezal cede aire cuando la pantalla es baja: el clamp es en vh, no
+     en vw, porque acá lo que escasea es el alto. */
+  .pagina > header { padding-top: clamp(1.75rem, 6vh, 5.5rem); }
+  .pagina > header h2 { font-size: clamp(2.5rem, 7vw, 6rem); }
+
+  /* La plana se queda con todo el alto sobrante y lo reparte en tres
+     columnas iguales. */
+  .plana {
+    flex: 1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: stretch;
-    border-bottom: var(--filete-med);
-  }
-  .notaPrincipal .titulo { font-size: clamp(3rem, 6vw, 5rem); }
-
-  /* Las secundarias comparten fila y se separan con corondel. */
-  .nota:not(.notaPrincipal):nth-of-type(2) {
-    padding-right: clamp(1.5rem, 4vw, 3rem);
-    border-right: var(--filete);
-    margin-right: calc(clamp(1.5rem, 4vw, 3rem) * -0.5);
   }
 
-  .aviso { grid-column: 1 / -1; }
+  /* Sumario, captura, texto y pie. La captura es la fila elástica: se estira
+     hasta donde llegue el alto de la pantalla, con un piso para que en un
+     monitor bajo no quede una banda. */
+  .nota {
+    grid-template-rows: auto minmax(140px, 1fr) auto auto;
+    --mq-aspecto: auto;
+    --mq-alto: 100%;
+  }
+
+  .aviso {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+  }
 }

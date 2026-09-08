@@ -1,8 +1,7 @@
-/* CONTACTO — p. 4
-   Contratapa. Dos columnas separadas por corondel: a la izquierda la
-   dirección y la cita, a la derecha el formulario. Abajo, las fichas de
-   autor y el colofón —esa nota al pie donde una imprenta declara con qué
-   tipografías se compuso el libro. */
+/* CONTACTO
+   Dos columnas separadas por una línea: a la izquierda la dirección y la
+   cita, a la derecha —y más ancho— el formulario. Abajo, las fichas del
+   equipo y el pie. */
 
 .pagina {
   position: relative;
@@ -82,14 +81,13 @@
   color: var(--bone-dim);
 }
 
-/* ---------------- formulario ---------------- */
+/* ---------------- formulario ----------------
+   Sin recuadro ni fondo propio: el formulario ya se distingue por lo que es
+   —campos— y meterlo en una caja lo convertía en un widget pegado sobre la
+   página en vez de una parte de ella. */
 .columnaForm { min-width: 0; }
 
-.ficha {
-  border: var(--filete-med);
-  background: var(--ink-2);
-  padding: clamp(1.1rem, 3.5vw, 1.75rem);
-}
+.ficha { min-width: 0; }
 
 .fichaTop {
   display: flex;
@@ -104,36 +102,106 @@
 
 .campo { display: block; margin-bottom: 0.9rem; }
 
+/* El fieldset trae borde, padding y márgenes propios del navegador. */
+.grupo {
+  min-width: 0;
+  border: 0;
+  padding: 0;
+  margin-inline: 0;
+}
+
 .label {
   display: block;
+  padding: 0;
   margin-bottom: 0.3rem;
   color: var(--bone-dim);
 }
 
+/* ---- elección de servicio ----
+   Las casillas de un formulario impreso: un cuadrado por opción y una cruz
+   que se dibuja al elegir. Abajo siguen siendo radios; acá sólo cambia con
+   qué se las pinta. */
+.opciones {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(0.75rem, 2.5vw, 1.5rem);
+  border-top: var(--filete);
+}
+
+.opcion {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0;
+  border-bottom: var(--filete);
+  cursor: pointer;
+  color: var(--bone-dim);
+  transition: color 0.18s var(--ease);
+}
+
+.opcion:hover { color: var(--bone); }
+.opcion:hover .casilla { border-color: var(--terra-lit); }
+
+.casilla {
+  flex: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  border: var(--filete-med);
+  background: var(--ink);
+  transition: border-color 0.18s var(--ease);
+}
+
+/* La cruz sale apenas torcida: marcada a mano, no impresa con la casilla. */
+.cruz {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-4deg) scale(1.05);
+  overflow: visible;
+}
+
+.cruz line {
+  stroke: var(--ember);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  fill: none;
+}
+
+.opcionTexto {
+  font-size: 0.98rem;
+  line-height: 1.3;
+}
+
+.opcion:has(input:checked) { color: var(--bone); }
+.opcion:has(input:checked) .casilla { border-color: var(--ember); }
+
+/* El input está oculto para la vista: el foco se dibuja sobre la casilla. */
+.opcion:has(input:focus-visible) .casilla {
+  outline: 3px solid var(--ember);
+  outline-offset: 2px;
+}
+
+/* Un solo trazo abajo, como la línea de una ficha de papel. Con recuadro
+   completo cada campo era otra cajita más en una página que ya no las usa. */
 .input,
-.select,
 .area {
   width: 100%;
-  background: var(--ink);
-  border: var(--filete);
+  background: transparent;
+  border: 0;
   border-bottom: 2px solid var(--terra);
-  padding: 0.55rem 0.7rem;
+  padding: 0.5rem 0;
   color: var(--bone);
-  font-size: 1rem;
+  font-size: 1.0625rem;
   border-radius: 0;
   transition: border-color 0.18s var(--ease);
 }
 
 .input:focus,
-.select:focus,
 .area:focus { border-bottom-color: var(--ember); }
 
 .input::placeholder,
 .area::placeholder { color: #6f6a61; font-style: italic; }
 
 .area { resize: vertical; min-height: 6rem; }
-
-.select { appearance: none; cursor: pointer; }
 
 .enviar {
   width: 100%;
@@ -150,17 +218,11 @@
 .enviar:hover,
 .enviar:focus-visible { background: transparent; color: var(--ember); }
 
-.aviso {
-  margin-top: 0.6rem;
-  color: var(--bone-dim);
-  line-height: 1.6;
-}
 
 /* ---------------- fichas de autor ---------------- */
 .autores {
-  padding: clamp(1.25rem, 3vw, 2rem) var(--edge);
+  padding: clamp(1.75rem, 4vw, 3rem) var(--edge);
   border-top: var(--filete-med);
-  background: var(--ink-2);
 }
 
 .autoresTitulo {
@@ -196,15 +258,9 @@
 }
 
 .autorRol {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.4rem 0.75rem;
   margin-top: 0.35rem;
   color: var(--bone-dim);
 }
-
-.autorTag { color: var(--ember); }
 
 /* ---------------- colofón ---------------- */
 .colofon {
@@ -225,8 +281,10 @@
      Había un margen negativo compensando el gap: corría la columna del
      formulario sobre la anterior y le tapaba el final a los valores de los
      enlaces. Con gap 0 no hace falta compensar nada. */
+  /* El formulario manda: es lo que la sección quiere que pase. La columna de
+     contacto queda como complemento, no como protagonista. */
   .plana {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 26fr) minmax(0, 74fr);
     column-gap: 0;
   }
   .columna { padding-right: clamp(1.5rem, 4vw, 2.5rem); }
