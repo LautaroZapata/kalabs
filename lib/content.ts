@@ -149,9 +149,12 @@ export const EQUIPO: Persona[] = [
   },
 ];
 
+/* Sin WhatsApp hasta que haya un número del estudio. Estaba, pero apuntaba a
+   un `mailto:`: quien lo clickeaba esperando WhatsApp se encontraba con el
+   cliente de correo abriéndose. Un canal que no es el que dice ser hace dudar
+   del resto del sitio. Cuando haya número, vuelve como `https://wa.me/…`. */
 export const ENLACES = [
   { label: "Correo", valor: SITE.email, href: `mailto:${SITE.email}` },
-  { label: "WhatsApp", valor: "Escribinos", href: `mailto:${SITE.email}?subject=WhatsApp` },
   { label: "GitHub", valor: "LautaroZapata", href: "https://github.com/LautaroZapata" },
 ];
 
