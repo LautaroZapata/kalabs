@@ -6,7 +6,10 @@ export const SITE = {
   email: "hola@kalabs.dev",
   descripcion:
     "Estudio digital de Montevideo. Desarrollo web, automatizaciones y sistemas a medida.",
-  url: "https://kalabs.dev",
+  /* Con www: es el dominio que Vercel tiene como principal y al que redirige
+     el apex. La canónica, el sitemap y la imagen OG tienen que nombrar el host
+     que efectivamente sirve, no el que rebota. */
+  url: "https://www.kalabs.dev",
 };
 
 /** La portada: cintillo y nombre, nada más. */
