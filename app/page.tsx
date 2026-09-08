@@ -3,9 +3,20 @@ import Proyectos from "@/components/Proyectos";
 import Servicios from "@/components/Servicios";
 import Contacto from "@/components/Contacto";
 import Folio from "@/components/Folio";
-import { PROYECTOS, SERVICIOS, SITE } from "@/lib/content";
+import { EQUIPO, PROYECTOS, SERVICIOS, SITE } from "@/lib/content";
 
-/* Datos estructurados: que Google entienda que esto es un estudio de Montevideo. */
+/**
+ * Datos estructurados: que Google entienda que esto es un estudio de
+ * Montevideo y no un texto cualquiera. Es lo que alimenta la búsqueda local.
+ *
+ * Va acá y no en el layout: describe al negocio que presenta esta página. Si
+ * algún día hay más páginas, ésta sigue siendo la que lo declara, y una sola.
+ * Dos bloques compitiendo por la misma entidad es peor que ninguno.
+ *
+ * `ProfessionalService` en lugar de `LocalBusiness` a secas: no hay local a la
+ * calle ni horario de atención, así que se declara la ciudad y el área de
+ * trabajo en vez de inventar una dirección.
+ */
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
@@ -13,13 +24,21 @@ const jsonLd = {
   description: SITE.descripcion,
   url: SITE.url,
   email: SITE.email,
-  areaServed: "UY",
   address: {
     "@type": "PostalAddress",
     addressLocality: SITE.ciudad,
     addressCountry: "UY",
   },
-  founder: { "@type": "Person", name: "Lautaro Zapata" },
+  areaServed: { "@type": "Country", name: SITE.pais },
+  knowsLanguage: ["es"],
+  /* El equipo sale de EQUIPO y no de un nombre escrito acá: el LinkedIn como
+     `sameAs` es lo que le permite a Google atar la persona al estudio. */
+  employee: EQUIPO.map((persona) => ({
+    "@type": "Person",
+    name: persona.nombre,
+    jobTitle: persona.rol,
+    sameAs: persona.linkedin,
+  })),
   makesOffer: SERVICIOS.map((s) => ({
     "@type": "Offer",
     itemOffered: { "@type": "Service", name: s.titulo, description: s.cuerpo },
