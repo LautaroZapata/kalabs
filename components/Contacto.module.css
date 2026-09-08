@@ -33,52 +33,6 @@
   margin-top: 2rem;
 }
 
-/* ---------- equipo ---------- */
-.equipo {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.4rem;
-  margin-top: 2rem;
-  scroll-margin-top: 6rem;
-}
-
-.persona {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-}
-
-.inicial {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 999px;
-  background: var(--terra);
-  color: var(--papel);
-  font-size: 0.8rem;
-  font-weight: 700;
-  transition: transform 0.35s var(--spring);
-}
-
-.inicialBrasa {
-  background: var(--ember);
-  color: var(--ink);
-}
-
-.persona:hover .inicial { transform: scale(1.08); }
-
-.personaNombre {
-  display: block;
-  font-weight: 700;
-}
-
-.personaRol {
-  display: block;
-  color: var(--ink-4);
-}
-
 /* ---------- formulario ---------- */
 .columnaForm { position: relative; }
 

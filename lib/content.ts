@@ -249,8 +249,13 @@ export const UI = {
     "Montevideo, Uruguay",
   ],
 
-  /* contacto (incluye equipo) */
+  /* estudio */
   equipoAntetitulo: "Equipo",
+  estudioTitulo: "Dos personas, y las dos trabajan en tu proyecto.",
+  estudioCuerpo:
+    "No hay cuentas intermedias ni un equipo que rota: quien te contesta el primer correo es quien diseña y quien programa.",
+
+  /* contacto */
   contactoTitulo: ["Preguntanos ", "lo que sea", "."],
   contactoCuerpo:
     "Contanos qué necesitás resolver y lo evaluamos juntos. Si no amerita un desarrollo, te lo decimos.",

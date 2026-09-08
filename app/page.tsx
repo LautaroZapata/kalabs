@@ -1,6 +1,7 @@
 import Banner from "@/components/Banner";
 import Barra from "@/components/Barra";
 import Contacto from "@/components/Contacto";
+import Estudio from "@/components/Estudio";
 import Obra from "@/components/Obra";
 import Pie from "@/components/Pie";
 import Portada from "@/components/Portada";
@@ -65,12 +66,17 @@ export default function Page() {
 
       {/* Todo se compone dentro de la caja menos el banner, que cruza la
           pantalla entera: es lo que parte la página en dos —arriba lo que
-          hicimos y lo que hacemos, abajo cómo escribirnos—. */}
+          hicimos, lo que hacemos y quiénes somos, abajo cómo escribirnos—.
+
+          El orden es el mismo que nombra la barra, y no por prolijidad: dos
+          pastillas contiguas que bajan en orden invertido hacen dudar de si la
+          navegación hace lo que dice. */}
       <main id="contenido">
         <div className="caja">
           <Portada />
           <Obra />
           <Servicios />
+          <Estudio />
         </div>
         <Banner />
         <div className="caja">

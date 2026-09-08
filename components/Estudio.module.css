@@ -1,0 +1,125 @@
+.estudio {
+  padding-top: clamp(3.5rem, 10vh, 6.5rem);
+  scroll-margin-top: 5rem;
+}
+
+.rotulo {
+  color: var(--terra);
+  margin-bottom: 0.7rem;
+}
+
+.plana {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.6rem, 5vw, 4rem);
+  align-items: start;
+}
+
+@media (max-width: 840px) {
+  .plana { grid-template-columns: 1fr; }
+}
+
+.titulo {
+  font-size: clamp(1.8rem, 4.4vw, 3.4rem);
+  max-width: 16ch;
+}
+
+.cuerpo {
+  margin-top: 1rem;
+  max-width: 46ch;
+  color: var(--ink-4);
+}
+
+/* La sede con el isotipo adelante: es el único lugar del cuerpo de la página
+   donde la marca vuelve a aparecer chica, y hace de firma. */
+.sede {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink-4);
+}
+
+.iso {
+  width: 1rem;
+  height: auto;
+  color: var(--ember);
+}
+
+/* ---------- las dos personas ---------- */
+.gente {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.persona {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  border-radius: var(--r);
+  padding: 1.1rem clamp(1rem, 2.5vw, 1.6rem);
+  background: var(--bone);
+  transition:
+    background 0.35s var(--ease),
+    color 0.35s var(--ease),
+    transform 0.35s var(--spring);
+}
+
+.persona:hover {
+  background: var(--ink);
+  color: var(--papel);
+  transform: translateX(4px);
+}
+
+.inicial {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: var(--terra);
+  color: var(--papel);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.inicialBrasa {
+  background: var(--ember);
+  color: var(--ink);
+}
+
+.datos { min-width: 0; }
+
+.nombre {
+  display: block;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.025em;
+}
+
+.rol {
+  display: block;
+  color: var(--ink-4);
+  transition: color 0.35s var(--ease);
+}
+
+.persona:hover .rol { color: var(--bone-dim); }
+
+.enlace {
+  margin-left: auto;
+  white-space: nowrap;
+  opacity: 0.6;
+  transition: opacity 0.35s var(--ease);
+}
+
+.persona:hover .enlace { opacity: 1; }
+
+@media (max-width: 420px) {
+  /* El «LinkedIn ↗» se va: con el nombre y el oficio, la ficha entera ya es
+     un enlace y el destino lo anuncia igual el lector de pantalla. */
+  .enlace { display: none; }
+}

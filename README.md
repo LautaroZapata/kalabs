@@ -66,11 +66,15 @@ brasa con la inicial gigante detrás y el índice de filas—.
 - **La navegación son cuatro pastillas arriba.** Antes era una barra fija al
   pie que marcaba en qué sección estabas. Marcaba bien y no la usaba nadie: en
   un sitio de una página, saber que estás en «Proyectos» no es información.
-- **El equipo son dos personas con sus iniciales**, pegado al formulario y no
-  en una sección propia: quien está por escribir quiere saber a quién le
-  escribe justo en ese momento, no tres pantallas antes. Iniciales y no fotos
-  —dos fotos de perfil recortadas en círculo son lo que hace que un estudio
-  parezca una plantilla de agencia—.
+- **El equipo son dos personas con sus iniciales**, en su propia sección entre
+  los servicios y el banner. Estuvo colgado de la columna de contacto, que era
+  más lindo argumento —quien está por escribir quiere saber a quién le
+  escribe— y estaba mal: la pastilla «Estudio» de la barra llevaba más abajo
+  que «Escribinos», que está a su derecha. **El orden de las secciones es el
+  orden en que las nombra la barra**, y eso manda sobre cualquier otra cosa:
+  dos enlaces contiguos que bajan al revés hacen dudar de si la navegación
+  hace lo que dice. Iniciales y no fotos —dos fotos de perfil recortadas en
+  círculo son lo que hace que un estudio parezca una plantilla de agencia—.
 - **La portada entra sin JavaScript.** El escalonado lo hace CSS con
   `animation-delay`, así lo primero que se ve no queda en `opacity: 0`
   esperando a que cargue un bundle.
@@ -233,7 +237,7 @@ seguimiento, entrega— están en [`docs/plantillas-correo.md`](docs/plantillas-
 ### Notas de implementación
 
 - **Un componente por sección, con su CSS Module al lado.** `Barra`,
-  `Portada`, `Obra`, `Servicios`, `Banner`, `Contacto` y `Pie`; `Formulario`
+  `Portada`, `Obra`, `Servicios`, `Estudio`, `Banner`, `Contacto` y `Pie`; `Formulario`
   toma sus estilos de `Contacto.module.css` porque vive dentro de esa ficha, y
   `Reveal` no tiene módulo propio porque su clase (`.rev`) la usan cinco
   secciones distintas y vive en `globals.css`.
