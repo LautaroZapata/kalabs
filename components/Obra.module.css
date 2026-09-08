@@ -15,21 +15,21 @@
   overflow: hidden;
 }
 
-/* La inicial, enorme y en tinta, derivando despacio detrás de la captura.
-   No se lee como letra y no tiene que leerse: es el fondo. */
-.letra {
+/* El isotipo a tamaño de mural, en tinta, saliendo por la esquina de abajo a
+   la derecha y derivando despacio.
+
+   Centrado y más grande no funcionaba: la captura le tapa el centro y lo que
+   asoma arriba y abajo son cuatro puntas negras que no se leen como nada. En
+   la esquina se ve el trazo entero —el brazo largo y el remate—, que es lo
+   único que hace falta para reconocerlo. */
+.trazo {
   position: absolute;
-  inset: 0;
   z-index: 0;
-  display: grid;
-  place-items: center;
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 800;
-  font-variation-settings: "opsz" 96;
-  font-size: clamp(24rem, 62vw, 62rem);
-  line-height: 0.72;
+  right: -6%;
+  bottom: -14%;
+  width: auto;
+  height: 78%;
   color: var(--ink);
-  user-select: none;
   pointer-events: none;
   animation: deriva 28s ease-in-out infinite alternate;
 }
@@ -145,6 +145,12 @@
   /* Y el plano se achica con ella: el alto de escritorio dejaba media pantalla
      de brasa vacía debajo de una captura chica. */
   .escena { min-height: clamp(320px, 54svh, 520px); }
+  /* El trazo baja de tamaño con el plano, si no le come el aire a la captura. */
+  .trazo {
+    height: 58%;
+    right: -14%;
+    bottom: -10%;
+  }
   .marco { aspect-ratio: 4 / 3; }
   .captura { object-position: top left; }
   .pieSitio { display: none; }

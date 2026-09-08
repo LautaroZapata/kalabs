@@ -31,9 +31,9 @@ brasa con la inicial gigante detrás y el índice de filas—.
   y cae en el mensaje con el foco al final, así no lo escribe dos veces. Si lo
   manda vacío, baja igual al formulario: un campo que no hace nada cuando lo
   apretás es peor que uno que no está.
-- **La obra va en dos tiempos.** Arriba la escena: un plano de brasa con la
-  inicial del estudio derivando de fondo y un proyecto por vez, grande,
-  rotando solo. Abajo el índice: cuatro filas para ir directo a uno, y con
+- **La obra va en dos tiempos.** Arriba la escena: un plano de brasa con el
+  isotipo saliendo por la esquina de abajo a la derecha y un proyecto por vez,
+  grande, rotando solo. Abajo el índice: cuatro filas para ir directo a uno, y con
   mouse la captura sigue al cursor. Las dos piezas no se pisan —la escena
   muestra, el índice lista— y entre las dos el proyecto pasó de una captura de
   400px a llevarse la pantalla.
@@ -67,6 +67,26 @@ brasa con la inicial gigante detrás y el índice de filas—.
 - **La portada entra sin JavaScript.** El escalonado lo hace CSS con
   `animation-delay`, así lo primero que se ve no queda en `opacity: 0`
   esperando a que cargue un bundle.
+
+### El isotipo
+
+La K de trazo, en `components/Marca.tsx`. Un solo `path`, en `currentColor`:
+el mismo componente sirve en brasa sobre papel (barra, pie), en tinta sobre el
+plano de brasa (la esquina de la escena) y en brasa sobre tinta (el favicon).
+
+- **Va en `--ember` y no en el `#f75e1b` del archivo original.** Dos naranjas
+  casi iguales conviviendo se leen como un error de impresión, no como dos
+  colores.
+- **En la escena sale por la esquina, no centrado.** Centrado y grande, la
+  captura le tapa el medio y lo que asoma son cuatro puntas negras que no se
+  leen como nada; en la esquina se ve el brazo largo y el remate, que es todo
+  lo que hace falta para reconocerlo.
+- **En la barra y en el pie va con el nombre al lado.** El trazo solo todavía
+  no lo reconoce nadie; cuando la marca tenga kilómetros encima, el nombre
+  puede irse.
+- El `viewBox` quedó recortado al trazo y con una sola matriz: el archivo
+  venía con tres transformaciones anidadas y el dibujo a 5.000 unidades del
+  origen, que hace imposible escalarlo sin recalcular todo.
 
 ### Paleta
 

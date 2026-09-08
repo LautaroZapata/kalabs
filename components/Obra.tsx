@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import Marca from "./Marca";
 import Reveal from "./Reveal";
 import { PROYECTOS, UI } from "@/lib/content";
 import s from "./Obra.module.css";
@@ -64,9 +65,10 @@ export default function Obra() {
 
       {/* ---------------- la escena ---------------- */}
       <div className={s.escena}>
-        <span className={s.letra} aria-hidden="true">
-          {"K"}
-        </span>
+        {/* Antes acá había una «K» de Bricolage a 62vw. Ahora está la de
+            verdad: el mismo isotipo de la barra, a tamaño de mural y en
+            tinta sobre la brasa. */}
+        <Marca className={s.trazo} />
 
         <div className={s.marco}>
           {PROYECTOS.map((p, i) => (

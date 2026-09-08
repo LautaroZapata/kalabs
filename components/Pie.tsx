@@ -1,3 +1,4 @@
+import Marca from "./Marca";
 import { SITE, UI } from "@/lib/content";
 import s from "./Pie.module.css";
 
@@ -10,7 +11,10 @@ export default function Pie() {
 
   return (
     <footer className={s.pie}>
-      <span className={s.marca}>{SITE.nombre}</span>
+      <span className={s.marca}>
+        <Marca className={s.iso} />
+        {SITE.nombre}
+      </span>
       <span className="et">
         © {anio} · {SITE.ciudad}, {SITE.pais}
       </span>

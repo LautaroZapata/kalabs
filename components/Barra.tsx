@@ -1,3 +1,4 @@
+import Marca from "./Marca";
 import { INDICE, SITE, UI } from "@/lib/content";
 import s from "./Barra.module.css";
 
@@ -14,7 +15,10 @@ import s from "./Barra.module.css";
 export default function Barra() {
   return (
     <header className={s.barra}>
+      {/* Isotipo y nombre juntos: el trazo solo todavía no lo reconoce nadie.
+          Cuando la marca tenga kilómetros encima, el nombre puede irse. */}
       <a className={s.marca} href="#portada">
+        <Marca className={s.iso} />
         {SITE.nombre}
       </a>
 
