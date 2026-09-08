@@ -1,9 +1,31 @@
 /* La barra: pegajosa, con el papel desvaneciéndose abajo para que el contenido
    pase por debajo sin cortarse contra un borde. */
+/* La banda va de lado a lado —si el desenfoque terminara en la caja, en un
+   monitor ancho se vería el corte—; lo que se alinea con el resto del sitio es
+   el contenido de adentro. */
 .barra {
   position: sticky;
   top: 0;
   z-index: 700;
+  /* Antes acá había un degradado de papel a transparente. Se veía bien con la
+     página arriba de todo y mal apenas se scrolleaba: la mitad de abajo de la
+     barra dejaba pasar el contenido difuminado y las pastillas quedaban
+     tapadas a medias. Ahora es papel translúcido con desenfoque —lo que pasa
+     por debajo se insinúa, no compite— y las pastillas tienen fondo propio. */
+  background: rgba(247, 242, 231, 0.88);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  /* El filete de abajo le da borde a la banda. Sin él, sobre la captura oscura
+     del proyecto la barra se agrisa y parece que se está despintando. */
+  border-bottom: var(--linea);
+}
+
+/* Sin soporte de `backdrop-filter` no hay medias tintas: papel opaco. */
+@supports not (backdrop-filter: blur(1px)) {
+  .barra { background: var(--papel); }
+}
+
+.interior {
   display: flex;
   align-items: center;
   gap: 0.45rem;
@@ -11,7 +33,6 @@
   max-width: var(--ancho);
   margin-inline: auto;
   padding: 1rem var(--edge);
-  background: linear-gradient(var(--papel) 62%, rgba(247, 242, 231, 0));
 }
 
 .marca {
@@ -33,6 +54,19 @@
   height: auto;
   color: var(--ember);
   transition: transform 0.4s var(--spring);
+}
+
+/* En escritorio la marca crece: a 1.05rem competía de igual a igual con las
+   pastillas de al lado, que son navegación, y el nombre del estudio quedaba
+   como una etiqueta más de la fila. En el celular no hace falta —ahí sólo
+   tiene al botón de escribir enfrente y ya manda—. */
+@media (min-width: 700px) {
+  .marca {
+    gap: 0.6rem;
+    font-size: 1.35rem;
+  }
+  .iso { width: 1.5rem; }
+  .interior { padding-block: 0.9rem; }
 }
 
 .marca:hover .iso { transform: rotate(-8deg) scale(1.08); }

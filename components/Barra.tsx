@@ -15,23 +15,25 @@ import s from "./Barra.module.css";
 export default function Barra() {
   return (
     <header className={s.barra}>
-      {/* Isotipo y nombre juntos: el trazo solo todavía no lo reconoce nadie.
-          Cuando la marca tenga kilómetros encima, el nombre puede irse. */}
-      <a className={s.marca} href="#portada">
-        <Marca className={s.iso} />
-        {SITE.nombre}
-      </a>
-
-      <nav aria-label="Secciones del sitio" className={s.nav}>
-        {INDICE.map((i) => (
-          <a key={i.id} className={`pastilla ${s.oculta}`} href={`#${i.id}`}>
-            {i.label}
-          </a>
-        ))}
-        <a className="pastilla pastilla--brasa" href="#contacto">
-          {UI.barraCta}
+      <div className={s.interior}>
+        {/* Isotipo y nombre juntos: el trazo solo todavía no lo reconoce nadie.
+            Cuando la marca tenga kilómetros encima, el nombre puede irse. */}
+        <a className={s.marca} href="#portada">
+          <Marca className={s.iso} />
+          {SITE.nombre}
         </a>
-      </nav>
+
+        <nav aria-label="Secciones del sitio" className={s.nav}>
+          {INDICE.map((i) => (
+            <a key={i.id} className={`pastilla ${s.oculta}`} href={`#${i.id}`}>
+              {i.label}
+            </a>
+          ))}
+          <a className="pastilla pastilla--brasa" href="#contacto">
+            {UI.barraCta}
+          </a>
+        </nav>
+      </div>
     </header>
   );
 }

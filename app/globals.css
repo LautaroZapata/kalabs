@@ -169,6 +169,10 @@ input, textarea, select {
   border: 1px solid rgba(15, 18, 20, 0.2);
   border-radius: 999px;
   padding: 0.42rem 0.95rem;
+  /* Papel opaco y no transparente: las de la barra flotan sobre lo que va
+     pasando por debajo, y sin fondo propio el texto de la pastilla se mezcla
+     con el contenido que scrollea detrás. */
+  background: var(--papel);
   font-size: 0.76rem;
   font-weight: 600;
   transition:

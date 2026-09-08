@@ -39,8 +39,12 @@
   color: var(--ember);
 }
 
+/* Una copia de las cuatro: -25% de la pista. Al llegar, el fotograma final es
+   idéntico al inicial y el salto no se ve. El porcentaje y la cantidad de
+   copias van atados —cuatro copias, 100/4—: cambiar uno sin el otro es
+   exactamente lo que hacía que la banda se cortara a la mitad. */
 @keyframes corre {
-  to { transform: translateX(-50%); }
+  to { transform: translateX(-25%); }
 }
 
 /* Sin movimiento la cinta no se puede leer entera: se corta el bucle y queda
