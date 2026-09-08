@@ -29,6 +29,16 @@ const TRAZOS = [
   { x1: 16, y1: 4, x2: 4, y2: 16 },
 ];
 
+/* La fecha del sello, armada a mano y no con `toLocaleDateString`: el formato
+   del navegador depende del sistema de quien mira, y un sello que a veces dice
+   09.09.2026 y a veces 9/9/2026 deja de parecer un sello. */
+function fecha() {
+  const hoy = new Date();
+  const dd = String(hoy.getDate()).padStart(2, "0");
+  const mm = String(hoy.getMonth() + 1).padStart(2, "0");
+  return `${dd}.${mm}.${hoy.getFullYear()}`;
+}
+
 export default function Formulario() {
   const quieto = useReducedMotion();
   const [estado, accion, enviando] = useActionState(enviarConsulta, ESTADO_INICIAL);
@@ -44,18 +54,44 @@ export default function Formulario() {
       <div className={s.ficha} role="status">
         <p className={`${s.fichaTop} dato dato--caja`}>
           <span>
-            <b aria-hidden="true">¶</b> {UI.form.okKicker}
+            <b aria-hidden="true">¶</b> {UI.form.okFicha}
           </span>
           <span>{UI.form.respuesta}</span>
         </p>
-        <p className={`${s.acuseTitulo} titular titular--sec`}>{UI.form.okTitulo}</p>
-        <p className={s.acuseCuerpo}>{UI.form.okCuerpo}</p>
+
+        {/* El sello cae sobre el papel: entra grande y torcido y se asienta,
+            que es lo que hace un sello de goma contra el mostrador. Con
+            movimiento reducido aparece puesto, sin el golpe. */}
+        <motion.p
+          className={s.sello}
+          aria-hidden="true"
+          initial={quieto ? false : { scale: 1.6, rotate: -14, opacity: 0 }}
+          animate={{ scale: 1, rotate: -3, opacity: 1 }}
+          transition={
+            quieto
+              ? { duration: 0 }
+              : { type: "spring", stiffness: 620, damping: 24, mass: 0.8 }
+          }
+        >
+          <span className={s.selloTexto}>{UI.form.okKicker}</span>
+          <span className={s.selloFecha}>{fecha()}</span>
+        </motion.p>
+
+        {/* El texto entra después: primero se estampa, después se lee. */}
+        <motion.div
+          initial={quieto ? false : { opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={quieto ? { duration: 0 } : { duration: 0.3, delay: 0.22, ease: "easeOut" }}
+        >
+          <p className={`${s.acuseTitulo} titular titular--sec`}>{UI.form.okTitulo}</p>
+          <p className={s.acuseCuerpo}>{UI.form.okCuerpo}</p>
+        </motion.div>
       </div>
     );
   }
 
   return (
-    <form className={s.ficha} action={accion}>
+    <form className={s.ficha} action={accion} aria-busy={enviando}>
       <p className={`${s.fichaTop} dato dato--caja`}>
         <span>
           <b aria-hidden="true">¶</b> {UI.form.titulo}

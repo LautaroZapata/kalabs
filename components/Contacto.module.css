@@ -246,7 +246,49 @@
   font-style: italic;
 }
 
+/* Mientras se envía, la ficha entera se apaga y deja de responder. El botón
+   ya está deshabilitado, pero esto además saca el cursor de texto de los
+   campos: mientras viaja la consulta no hay nada que editar. */
+.ficha[aria-busy="true"] {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
 /* ---------------- acuse de recibo ---------------- */
+
+/* Sello de goma: doble filete con el fondo colado en el medio, que es como se
+   imprime un marco de sello. La inclinación la pone el componente al animar,
+   no el CSS, para que salga del mismo golpe que lo estampa. */
+.sello {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  margin: 1.25rem 0 0.25rem;
+  padding: 0.5rem 1.1rem 0.4rem;
+  border: 2px solid var(--ember);
+  box-shadow: 0 0 0 2px var(--ink), 0 0 0 4px var(--ember);
+  color: var(--ember);
+  line-height: 1;
+}
+
+.selloTexto {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 900;
+  font-variation-settings: "opsz" 72, "SOFT" 100, "WONK" 1;
+  font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  /* La versalita come el espacio de la derecha con el tracking abierto. */
+  text-indent: 0.14em;
+}
+
+.selloFecha {
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  color: var(--ember-dim);
+}
+
 .acuseTitulo {
   font-size: clamp(1.4rem, 4.5vw, 2rem);
   color: var(--bone);
