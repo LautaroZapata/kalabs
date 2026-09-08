@@ -267,9 +267,8 @@ export const UI = {
 
   /* estudio */
   equipoAntetitulo: "Equipo",
-  estudioTitulo: "Dos personas, y las dos trabajan en tu proyecto.",
-  estudioCuerpo:
-    "No hay cuentas intermedias ni un equipo que rota: quien te contesta el primer correo es quien diseña y quien programa.",
+  estudioTitulo: "Quiénes se encargan de Kalabs.",
+  estudioCuerpo: "Conocé más acerca de los integrantes del estudio.",
 
   /* contacto */
   contactoTitulo: ["Preguntanos ", "lo que sea", "."],
