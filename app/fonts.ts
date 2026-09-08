@@ -1,34 +1,35 @@
-import { Fraunces, Newsreader } from "next/font/google";
+import { Bricolage_Grotesque, Hanken_Grotesk } from "next/font/google";
 
 /**
  * Dos familias, no tres.
  *
- * La versión anterior sumaba una mono para datos y folios, y entre eso, los
- * titulares y el cuerpo convivían tres tipografías: demasiadas voces para un
- * sitio de una página. Ahora hay una redonda y una cursiva, y cada rol sabe a
- * cuál pertenece.
+ * Bricolage Grotesque es la de los titulares. Es una grotesca variable con eje
+ * óptico —`opsz`—: a cuerpo grande cierra el espaciado y afina las curvas, y a
+ * cuerpo chico las abre. Eso es lo que le da carácter sin necesidad de una
+ * display aparte, y es la razón por la que se pide el eje y no sólo el peso.
  *
- * Fraunces es la redonda: sólo titulares, siempre vertical. Trae dos ejes que
- * casi ninguna otra tiene —SOFT redondea los remates, WONK activa las formas
- * torcidas de la itálica dentro de la redonda—, así que ya tiene adentro la
- * inquietud que en otras familias habría que pedirle a una cursiva aparte.
+ * Antes acá había una serif —Fraunces— con una Newsreader de cuerpo. El sitio
+ * era un diario impreso; ahora no lo es.
  */
-export const display = Fraunces({
+/* Sin `weight`: pedir el eje óptico obliga a traer la variable entera, y con
+   ella el peso también queda continuo. Una lista de pesos acá es un error de
+   build, no una optimización. */
+export const display = Bricolage_Grotesque({
   subsets: ["latin"],
   display: "swap",
-  axes: ["SOFT", "WONK", "opsz"],
+  axes: ["opsz"],
   variable: "--font-display",
 });
 
 /**
- * Newsreader es todo lo demás: cuerpo, bajadas, datos y folios. Su itálica es
- * la única cursiva del sistema —no hay itálicas de Fraunces en ninguna parte—
- * y los datos van en versalitas, que es como firma un diario, no en mono.
+ * Hanken Grotesk es todo lo demás: cuerpo, bajadas, rótulos y datos.
+ *
+ * No hay monoespaciada. El texto chico —etiquetas, pastillas, folios— va en
+ * versalitas de esta misma familia: dos voces alcanzan, y una mono para
+ * escribir «En producción» era una tercera que no aportaba nada.
  */
-export const body = Newsreader({
+export const body = Hanken_Grotesk({
   subsets: ["latin"],
   display: "swap",
-  style: ["normal", "italic"],
-  axes: ["opsz"],
   variable: "--font-body",
 });

@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kalabs — Propuesta D · Mezcla (B + C)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,75..125,100..900;1,75..125,100..900&family=Hanken+Grotesk:ital,wght@0,300..700;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   PROPUESTA D — MEZCLA (B Vidriera + C Cartel)
+
+   De C: el nombre a tamaño de afiche cortado por los bordes, el plano brasa
+   con la letra gigante detrás, la obra rotando con botón de pausa y el índice
+   de filas con la captura siguiendo al cursor.
+
+   De B: los redondeos, las pastillas, la cinta que se arrastra, los bloques
+   que se abren y la portada que pregunta en vez de titular.
+
+   Cada pieza tiene un solo trabajo: la escena muestra la obra, la cinta dice
+   lo que prometemos, el índice lista los proyectos. Nada se repite.
+   ========================================================================== */
+:root{
+  --ink:#0f1214; --ink-2:#161a1c; --ink-4:#262c2f;
+  --bone:#efe7d6; --papel:#f5efe3; --bone-dim:#b9b2a4;
+  --ember:#ff6b1a; --ember-dim:#db6a20;
+  --terra:#9c3f26; --terra-dim:#6b2b1a;
+  --edge:clamp(.75rem,2.6vw,1.8rem);
+  --pad:clamp(1rem,4vw,3rem);
+  --r:24px;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --spring:cubic-bezier(.34,1.3,.44,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:4.5rem}
+body{
+  margin:0;background:var(--papel);color:var(--ink);
+  font-family:"Hanken Grotesk",system-ui,sans-serif;font-size:1.02rem;line-height:1.55;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3,p,ul,li,figure,figcaption{margin:0;padding:0}
+ul{list-style:none}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:var(--ember);color:var(--ink)}
+:focus-visible{outline:3px solid var(--ember);outline-offset:3px}
+
+.mono{font-family:"DM Mono",ui-monospace,monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase}
+.arch{font-family:"Archivo",system-ui,sans-serif}
+
+/* ---------- barra: pastillas de B, aviso de C ---------- */
+.barra{
+  position:fixed;inset:0 0 auto;z-index:800;display:flex;align-items:center;gap:.4rem;
+  padding:var(--edge);
+}
+.pill{
+  border:1px solid rgba(15,18,20,.26);border-radius:999px;padding:.38rem .85rem;
+  background:rgba(245,239,227,.9);backdrop-filter:blur(8px);
+  transition:background .28s var(--ease),color .28s var(--ease),border-color .28s var(--ease),transform .3s var(--spring);
+}
+.pill:hover{background:var(--ink);color:var(--papel);border-color:var(--ink);transform:translateY(-1px)}
+.pill--brasa{background:var(--ember);border-color:var(--ember);color:var(--ink)}
+.pill--brasa:hover{background:var(--ink);color:var(--ember);border-color:var(--ink)}
+.aviso{
+  margin-inline:auto;display:flex;align-items:center;gap:.5rem;
+  background:rgba(245,239,227,.9);backdrop-filter:blur(8px);
+  border-radius:999px;padding:.38rem .9rem;
+}
+.aviso a{color:var(--terra);border-bottom:1px solid currentColor}
+.derecha{display:flex;gap:.4rem;margin-left:auto}
+@media(max-width:960px){.aviso{display:none}}
+@media(max-width:560px){.pill--ocultar{display:none}}
+
+/* ---------- cartel ---------- */
+.cartel{padding-top:calc(var(--edge) + 2.4rem)}
+.cartel__nombre{
+  font-family:"Archivo",sans-serif;
+  font-variation-settings:"wght" 900,"wdth" 125;
+  /* 18.6vw es lo que mide «KALABS» en Archivo 900/125 con este tracking: a
+     ese valor toca los dos bordes sin pasarse, en cualquier ancho. */
+  font-size:clamp(3rem,18.6vw,16rem);line-height:.78;letter-spacing:-.05em;
+  text-align:center;white-space:nowrap;
+}
+
+/* escena: plano brasa + letra gigante + obra rotando */
+.escena{
+  position:relative;margin:.3rem var(--edge) 0;background:var(--ember);
+  border-radius:var(--r);overflow:hidden;isolation:isolate;
+  min-height:clamp(360px,72svh,740px);display:grid;place-items:center;
+  padding:clamp(1.4rem,5vw,3.6rem);
+}
+.escena__letra{
+  position:absolute;inset:0;display:grid;place-items:center;z-index:0;
+  font-family:"Archivo",sans-serif;font-variation-settings:"wght" 900,"wdth" 75;
+  font-size:clamp(26rem,70vw,70rem);line-height:.7;color:var(--ink);
+  user-select:none;pointer-events:none;
+  animation:deriva 28s ease-in-out infinite alternate;
+}
+@keyframes deriva{from{transform:translate3d(-2%,0,0)}to{transform:translate3d(2%,-1.5%,0)}}
+.escena__marco{
+  position:relative;z-index:1;width:min(920px,100%);aspect-ratio:16/10;
+  border-radius:14px;overflow:hidden;background:var(--ink);
+  box-shadow:0 30px 80px -34px rgba(15,18,20,.65);
+}
+/* En el celular la captura es de un sitio de escritorio: un marco vertical la
+   recorta hasta que no se entiende. Marco apaisado y anclada arriba a la
+   izquierda, que es donde está el titular de cada proyecto. */
+@media(max-width:640px){
+  .escena__marco{aspect-ratio:4/3}
+  .diapo img{object-position:top left}
+  /* El pie se queda con el nombre del proyecto: el dominio, en 390px, tapa
+     media captura para decir lo que ya dice el enlace. */
+  .diapo__pie{font-size:.58rem;padding:.5rem .6rem}
+  .diapo__pie span:last-child{display:none}
+}
+.diapo{position:absolute;inset:0;opacity:0;transition:opacity .9s var(--ease)}
+.diapo.on{opacity:1}
+.diapo img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.diapo__pie{
+  position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;
+  gap:1rem;padding:.75rem .95rem;color:var(--bone);
+  background:linear-gradient(transparent,rgba(15,18,20,.88));
+}
+.escena__ctl{
+  position:absolute;left:clamp(1rem,3vw,2rem);bottom:clamp(1rem,3vw,2rem);z-index:2;
+  display:flex;align-items:center;gap:.6rem;
+}
+.redondo{
+  width:34px;height:34px;border-radius:999px;background:var(--papel);color:var(--ink);
+  display:grid;place-items:center;font-size:.78rem;
+  transition:transform .35s var(--spring)}
+.redondo:hover{transform:scale(1.1)}
+.puntos{display:flex;gap:.35rem}
+.punto{width:7px;height:7px;border-radius:999px;background:rgba(15,18,20,.34);
+  transition:background .3s var(--ease),transform .3s var(--spring);cursor:pointer}
+.punto.on{background:var(--ink);transform:scale(1.35)}
+
+/* ---------- pregunta: la portada de B, ahora como puerta de entrada ---------- */
+.puerta{padding:clamp(3rem,9vh,6.5rem) var(--pad) clamp(1.4rem,4vh,2.4rem);
+  display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.4rem}
+.pregunta{
+  font-family:"Archivo",sans-serif;font-variation-settings:"wght" 800,"wdth" 112;
+  font-size:clamp(2rem,6vw,4.6rem);line-height:.95;letter-spacing:-.04em;
+  max-width:16ch;text-wrap:balance;
+}
+.pregunta b{font-variation-settings:"wght" 900,"wdth" 118;color:var(--terra)}
+.buscador{
+  width:min(560px,100%);display:flex;align-items:center;gap:.8rem;
+  border:1px solid rgba(15,18,20,.24);border-radius:999px;
+  padding:.35rem .35rem .35rem 1.2rem;background:var(--bone);
+  transition:border-color .35s var(--ease),box-shadow .35s var(--ease);
+}
+.buscador:focus-within{border-color:var(--ember);box-shadow:0 0 0 4px rgba(255,107,26,.18)}
+.buscador input{flex:1;background:none;border:0;font:inherit;color:var(--ink);padding:.5rem 0}
+.buscador input::placeholder{color:rgba(15,18,20,.44)}
+.buscador input:focus{outline:none}
+.flecha{
+  width:38px;height:38px;border-radius:999px;display:grid;place-items:center;
+  background:var(--ink);color:var(--papel);flex:none;
+  transition:transform .4s var(--spring),background .3s var(--ease)}
+.flecha:hover{transform:translateX(3px);background:var(--ember);color:var(--ink)}
+.sub{color:var(--ink-4);font-size:.98rem}
+.sub b{color:var(--terra);font-weight:600}
+
+/* ---------- cinta arrastrable: lo que prometemos, en planos plenos ---------- */
+.cinta{
+  display:flex;gap:.8rem;padding:1rem var(--edge) 2.6rem;
+  overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;cursor:grab;
+}
+.cinta::-webkit-scrollbar{display:none}
+.cinta.arrastrando{cursor:grabbing;scroll-snap-type:none}
+.ficha{
+  flex:0 0 clamp(226px,25vw,320px);aspect-ratio:4/5;border-radius:var(--r);
+  scroll-snap-align:center;padding:1.5rem;display:grid;align-content:space-between;
+  transition:transform .5s var(--spring);
+}
+.ficha:hover{transform:translateY(-7px)}
+.ficha--ink{background:var(--ink);color:var(--papel)}
+.ficha--brasa{background:var(--ember);color:var(--ink)}
+.ficha--bordo{background:var(--terra);color:var(--papel)}
+.ficha--papel{background:var(--bone);color:var(--ink);border:1px solid rgba(15,18,20,.16)}
+.ficha h3{
+  font-family:"Archivo",sans-serif;font-variation-settings:"wght" 800,"wdth" 110;
+  font-size:clamp(1.5rem,2.6vw,2.15rem);line-height:.96;letter-spacing:-.035em;
+}
+.ficha p{font-size:.92rem;opacity:.86;margin-top:.6rem}
+.ficha__num{opacity:.6}
+.boton{
+  display:inline-block;border-radius:999px;padding:.5rem 1.1rem;
+  font-family:"Archivo",sans-serif;font-variation-settings:"wght" 700,"wdth" 104;
+  font-size:.86rem;background:var(--ink);color:var(--papel);justify-self:start;
+  transition:transform .35s var(--spring)}
+.boton:hover{transform:scale(1.05)}
+.boton--brasa{background:var(--ember);color:var(--ink)}
+.boton--papel{background:var(--papel);color:var(--ink)}
+
+/* ---------- índice de obra: filas + espía ---------- */
+.indice{margin-inline:var(--pad);border-top:2px solid var(--ink)}
+.indice__rotulo{margin:0 var(--pad) .8rem;color:var(--terra)}
+.fila{
+  display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:.6rem 1.6rem;
+  align-items:center;padding:1.25rem .2rem;border-bottom:1px solid rgba(15,18,20,.2);
+  transition:padding-left .45s var(--ease),color .3s var(--ease);
+}
+.fila:hover{padding-left:1.1rem;color:var(--terra)}
+.fila__num{opacity:.5}
+.fila__nombre{
+  font-family:"Archivo",sans-serif;font-variation-settings:"wght" 800,"wdth" 112;
+  letter-spacing:-.032em;font-size:clamp(1.35rem,3.8vw,2.5rem);line-height:1;
+}
+.fila__meta{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.etiqueta{border:1px solid currentColor;border-radius:999px;padding:.22rem .62rem;opacity:.72}
+@media(max-width:680px){
+  .fila{grid-template-columns:auto minmax(0,1fr)}
+  .fila__meta{grid-column:2;justify-content:flex-start}
+}
+.espia{
+  position:fixed;z-index:600;width:270px;aspect-ratio:16/11;border-radius:12px;overflow:hidden;
+  pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.94);
+  transition:opacity .3s var(--ease),transform .4s var(--spring);
+  box-shadow:0 22px 55px -22px rgba(15,18,20,.6);
+}
+.espia.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.espia img{width:100%;height:100%;object-fit:cover;object-position:top center}
+@media(pointer:coarse){.espia{display:none}}
+
+/* ---------- servicios: bloques que se abren ---------- */
+.oficio{padding:clamp(3.5rem,10vh,6.5rem) var(--pad) 0}
+.oficio h2{
+  font-family:"Archivo",sans-serif;font-variation-settings:"wght" 850,"wdth" 112;
+  font-size:clamp(1.8rem,5vw,3.6rem);letter-spacing:-.04em;line-height:.98;
+  max-width:19ch;margin:.6rem 0 1.8rem;
+}
+.bloques{display:grid;gap:.65rem}
+.bloque{
+  border-radius:var(--r);padding:1.3rem clamp(1rem,3vw,2rem);background:var(--bone);
+  transition:background .45s var(--ease),color .45s var(--ease);
+}
+.bloque[open]{background:var(--ink);color:var(--papel)}
+.bloque summary{
+  list-style:none;cursor:pointer;display:flex;align-items:center;gap:1rem;
+  font-family:"Archivo",sans-serif;font-variation-settings:"wght" 800,"wdth" 110;
+  font-size:clamp(1.3rem,3.4vw,2.2rem);letter-spacing:-.033em;line-height:1.05;
+}
+.bloque summary::-webkit-details-marker{display:none}
+.bloque summary::after{content:"+";margin-left:auto;font-variation-settings:"wght" 400;opacity:.6}
+.bloque[open] summary::after{content:"–";color:var(--ember);opacity:1}
+.bloque__cuerpo{padding-top:.9rem;max-width:62ch;opacity:.9}
+.tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:1rem}
+.tag{border:1px solid currentColor;border-radius:999px;padding:.24rem .62rem;opacity:.7}
+
+/* ---------- contacto ---------- */
+.cierre{
+  margin:clamp(3rem,8vh,6rem) var(--edge) 0;background:var(--ink);color:var(--bone);
+  border-radius:var(--r);padding:clamp(1.6rem,5vw,4rem);
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);gap:clamp(1.8rem,5vw,4rem);
+}
+@media(max-width:880px){.cierre{grid-template-columns:1fr}}
+.cierre h2{
+  font-family:"Archivo",sans-serif;font-variation-settings:"wght" 900,"wdth" 118;
+  letter-spacing:-.045em;font-size:clamp(2.1rem,6vw,4.6rem);line-height:.9;max-width:12ch;
+}
+.cierre h2 em{font-style:normal;color:var(--ember)}
+.cierre .sub{color:var(--bone-dim);margin-top:1rem;max-width:40ch}
+.cierre__lista{margin-top:1.6rem}
+.cierre__lista li{padding:.7rem 0;border-bottom:1px solid rgba(239,231,214,.18);
+  display:flex;justify-content:space-between;gap:1rem}
+.cierre__lista a:hover{color:var(--ember)}
+.equipo{display:flex;gap:1.4rem;flex-wrap:wrap;margin-top:1.6rem}
+.persona{display:flex;align-items:center;gap:.7rem}
+.avatar{width:36px;height:36px;border-radius:999px;display:grid;place-items:center;
+  background:var(--terra);color:var(--papel);font-weight:700;font-size:.8rem;flex:none}
+.avatar--brasa{background:var(--ember);color:var(--ink)}
+.persona b{font-weight:600}
+.persona small{display:block;color:var(--bone-dim)}
+.campo{display:block;margin-bottom:.9rem}
+.campo span{display:block;margin-bottom:.32rem;color:var(--bone-dim)}
+.campo input,.campo textarea,.campo select{
+  width:100%;background:var(--ink-2);color:var(--bone);border:1px solid rgba(239,231,214,.2);
+  border-radius:12px;padding:.72rem .9rem;font:inherit;
+  transition:border-color .3s var(--ease),box-shadow .3s var(--ease)}
+.campo input:focus,.campo textarea:focus,.campo select:focus{
+  outline:none;border-color:var(--ember);box-shadow:0 0 0 3px rgba(255,107,26,.22)}
+.campo textarea{resize:vertical;min-height:104px}
+
+/* ---------- pie: el nombre otra vez, cortado ---------- */
+footer{padding:clamp(2rem,5vh,3.6rem) var(--edge) 0;overflow:hidden}
+.pie__datos{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;
+  padding-bottom:1rem;border-bottom:1px solid rgba(15,18,20,.24)}
+.pie__datos a:hover{color:var(--terra)}
+.pie__nombre{
+  font-family:"Archivo",sans-serif;font-variation-settings:"wght" 900,"wdth" 125;
+  letter-spacing:-.05em;font-size:clamp(3rem,18.6vw,16rem);line-height:.72;
+  text-align:center;white-space:nowrap;margin-top:.4rem;
+}
+
+/* ---------- movimiento ---------- */
+.rev{opacity:0;transform:translateY(20px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.rev.on{opacity:1;transform:none}
+.barra{animation:cae .8s .05s var(--ease) both}
+.cartel__nombre{animation:cae 1.05s var(--ease) both}
+.escena{animation:cae 1.05s .16s var(--ease) both}
+@keyframes cae{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}
+  .rev{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="barra mono">
+  <a class="pill" href="#obra">Obra</a>
+  <a class="pill pill--ocultar" href="#oficio">Servicios</a>
+  <a class="pill pill--ocultar" href="#estudio">Estudio</a>
+  <p class="aviso">Tres sistemas en producción desde 2025 <a href="#obra">Ver la obra →</a></p>
+  <div class="derecha">
+    <a class="pill pill--ocultar" href="https://www.instagram.com/kalabs.dev">Instagram</a>
+    <a class="pill pill--brasa" href="#contacto">Escribinos</a>
+  </div>
+</div>
+
+<main>
+  <!-- CARTEL: el nombre a tamaño de afiche y la obra montada sobre la brasa -->
+  <section class="cartel">
+    <h1 class="cartel__nombre">KALABS</h1>
+    <div class="escena">
+      <div class="escena__letra" aria-hidden="true">K</div>
+      <div class="escena__marco">
+        <figure class="diapo on">
+          <img src="../../public/proyectos/viagrua.png" alt="ViaGrúa">
+          <figcaption class="diapo__pie mono"><span>ViaGrúa — flotas de grúas en tiempo real</span><span>via-grua.vercel.app</span></figcaption>
+        </figure>
+        <figure class="diapo">
+          <img src="../../public/proyectos/rog.png" alt="República Oriental de los Gastos">
+          <figcaption class="diapo__pie mono"><span>ROG — finanzas personales</span><span>urugastos.vercel.app</span></figcaption>
+        </figure>
+        <figure class="diapo">
+          <img src="../../public/proyectos/oleocaceres.png" alt="Oleohidráulica Cáceres">
+          <figcaption class="diapo__pie mono"><span>Oleo Cáceres — institucional industrial</span><span>oleocaceres-web.vercel.app</span></figcaption>
+        </figure>
+      </div>
+      <div class="escena__ctl">
+        <button class="redondo" id="pausa" aria-label="Pausar">❚❚</button>
+        <div class="puntos" id="puntos"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUERTA: la portada de B, convertida en la entrada a la conversación -->
+  <section class="puerta">
+    <h2 class="pregunta">Contanos qué hay que <b>resolver</b>.</h2>
+    <form class="buscador" onsubmit="return false">
+      <input placeholder="Una web, un bot de WhatsApp, un sistema de turnos…" aria-label="Qué necesitás resolver">
+      <button class="flecha" aria-label="Enviar">→</button>
+    </form>
+    <p class="sub">Estudio digital en Montevideo. <b>La primera consulta no tiene costo.</b></p>
+  </section>
+
+  <!-- CINTA: lo que prometemos, en planos plenos. Se arrastra. -->
+  <div class="cinta">
+    <div class="ficha ficha--ink">
+      <span class="ficha__num mono">01 — Consulta</span>
+      <div><h3>La primera consulta no tiene costo.</h3><p>Contanos el problema. Si no amerita un desarrollo, te lo decimos.</p></div>
+    </div>
+    <div class="ficha ficha--brasa">
+      <span class="ficha__num mono">02 — Presupuesto</span>
+      <div><h3>Cerrado antes de empezar.</h3><p>Sin horas que aparecen después. Lo que se firma es lo que se paga.</p></div>
+    </div>
+    <div class="ficha ficha--bordo">
+      <span class="ficha__num mono">03 — Respuesta</span>
+      <div><h3>Dentro de las 24 horas.</h3><p>Hábiles, y del otro lado hay alguien con nombre, no un ticket.</p></div>
+    </div>
+    <div class="ficha ficha--papel">
+      <span class="ficha__num mono">04 — Clientes</span>
+      <div><h3>ANCAP.<br>UTE.<br>Armada.</h3><p>Clientes de nuestros clientes. La web tenía que estar a esa altura.</p></div>
+    </div>
+    <div class="ficha ficha--ink">
+      <span class="ficha__num mono">05 — Próximo</span>
+      <div><h3>Tu proyecto acá.</h3><p>Si tenés algo en marcha, escribinos.</p></div>
+      <a class="boton boton--brasa" href="#contacto">Escribinos</a>
+    </div>
+  </div>
+
+  <!-- ÍNDICE: las filas de C, con la captura siguiendo al cursor -->
+  <section id="obra">
+    <p class="indice__rotulo mono">Obra</p>
+    <div class="indice">
+      <a class="fila rev" href="https://via-grua.vercel.app" data-espia="../../public/proyectos/viagrua.png">
+        <span class="fila__num mono">001</span>
+        <span class="fila__nombre">ViaGrúa</span>
+        <span class="fila__meta mono"><span class="etiqueta">En producción</span><span>Flotas en tiempo real</span></span>
+      </a>
+      <a class="fila rev" href="https://urugastos.vercel.app" data-espia="../../public/proyectos/rog.png">
+        <span class="fila__num mono">002</span>
+        <span class="fila__nombre">República Oriental de los Gastos</span>
+        <span class="fila__meta mono"><span class="etiqueta">En producción</span><span>Finanzas personales</span></span>
+      </a>
+      <a class="fila rev" href="https://oleocaceres-web.vercel.app" data-espia="../../public/proyectos/oleocaceres.png">
+        <span class="fila__num mono">003</span>
+        <span class="fila__nombre">Oleohidráulica Cáceres</span>
+        <span class="fila__meta mono"><span class="etiqueta">En producción</span><span>ANCAP · UTE · Armada</span></span>
+      </a>
+      <a class="fila rev" href="#contacto">
+        <span class="fila__num mono">004</span>
+        <span class="fila__nombre">Tu proyecto acá</span>
+        <span class="fila__meta mono"><span class="etiqueta">Abierto</span><span>Escribinos</span></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- SERVICIOS: los bloques de B, sin numerar -->
+  <section class="oficio" id="oficio">
+    <p class="mono" style="color:var(--terra)">Lo que hacemos</p>
+    <h2 class="rev">Tres cosas hacemos, y las tres terminan en producción.</h2>
+    <div class="bloques">
+      <details class="bloque rev" open>
+        <summary>Desarrollo web</summary>
+        <div class="bloque__cuerpo">
+          <p>Sitios para negocios que necesitan que los encuentren. Rápidos en el celular, sin plantillas y con la medición configurada desde el primer día. Se entregan en producción, con el dominio andando y soporte del otro lado.</p>
+          <div class="tags mono"><span class="tag">Institucional</span><span class="tag">Tienda o catálogo</span><span class="tag">Panel</span><span class="tag">Medición</span></div>
+        </div>
+      </details>
+      <details class="bloque rev">
+        <summary>Automatizaciones</summary>
+        <div class="bloque__cuerpo">
+          <p>Las tareas manuales que se repiten todas las semanas pasan a ejecutarse solas. Empezamos por la que más horas consume.</p>
+          <div class="tags mono"><span class="tag">Bots de WhatsApp</span><span class="tag">Reportes</span><span class="tag">Integraciones</span><span class="tag">Alertas</span></div>
+        </div>
+      </details>
+      <details class="bloque rev">
+        <summary>Sistemas a medida</summary>
+        <div class="bloque__cuerpo">
+          <p>Turnos, pedidos o control de stock. Una función bien resuelta antes que un sistema entero que después nadie abre.</p>
+          <div class="tags mono"><span class="tag">Turnos</span><span class="tag">Pedidos</span><span class="tag">Stock</span><span class="tag">Fichas</span></div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section class="cierre" id="contacto">
+    <div>
+      <h2>Posicionarte está a <em>un click</em>.</h2>
+      <p class="sub">Contanos qué necesitás resolver y lo evaluamos juntos. Si no amerita un desarrollo, te lo decimos.</p>
+      <ul class="cierre__lista mono" id="estudio">
+        <li><span>Correo</span><a href="mailto:hola@kalabs.dev">hola@kalabs.dev</a></li>
+        <li><span>Instagram</span><a href="https://www.instagram.com/kalabs.dev">@kalabs.dev</a></li>
+        <li><span>Base</span><span>Montevideo, UY · Est. 2025</span></li>
+      </ul>
+      <div class="equipo">
+        <div class="persona"><span class="avatar">LZ</span><span><b>Lautaro Zapata</b><small>Desarrollo y sistemas</small></span></div>
+        <div class="persona"><span class="avatar avatar--brasa">MS</span><span><b>Matías Sosa</b><small>Diseño e identidad</small></span></div>
+      </div>
+    </div>
+    <form onsubmit="return false">
+      <label class="campo"><span class="mono">Nombre</span><input placeholder="Nombre y apellido"></label>
+      <label class="campo"><span class="mono">Correo</span><input type="email" placeholder="donde te contestamos"></label>
+      <label class="campo"><span class="mono">Servicio de interés</span>
+        <select><option>Desarrollo web</option><option>Automatizaciones</option><option>Sistemas a medida</option><option>Todavía no lo tengo definido</option></select></label>
+      <label class="campo"><span class="mono">Mensaje</span><textarea placeholder="Contanos brevemente qué necesitás."></textarea></label>
+      <button class="boton boton--brasa">Enviar mensaje</button>
+    </form>
+  </section>
+</main>
+
+<footer>
+  <div class="pie__datos mono">
+    <span>Kalabs © 2026</span><span>Montevideo, Uruguay · Est. 2025</span><a href="mailto:hola@kalabs.dev">hola@kalabs.dev</a>
+  </div>
+  <div class="pie__nombre" aria-hidden="true">KALABS</div>
+</footer>
+
+<div class="espia" id="espia"><img alt=""></div>
+
+<script>
+/* revelado al entrar en pantalla */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.14});
+document.querySelectorAll('.rev').forEach(el=>io.observe(el));
+
+/* carrusel de la escena */
+const diapos=[...document.querySelectorAll('.diapo')];
+const puntos=document.getElementById('puntos');
+const pausa=document.getElementById('pausa');
+let n=0,timer=null;
+diapos.forEach((_,i)=>{
+  const b=document.createElement('button');
+  b.className='punto'+(i?'':' on');b.setAttribute('aria-label','Proyecto '+(i+1));
+  b.onclick=()=>{mostrar(i);parar()};puntos.append(b);
+});
+function mostrar(i){
+  n=i;diapos.forEach((d,j)=>d.classList.toggle('on',j===i));
+  [...puntos.children].forEach((p,j)=>p.classList.toggle('on',j===i));
+}
+function andar(){timer=setInterval(()=>mostrar((n+1)%diapos.length),5200);pausa.textContent='❚❚';pausa.setAttribute('aria-label','Pausar')}
+function parar(){clearInterval(timer);timer=null;pausa.textContent='▶';pausa.setAttribute('aria-label','Reproducir')}
+pausa.onclick=()=>{timer?parar():andar()};
+if(matchMedia('(prefers-reduced-motion: reduce)').matches)parar();else andar();
+
+/* la cinta se arrastra con el mouse */
+const cinta=document.querySelector('.cinta');
+let abajo=false,x0=0,s0=0;
+cinta.addEventListener('pointerdown',e=>{abajo=true;x0=e.clientX;s0=cinta.scrollLeft;cinta.classList.add('arrastrando')});
+addEventListener('pointerup',()=>{abajo=false;cinta.classList.remove('arrastrando')});
+cinta.addEventListener('pointermove',e=>{if(abajo)cinta.scrollLeft=s0-(e.clientX-x0)});
+
+/* espía: la captura sigue al cursor en el índice */
+const espia=document.getElementById('espia'),espiaImg=espia.querySelector('img');
+document.querySelectorAll('.fila[data-espia]').forEach(f=>{
+  f.addEventListener('pointerenter',()=>{espiaImg.src=f.dataset.espia;espia.classList.add('on')});
+  f.addEventListener('pointerleave',()=>espia.classList.remove('on'));
+  f.addEventListener('pointermove',e=>{espia.style.left=e.clientX+'px';espia.style.top=e.clientY+'px'});
+});
+</script>
+</body>
+</html>

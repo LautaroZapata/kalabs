@@ -1,118 +1,85 @@
-"use client";
-
-import { motion, useReducedMotion } from "motion/react";
-import Cabezal from "./Cabezal";
 import Formulario from "./Formulario";
-import { entrada } from "./mov/entrada";
-import { ENLACES, EQUIPO, SITE, UI } from "@/lib/content";
+import Reveal from "./Reveal";
+import { ENLACES, EQUIPO, UI } from "@/lib/content";
 import s from "./Contacto.module.css";
 
 /**
- * Cierre del sitio: la firma del estudio, quiénes lo hacen y cómo escribirnos.
+ * El cierre: la invitación a escribir, los dos canales, el equipo y el
+ * formulario.
  *
- * Antes abría con una marquesina infinita —el recurso más repetido del
- * género— y el equipo era una sección aparte con placas giradas y superpuestas.
- * Acá el equipo son dos fichas sobrias, al pie.
+ * El equipo va acá y no en una sección propia. Son dos personas: darles una
+ * sección entera con fichas es inflar el sitio para parecer más grande, y
+ * quien está por escribir quiere saber a quién le escribe justo en ese
+ * momento, no tres pantallas antes.
+ *
+ * `id="estudio"` cuelga del equipo porque es lo que busca quien aprieta esa
+ * pastilla en la barra: quiénes son.
  */
 export default function Contacto() {
-  const quieto = useReducedMotion();
-  const anio = new Date().getFullYear();
-
-  /* La dirección va partida en dos para poder marcar dónde corta si no entra
-     en una línea. Es una sola palabra para el navegador: sin este `<wbr>` el
-     corte cae donde toque —"hola@kalab / s.dev"— o directamente se sale de la
-     columna. Cortando después del arroba se lee como dirección igual. */
-  const [usuario, dominio] = SITE.email.split("@");
+  const [antes, medio, despues] = UI.contactoTitulo;
 
   return (
-    <section id="contacto" className={s.pagina} aria-labelledby="contacto-t">
-      <Cabezal
-        id="contacto-t"
-        antetitulo={UI.contactoAntetitulo}
-        titulo="Contacto"
-      />
+    <section id="contacto" className={s.contacto} aria-labelledby="contacto-t">
+      <Reveal className={s.columna}>
+        <h2 id="contacto-t" className={`${s.titulo} titular`}>
+          {antes}
+          <b>{medio}</b>
+          {despues}
+        </h2>
 
-      <div className={s.plana}>
-        {/* ---------------- columna de contacto ---------------- */}
-        <motion.div className={s.columna} {...entrada({ quieto, y: 24 })}>
-          <a className={s.mailto} href={`mailto:${SITE.email}`}>
-            <span className={`${s.mailtoTitular} titular`}>
-              {usuario}@<wbr />
-              {dominio}
-            </span>
-          </a>
+        <p className={`${s.cuerpo} parrafo`}>{UI.contactoCuerpo}</p>
 
-          <ul className={s.enlaces}>
-            {ENLACES.map((e) => (
-              <li key={e.label}>
-                <a
-                  className={s.enlace}
-                  href={e.href}
-                  {...(e.href.startsWith("http")
-                    ? { target: "_blank", rel: "noreferrer noopener" }
-                    : {})}
-                >
-                  <span className="dato dato--caja">{e.label}</span>
-                  <span className={s.enlaceVal}>{e.valor}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-
-          {/* La cita cierra la columna: es la única mancha de color pleno. */}
-          <blockquote className={s.cita}>
-            <p className={`${s.citaTexto} titular titular--sec`}>{UI.cita}</p>
-            <footer className={`${s.citaPie} dato dato--caja`}>
-              {SITE.nombre} — {SITE.ciudad}, {SITE.pais}
-            </footer>
-          </blockquote>
-        </motion.div>
-
-        {/* ---------------- formulario ---------------- */}
-        <motion.div className={s.columnaForm} {...entrada({ quieto, y: 24, delay: 0.1 })}>
-          <Formulario />
-        </motion.div>
-      </div>
-
-      {/* ---------------- fichas de autor ---------------- */}
-      <div className={s.autores}>
-        <p className={`${s.autoresTitulo} dato dato--caja`}>{UI.equipoAntetitulo}</p>
-
-        <div className={s.autoresGrid}>
-          {EQUIPO.map((p, i) => (
-            <motion.article
-              key={p.nombre}
-              className={s.autor}
-              {...entrada({ quieto, y: 20, delay: i * 0.08 })}
+        <div className={s.enlaces}>
+          {ENLACES.map((e) => (
+            <a
+              key={e.label}
+              className="pastilla"
+              href={e.href}
+              {...(e.href.startsWith("http")
+                ? { target: "_blank", rel: "noreferrer noopener" }
+                : {})}
             >
-              <h3 className={`${s.autorNombre} titular titular--sec`}>
-                <a
-                  className={s.autorEnlace}
-                  href={p.linkedin}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  {p.nombre}
-                  <span className="sr"> — perfil de LinkedIn</span>
-                  <span className={s.autorFlecha} aria-hidden="true">
-                    ↗
-                  </span>
-                </a>
-              </h3>
-              <p className={`${s.autorRol} dato`}>{p.rol}</p>
-            </motion.article>
+              <span className="sr">{e.label}: </span>
+              {e.valor}
+            </a>
           ))}
         </div>
-      </div>
 
-      <footer className={`${s.colofon} dato dato--caja`}>
-        <p>
-          © {anio} {SITE.nombre} — {SITE.ciudad}, {SITE.pais}
-        </p>
-        <p>
-          <a href="#portada">Volver al inicio ↑</a>
-        </p>
-      </footer>
+        <div id="estudio" className={s.equipo}>
+          <p className="sr">{UI.equipoAntetitulo}</p>
+          {EQUIPO.map((p, i) => (
+            <a
+              key={p.nombre}
+              className={s.persona}
+              href={p.linkedin}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {/* Las iniciales, no una foto: dos fotos de perfil recortadas en
+                  círculo son lo que hace que un estudio parezca una plantilla
+                  de agencia. */}
+              <span
+                className={`${s.inicial} ${i % 2 ? s.inicialBrasa : ""}`}
+                aria-hidden="true"
+              >
+                {p.nombre
+                  .split(" ")
+                  .map((parte) => parte[0])
+                  .join("")}
+              </span>
+              <span>
+                <b className={s.personaNombre}>{p.nombre}</b>
+                <small className={s.personaRol}>{p.rol}</small>
+                <span className="sr"> — perfil de LinkedIn</span>
+              </span>
+            </a>
+          ))}
+        </div>
+      </Reveal>
+
+      <Reveal className={s.columnaForm} delay={0.08}>
+        <Formulario />
+      </Reveal>
     </section>
   );
 }

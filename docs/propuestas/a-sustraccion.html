@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kalabs — Propuesta A · Sustracción</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   PROPUESTA A — SUSTRACCIÓN
+   Confianza por vacío. Una frase, mucho aire, y después la obra a pantalla
+   completa. Referencia: Collins. Paleta Kalabs invertida: el hueso pasa a
+   ser papel y la tinta vuelve a ser tinta.
+   ========================================================================== */
+:root{
+  --ink:#0f1214; --ink-2:#161a1c; --ink-4:#262c2f;
+  --bone:#efe7d6; --bone-2:#f5efe3;
+  --bone-dim:#b9b2a4;
+  --ember:#ff6b1a; --ember-dim:#db6a20;
+  --terra:#9c3f26; --terra-dim:#6b2b1a;
+  --edge:clamp(1.25rem,5vw,4.5rem);
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bone);color:var(--ink);
+  font-family:"Newsreader",Georgia,serif;font-size:1.0625rem;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+h1,h2,h3,p,figure,ul,li{margin:0;padding:0}
+ul{list-style:none}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:var(--ember);color:var(--bone)}
+:focus-visible{outline:2px solid var(--ember);outline-offset:4px}
+
+/* grano de papel */
+body::after{
+  content:"";position:fixed;inset:0;z-index:900;pointer-events:none;opacity:.055;
+  mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase}
+.serif{font-family:"Instrument Serif",Georgia,serif;font-weight:400}
+.wrap{padding-inline:var(--edge)}
+
+/* ---------- nav ---------- */
+header{
+  position:fixed;inset:0 0 auto;z-index:800;display:flex;align-items:center;
+  justify-content:space-between;padding:1.1rem var(--edge);
+}
+/* La barra vive sobre capturas oscuras: la marca y los enlaces llevan su
+   propio papel para no desaparecer cuando pasa un proyecto por debajo. */
+.marca,.menu a{
+  background:rgba(239,231,214,.86);backdrop-filter:blur(6px);
+  padding:.4rem .7rem;border-radius:999px;
+}
+.marca{font-family:"IBM Plex Mono",monospace;font-weight:500;letter-spacing:.24em;font-size:.82rem}
+.menu{display:flex;gap:.4rem;align-items:center}
+.menu a{position:relative;padding-bottom:2px}
+.menu a{transition:background .3s var(--ease),color .3s var(--ease)}
+.menu a:hover{background:var(--ink);color:var(--bone)}
+@media(max-width:640px){.menu a:not(.menu-cta){display:none}}
+.menu-cta{color:var(--terra)}
+
+/* ---------- portada ---------- */
+.portada{
+  min-height:100svh;display:grid;grid-template-rows:1fr auto;
+  align-items:center;text-align:center;padding:8rem var(--edge) 3rem;
+}
+.frase{
+  font-family:"Instrument Serif",Georgia,serif;font-weight:400;
+  font-size:clamp(2.9rem,8.4vw,7.6rem);line-height:1.02;letter-spacing:-.02em;
+  max-width:16ch;margin-inline:auto;text-wrap:balance;
+}
+.frase em{font-style:italic;color:var(--terra)}
+.frase .punto{color:var(--ember)}
+.aire{display:block;height:clamp(1rem,6vh,3rem)}
+
+/* laureles: la prueba, no el premio */
+.prueba{padding-bottom:1rem}
+.prueba .rotulo{color:var(--ember-dim);margin-bottom:1.4rem}
+.laureles{
+  display:flex;flex-wrap:wrap;gap:.4rem 1.6rem;justify-content:center;
+  font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:.06em;
+}
+.laurel{display:inline-flex;align-items:center;gap:.55rem;color:var(--ink);opacity:.78;
+  transition:opacity .3s var(--ease),color .3s var(--ease)}
+.laurel:hover{opacity:1;color:var(--terra)}
+.laurel::before,.laurel::after{
+  content:"";width:9px;height:20px;border:1px solid currentColor;opacity:.55;
+}
+.laurel::before{border-right:0;border-radius:9px 0 0 9px}
+.laurel::after{border-left:0;border-radius:0 9px 9px 0}
+
+/* ---------- obra: cada proyecto se lleva la pantalla ---------- */
+.obra{padding-top:2rem}
+.ficha{margin-bottom:clamp(4rem,10vh,9rem)}
+.ficha__lienzo{
+  position:relative;overflow:hidden;border-radius:14px;
+  margin-inline:var(--edge);background:var(--ink);
+  aspect-ratio:16/9;
+}
+@media(max-width:700px){.ficha__lienzo{aspect-ratio:4/5}}
+.ficha__lienzo img{
+  width:100%;height:100%;object-fit:cover;object-position:top center;
+  transition:transform 1.2s var(--ease),filter .6s var(--ease);
+  filter:saturate(.92);
+}
+.ficha:hover .ficha__lienzo img{transform:scale(1.028);filter:saturate(1)}
+.ficha__tag{
+  position:absolute;left:1rem;bottom:1rem;z-index:2;
+  background:var(--bone);color:var(--ink);padding:.42rem .8rem;border-radius:999px;
+}
+.ficha__pie{
+  display:grid;grid-template-columns:1fr auto;gap:1rem 2rem;align-items:end;
+  padding:1.4rem var(--edge) 0;
+}
+.ficha__nombre{
+  font-family:"Instrument Serif",Georgia,serif;
+  font-size:clamp(2rem,5.2vw,4.2rem);line-height:1;letter-spacing:-.015em;
+}
+.ficha__nombre span{color:var(--bone-dim)}
+.ficha__linea{max-width:44ch;color:var(--ink-4);font-style:italic;margin-top:.7rem}
+.ficha__sitio{color:var(--terra);white-space:nowrap}
+.ficha__sitio::after{content:" ↗"}
+
+/* ---------- servicios: sin números, sin tarjetas ---------- */
+.oficio{padding:clamp(5rem,14vh,10rem) 0 clamp(3rem,8vh,6rem)}
+.rotulo{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--terra)}
+.oficio__lista{margin-top:2.5rem;border-top:1px solid rgba(15,18,20,.16)}
+.oficio__item{
+  display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  gap:1rem 3rem;padding:2.2rem 0;border-bottom:1px solid rgba(15,18,20,.16);
+  transition:padding-left .5s var(--ease);
+}
+.oficio__item:hover{padding-left:1rem}
+@media(max-width:760px){.oficio__item{grid-template-columns:1fr}}
+.oficio__titulo{
+  font-family:"Instrument Serif",Georgia,serif;
+  font-size:clamp(1.7rem,3.6vw,2.9rem);line-height:1.05;letter-spacing:-.01em;
+}
+.oficio__cuerpo{max-width:56ch;color:var(--ink-4)}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:1rem}
+.chip{
+  font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.08em;
+  text-transform:uppercase;border:1px solid rgba(15,18,20,.24);
+  padding:.3rem .6rem;border-radius:999px;color:var(--ink-4);
+}
+
+/* ---------- promesas ---------- */
+.promesas{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;
+  padding:0 0 clamp(4rem,10vh,8rem)}
+@media(max-width:760px){.promesas{grid-template-columns:1fr;gap:1.4rem}}
+.promesa{border-top:2px solid var(--ember);padding-top:1rem;font-style:italic;
+  font-size:1.12rem;line-height:1.35}
+
+/* ---------- contacto: la única mancha de tinta ---------- */
+.cierre{background:var(--ink);color:var(--bone);border-radius:16px 16px 0 0;
+  margin-inline:var(--edge);padding:clamp(3.5rem,9vh,7rem) clamp(1.5rem,5vw,5rem)}
+.cierre .rotulo{color:var(--ember)}
+.cierre__frase{
+  font-family:"Instrument Serif",Georgia,serif;
+  font-size:clamp(2.2rem,6vw,5rem);line-height:1.03;letter-spacing:-.02em;
+  max-width:14ch;margin:1.4rem 0 2.6rem;
+}
+.cierre__frase em{font-style:italic;color:var(--ember)}
+.cierre__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2.4rem}
+@media(max-width:760px){.cierre__grid{grid-template-columns:1fr}}
+.campo{display:block;margin-bottom:1.2rem}
+.campo span{display:block;margin-bottom:.4rem;color:var(--bone-dim)}
+.campo input,.campo textarea,.campo select{
+  width:100%;background:transparent;color:var(--bone);
+  border:0;border-bottom:1px solid rgba(239,231,214,.3);
+  padding:.6rem 0;font-family:"Newsreader",serif;font-size:1rem;
+  transition:border-color .3s var(--ease);
+}
+.campo input:focus,.campo textarea:focus,.campo select:focus{
+  outline:none;border-bottom-color:var(--ember)}
+.campo textarea{resize:vertical;min-height:104px}
+.campo select option{background:var(--ink)}
+.enviar{
+  margin-top:.8rem;background:var(--ember);color:var(--ink);
+  padding:.85rem 1.6rem;border-radius:999px;
+  font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.12em;
+  text-transform:uppercase;transition:transform .3s var(--ease),background .3s var(--ease);
+}
+.enviar:hover{transform:translateY(-2px);background:var(--bone)}
+.datos li{padding:.85rem 0;border-bottom:1px solid rgba(239,231,214,.16);
+  display:flex;justify-content:space-between;gap:1rem}
+.datos a:hover{color:var(--ember)}
+.equipo{margin-top:2rem}
+.equipo li{padding:.7rem 0;color:var(--bone-dim)}
+.equipo b{color:var(--bone);font-weight:500}
+
+/* ---------- pie ---------- */
+footer{background:var(--ink);color:var(--bone-dim);padding:2rem var(--edge) 2.4rem;
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+footer a:hover{color:var(--ember)}
+
+/* ---------- entrada ---------- */
+.rev{opacity:0;transform:translateY(22px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.rev.on{opacity:1;transform:none}
+.portada .frase{animation:sube 1.3s var(--ease) both}
+.portada .prueba{animation:sube 1.3s .45s var(--ease) both}
+header{animation:sube .9s .15s var(--ease) both}
+@keyframes sube{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}
+  .rev{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="marca" href="#">KALABS</a>
+  <nav class="menu mono">
+    <a href="#obra">Obra</a>
+    <a href="#oficio">Oficio</a>
+    <a href="#contacto" class="menu-cta">Escribinos</a>
+  </nav>
+</header>
+
+<main>
+  <section class="portada">
+    <h1 class="frase">Que te encuentren, y que <em>quieran</em> quedarse<span class="punto">.</span></h1>
+    <div class="prueba">
+      <p class="rotulo mono">Estudio digital · Montevideo · Est. 2025</p>
+      <div class="laureles">
+        <a class="laurel" href="#obra">ViaGrúa 2025</a>
+        <a class="laurel" href="#obra">ROG 2025</a>
+        <a class="laurel" href="#obra">Oleo Cáceres 2025</a>
+        <span class="laurel">ANCAP · UTE · Armada</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="obra" id="obra">
+    <article class="ficha rev">
+      <a href="https://via-grua.vercel.app">
+        <div class="ficha__lienzo">
+          <img src="../../public/proyectos/viagrua.png" alt="Portada de ViaGrúa">
+          <span class="ficha__tag mono">En producción</span>
+        </div>
+        <div class="ficha__pie">
+          <div>
+            <h2 class="ficha__nombre">ViaGrúa <span>— flotas en tiempo real</span></h2>
+            <p class="ficha__linea">Choferes, servicios y unidades en una sola vista. Quién está libre y quién está en camino, sin un solo llamado.</p>
+          </div>
+          <span class="ficha__sitio mono">via-grua.vercel.app</span>
+        </div>
+      </a>
+    </article>
+
+    <article class="ficha rev">
+      <a href="https://urugastos.vercel.app">
+        <div class="ficha__lienzo">
+          <img src="../../public/proyectos/rog.png" alt="Portada de República Oriental de los Gastos">
+          <span class="ficha__tag mono">En producción</span>
+        </div>
+        <div class="ficha__pie">
+          <div>
+            <h2 class="ficha__nombre">ROG <span>— República Oriental de los Gastos</span></h2>
+            <p class="ficha__linea">Presupuesto, ahorro y flujo del mes en una pantalla. Y el detalle de en qué se fue.</p>
+          </div>
+          <span class="ficha__sitio mono">urugastos.vercel.app</span>
+        </div>
+      </a>
+    </article>
+
+    <article class="ficha rev">
+      <a href="https://oleocaceres-web.vercel.app">
+        <div class="ficha__lienzo">
+          <img src="../../public/proyectos/oleocaceres.png" alt="Portada de Oleohidráulica Cáceres">
+          <span class="ficha__tag mono">En producción</span>
+        </div>
+        <div class="ficha__pie">
+          <div>
+            <h2 class="ficha__nombre">Oleo Cáceres <span>— veinte años de oficio</span></h2>
+            <p class="ficha__linea">Qué fabrican, qué reparan y para quién trabajan. Con ANCAP, UTE y la Armada entre los clientes, la web tenía que estar a esa altura.</p>
+          </div>
+          <span class="ficha__sitio mono">oleocaceres-web.vercel.app</span>
+        </div>
+      </a>
+    </article>
+  </section>
+
+  <section class="oficio wrap" id="oficio">
+    <p class="rotulo">Lo que hacemos</p>
+    <div class="oficio__lista">
+      <div class="oficio__item rev">
+        <h2 class="oficio__titulo">Desarrollo web</h2>
+        <div>
+          <p class="oficio__cuerpo">Sitios para negocios que necesitan que los encuentren. Rápidos en el celular, sin plantillas y con la medición configurada desde el primer día. Se entregan en producción, con el dominio andando y soporte del otro lado.</p>
+          <div class="chips"><span class="chip">Institucional</span><span class="chip">Tienda o catálogo</span><span class="chip">Panel</span><span class="chip">Medición</span></div>
+        </div>
+      </div>
+      <div class="oficio__item rev">
+        <h2 class="oficio__titulo">Automatizaciones</h2>
+        <div>
+          <p class="oficio__cuerpo">Las tareas manuales que se repiten todas las semanas pasan a ejecutarse solas. Empezamos por la que más horas consume.</p>
+          <div class="chips"><span class="chip">Bots de WhatsApp</span><span class="chip">Reportes</span><span class="chip">Integraciones</span><span class="chip">Alertas</span></div>
+        </div>
+      </div>
+      <div class="oficio__item rev">
+        <h2 class="oficio__titulo">Sistemas a medida</h2>
+        <div>
+          <p class="oficio__cuerpo">Turnos, pedidos o control de stock. Una función bien resuelta antes que un sistema entero que después nadie abre.</p>
+          <div class="chips"><span class="chip">Turnos</span><span class="chip">Pedidos</span><span class="chip">Stock</span><span class="chip">Fichas</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="promesas">
+      <p class="promesa rev">La primera consulta no tiene costo.</p>
+      <p class="promesa rev">Presupuesto cerrado antes de empezar.</p>
+      <p class="promesa rev">Respuesta dentro de las 24 horas.</p>
+    </div>
+  </section>
+
+  <section class="cierre" id="contacto">
+    <p class="rotulo mono">Escribinos</p>
+    <h2 class="cierre__frase">Contanos qué hay que <em>resolver</em>.</h2>
+    <div class="cierre__grid">
+      <form onsubmit="return false">
+        <label class="campo"><span class="mono">Nombre</span><input placeholder="Nombre y apellido"></label>
+        <label class="campo"><span class="mono">Correo</span><input type="email" placeholder="donde te contestamos"></label>
+        <label class="campo"><span class="mono">Servicio de interés</span>
+          <select><option>Desarrollo web</option><option>Automatizaciones</option><option>Sistemas a medida</option><option>Todavía no lo tengo definido</option></select>
+        </label>
+        <label class="campo"><span class="mono">Mensaje</span><textarea placeholder="Contanos brevemente qué necesitás."></textarea></label>
+        <button class="enviar">Enviar mensaje</button>
+      </form>
+      <div>
+        <ul class="datos mono">
+          <li><span>Correo</span><a href="mailto:hola@kalabs.dev">hola@kalabs.dev</a></li>
+          <li><span>Instagram</span><a href="https://www.instagram.com/kalabs.dev">@kalabs.dev</a></li>
+          <li><span>Base</span><span>Montevideo, UY</span></li>
+          <li><span>Respuesta</span><span>24 h hábiles</span></li>
+        </ul>
+        <ul class="equipo">
+          <li><b>Lautaro Zapata</b> — Desarrollo y sistemas</li>
+          <li><b>Matías Sosa</b> — Diseño gráfico e identidad</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="mono">
+  <span>Kalabs © 2026</span>
+  <span>Montevideo, Uruguay</span>
+  <a href="mailto:hola@kalabs.dev">hola@kalabs.dev</a>
+</footer>
+
+<script>
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.rev').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

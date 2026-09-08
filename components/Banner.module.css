@@ -1,0 +1,55 @@
+/* Va a sangre: es la única banda que cruza la pantalla de lado a lado, y por
+   eso corta la página en dos —arriba lo que hacemos, abajo cómo escribirnos—. */
+.banner {
+  margin-top: clamp(3rem, 8vh, 6rem);
+  padding: 1rem 0;
+  background: var(--ink);
+  color: var(--papel);
+  overflow: hidden;
+}
+
+.pista {
+  display: flex;
+  width: max-content;
+  animation: corre 30s linear infinite;
+}
+
+.banner:hover .pista { animation-play-state: paused; }
+
+.tanda {
+  display: flex;
+  gap: 3rem;
+  padding-right: 3rem;
+}
+
+.frase {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 600;
+  font-variation-settings: "opsz" 24;
+  font-size: 1.05rem;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+}
+
+.frase::before {
+  content: "◆";
+  margin-right: 1rem;
+  font-size: 0.7rem;
+  vertical-align: middle;
+  color: var(--ember);
+}
+
+@keyframes corre {
+  to { transform: translateX(-50%); }
+}
+
+/* Sin movimiento la cinta no se puede leer entera: se corta el bucle y queda
+   la primera tanda quieta, que dice lo mismo. */
+@media (prefers-reduced-motion: reduce) {
+  .pista {
+    animation: none;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  .tanda { flex-wrap: wrap; }
+}

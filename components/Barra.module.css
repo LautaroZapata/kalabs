@@ -1,0 +1,36 @@
+/* La barra: pegajosa, con el papel desvaneciéndose abajo para que el contenido
+   pase por debajo sin cortarse contra un borde. */
+.barra {
+  position: sticky;
+  top: 0;
+  z-index: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  max-width: var(--ancho);
+  margin-inline: auto;
+  padding: 1rem var(--edge);
+  background: linear-gradient(var(--papel) 62%, rgba(247, 242, 231, 0));
+}
+
+.marca {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  font-variation-settings: "opsz" 24;
+  font-size: 1.05rem;
+  letter-spacing: -0.03em;
+  margin-right: auto;
+}
+
+.nav {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+/* Debajo de 620px queda el nombre y el botón de escribir. Tres pastillas más
+   apretadas contra el borde no son un menú, son un accidente. */
+@media (max-width: 620px) {
+  .oculta { display: none; }
+}

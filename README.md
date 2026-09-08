@@ -5,181 +5,137 @@ Uruguay. Desarrollo web, automatizaciones y sistemas a medida.
 
 ## Dirección de diseño
 
-**Broadsheet brutalista**: un diario impreso llevado al extremo.
+**Papel cálido, tinta encima y un solo plano de color.** El sitio pregunta
+antes de contar nada, muestra la obra a tamaño de pantalla y recién después
+dice qué hacemos.
 
-La versión anterior era brutalismo web de manual —grotesca 900 en versalita
-con tracking cerrado, mono con mucho tracking para las microetiquetas,
-secciones numeradas `00/01/02`, wordmark gigante partido en dos, marquesina
-infinita, riel de estado con reloj en vivo—. Cada una de esas decisiones es
-defendible por separado; juntas son la receta que produce cualquier modelo
-cuando se le pide "brutalista", y se reconoce a un metro.
+Antes de esto hubo dos direcciones. La primera era brutalismo web de manual
+—grotesca 900 en versalita, mono con mucho tracking, secciones numeradas
+`00/01/02`, wordmark partido en dos, marquesina infinita, riel con reloj en
+vivo—: la receta que produce cualquier modelo cuando se le pide «brutalista».
+La segunda fue un broadsheet: un diario impreso con filetes de tres grosores,
+cintillo, folio al pie y una greca de orla. Se leía bien y era coherente, pero
+el vocabulario de imprenta terminó siendo decorativo —la metáfora no
+trabajaba— y los proyectos quedaban en tres capturas de 400px en fila.
 
-El cambio de fondo es de dónde sale el maximalismo: ya no de efectos sino de
-**densidad de tipografía y de filetes**. Todo lo que acá parece adorno es una
-convención de imprenta con siglos encima.
+Lo que hay ahora salió de mirar dieciocho portadas de estudios
+([`docs/referencias/`](docs/referencias/)) y de tres propuestas completas
+([`docs/propuestas/`](docs/propuestas/)): base **Vidriera** —papel, pastillas,
+redondeos, la pregunta de entrada, los servicios que se abren, el banner en
+movimiento— con la forma de mostrar los proyectos de **Cartel** —el plano de
+brasa con la inicial gigante detrás y el índice de filas—.
 
-- **La portada presenta y deja pasar.** Cintillo con los datos del estudio,
-  cabecera a filete doble con el nombre en caja baja y al ras, y un único
-  recuadro al margen derecho con la forma de trabajo. Nada centrado, nada
-  flotando en el medio de la pantalla, y ningún párrafo de relleno: lo que hay
-  para decir lo dicen Servicios, Proyectos y Contacto.
-- **El cabezal de sección se comparte.** Antetítulo, título y bajada, iguales
-  en las tres secciones interiores, para que el sitio se lea como una sola
-  pieza. La numeración `00/01/02` en mono es un tic de plantilla y no está.
-- **No hay cajas.** Ni en servicios, ni en proyectos, ni en el formulario. Lo
-  que separa es el aire y, donde hace falta, un filete. Una página llena de
-  recuadros con fondo propio se lee como una planilla: cada módulo se defiende
-  solo y ninguno respira. Los dos únicos planos de color pleno que quedan son
-  el cierre de Servicios y la cita de Contacto, y los dos son eso justamente
-  porque son la excepción.
-- **Proyectos entra en una pantalla.** Los tres en fila, y el conjunto
-  —cabezal, capturas y cierre— dentro de un viewport. La altura no la fija el
-  contenido: la sección es una columna flexible y las capturas se estiran para
-  llenar lo que sobra, así que en un monitor alto se ven grandes y en uno bajo
-  más chicas, pero nunca hay scroll de más. Antes cada proyecto se comía su
-  propia pantalla y había que bajar tres veces para enterarse de qué hace el
-  estudio. Ninguna nota lleva stack: al cliente que la mira no le dice nada
-  que haya Supabase abajo.
-- **Los servicios son una composición, no una lista.** Los tres en columnas:
-  el 01 se queda con media plana en cuerpo grande, el 02 y el 03 se reparten
-  la otra mitad en cuerpo chico. La jerarquía la hace el tamaño de la letra y
-  el numeral en bordo, no un recuadro. Abajo cruza la banda de **cómo
-  trabajamos** y cierra el plano naranja.
-
-  Hubo tres versiones antes de esta. Las dos primeras fallaban por lo mismo
-  aunque se vieran distinto: eran tres bloques iguales apilados a lo largo de
-  la página, y el ojo leía "tres cosas, una atrás de otra". La tercera las
-  metió en una grilla de recuadros y falló por lo contrario: tanto borde
-  convertía la sección en una planilla.
-
-  La forma de trabajo vive acá y no en la portada: ahí llegaba antes de que
-  nadie supiera qué hacemos. A todo el ancho los tres pasos entran en columnas
-  numeradas y se leen como una secuencia, no como viñetas.
-- **El filete de cada sección se dibuja.** No es un `border-top`: es un
-  elemento propio que crece en X desde el margen izquierdo cuando la sección
-  entra en pantalla, como la regla que se tira antes de componer una página.
-  Es el mismo gesto que hace la caja de composición de la portada, y es lo que
-  ata las dos puntas del sitio.
-- **Los servicios van antes que los proyectos.** Primero qué podemos hacer por
-  quien llega, después la prueba de que sabemos hacerlo.
-- **Cada proyecto se muestra, no se cuenta.** La captura es del sitio en vivo
-  y la nota entera enlaza ahí. Antes había maquetas dibujadas en SVG: servían
-  de sustituto, pero cualquiera nota que no son el producto. Encima va una
-  viñeta animada que pone en movimiento lo que el proyecto hace —una grúa que
-  cruza, un mes que se llena, un pistón que trabaja—.
-- **La portada va a sangre; el resto, en la caja.** Los filetes de la portada
-  cruzan la pantalla entera, pero su contenido se mete hasta la misma línea
-  que las secciones de abajo (`--sangria`), así el wordmark arranca donde
-  arrancan los cabezales. Todo lo demás se compone dentro de `--ancho`
-  (1440px): sin tope, en un monitor de 2560 la línea de texto se estira hasta
-  donde el ojo ya no vuelve solo al margen izquierdo.
-- **La caja de composición.** Al costado del nombre hay una página armándose
-  sola: bajan los corondeles, entra el titular, se llenan las líneas de texto
-  y aparece el recuadro de foto con su aspa; cuando la maqueta está completa
-  se levanta y empieza otra de las tres. No es un mockup de navegador ni una
-  terminal con código corriendo —los dos clichés del rubro—: es el mismo
-  vocabulario del sitio puesto en movimiento. Aparece recién a partir de
-  1100px, porque abajo de eso el wordmark ocupa la cabecera entera.
-- **La barra al pie reemplaza al riel de estado.** El reloj en vivo y la barra
-  de progreso eran decoración retrofuturista que no le servía a nadie; la
-  barra dice en qué sección estás y te lleva a otra, que es lo que hace falta.
-- **La greca aparece una sola vez**, como orla superior de la portada. Son
-  cuatro tramas ortogonales (`zigzag`, `rombo`, `escalera`, `trama`)
-  construidas a base de escalones —geometría abstracta inspirada en el textil
-  sudamericano, sin citar ningún símbolo concreto—. Es lo más propio que tiene
-  el sitio, y por eso vale más una que diez repartidas.
-- **El equipo son dos fichas sobrias** al pie: nombre, oficio y el enlace al
-  LinkedIn. Sin biografías.
+- **La portada no titula: pregunta.** «Contanos qué hay que resolver», y abajo
+  un campo de texto. Quien llega no viene a leer lo que el estudio dice de sí
+  mismo, viene con un problema. Lo que escriba viaja al formulario de contacto
+  y cae en el mensaje con el foco al final, así no lo escribe dos veces. Si lo
+  manda vacío, baja igual al formulario: un campo que no hace nada cuando lo
+  apretás es peor que uno que no está.
+- **La obra va en dos tiempos.** Arriba la escena: un plano de brasa con la
+  inicial del estudio derivando de fondo y un proyecto por vez, grande,
+  rotando solo. Abajo el índice: cuatro filas para ir directo a uno, y con
+  mouse la captura sigue al cursor. Las dos piezas no se pisan —la escena
+  muestra, el índice lista— y entre las dos el proyecto pasó de una captura de
+  400px a llevarse la pantalla.
+- **La cuarta fila del índice es «Tu proyecto acá».** Escrita con la misma
+  tipografía y en el mismo renglón que los tres que sí existen. Dicha aparte,
+  en un bloque de cierre, se lee como aviso; dicha ahí, se lee como el que
+  sigue.
+- **Los servicios no van numerados.** Ninguno de los dieciocho estudios de
+  referencia tiene una sección `01 · 02 · 03`, y ese numeral es lo que más
+  delata una landing armada con plantilla. Son tres fichas que se abren:
+  cerradas, la sección entera entra en una pantalla; abierta, cada una cuenta
+  lo suyo. Son `<details>` nativos, así que funcionan sin JavaScript.
+- **El banner corta la página en dos.** Arriba lo que hicimos y lo que
+  hacemos, abajo cómo escribirnos. Las tres promesas cruzan en movimiento y la
+  cinta **se frena al pasarle el mouse**: una cinta que no para no se puede
+  leer, y eso es justo lo que alguien quiere terminar de leer.
+- **Un solo plano de color pleno**: la escena de la obra. La brasa dejó de ser
+  detalle y pasó a ser fondo; el bordo quedó como segunda voz para rótulos y
+  palabras marcadas.
+- **Lo que agrupa es una curva, lo que separa es un filete de un pixel.** El
+  radio de 24px es el mismo en la escena, en las fichas de servicio, en el
+  formulario y en el pie. No hay cajas con borde compitiendo entre sí.
+- **La navegación son cuatro pastillas arriba.** Antes era una barra fija al
+  pie que marcaba en qué sección estabas. Marcaba bien y no la usaba nadie: en
+  un sitio de una página, saber que estás en «Proyectos» no es información.
+- **El equipo son dos personas con sus iniciales**, pegado al formulario y no
+  en una sección propia: quien está por escribir quiere saber a quién le
+  escribe justo en ese momento, no tres pantallas antes. Iniciales y no fotos
+  —dos fotos de perfil recortadas en círculo son lo que hace que un estudio
+  parezca una plantilla de agencia—.
 - **La portada entra sin JavaScript.** El escalonado lo hace CSS con
-  `animation-delay`, así el contenido más importante no queda en `opacity: 0`
+  `animation-delay`, así lo primero que se ve no queda en `opacity: 0`
   esperando a que cargue un bundle.
 
 ### Paleta
 
-Toda cálida: naranja y bordo sobre cuatro negros. No hay acento frío —la
-jerarquía la hacen los tonos de fondo y el peso tipográfico, no un segundo
-color.
+La misma de siempre, dada vuelta: lo que era fondo pasó a ser tinta. Toda
+cálida, sin acento frío.
 
 | Rol | Token | Valor |
 | --- | --- | --- |
-| Fondo | `--ink` | `#0f1214` — carbón frío |
-| Fondo 2 / 3 / 4 | `--ink-2` `--ink-3` `--ink-4` | `#161a1c` `#1e2325` `#262c2f` |
-| Texto | `--bone` | `#efe7d6` — hueso cálido |
-| Texto apagado | `--bone-dim` | `#b9b2a4` |
-| Acento | `--ember` | `#ff6b1a` — lo activo, lo que se toca |
-| Acento quemado | `--ember-dim` | `#db6a20` — segunda voz del mismo acento |
-| Estructura | `--terra` | `#9c3f26` — bordo: líneas, bordes y planos |
-| Estructura oscura | `--terra-dim` | `#6b2b1a` |
+| Fondo | `--papel` | `#f7f2e7` |
+| Fondo 2 | `--bone` | `#efe7d6` — fichas cerradas, formulario |
+| Tinta | `--ink` | `#0f1214` — carbón frío |
+| Tinta 2 | `--ink-2` | `#161a1c` |
+| Texto secundario | `--ink-4` | `#262c2f` sobre papel |
+| Texto secundario | `--bone-dim` | `#b9b2a4` sobre tinta |
+| Acento | `--ember` | `#ff6b1a` — el plano pleno y lo que se toca |
+| Acento quemado | `--ember-dim` | `#db6a20` |
+| Segunda voz | `--terra` | `#9c3f26` — rótulos y palabras marcadas |
+| Segunda voz oscura | `--terra-dim` | `#6b2b1a` |
 
 ### Tipografía
 
-**Dos familias, no más.** Una redonda y una cursiva; cada rol sabe a cuál
-pertenece. Las dos de Google Fonts, cargadas con `next/font`.
+**Dos familias, no tres.** Las dos de Google Fonts, cargadas con `next/font`.
 
 | Familia | Rol | Por qué |
 | --- | --- | --- |
-| **Fraunces** | Titulares, siempre vertical | Variable, con dos ejes que casi ninguna otra tiene: `SOFT` redondea los remates y `WONK` mete las formas torcidas de la itálica dentro de la redonda. Con los dos al máximo la letra deja de verse calculada. |
-| **Newsreader** | Cuerpo, bajadas y datos | Serif editorial, pensada para párrafos largos. El serif es lo que da la sensación de que atrás hay alguien. |
+| **Bricolage Grotesque** | Titulares, nombres de proyecto, botones | Grotesca variable con eje óptico (`opsz`): a cuerpo grande cierra el espaciado y afina las curvas, a cuerpo chico las abre. Ese eje es lo que le da carácter sin necesidad de una display aparte. |
+| **Hanken Grotesk** | Cuerpo, rótulos, etiquetas y datos | Sans de lectura, ancha de anchos y tranquila. Aguanta párrafos y también versalitas de 0.7rem. |
 
 Las reglas que sostienen el sistema:
 
-- **Una sola cursiva: la itálica de Newsreader.** Fraunces nunca va inclinada
-  —su inquietud ya viene del eje `WONK`— y la itálica no se usa para enfatizar
-  dentro de un párrafo: marca un solo rol, el de la voz que explica (bajadas,
-  valores, pies).
-- **Los titulares van en caja baja.** La versalita 900 con tracking cerrado es
-  el titular que escribe todo el mundo.
-- **Los datos van en versalitas, no en monoespaciada.** Una tercera familia
-  para cuatro etiquetas era una voz de más.
-
-### Rugosidad
-
-El "Kalabs" de la cabecera lleva un filtro SVG que le come el borde por
-desplazamiento de ruido (`components/Rugosidad.tsx`): el efecto es el de una
-letra entintada sobre papel poroso, y el trazo pierde el filo perfecto que
-delata a la pantalla.
-
-**Va en un solo elemento de todo el sitio.** Aplicado a todos los titulares la
-textura dejaba de ser un acento y se volvía ruido de fondo: a esa escala
-compite con el texto en vez de sostenerlo. Un elemento rugoso contra tres
-páginas de letra limpia se nota más que veinte.
-
-Se aplica sobre texto vivo: sigue siendo seleccionable, indexable y legible por
-un lector de pantalla, y si el navegador no soporta el filtro la letra se ve
-nítida y no se pierde nada.
-
-> **Cuidado si se extiende a otro elemento.** `filter` convierte al elemento en
-> bloque contenedor de sus descendientes absolutos. Puesto en un titular que
-> adentro tenga el `::after` estirado sobre una ficha, ese overlay se recorta al
-> titular y la tarjeta deja de ser clicable entera. En esos casos va en un
-> `<span>` interno.
+- **No hay monoespaciada.** El texto chico —etiquetas, pastillas, pie— va en
+  versalitas de Hanken (`.et`): se distingue por espaciado y peso, no por
+  familia. Una mono para escribir «En producción» era una tercera voz que no
+  aportaba nada.
+- **`opsz` se pide por eje, no por peso.** Pedir el eje óptico obliga a traer
+  la variable entera, y con ella el peso queda continuo; una lista de pesos
+  junto a `axes` es un error de build, no una optimización.
+- **El acento del titular es una palabra, no una línea.** «resolver» en bordo,
+  «lo que sea» en brasa: una por sección y nada más.
 
 ## Accesibilidad
 
-- Contraste verificado sobre `--ink`: hueso 15.3:1, hueso apagado 8.9:1,
-  naranja 6.6:1, naranja quemado 5.5:1, bordo aclarado 5.5:1 (4.6:1 sobre
-  `--ink-3`, el fondo más claro donde aparecen). Hueso sobre bordo 5.4:1.
-- **El bordo (`--terra`, 2.8:1) nunca lleva texto.** Es filete, borde y plano
-  de fondo; cuando es fondo, el texto encima va en hueso. Para los datos y las
-  marcas de listado está `--terra-lit`, que es el mismo tono aclarado hasta
-  pasar AA. Si hace falta bordo sobre texto, se usa ése.
-- Foco de teclado visible en todo el sitio (contorno naranja de 3px).
+- Contraste verificado sobre `--papel`: tinta 16.4:1, `--ink-4` 11.5:1, bordo
+  6.0:1. Sobre `--ink`: hueso 15.3:1, hueso apagado 8.9:1, brasa 6.6:1. Sobre
+  el plano de brasa, la tinta da 6.6:1.
+- **La brasa nunca lleva texto chico sobre papel.** Es plano de fondo y botón;
+  cuando hace falta acento sobre papel se usa el bordo, que pasa AA.
+- Foco de teclado visible en todo el sitio (contorno de brasa de 3px), también
+  en las pastillas de servicio del formulario, que son radios escondidos.
+- El pase de la obra tiene botón de pausa y arranca pausado si el sistema pide
+  movimiento reducido: una imagen que cambia sola y no se puede detener es
+  exactamente lo que pide que se apague.
+- Con el dedo, los puntos del pase crecen al blanco de 44px con un
+  pseudoelemento transparente, sin cambiar de tamaño a la vista.
 - Ningún estado se transmite sólo con color: lleva la palabra completa
-  (`En producción`, `Desarrollo y sistemas`).
-- Se respeta `prefers-reduced-motion`: no hay entradas por scroll ni escalonado
-  de portada. El contenido aparece directamente visible, no oculto esperando un
-  disparador.
-- Con JavaScript deshabilitado el contenido sigue visible: hay un `<noscript>`
-  que neutraliza el estado inicial que Motion escribe en el HTML servido.
-- Enlace "Saltar al contenido", jerarquía de encabezados `h1 → h2 → h3` y
-  todas las tramas SVG marcadas como decorativas.
+  (`En producción`, `Abierto`).
+- Con JavaScript deshabilitado el contenido sigue visible: un `<noscript>`
+  neutraliza el estado inicial de las entradas por scroll.
+- Enlace «Saltar al contenido», jerarquía de encabezados `h1 → h2 → h3` y la
+  inicial gigante de la escena marcada como decorativa.
 
 ## Stack
 
 - Next.js (App Router) + React + TypeScript
 - CSS Modules + custom properties — sin framework de estilos, para que el
   layout no arrastre las convenciones de nadie
-- [Motion](https://motion.dev) para las entradas por scroll
+- Sin librería de animación. Estaba Motion y se fue con el rediseño: para un
+  fundido de veinte pixeles alcanzan un `IntersectionObserver` de doce líneas
+  (`components/Reveal.tsx`) y una transición de CSS.
 - Sin base de datos: el formulario envía por una Server Action que llama a la
   API de Brevo, la misma cuenta que autentica el dominio para el correo
   saliente. Es un `fetch`, sin dependencia nueva. Si algún día hay que guardar
@@ -228,7 +184,8 @@ prueba de que del otro lado hay alguien.
 - **Tablas y estilo en línea.** Es la única forma de que un correo se vea igual
   en Gmail, Apple Mail y Outlook, que compone con el motor de Word y descarta
   casi todo lo demás. Nada de flex, de grid ni de hojas de estilo.
-- **Georgia y no Fraunces.** Un correo no puede cargar fuentes con garantías,
+- **Georgia y no la tipografía del sitio.** Un correo no puede cargar fuentes
+  con garantías,
   así que se usa la serif que ya está instalada en todos lados.
 - **Todo lo que escribió un desconocido se escapa antes de entrar al HTML.** El
   cuerpo lo redacta cualquiera que pase por el formulario; sin eso, una
@@ -244,14 +201,20 @@ seguimiento, entrega— están en [`docs/plantillas-correo.md`](docs/plantillas-
 
 ### Notas de implementación
 
-- **Con movimiento reducido no alcanza con no animar.** Motion escribe
-  `opacity: 0` inline en el HTML servido, así que hay que pedirle explícitamente
-  el estado final en el montaje o el bloque queda invisible para siempre. Eso
-  resuelve `entrada()` en `components/mov/entrada.ts`.
-- **Un componente por sección, con su CSS Module al lado.** `Portada`,
-  `Servicios`, `Proyectos` y `Contacto`, más `Folio` para la barra del pie;
-  `Formulario` toma sus estilos de `Contacto.module.css` porque vive dentro de
-  esa ficha.
+- **Un componente por sección, con su CSS Module al lado.** `Barra`,
+  `Portada`, `Obra`, `Servicios`, `Banner`, `Contacto` y `Pie`; `Formulario`
+  toma sus estilos de `Contacto.module.css` porque vive dentro de esa ficha, y
+  `Reveal` no tiene módulo propio porque su clase (`.rev`) la usan cinco
+  secciones distintas y vive en `globals.css`.
+- **Sólo tres componentes son de cliente**: `Portada` —por el campo que manda
+  el texto al formulario—, `Obra` —el pase y el espía— y `Formulario`. El resto
+  se renderiza en el servidor.
+- **Lo que se escribe en la portada llega al formulario por un evento del
+  documento** (`EVENTO_CONSULTA`, en `lib/consulta.ts`), no por un estado
+  compartido: es un texto que viaja una vez y en un solo sentido, y montar un
+  contexto para eso obligaría a volver cliente a todo lo que queda en el medio.
+- **La posición del espía se escribe directo en el nodo.** Con estado sería un
+  render de React por cada pixel que se mueve el mouse.
 - **Las capturas se versionan, no se piden en vivo.** Están en
   `public/proyectos/` y se refrescan con `node scripts/capturas.mjs` cuando
   alguno de los proyectos cambia de portada. Playwright no es dependencia del
@@ -261,10 +224,10 @@ seguimiento, entrega— están en [`docs/plantillas-correo.md`](docs/plantillas-
   que los otros sitios estén levantados.
 - **La URL de cada captura es la primera pantalla real**: la portada si el
   proyecto tiene una, el alta si vive detrás de un login.
-- **El enlace del proyecto envuelve al título y se estira con `::after`.**
-  Toda la ficha es clicable, pero el destino que anuncia un lector de pantalla
-  es el nombre del proyecto y el foco de teclado se dibuja sobre el texto, no
-  sobre la tarjeta entera.
+- **En el celular la captura va en marco apaisado y anclada arriba a la
+  izquierda.** Son capturas de sitios de escritorio: en un marco vertical se
+  recortan hasta que no se entienden. Ahí también se le saca el dominio al pie,
+  que ocupa media captura para decir lo que ya dice el enlace.
 
 ## Desarrollo
 

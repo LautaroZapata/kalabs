@@ -1,8 +1,10 @@
-import Portada from "@/components/Portada";
-import Proyectos from "@/components/Proyectos";
-import Servicios from "@/components/Servicios";
+import Banner from "@/components/Banner";
+import Barra from "@/components/Barra";
 import Contacto from "@/components/Contacto";
-import Folio from "@/components/Folio";
+import Obra from "@/components/Obra";
+import Pie from "@/components/Pie";
+import Portada from "@/components/Portada";
+import Servicios from "@/components/Servicios";
 import { EQUIPO, PROYECTOS, SERVICIOS, SITE } from "@/lib/content";
 
 /**
@@ -59,18 +61,24 @@ export default function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {/* La portada va a sangre —los filetes cruzan la pantalla— y las tres
-          secciones interiores se componen dentro de la caja. El pie queda
-          afuera de <main>, así que sigue de lado a lado. */}
+      <Barra />
+
+      {/* Todo se compone dentro de la caja menos el banner, que cruza la
+          pantalla entera: es lo que parte la página en dos —arriba lo que
+          hicimos y lo que hacemos, abajo cómo escribirnos—. */}
       <main id="contenido">
-        <Portada />
         <div className="caja">
+          <Portada />
+          <Obra />
           <Servicios />
-          <Proyectos />
+        </div>
+        <Banner />
+        <div className="caja">
           <Contacto />
         </div>
       </main>
-      <Folio />
+
+      <Pie />
     </>
   );
 }

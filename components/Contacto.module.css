@@ -1,292 +1,167 @@
-/* CONTACTO
-   Dos columnas separadas por una línea: a la izquierda la dirección y la
-   cita, a la derecha —y más ancho— el formulario. Abajo, las fichas del
-   equipo y el pie. */
-
-.pagina {
-  position: relative;
-  background: var(--ink);
-}
-
-.plana {
+.contacto {
   display: grid;
-  gap: clamp(1.5rem, 4vw, 2.5rem);
-  padding: clamp(1.5rem, 4vw, 2.5rem) var(--edge);
-  border-top: var(--filete-med);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+  align-items: start;
+  gap: clamp(2rem, 5vw, 4rem);
+  padding: clamp(4rem, 11vh, 8rem) 0;
 }
 
-.columna {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  /* La columna se mide a sí misma. Es lo que le permite a la dirección y a la
-     cita tomar el cuerpo del ancho que realmente tienen —un cuarto de la
-     plana en escritorio— y no del ancho de la ventana, que es el error que
-     las hacía sobresalir. */
-  container-type: inline-size;
-  container-name: columna;
+@media (max-width: 840px) {
+  .contacto { grid-template-columns: 1fr; }
 }
 
-/* ---------------- dirección ---------------- */
-.mailto { display: block; }
-
-/* Con el dedo, el blanco que se toca es el alto de la letra: en un celular la
-   dirección mide 23px de alto y hay que apuntar. El relleno lo lleva a 45 y el
-   margen negativo lo devuelve a su lugar, así el blanco crece sin que se mueva
-   nada de lo que se ve. */
-@media (pointer: coarse) {
-  .mailto {
-    padding-block: 0.7rem;
-    margin-block: -0.7rem;
-  }
+.titulo {
+  font-size: clamp(2rem, 5.4vw, 4rem);
+  max-width: 12ch;
 }
 
-/* El cuerpo sale del menor de dos números: el que pide el diseño —grande, es
-   el titular de la columna— y el que la columna aguanta. El `17cqi` sale de
-   medir: cortada en el arroba, la línea más larga es «kalabs.dev», que en
-   Fraunces 900 mide unos 5,2 em de ancho; a 17cqi eso ocupa el 88% de la
-   columna, así que entra siempre y sobra margen para la fuente de reemplazo.
-   Con `vw`
-   la letra crecía con la ventana mientras la columna se quedaba en un 26%, y
-   por eso el final del dominio se salía. */
-.mailtoTitular {
-  display: block;
-  font-size: min(clamp(1.5rem, 6.5vw, 3.6rem), 17cqi);
-  color: var(--bone);
-  /* `balance` reparte las líneas para emparejarlas: en una dirección de dos
-     pedazos deja el dominio arriba y `hola@` colgando. Acá se quiere lo
-     contrario: llenar la primera línea y cortar en el arroba sólo si sobra. */
-  text-wrap: wrap;
-  transition: color 0.2s var(--ease);
+.titulo b {
+  font-weight: 800;
+  color: var(--ember);
 }
-.mailto:hover .mailtoTitular,
-.mailto:focus-visible .mailtoTitular { color: var(--ember); }
+
+.cuerpo {
+  margin-top: 1.2rem;
+  max-width: 38ch;
+  color: var(--ink-4);
+}
 
 .enlaces {
-  margin-top: clamp(1.25rem, 3vw, 1.75rem);
-  border-top: var(--filete-med);
-}
-
-/* `wrap` para que en una columna angosta el valor baje debajo del rótulo en
-   vez de apretarse contra él. El `0.7rem` de arriba y abajo deja el renglón
-   en 44px, que es el mínimo para tocarlo con el dedo. */
-.enlace {
   display: flex;
   flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.15rem 1rem;
-  padding: 0.7rem 0;
-  border-bottom: var(--filete);
-  color: var(--bone-dim);
-  transition: padding-left 0.2s var(--ease), color 0.2s var(--ease);
-}
-.enlace:hover,
-.enlace:focus-visible {
-  padding-left: 0.5rem;
-  color: var(--bone);
+  gap: 0.5rem;
+  margin-top: 2rem;
 }
 
-.enlaceVal {
-  font-family: var(--font-body), Georgia, serif;
-  font-style: italic;
-  color: var(--ember);
-  overflow-wrap: anywhere;
+/* ---------- equipo ---------- */
+.equipo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.4rem;
+  margin-top: 2rem;
+  scroll-margin-top: 6rem;
 }
 
-/* ---------------- cita ---------------- */
-.cita {
-  margin-top: auto;
-  padding-top: clamp(1.5rem, 4vw, 2.5rem);
+.persona {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
 }
 
-/* Mismo problema que la dirección, misma solución: el plano de color es tan
-   ancho como la columna, así que el cuerpo se mide contra la columna. Sin el
-   tope en `cqi`, entre 900 y 1200 «Posicionarte» no entraba en la caja. */
-.citaTexto {
+.inicial {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
   background: var(--terra);
-  color: var(--bone);
-  padding: clamp(1rem, 3vw, 1.5rem);
-  font-size: min(clamp(1.15rem, 3.4vw, 1.7rem), 11cqi);
-  max-width: 26ch;
+  color: var(--papel);
+  font-size: 0.8rem;
+  font-weight: 700;
+  transition: transform 0.35s var(--spring);
 }
 
-.citaPie {
-  margin-top: 0.5rem;
-  color: var(--bone-dim);
+.inicialBrasa {
+  background: var(--ember);
+  color: var(--ink);
 }
 
-/* ---------------- formulario ----------------
-   Sin recuadro ni fondo propio: el formulario ya se distingue por lo que es
-   —campos— y meterlo en una caja lo convertía en un widget pegado sobre la
-   página en vez de una parte de ella. */
-.columnaForm {
-  min-width: 0;
-  /* El formulario también se mide a sí mismo: las casillas de servicio pasan
-     a una sola columna cuando la ficha es angosta, sin importar cuánto mida
-     la ventana. */
-  container-type: inline-size;
-  container-name: ficha;
+.persona:hover .inicial { transform: scale(1.08); }
+
+.personaNombre {
+  display: block;
+  font-weight: 700;
 }
 
-.ficha { min-width: 0; }
+.personaRol {
+  display: block;
+  color: var(--ink-4);
+}
 
-.fichaTop {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.2rem 0.75rem;
-  border-bottom: var(--filete);
-  padding-bottom: 0.6rem;
+/* ---------- formulario ---------- */
+.columnaForm { position: relative; }
+
+.ficha {
+  border-radius: var(--r);
+  padding: clamp(1.2rem, 3vw, 2rem);
+  background: var(--bone);
+}
+
+.campo {
+  display: block;
   margin-bottom: 1rem;
-  color: var(--ember);
-}
-
-.campo { display: block; margin-bottom: 0.9rem; }
-
-/* El fieldset trae borde, padding y márgenes propios del navegador. */
-.grupo {
-  min-width: 0;
-  border: 0;
-  padding: 0;
-  margin-inline: 0;
 }
 
 .label {
   display: block;
-  padding: 0;
-  margin-bottom: 0.3rem;
-  color: var(--bone-dim);
+  margin-bottom: 0.35rem;
+  color: var(--ink-4);
 }
 
-/* ---- elección de servicio ----
-   Las casillas de un formulario impreso: un cuadrado por opción y una cruz
-   que se dibuja al elegir. Abajo siguen siendo radios; acá sólo cambia con
-   qué se las pinta. */
-/* Una sola columna por defecto: en un celular, «Todavía no lo tengo definido»
-   partido en tres renglones dentro de media ficha era ilegible. Las dos
-   columnas vuelven en cuanto la ficha da el ancho —eso lo decide la ficha, no
-   la ventana: en tablet vertical el formulario ya es ancho aunque la pantalla
-   no lo parezca—. */
-.opciones {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  column-gap: clamp(0.75rem, 2.5vw, 1.5rem);
-  border-top: var(--filete);
-}
-
-@container ficha (min-width: 26rem) {
-  .opciones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-
-.opcion {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  /* 44px de alto mínimo: el radio real está oculto, así que el blanco que se
-     toca es esta etiqueta. */
-  min-height: 44px;
-  padding: 0.6rem 0;
-  border-bottom: var(--filete);
-  cursor: pointer;
-  color: var(--bone-dim);
-  transition: color 0.18s var(--ease);
-}
-
-.opcion:hover { color: var(--bone); }
-.opcion:hover .casilla { border-color: var(--terra-lit); }
-
-.casilla {
-  flex: none;
-  width: 1.2rem;
-  height: 1.2rem;
-  border: var(--filete-med);
-  background: var(--ink);
-  transition: border-color 0.18s var(--ease);
-}
-
-/* La cruz sale apenas torcida: marcada a mano, no impresa con la casilla. */
-.cruz {
-  width: 100%;
-  height: 100%;
-  transform: rotate(-4deg) scale(1.05);
-  overflow: visible;
-}
-
-.cruz line {
-  stroke: var(--ember);
-  stroke-width: 2.6;
-  stroke-linecap: round;
-  fill: none;
-}
-
-.opcionTexto {
-  font-size: 0.98rem;
-  line-height: 1.3;
-}
-
-.opcion:has(input:checked) { color: var(--bone); }
-.opcion:has(input:checked) .casilla { border-color: var(--ember); }
-
-/* El input está oculto para la vista: el foco se dibuja sobre la casilla. */
-.opcion:has(input:focus-visible) .casilla {
-  outline: 3px solid var(--ember);
-  outline-offset: 2px;
-}
-
-/* Un solo trazo abajo, como la línea de una ficha de papel. Con recuadro
-   completo cada campo era otra cajita más en una página que ya no las usa. */
-/* El cuerpo no baja de 16px: por debajo de eso Safari en iPhone hace zoom al
-   enfocar el campo y deja la página corrida. El `min-height` es el blanco
-   táctil. */
 .input,
 .area {
   width: 100%;
-  min-height: 44px;
-  background: transparent;
-  border: 0;
-  border-bottom: 2px solid var(--terra);
-  padding: 0.5rem 0;
-  color: var(--bone);
-  font-size: 1.0625rem;
-  border-radius: 0;
-  transition: border-color 0.18s var(--ease);
+  border: 1px solid rgba(15, 18, 20, 0.18);
+  border-radius: var(--r-chico);
+  background: var(--papel);
+  padding: 0.72rem 0.9rem;
+  transition:
+    border-color 0.3s var(--ease),
+    box-shadow 0.3s var(--ease);
 }
 
 .input:focus,
-.area:focus { border-bottom-color: var(--ember); }
-
-.input::placeholder,
-.area::placeholder { color: #6f6a61; font-style: italic; }
-
-.area { resize: vertical; min-height: 6rem; }
-
-.enviar {
-  width: 100%;
-  min-height: 48px;
-  background: var(--ember);
-  color: var(--ink);
-  border: 2px solid var(--ember);
-  padding: 0.7rem 1rem;
-  font-family: var(--font-display), Georgia, serif;
-  font-weight: 900;
-  font-variation-settings: "opsz" 72, "SOFT" 100, "WONK" 1;
-  font-size: 1.25rem;
-  transition: background 0.18s var(--ease), color 0.18s var(--ease);
-}
-.enviar:hover,
-.enviar:focus-visible { background: transparent; color: var(--ember); }
-
-.enviar:disabled {
-  background: var(--ember-dim);
-  border-color: var(--ember-dim);
-  cursor: progress;
+.area:focus {
+  outline: none;
+  border-color: var(--ember);
+  box-shadow: 0 0 0 3px rgba(255, 107, 26, 0.18);
 }
 
-/* La trampa para robots. Fuera de la pantalla y no `display: none`: los bots
-   que valen algo descartan lo que está oculto por esa vía. El `aria-hidden` y
-   el `tabindex="-1"` los pone el componente, así que nadie la encuentra. */
+.area {
+  resize: vertical;
+  min-height: 110px;
+}
+
+/* El servicio son cuatro opciones: van a la vista, como pastillas. Un
+   desplegable las esconde detrás de un clic y encima lo dibuja el sistema
+   operativo a su manera, gris contra todo el resto de la página. */
+.opciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.15rem;
+}
+
+.opcion { cursor: pointer; }
+
+.opcionTexto {
+  display: inline-block;
+  border: 1px solid rgba(15, 18, 20, 0.2);
+  border-radius: 999px;
+  padding: 0.42rem 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition:
+    background 0.28s var(--ease),
+    color 0.28s var(--ease),
+    border-color 0.28s var(--ease);
+}
+
+.opcion input:checked + .opcionTexto {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--papel);
+}
+
+.opcion input:focus-visible + .opcionTexto {
+  outline: 3px solid var(--ember);
+  outline-offset: 3px;
+}
+
+.opcion:hover .opcionTexto { border-color: var(--ink); }
+
+/* Trampa para robots: fuera de pantalla, sin tabulación y sin anunciar. */
 .trampa {
   position: absolute;
   left: -9999px;
@@ -295,175 +170,59 @@
   overflow: hidden;
 }
 
-/* El error del envío. Va en bordo aclarado —el bordo pleno no pasa contraste
-   sobre texto— y con el filete a la izquierda de una acotación de imprenta. */
 .error {
-  border-left: 3px solid var(--terra-lit);
-  padding-left: 0.75rem;
-  margin-bottom: 1rem;
-  color: var(--bone);
-  font-size: 0.95rem;
-  font-style: italic;
+  margin: 0.4rem 0 0.8rem;
+  color: var(--terra);
+  font-weight: 600;
 }
 
-/* Mientras se envía, la ficha entera se apaga y deja de responder. El botón
-   ya está deshabilitado, pero esto además saca el cursor de texto de los
-   campos: mientras viaja la consulta no hay nada que editar. */
-.ficha[aria-busy="true"] {
-  opacity: 0.55;
-  pointer-events: none;
+.enviar {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 0.6rem 1.3rem;
+  background: var(--ember);
+  color: var(--ink);
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.92rem;
+  transition:
+    transform 0.35s var(--spring),
+    background 0.3s var(--ease),
+    color 0.3s var(--ease);
 }
 
-/* ---------------- acuse de recibo ---------------- */
-
-/* Filete doble, los mismos dos grosores que cierran el resto del sitio. Se
-   traza de izquierda a derecha al llegar el acuse: el gesto de cerrar una
-   nota, no un objeto nuevo puesto encima para avisar que salió bien. */
-.acuseFilete {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  margin: 1.5rem 0 1.25rem;
+.enviar:hover {
+  transform: scale(1.04);
+  background: var(--ink);
+  color: var(--papel);
 }
 
-.acuseFiletePrimero,
-.acuseFileteSegundo {
-  display: block;
-  transform-origin: left center;
+.enviar:disabled {
+  opacity: 0.6;
+  cursor: progress;
+  transform: none;
 }
 
-.acuseFiletePrimero { height: 2px; background: var(--terra); }
-.acuseFileteSegundo { height: 1px; background: var(--terra-dim); }
+/* ---------- acuse ---------- */
+.acuse {
+  display: grid;
+  gap: 0.6rem;
+  border-radius: var(--r);
+  padding: clamp(1.6rem, 4vw, 2.6rem);
+  background: var(--ink);
+  color: var(--papel);
+  animation: entra 0.5s var(--ease) both;
+}
+
+.acuseRotulo { color: var(--ember); }
 
 .acuseTitulo {
-  font-size: clamp(1.4rem, 4.5vw, 2rem);
-  color: var(--bone);
-  margin-top: 0.5rem;
+  font-size: clamp(1.4rem, 3vw, 2rem);
 }
 
-.acuseCuerpo {
-  color: var(--bone-dim);
-  font-style: italic;
-  font-size: 1.0625rem;
-  max-width: 34ch;
+.acuseCuerpo { color: var(--bone-dim); }
+
+@keyframes entra {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
 }
-
-
-/* ---------------- fichas de autor ---------------- */
-.autores {
-  padding: clamp(1.75rem, 4vw, 3rem) var(--edge);
-  border-top: var(--filete-med);
-}
-
-.autoresTitulo {
-  color: var(--ember);
-  padding-bottom: 0.4rem;
-  border-bottom: var(--filete);
-  margin-bottom: 1rem;
-}
-
-.autoresGrid { display: grid; gap: clamp(1rem, 3vw, 2rem); }
-
-.autor { min-width: 0; }
-
-.autorNombre { font-size: clamp(1.3rem, 4vw, 1.8rem); color: var(--bone); }
-
-.autorEnlace {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  transition: color 0.2s var(--ease);
-}
-.autorEnlace:hover,
-.autorEnlace:focus-visible { color: var(--ember); }
-
-/* Mismo criterio que la dirección: el blanco crece, la composición no se
-   mueve. */
-@media (pointer: coarse) {
-  .autorEnlace {
-    padding-block: 0.7rem;
-    margin-block: -0.7rem;
-  }
-}
-
-.autorFlecha {
-  font-size: 0.6em;
-  color: var(--terra-lit);
-  transition: transform 0.25s var(--spring), color 0.2s var(--ease);
-}
-.autorEnlace:hover .autorFlecha {
-  color: var(--ember);
-  transform: translate(2px, -2px);
-}
-
-.autorRol {
-  margin-top: 0.35rem;
-  color: var(--bone-dim);
-}
-
-/* ---------------- colofón ---------------- */
-.colofon {
-  border-top: var(--filete-med);
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.5rem 1.5rem;
-  padding: 0.9rem var(--edge);
-  color: var(--bone-dim);
-}
-.colofon a { color: var(--ember); border-bottom: 1px solid currentColor; }
-.colofon a:hover { color: var(--bone); }
-
-/* «Volver al inicio» en versalitas mide 14px de alto: es el enlace más chico
-   del sitio. `inline-block` para que el relleno cuente, y el filete de abajo
-   se sube al ras de la letra para que siga leyéndose como subrayado. */
-@media (pointer: coarse) {
-  .colofon a {
-    display: inline-block;
-    padding-block: 0.95rem;
-    margin-block: -0.95rem;
-    border-bottom: 0;
-    background-image: linear-gradient(currentColor, currentColor);
-    background-repeat: no-repeat;
-    background-size: 100% 1px;
-    background-position: left calc(100% - 0.95rem);
-  }
-}
-
-/* ============ las dos columnas ============
-   El reparto se abre en tres pasos en vez de saltar de una columna a 26/74 de
-   golpe. El corte de antes caía en 900px, justo donde el 26% deja una columna
-   de 200 y pico: ahí no entraba ni la dirección ni la cita, y era la franja
-   de las tablets en horizontal.
-
-   El corondel se hace con el borde y el padding de la segunda columna. Había
-   un margen negativo compensando el gap: corría la columna del formulario
-   sobre la anterior y le tapaba el final a los valores de los enlaces. Con
-   gap 0 no hace falta compensar nada. */
-@media (min-width: 760px) {
-  /* La columna se mide en ancho, no en porcentaje. Con porcentajes por tramos
-     —40% hasta 1100, 32% arriba— la columna se achicaba al agrandar la
-     ventana: a 1024 medía 369px y a 1100, 317. La dirección seguía el salto y
-     encogía sola al estirar el navegador.
-
-     Así crece parejo hasta los 24rem, que es donde la dirección llega a su
-     cuerpo máximo, y de ahí todo lo que sobra se lo lleva el formulario, que
-     es lo que la sección quiere que pase. */
-  .plana {
-    grid-template-columns: minmax(0, clamp(17rem, 32vw, 24rem)) minmax(0, 1fr);
-    column-gap: 0;
-  }
-  .columna { padding-right: clamp(1.5rem, 4vw, 2.5rem); }
-  .columnaForm {
-    padding-left: clamp(1.5rem, 4vw, 2.5rem);
-    border-left: var(--filete);
-  }
-
-  .autoresGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .autor:first-child {
-    padding-right: clamp(1rem, 3vw, 2rem);
-    border-right: var(--filete);
-  }
-}
-

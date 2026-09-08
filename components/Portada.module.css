@@ -1,130 +1,97 @@
-/* PORTADA — orla, cintillo y cabecera a filete doble.
-
-   Va a sangre: los filetes cruzan la pantalla entera aunque el resto del
-   sitio se componga dentro de la caja. Lo que sí se alinea con la caja es el
-   contenido —de eso se encarga --sangria—, así el nombre arranca en la misma
-   línea que los cabezales de abajo.
-
-   El nombre va a caja baja y pegado al filete, no flotando en el medio de la
-   pantalla. El cierre lo hace el filete doble de la cabecera; abajo sólo
-   queda el aire que la separa de Servicios. */
-
 .portada {
-  position: relative;
-  padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
-}
-
-/* Orla superior: corona la página entera. */
-.orla {
-  display: block;
-  border-bottom: var(--filete);
-}
-
-/* ---------------- cintillo ---------------- */
-.cintillo {
+  min-height: 62svh;
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.35rem 1.25rem;
-  padding: 0.5rem var(--sangria);
-  color: var(--bone-dim);
-  border-bottom: var(--filete);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+  padding: 2.5rem 0 3rem;
+  text-align: center;
 }
 
-/* Los datos se separan con un punto medio, como en el papel. */
-.cintillo > span:not(:last-of-type)::after {
-  content: "·";
-  margin-left: 1.25rem;
-  color: var(--terra-lit);
+.pregunta {
+  font-size: clamp(2.3rem, 7vw, 5.4rem);
+  max-width: 15ch;
 }
 
-/* La dirección se va al margen derecho, como en el cintillo de un diario. Eso
-   vale mientras el cintillo entra en un renglón: cuando envuelve, el `auto`
-   la deja sola en una línea y pegada a la derecha, colgando de la nada. En
-   pantallas chicas sigue el renglón como un dato más. */
-.cintilloMail {
-  color: var(--ember);
-  border-bottom: 1px solid currentColor;
-}
-.cintilloMail:hover { color: var(--bone); }
-
-@media (min-width: 760px) {
-  .cintilloMail { margin-left: auto; }
+.pregunta b {
+  font-weight: 800;
+  color: var(--terra);
 }
 
-/* Igual que la dirección grande del contacto: el blanco táctil crece a 45px
-   sin correr el cintillo. El subrayado pasa a fondo para que quede pegado a
-   la letra y no al borde del relleno. */
-@media (pointer: coarse) {
-  .cintilloMail {
-    display: inline-block;
-    padding-block: 0.75rem;
-    margin-block: -0.75rem;
-    border-bottom: 0;
-    background-image: linear-gradient(currentColor, currentColor);
-    background-repeat: no-repeat;
-    background-size: 100% 1px;
-    background-position: left calc(100% - 0.75rem);
-  }
+/* El campo es una línea, no una caja: en la portada una caja con borde pesa
+   como un formulario y esto todavía no lo es. */
+.buscador {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: min(560px, 100%);
+  padding-bottom: 0.7rem;
+  border-bottom: 1.5px solid rgba(15, 18, 20, 0.28);
+  transition: border-color 0.35s var(--ease);
 }
 
-/* ---------------- cabecera ---------------- */
-.cabecera {
-  padding: clamp(1rem, 3vw, 1.75rem) var(--sangria) clamp(0.5rem, 1.5vw, 1rem);
-  border-top: var(--filete-grue);
-  border-bottom: var(--filete-med);
-  /* el filete doble de verdad: una segunda línea fina bajo la gruesa */
-  box-shadow: 0 5px 0 -2px var(--terra-dim);
-  /* La cabecera se mide para que el nombre sepa cuánto ancho tiene de verdad:
-     con la caja de composición al lado no es el de la ventana. */
-  container-type: inline-size;
-  container-name: cabecera;
+.buscador:focus-within { border-color: var(--ember); }
+
+.campo {
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: 0;
+  padding: 0.35rem 0;
 }
 
-/* Desde que hay ancho de sobra, la caja de composición se sienta al lado del
-   nombre y las dos cosas apoyan sobre el mismo filete. */
-@media (min-width: 1100px) {
-  .cabecera {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    align-items: end;
-    column-gap: clamp(1.5rem, 4vw, 3.5rem);
-  }
+.campo::placeholder { color: rgba(15, 18, 20, 0.42); }
+.campo:focus { outline: none; }
 
-  /* La primera columna es `auto`: no se encoge, así que un nombre demasiado
-     grande empuja la composición fuera de la página. En un monitor de 1920 el
-     tope de 17rem lo hacía. Acá el cuerpo se mide contra la cabecera y deja
-     lugar para la caja de al lado. */
-  .nombre { font-size: min(clamp(4.5rem, 21vw, 17rem), 17cqi); }
+.flecha {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--papel);
+  transition:
+    transform 0.4s var(--spring),
+    background 0.3s var(--ease),
+    color 0.3s var(--ease);
 }
 
-/* El nombre en caja baja y al ras. Fraunces con SOFT y WONK al máximo: los
-   remates se redondean y las formas se tuercen, así no parece dibujada por
-   una máquina. */
-.nombre {
-  /* El `24cqi` es el piso de seguridad: en un teléfono de 320px el mínimo del
-     clamp —4.5rem— ya no entraba en el ancho útil y la última letra quedaba
-     cortada contra el margen. Medido contra la cabecera, «Kalabs» entra
-     siempre, en cualquier pantalla. */
-  font-size: min(clamp(4.5rem, 21vw, 17rem), 24cqi);
-  color: var(--bone);
-  /* pega la letra al filete de abajo, como una cabecera impresa */
-  margin-bottom: -0.09em;
-  letter-spacing: -0.035em;
+.flecha:hover {
+  transform: translateX(3px);
+  background: var(--ember);
+  color: var(--ink);
 }
 
-/* ============ entrada escalonada, sin JavaScript ============ */
-@media (prefers-reduced-motion: no-preference) {
-  .cintillo,
-  .cabecera {
-    animation: entra 0.75s cubic-bezier(0.16, 1, 0.3, 1) backwards;
-  }
-
-  .cintillo { animation-delay: 0.05s; }
-  .cabecera { animation-delay: 0.14s; }
+.nota {
+  color: var(--ink-4);
+  font-size: 0.98rem;
 }
 
-@keyframes entra {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: none; }
+.nota b {
+  color: var(--terra);
+  font-weight: 700;
+}
+
+/* La entrada: escalonada y en CSS. Es lo primero que se ve del sitio, así que
+   no puede depender de que haya cargado el JavaScript. */
+.pregunta,
+.buscador,
+.nota {
+  animation: sube 1s var(--ease) both;
+}
+.buscador { animation-delay: 0.12s; }
+.nota { animation-delay: 0.22s; }
+
+@keyframes sube {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pregunta,
+  .buscador,
+  .nota { animation: none; }
 }

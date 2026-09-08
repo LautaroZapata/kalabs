@@ -1,0 +1,251 @@
+.obra { padding-top: 1rem; }
+
+/* ---------- la escena ----------
+   Va a sangre dentro de la caja: el plano de brasa toca los dos márgenes y
+   se corta con la curva de la casa. */
+.escena {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  place-items: center;
+  min-height: clamp(360px, 70svh, 720px);
+  padding: clamp(1.4rem, 5vw, 3.6rem);
+  border-radius: var(--r);
+  background: var(--ember);
+  overflow: hidden;
+}
+
+/* La inicial, enorme y en tinta, derivando despacio detrás de la captura.
+   No se lee como letra y no tiene que leerse: es el fondo. */
+.letra {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  font-variation-settings: "opsz" 96;
+  font-size: clamp(24rem, 62vw, 62rem);
+  line-height: 0.72;
+  color: var(--ink);
+  user-select: none;
+  pointer-events: none;
+  animation: deriva 28s ease-in-out infinite alternate;
+}
+
+@keyframes deriva {
+  from { transform: translate3d(-2.5%, 0, 0); }
+  to { transform: translate3d(2.5%, -1.5%, 0); }
+}
+
+.marco {
+  position: relative;
+  z-index: 1;
+  width: min(900px, 100%);
+  aspect-ratio: 16 / 10;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--ink);
+  box-shadow: 0 30px 80px -34px rgba(15, 18, 20, 0.6);
+}
+
+.diapo {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.9s var(--ease);
+}
+
+.diapo[data-activa="true"] { opacity: 1; }
+
+.captura { object-fit: cover; object-position: top center; }
+
+.pie {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.4rem 1rem 0.85rem;
+  color: var(--papel);
+  background: linear-gradient(transparent, rgba(15, 18, 20, 0.9));
+}
+
+.pieNombre {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+}
+
+.pieSitio { opacity: 0.8; }
+
+.mando {
+  position: absolute;
+  z-index: 2;
+  left: clamp(1rem, 3vw, 2rem);
+  bottom: clamp(1rem, 3vw, 2rem);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.boton {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background: var(--papel);
+  color: var(--ink);
+  font-size: 0.8rem;
+  transition: transform 0.35s var(--spring);
+}
+
+.boton:hover { transform: scale(1.1); }
+
+.puntos { display: flex; gap: 0.4rem; }
+
+.punto {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border-radius: 999px;
+  background: rgba(15, 18, 20, 0.32);
+  transition:
+    background 0.3s var(--ease),
+    transform 0.3s var(--spring);
+}
+
+.punto[data-activo="true"] {
+  background: var(--ink);
+  transform: scale(1.35);
+}
+
+/* Con el dedo, ocho pixeles no son un blanco: el punto crece a 44 sin cambiar
+   de tamaño a la vista, con un pseudoelemento transparente alrededor. */
+@media (pointer: coarse) {
+  .punto { position: relative; }
+  .punto::after {
+    content: "";
+    position: absolute;
+    inset: -18px;
+  }
+}
+
+/* En el celular la captura es de un sitio de escritorio: un marco vertical la
+   recorta hasta que no se entiende. Marco apaisado, anclada arriba a la
+   izquierda —donde está el titular de cada proyecto— y sin el dominio, que
+   ocupa media captura para decir lo que ya dice el enlace. */
+@media (max-width: 640px) {
+  /* Y el plano se achica con ella: el alto de escritorio dejaba media pantalla
+     de brasa vacía debajo de una captura chica. */
+  .escena { min-height: clamp(320px, 54svh, 520px); }
+  .marco { aspect-ratio: 4 / 3; }
+  .captura { object-position: top left; }
+  .pieSitio { display: none; }
+}
+
+/* ---------- el índice ---------- */
+.indice { padding-top: clamp(3rem, 8vh, 5rem); }
+
+.rotulo {
+  color: var(--terra);
+  margin-bottom: 0.9rem;
+}
+
+.lista { border-top: 2px solid var(--ink); }
+
+.fila {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem 1.6rem;
+  padding: 1.25rem 0.2rem;
+  border-bottom: var(--linea);
+  transition:
+    padding-left 0.45s var(--ease),
+    color 0.3s var(--ease);
+}
+
+.fila:hover {
+  padding-left: 1.1rem;
+  color: var(--terra);
+}
+
+.num {
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.45;
+}
+
+.nombre {
+  font-size: clamp(1.35rem, 3.8vw, 2.6rem);
+  line-height: 1;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+.etiqueta {
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 0.24rem 0.65rem;
+  opacity: 0.7;
+}
+
+/* Angosto: el nombre manda y los datos bajan debajo, alineados con él. */
+@media (max-width: 700px) {
+  .fila { grid-template-columns: auto minmax(0, 1fr); }
+  .meta {
+    grid-column: 2;
+    justify-content: flex-start;
+  }
+}
+
+/* ---------- el espía ---------- */
+.espia {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 600;
+  width: 280px;
+  aspect-ratio: 16 / 11;
+  margin: -0.5px 0 0 -140px; /* centra el recuadro en el cursor */
+  border-radius: 16px;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-50%) scale(0.94);
+  transition:
+    opacity 0.3s var(--ease),
+    transform 0.4s var(--spring);
+  box-shadow: 0 22px 55px -22px rgba(15, 18, 20, 0.55);
+}
+
+.espia[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+.espiaImg {
+  object-fit: cover;
+  object-position: top center;
+  opacity: 0;
+}
+
+.espiaImg[data-activa="true"] { opacity: 1; }
+
+@media (pointer: coarse) {
+  .espia { display: none; }
+}

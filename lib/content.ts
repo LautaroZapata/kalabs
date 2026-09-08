@@ -12,22 +12,20 @@ export const SITE = {
   url: "https://www.kalabs.dev",
 };
 
-/** La portada: cintillo y nombre, nada más. */
+/** Los datos del estudio, sueltos. Los usa la imagen social. */
 export const PORTADA = {
   cintillo: ["Montevideo, Uruguay", "Est. 2025", "Estudio digital"],
 };
 
 export type Indice = { id: string; label: string };
 
-/* Las secciones del sitio, en orden. Lo usa la barra del pie para marcar
-   dónde está el visitante. */
-/* Los servicios van antes que los proyectos: primero qué podemos hacer por
-   quien llega, después la prueba de que sabemos hacerlo. */
+/* Las secciones del sitio, en orden. Lo usa la barra de arriba.
+   La obra va primero: la prueba antes que la promesa. Quien llega quiere ver
+   qué hicimos, no leer qué decimos que hacemos. */
 export const INDICE: Indice[] = [
-  { id: "portada", label: "Portada" },
+  { id: "obra", label: "Obra" },
   { id: "servicios", label: "Servicios" },
-  { id: "proyectos", label: "Proyectos" },
-  { id: "contacto", label: "Contacto" },
+  { id: "estudio", label: "Estudio" },
 ];
 
 export type Proyecto = {
@@ -41,12 +39,12 @@ export type Proyecto = {
   href: string;
   /** Dominio que se muestra en la ficha. */
   sitio: string;
+  /** De qué es el proyecto, en tres palabras. Va en la fila del índice. */
+  rubro: string;
   /** Captura real del proyecto, en public/proyectos/. */
   imagen: string;
   /** Qué se ve en la captura, para el alt. */
   imagenAlt: string;
-  /** Viñeta animada que se monta sobre la captura. */
-  vineta: "grua" | "barras" | "piston";
 };
 
 export const PROYECTOS: Proyecto[] = [
@@ -59,10 +57,10 @@ export const PROYECTOS: Proyecto[] = [
     estado: "En producción",
     href: "https://via-grua.vercel.app",
     sitio: "via-grua.vercel.app",
+    rubro: "Flotas en tiempo real",
     imagen: "/proyectos/viagrua.png",
     imagenAlt:
       "Portada de ViaGrúa: el titular «Sabé qué hace cada chofer sin tener que llamarlo» junto al panel de traslados en un celular.",
-    vineta: "grua",
   },
   {
     num: "02",
@@ -74,10 +72,10 @@ export const PROYECTOS: Proyecto[] = [
     estado: "En producción",
     href: "https://urugastos.vercel.app",
     sitio: "urugastos.vercel.app",
+    rubro: "Finanzas personales",
     imagen: "/proyectos/rog.png",
     imagenAlt:
       "Portada de República Oriental de los Gastos: el resumen mensual con cuentas, presupuesto y ahorro.",
-    vineta: "barras",
   },
   {
     num: "03",
@@ -89,10 +87,10 @@ export const PROYECTOS: Proyecto[] = [
     estado: "En producción",
     href: "https://oleocaceres-web.vercel.app",
     sitio: "oleocaceres-web.vercel.app",
+    rubro: "ANCAP · UTE · Armada",
     imagen: "/proyectos/oleocaceres.png",
     imagenAlt:
       "Portada de Oleohidráulica Cáceres: el nombre de la empresa a gran tamaño y la fila de logos de los clientes con los que trabaja.",
-    vineta: "piston",
   },
 ];
 
@@ -196,37 +194,52 @@ export const CORREO = {
 
 /** Microcopy de interfaz. Todo el texto del sitio vive en este archivo. */
 export const UI = {
-  /* proyectos */
-  proyectosAntetitulo: "En producción",
+  /* barra */
+  barraCta: "Escribinos",
+
+  /* portada
+     No titula: pregunta. Quien llega no viene a leer lo que el estudio dice de
+     sí mismo, viene con un problema; el campo de abajo es para escribirlo, y
+     lo que escriba viaja al formulario de contacto. */
+  portadaPregunta: ["Contanos qué hay que ", "resolver", "."],
+  portadaPh: "Una web, un bot de WhatsApp, un sistema de turnos…",
+  portadaEnviar: "Ir al formulario con lo que escribiste",
+  portadaNota: "Estudio digital en Montevideo.",
+  portadaNotaFuerte: "La primera consulta no tiene costo.",
+
+  /* obra */
+  obraRotulo: "Tres sistemas en producción",
+  obraAnterior: "Proyecto anterior",
+  obraSiguiente: "Proyecto siguiente",
+  obraPausar: "Pausar el pase de proyectos",
+  obraSeguir: "Seguir con el pase de proyectos",
+  obraIr: (nombre: string) => `Ver ${nombre}`,
   proyectosVer: "Ver el sitio",
-  proyectosCierreKicker: "Próximo proyecto",
   proyectosCierreTitulo: "Tu proyecto acá",
-  proyectosCierreNota:
-    "Si tenés un proyecto en marcha, escribinos. La primera consulta no tiene costo.",
+  proyectosCierreEstado: "Abierto",
   proyectosCierreAccion: "Escribinos",
 
   /* servicios */
-  serviciosAntetitulo: "Áreas de trabajo",
+  serviciosAntetitulo: "Lo que hacemos",
+  serviciosTitulo: "Tres cosas hacemos, y las tres terminan en producción.",
   serviciosEntregables: "Incluye",
-  /* La forma de trabajo bajó de la portada: acá, después de la lista de
-     servicios, es donde alguien la busca. Van en el orden en que pasan. */
-  serviciosComoTitulo: "Cómo trabajamos",
-  serviciosComo: [
-    "La primera consulta no tiene costo.",
-    "Presupuesto cerrado antes de empezar.",
-    "Respuesta dentro de las 24 horas.",
+
+  /* banner: las tres promesas, en movimiento. Se frena al pasarle el mouse
+     por encima —una cinta que no para no se puede leer—. */
+  banner: [
+    "Primera consulta sin costo",
+    "Presupuesto cerrado antes de empezar",
+    "Respuesta en 24 horas",
+    "Montevideo, Uruguay",
   ],
-  serviciosCtaTitulo: "¿No sabés cuál necesitás?",
-  serviciosCtaCuerpo:
-    "Contanos qué necesitás resolver y lo evaluamos juntos. Si no amerita un desarrollo, te lo decimos.",
-  serviciosCtaAccion: "Escribinos",
 
   /* contacto (incluye equipo) */
   equipoAntetitulo: "Equipo",
-  /* La única mancha de color pleno del sitio, y va pegada al formulario: por
-     eso el eslogan promete algo y señala la acción que está al lado. */
-  cita: "Posicionarte digitalmente está a un click.",
+  contactoTitulo: ["Preguntanos ", "lo que sea", "."],
+  contactoCuerpo:
+    "Contanos qué necesitás resolver y lo evaluamos juntos. Si no amerita un desarrollo, te lo decimos.",
   contactoAntetitulo: "Escribinos",
+  volver: "Volver al inicio",
   form: {
     titulo: "Formulario de contacto",
     respuesta: "Respuesta en 24 horas",

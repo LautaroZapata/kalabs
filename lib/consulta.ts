@@ -12,6 +12,17 @@ import { SERVICIOS, UI } from "./content";
 /** Los tres servicios más la salida para quien todavía no sabe cuál pedir. */
 export const OPCIONES = [...SERVICIOS.map((s) => s.titulo), UI.form.servicioOtro];
 
+/**
+ * Lo que se escribe en la portada tiene que llegar al formulario, que está
+ * cinco secciones más abajo y es otro componente.
+ *
+ * Va por un evento del documento y no por un estado compartido a propósito: no
+ * hay nada que sincronizar ni que persistir —es un texto que viaja una vez, en
+ * un solo sentido—, y montar un contexto para eso obligaría a volver cliente a
+ * todo lo que quede en el medio.
+ */
+export const EVENTO_CONSULTA = "kalabs:consulta";
+
 export type Valores = {
   nombre: string;
   negocio: string;

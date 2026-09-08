@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { display, body } from "./fonts";
-import Rugosidad from "@/components/Rugosidad";
 import { SITE } from "@/lib/content";
 import "./globals.css";
 
@@ -37,10 +36,12 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0f1214",
-  colorScheme: "dark",
+  /* El papel del sitio: es lo que pinta la barra del navegador en el celular,
+     y tiene que ser el color con el que arranca la página, no el de la tinta. */
+  themeColor: "#f7f2e7",
+  colorScheme: "light",
   /* La página llega hasta el borde físico de la pantalla. A cambio, el CSS
-     tiene que respetar el área segura: `--edge` y `--folio-safe` lo hacen. */
+     tiene que respetar el área segura: `--edge` lo hace. */
   viewportFit: "cover",
 };
 
@@ -54,15 +55,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <a className="skip" href="#contenido">
           Saltar al contenido
         </a>
-        {/* Motion escribe el estado inicial (opacity:0) en el HTML servido.
-            Sin JavaScript nadie lo anima, así que el contenido quedaría
-            invisible: esto lo devuelve a la vista. */}
+        {/* La entrada por scroll arranca en opacity:0 y la enciende un
+            IntersectionObserver. Sin JavaScript no la enciende nadie: esto
+            devuelve el contenido a la vista. */}
         <noscript>
-          <style>{`[style*="opacity:0"]{opacity:1!important;transform:none!important}`}</style>
+          <style>{`.rev{opacity:1!important;transform:none!important}`}</style>
         </noscript>
         {children}
-        <Rugosidad />
-        <div className="grain" aria-hidden="true" />
       </body>
     </html>
   );

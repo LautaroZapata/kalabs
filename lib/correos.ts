@@ -10,7 +10,7 @@ import type { Valores } from "./consulta";
  * Nada de flex, de grid ni de hojas de estilo: Outlook de escritorio compone
  * con el motor de Word y descarta casi todo lo demás.
  *
- * La tipografía es Georgia y no Fraunces: un correo no puede cargar fuentes
+ * La tipografía es Georgia y no la del sitio: un correo no puede cargar fuentes
  * con garantías, así que se usa la serif que ya está instalada en todos lados.
  * Es la que más se parece a la voz del sitio sin depender de una descarga.
  *

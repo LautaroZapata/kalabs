@@ -1,0 +1,41 @@
+.pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  max-width: var(--ancho);
+  margin-inline: auto;
+  border-radius: var(--r) var(--r) 0 0;
+  padding: 2rem clamp(1.2rem, 3vw, 2rem);
+  /* El área segura de abajo: en un celular con barra de gestos, sin esto la
+     última línea queda debajo del indicador de inicio. */
+  padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
+  background: var(--ink);
+  color: var(--bone-dim);
+}
+
+.pie a:hover { color: var(--ember); }
+
+.marca {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  font-variation-settings: "opsz" 24;
+  font-size: 1.05rem;
+  letter-spacing: -0.03em;
+  color: var(--papel);
+}
+
+/* El margen lateral del pie es el mismo que el del resto sólo cuando la caja
+   no llegó a su ancho máximo; arriba de eso queda pegado a la caja. */
+@media (max-width: 1440px) {
+  .pie {
+    margin-inline: var(--edge);
+    width: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .volver { margin-left: auto; }
+}
