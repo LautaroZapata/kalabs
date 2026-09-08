@@ -96,6 +96,10 @@ export type Servicio = {
   titulo: string;
   cuerpo: string;
   entregables: string[];
+  /** Cuál de las tres láminas lo dibuja. El dibujo vive en `Lamina.tsx`. */
+  lamina: "sitio" | "flujo" | "grilla";
+  /** Qué se ve en la lámina, para quien no la ve. */
+  laminaAlt: string;
 };
 
 export const SERVICIOS: Servicio[] = [
@@ -105,6 +109,9 @@ export const SERVICIOS: Servicio[] = [
     cuerpo:
       "Sitios para negocios que necesitan que los encuentren. Rápidos en el celular, sin plantillas y con la medición configurada desde el primer día. Se entregan en producción, con el dominio andando y soporte del otro lado.",
     entregables: ["Institucional", "Tienda o catálogo", "Panel de administración", "Medición"],
+    lamina: "sitio",
+    laminaAlt:
+      "Una página web armándose bloque por bloque dentro de un navegador.",
   },
   {
     num: "02",
@@ -112,6 +119,9 @@ export const SERVICIOS: Servicio[] = [
     cuerpo:
       "Las tareas manuales que se repiten todas las semanas pasan a ejecutarse solas. Empezamos por la que más horas consume.",
     entregables: ["Bots de WhatsApp y Telegram", "Reportes", "Integraciones", "Alertas"],
+    lamina: "flujo",
+    laminaAlt:
+      "Tres pasos encadenados con un dato que los recorre solo, una y otra vez.",
   },
   {
     num: "03",
@@ -119,6 +129,9 @@ export const SERVICIOS: Servicio[] = [
     cuerpo:
       "Turnos, pedidos o control de stock. Una función bien resuelta antes que un sistema entero que después nadie abre.",
     entregables: ["Turnos y agenda", "Pedidos", "Control de stock", "Fichas de clientes"],
+    lamina: "grilla",
+    laminaAlt:
+      "Una grilla de turnos que se va ocupando casillero por casillero.",
   },
 ];
 
@@ -239,6 +252,9 @@ export const UI = {
   serviciosAntetitulo: "Lo que hacemos",
   serviciosTitulo: "Nos ajustamos a lo que necesitás.",
   serviciosEntregables: "Incluye",
+  /* El nombre de la lista de servicios para el lector de pantalla: anuncia de
+     qué son las tres pestañas antes de leer la primera. */
+  serviciosLista: "Servicios",
 
   /* banner: las tres promesas, en movimiento. Se frena al pasarle el mouse
      por encima —una cinta que no para no se puede leer—. */

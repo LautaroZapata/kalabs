@@ -11,6 +11,8 @@ ruta relativa, así que hay que abrirlos desde acá para que se vean las imágen
 | `c-cartel.html` | Cartel | Instrument |
 | `d-mezcla.html` | Mezcla | B + C, con el esqueleto de C. Descartada. |
 | `e-vidriera-cartel.html` | **Vidriera + Cartel** | B de base, con los proyectos de C. La que sigue. |
+| `f-servicios-banco.html` | Servicios · Banco | Sólo la sección de servicios, en fila y abiertas. |
+| `g-servicios-mostrador.html` | Servicios · Mostrador | Sólo la sección de servicios, un plano de tinta. |
 
 La paleta es la misma en las tres y es la de siempre: `#0f1214` tinta,
 `#efe7d6` hueso, `#ff6b1a` brasa, `#9c3f26` bordo. Lo que cambia es la
@@ -129,6 +131,57 @@ proyecto acá»— y sirve para ir directo a uno.
 - **Móvil**: el marco de la escena pasa a apaisado y se le saca el dominio al
   pie, porque las capturas son de sitios de escritorio y en vertical no se
   entienden.
+
+## F y G · Dos maneras de mostrar los servicios
+
+Las dos parten del mismo diagnóstico: los bloques que se abren funcionan, pero
+plegados ocupan tres renglones y se pasan de largo. Las dos les dan una
+pantalla y le agregan a cada servicio un dibujo animado —trazo de una línea,
+la brasa como único relleno, sin una sola palabra dentro— con el mismo marco de
+16px de la escena de la obra. No entra ningún color, ninguna fuente ni ninguna
+curva nueva; el texto es el mismo de `lib/content.ts`.
+
+Los tres dibujos son los mismos en las dos propuestas:
+
+| Servicio | Qué muestra |
+| --- | --- |
+| Desarrollo web | Una página armándose bloque por bloque dentro de un navegador |
+| Automatizaciones | Tres pasos encadenados con un dato que los recorre y vuelve a empezar |
+| Sistemas a medida | Una grilla de turnos que se va ocupando casillero por casillero |
+
+### F · Banco
+
+Las tres fichas dejan de abrirse y quedan abiertas, en fila, una columna cada
+una: lámina arriba, título, cuerpo y los entregables al pie —alineados entre
+las tres aunque los cuerpos midan distinto—. Nada que clickear: la sección se
+lee de corrido.
+
+Al pasar el mouse o al llegar con el teclado, la ficha se da vuelta a tinta y
+la lámina a papel; es el gesto que hoy hace la ficha al abrirse. En pantallas
+medianas van dos columnas y la tercera abajo a lo ancho; en el celular, una.
+
+- **A favor**: todo visible de una, sin interacción. Es la que menos se aleja
+  de lo que ya hay.
+- **En contra**: tres columnas obligan a que el cuerpo sea corto. El de
+  desarrollo web es el más largo de los tres y es el que más se nota.
+
+### G · Mostrador
+
+Un solo plano de tinta del ancho de la caja y del alto de una pantalla. A la
+izquierda los tres nombres en tamaño de titular, siempre los tres; a la
+derecha, el elegido: su dibujo grande, su cuerpo y sus entregables. El nombre
+activo se corre y le crece un filete de brasa al costado, el mismo
+desplazamiento que hace la fila del índice de proyectos.
+
+Se cambia pasando el mouse, tocando o con las flechas —son pestañas de verdad,
+con `role="tablist"`—. El plano es tinta y no brasa a propósito: la brasa ya es
+el plano de la obra, y dos planos naranjas en la misma página compiten.
+
+- **A favor**: es la de más presencia y la que deja el dibujo más grande. Los
+  tres nombres se leen enormes desde lejos.
+- **En contra**: dos de los tres servicios están escondidos hasta que alguien
+  los elija, igual que hoy. Es el mismo trato de «uno por vez» que ya tiene la
+  escena de la obra, un poco más arriba en la página.
 
 ## Si se elige alguna
 

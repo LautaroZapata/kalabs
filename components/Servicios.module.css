@@ -8,67 +8,112 @@
   margin: 0.7rem 0 1.8rem;
 }
 
-.bloques {
+/* ---------- el plano ----------
+   Tinta de punta a punta de la caja y del alto de una pantalla. La curva de la
+   casa, como el pie y el formulario. */
+.mostrador {
   display: grid;
-  gap: 0.7rem;
-}
-
-.bloque {
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  min-height: clamp(520px, 72svh, 760px);
+  padding: clamp(1.6rem, 3.6vw, 3rem);
   border-radius: var(--r);
-  padding: 1.4rem clamp(1rem, 3vw, 2.2rem);
-  background: var(--bone);
-  transition:
-    background 0.45s var(--ease),
-    color 0.45s var(--ease);
-}
-
-/* Abierta, la ficha se da vuelta: tinta de fondo y papel encima. Es el mismo
-   gesto del formulario y del pie, y ahorra tener que marcar con un borde
-   cuál está abierta. */
-.bloque[open] {
   background: var(--ink);
   color: var(--papel);
 }
 
-.summary {
+/* ---------- los tres nombres ---------- */
+.lista {
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  cursor: pointer;
-  list-style: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.2rem;
+}
+
+.nombre {
+  display: block;
+  width: 100%;
+  text-align: left;
   font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 600;
-  font-variation-settings: "opsz" 72;
-  font-size: clamp(1.35rem, 3.4vw, 2.3rem);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  font-variation-settings: "opsz" 96;
+  font-size: clamp(1.6rem, 3.6vw, 3rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(247, 242, 231, 0.14);
+  color: var(--bone-dim);
+  transition:
+    color 0.4s var(--ease),
+    padding-left 0.45s var(--ease);
 }
 
-.summary::-webkit-details-marker { display: none; }
+.nombre:first-child { border-top: 1px solid rgba(247, 242, 231, 0.14); }
 
-.summary::after {
-  content: "+";
-  margin-left: auto;
-  font-weight: 400;
-  opacity: 0.6;
+.nombre:hover {
+  color: var(--papel);
+  padding-left: 0.6rem;
 }
 
-.bloque[open] .summary::after {
-  content: "–";
-  color: var(--ember);
-  opacity: 1;
+/* El elegido se corre y le crece un filete de brasa al costado: el mismo
+   desplazamiento que hace la fila del índice de proyectos al pasar el mouse.
+   Con el filete no hace falta subrayar ni encuadrar nada. */
+.nombre[aria-selected="true"] {
+  position: relative;
+  color: var(--papel);
+  padding-left: 1rem;
 }
 
-.cuerpo {
-  padding-top: 1rem;
-  opacity: 0.9;
+.nombre[aria-selected="true"]::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.95rem;
+  bottom: 0.95rem;
+  width: 4px;
+  border-radius: 999px;
+  background: var(--ember);
 }
+
+/* ---------- el panel ---------- */
+.panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.3rem;
+  /* Al pasar de `display:none` a `flex` la animación arranca sola: es lo que
+     hace que el cambio de servicio se note sin que la caja salte. */
+  animation: entrar 0.5s var(--ease) both;
+}
+
+.panel[hidden] { display: none; }
+
+@keyframes entrar {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* La lámina apoya sobre papel hueso: es la única mancha clara del plano y es
+   donde va el ojo. Mismo radio de 16px que el marco de la escena. */
+.lamina {
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--bone);
+  color: var(--ink);
+  box-shadow: 0 30px 80px -40px rgba(0, 0, 0, 0.8);
+}
+
+.lamina svg {
+  width: 100%;
+  height: auto;
+}
+
+.cuerpo { opacity: 0.92; }
 
 .entregables {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-  margin-top: 1rem;
 }
 
 .entregable {
@@ -76,4 +121,106 @@
   border-radius: 999px;
   padding: 0.28rem 0.7rem;
   opacity: 0.7;
+}
+
+/* ==========================================================================
+   LOS DIBUJOS
+
+   Trazo de tinta sobre la lámina y la brasa como único relleno. Las clases las
+   usa `Lamina.tsx`; viven acá porque son parte de esta sección y de ninguna
+   otra.
+   ========================================================================== */
+.trazo {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.tenue { opacity: 0.32; }
+.brasa { fill: var(--ember); }
+
+.brasaTrazo {
+  fill: none;
+  stroke: var(--ember);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* Desarrollo web: la página se arma sola, bloque por bloque. */
+.bloque {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: armar 5.5s var(--ease) infinite;
+}
+
+@keyframes armar {
+  0%, 6% { opacity: 0; transform: translateY(7px); }
+  22%, 88% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translateY(-4px); }
+}
+
+/* Automatizaciones: el dato sale, recorre y vuelve a salir. */
+.punto {
+  animation: recorrer 3.6s linear infinite;
+  offset-rotate: 0deg;
+}
+
+.puntoA { offset-path: path("M 60 100 L 200 100"); }
+
+.puntoB {
+  offset-path: path("M 200 100 L 340 100");
+  animation-delay: 1.8s;
+}
+
+@keyframes recorrer {
+  0% { offset-distance: 0%; opacity: 0; }
+  8% { opacity: 1; }
+  46% { offset-distance: 100%; opacity: 1; }
+  54%, 100% { offset-distance: 100%; opacity: 0; }
+}
+
+.nodo { animation: latir 3.6s var(--ease) infinite; }
+
+@keyframes latir {
+  0%, 60%, 100% { stroke-opacity: 0.32; }
+  12%, 40% { stroke-opacity: 1; }
+}
+
+/* Sistemas a medida: la grilla se llena. */
+.casilla {
+  fill: transparent;
+  animation: llenar 6s steps(1, end) infinite;
+}
+
+@keyframes llenar {
+  0%, 30% { fill: transparent; }
+  42%, 92% { fill: var(--ember); }
+  100% { fill: transparent; }
+}
+
+/* Quieto, pero no vacío: el dibujo queda en su estado final, que es el que
+   cuenta lo mismo sin moverse. */
+@media (prefers-reduced-motion: reduce) {
+  .bloque { opacity: 1; }
+  .casilla { fill: var(--ember); }
+  .punto { opacity: 1; }
+}
+
+/* ---------- angosto ----------
+   Una columna: los tres nombres arriba, el panel abajo, dentro del mismo
+   plano. La sección no se convierte en tres tarjetas apiladas. */
+@media (max-width: 860px) {
+  .mostrador {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    gap: 1.6rem;
+  }
+  .lista { gap: 0; }
+  .nombre {
+    font-size: clamp(1.4rem, 6.4vw, 2rem);
+    padding: 0.6rem 0;
+  }
 }
