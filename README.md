@@ -26,7 +26,14 @@ movimiento— con la forma de mostrar los proyectos de **Cartel** —el plano de
 brasa con la inicial gigante detrás y el índice de filas—.
 
 - **La portada no titula: pregunta.** «Contanos qué hay que resolver», y abajo
-  un campo de texto. Quien llega no viene a leer lo que el estudio dice de sí
+  un campo de texto que **se escribe solo**: teclea una consulta —«un bot de
+  WhatsApp para pedidos», «un sistema de turnos para el taller»—, parpadea el
+  cursor, la borra y sigue con la próxima. Es el campo mostrando para qué
+  sirve en vez de explicarlo. Se corta al enfocarlo —seguir escribiendo debajo
+  del cursor de alguien que está por escribir es pelearle el campo— y vuelve
+  si se va sin dejar nada. Con `prefers-reduced-motion` no arranca: un texto
+  que se escribe y se borra solo es exactamente lo que molesta a quien pidió
+  menos movimiento. Quien llega no viene a leer lo que el estudio dice de sí
   mismo, viene con un problema. Lo que escriba viaja al formulario de contacto
   y cae en el mensaje con el foco al final, así no lo escribe dos veces. Si lo
   manda vacío, baja igual al formulario: un campo que no hace nada cuando lo
@@ -136,6 +143,9 @@ Las reglas que sostienen el sistema:
   cuando hace falta acento sobre papel se usa el bordo, que pasa AA.
 - Foco de teclado visible en todo el sitio (contorno de brasa de 3px), también
   en las pastillas de servicio del formulario, que son radios escondidos.
+- **El campo de la portada tiene `aria-label` fijo.** El placeholder cambia
+  solo; un lector de pantalla no puede quedar atado a un texto que se está
+  escribiendo y borrando, así que el nombre accesible es otro y no se mueve.
 - El pase de la obra tiene botón de pausa y arranca pausado si el sistema pide
   movimiento reducido: una imagen que cambia sola y no se puede detener es
   exactamente lo que pide que se apague.

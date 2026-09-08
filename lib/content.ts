@@ -198,7 +198,28 @@ export const UI = {
      sí mismo, viene con un problema; el campo de abajo es para escribirlo, y
      lo que escriba viaja al formulario de contacto. */
   portadaPregunta: ["Contanos qué hay que ", "resolver", "."],
-  portadaPh: "Una web, un bot de WhatsApp, un sistema de turnos…",
+  /* El placeholder de arranque y el que queda cuando el campo está enfocado o
+     el sistema pide movimiento reducido. Es también el que ve quien entra sin
+     JavaScript, así que tiene que funcionar solo. */
+  portadaPh: "Una web, un bot, un sistema…",
+  /* El nombre accesible del campo, fijo: el placeholder cambia solo y un
+     lector de pantalla no puede quedar atado a un texto que se está
+     escribiendo y borrando. */
+  portadaLabel: "Qué necesitás resolver",
+  /* Lo que el campo se escribe solo, en la voz del que consulta. Consultas
+     reales del rubro, no ejemplos de manual: quien llega se tiene que
+     reconocer en alguna.
+     Ninguna pasa los 37 caracteres: el campo mide 307px en un celular de
+     390px y ahí una frase larga se corta contra el borde justo cuando se está
+     terminando de escribir, que es el único momento en que importa. */
+  portadaEjemplos: [
+    "Una web que aparezca en Google.",
+    "Un bot de WhatsApp para pedidos.",
+    "Un sistema de turnos para el taller.",
+    "Automatizar un reporte semanal.",
+    "Una tienda para vender online.",
+    "Rehacer mi web, que quedó vieja.",
+  ],
   portadaEnviar: "Ir al formulario con lo que escribiste",
   portadaNota: "Estudio digital en Montevideo.",
   portadaNotaFuerte: "La primera consulta no tiene costo.",
