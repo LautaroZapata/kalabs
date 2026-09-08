@@ -39,6 +39,9 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: "#0f1214",
   colorScheme: "dark",
+  /* La página llega hasta el borde físico de la pantalla. A cambio, el CSS
+     tiene que respetar el área segura: `--edge` y `--folio-safe` lo hacen. */
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

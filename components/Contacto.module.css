@@ -19,16 +19,44 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
+  /* La columna se mide a sí misma. Es lo que le permite a la dirección y a la
+     cita tomar el cuerpo del ancho que realmente tienen —un cuarto de la
+     plana en escritorio— y no del ancho de la ventana, que es el error que
+     las hacía sobresalir. */
+  container-type: inline-size;
+  container-name: columna;
 }
 
 /* ---------------- dirección ---------------- */
 .mailto { display: block; }
 
+/* Con el dedo, el blanco que se toca es el alto de la letra: en un celular la
+   dirección mide 23px de alto y hay que apuntar. El relleno lo lleva a 45 y el
+   margen negativo lo devuelve a su lugar, así el blanco crece sin que se mueva
+   nada de lo que se ve. */
+@media (pointer: coarse) {
+  .mailto {
+    padding-block: 0.7rem;
+    margin-block: -0.7rem;
+  }
+}
+
+/* El cuerpo sale del menor de dos números: el que pide el diseño —grande, es
+   el titular de la columna— y el que la columna aguanta. El `17cqi` sale de
+   medir: cortada en el arroba, la línea más larga es «kalabs.dev», que en
+   Fraunces 900 mide unos 5,2 em de ancho; a 17cqi eso ocupa el 88% de la
+   columna, así que entra siempre y sobra margen para la fuente de reemplazo.
+   Con `vw`
+   la letra crecía con la ventana mientras la columna se quedaba en un 26%, y
+   por eso el final del dominio se salía. */
 .mailtoTitular {
   display: block;
-  font-size: clamp(1.5rem, 6.5vw, 3.6rem);
+  font-size: min(clamp(1.5rem, 6.5vw, 3.6rem), 17cqi);
   color: var(--bone);
-  overflow-wrap: anywhere;
+  /* `balance` reparte las líneas para emparejarlas: en una dirección de dos
+     pedazos deja el dominio arriba y `hola@` colgando. Acá se quiere lo
+     contrario: llenar la primera línea y cortar en el arroba sólo si sobra. */
+  text-wrap: wrap;
   transition: color 0.2s var(--ease);
 }
 .mailto:hover .mailtoTitular,
@@ -39,11 +67,15 @@
   border-top: var(--filete-med);
 }
 
+/* `wrap` para que en una columna angosta el valor baje debajo del rótulo en
+   vez de apretarse contra él. El `0.7rem` de arriba y abajo deja el renglón
+   en 44px, que es el mínimo para tocarlo con el dedo. */
 .enlace {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 0.15rem 1rem;
   padding: 0.7rem 0;
   border-bottom: var(--filete);
   color: var(--bone-dim);
@@ -68,11 +100,14 @@
   padding-top: clamp(1.5rem, 4vw, 2.5rem);
 }
 
+/* Mismo problema que la dirección, misma solución: el plano de color es tan
+   ancho como la columna, así que el cuerpo se mide contra la columna. Sin el
+   tope en `cqi`, entre 900 y 1200 «Posicionarte» no entraba en la caja. */
 .citaTexto {
   background: var(--terra);
   color: var(--bone);
   padding: clamp(1rem, 3vw, 1.5rem);
-  font-size: clamp(1.15rem, 3.4vw, 1.7rem);
+  font-size: min(clamp(1.15rem, 3.4vw, 1.7rem), 11cqi);
   max-width: 26ch;
 }
 
@@ -85,15 +120,23 @@
    Sin recuadro ni fondo propio: el formulario ya se distingue por lo que es
    —campos— y meterlo en una caja lo convertía en un widget pegado sobre la
    página en vez de una parte de ella. */
-.columnaForm { min-width: 0; }
+.columnaForm {
+  min-width: 0;
+  /* El formulario también se mide a sí mismo: las casillas de servicio pasan
+     a una sola columna cuando la ficha es angosta, sin importar cuánto mida
+     la ventana. */
+  container-type: inline-size;
+  container-name: ficha;
+}
 
 .ficha { min-width: 0; }
 
 .fichaTop {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 0.2rem 0.75rem;
   border-bottom: var(--filete);
   padding-bottom: 0.6rem;
   margin-bottom: 1rem;
@@ -121,17 +164,29 @@
    Las casillas de un formulario impreso: un cuadrado por opción y una cruz
    que se dibuja al elegir. Abajo siguen siendo radios; acá sólo cambia con
    qué se las pinta. */
+/* Una sola columna por defecto: en un celular, «Todavía no lo tengo definido»
+   partido en tres renglones dentro de media ficha era ilegible. Las dos
+   columnas vuelven en cuanto la ficha da el ancho —eso lo decide la ficha, no
+   la ventana: en tablet vertical el formulario ya es ancho aunque la pantalla
+   no lo parezca—. */
 .opciones {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   column-gap: clamp(0.75rem, 2.5vw, 1.5rem);
   border-top: var(--filete);
+}
+
+@container ficha (min-width: 26rem) {
+  .opciones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 .opcion {
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  /* 44px de alto mínimo: el radio real está oculto, así que el blanco que se
+     toca es esta etiqueta. */
+  min-height: 44px;
   padding: 0.6rem 0;
   border-bottom: var(--filete);
   cursor: pointer;
@@ -182,9 +237,13 @@
 
 /* Un solo trazo abajo, como la línea de una ficha de papel. Con recuadro
    completo cada campo era otra cajita más en una página que ya no las usa. */
+/* El cuerpo no baja de 16px: por debajo de eso Safari en iPhone hace zoom al
+   enfocar el campo y deja la página corrida. El `min-height` es el blanco
+   táctil. */
 .input,
 .area {
   width: 100%;
+  min-height: 44px;
   background: transparent;
   border: 0;
   border-bottom: 2px solid var(--terra);
@@ -205,6 +264,7 @@
 
 .enviar {
   width: 100%;
+  min-height: 48px;
   background: var(--ember);
   color: var(--ink);
   border: 2px solid var(--ember);
@@ -317,6 +377,15 @@
 .autorEnlace:hover,
 .autorEnlace:focus-visible { color: var(--ember); }
 
+/* Mismo criterio que la dirección: el blanco crece, la composición no se
+   mueve. */
+@media (pointer: coarse) {
+  .autorEnlace {
+    padding-block: 0.7rem;
+    margin-block: -0.7rem;
+  }
+}
+
 .autorFlecha {
   font-size: 0.6em;
   color: var(--terra-lit);
@@ -346,15 +415,43 @@
 .colofon a { color: var(--ember); border-bottom: 1px solid currentColor; }
 .colofon a:hover { color: var(--bone); }
 
-@media (min-width: 900px) {
-  /* El corondel se hace con el borde y el padding de la segunda columna.
-     Había un margen negativo compensando el gap: corría la columna del
-     formulario sobre la anterior y le tapaba el final a los valores de los
-     enlaces. Con gap 0 no hace falta compensar nada. */
-  /* El formulario manda: es lo que la sección quiere que pase. La columna de
-     contacto queda como complemento, no como protagonista. */
+/* «Volver al inicio» en versalitas mide 14px de alto: es el enlace más chico
+   del sitio. `inline-block` para que el relleno cuente, y el filete de abajo
+   se sube al ras de la letra para que siga leyéndose como subrayado. */
+@media (pointer: coarse) {
+  .colofon a {
+    display: inline-block;
+    padding-block: 0.95rem;
+    margin-block: -0.95rem;
+    border-bottom: 0;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-size: 100% 1px;
+    background-position: left calc(100% - 0.95rem);
+  }
+}
+
+/* ============ las dos columnas ============
+   El reparto se abre en tres pasos en vez de saltar de una columna a 26/74 de
+   golpe. El corte de antes caía en 900px, justo donde el 26% deja una columna
+   de 200 y pico: ahí no entraba ni la dirección ni la cita, y era la franja
+   de las tablets en horizontal.
+
+   El corondel se hace con el borde y el padding de la segunda columna. Había
+   un margen negativo compensando el gap: corría la columna del formulario
+   sobre la anterior y le tapaba el final a los valores de los enlaces. Con
+   gap 0 no hace falta compensar nada. */
+@media (min-width: 760px) {
+  /* La columna se mide en ancho, no en porcentaje. Con porcentajes por tramos
+     —40% hasta 1100, 32% arriba— la columna se achicaba al agrandar la
+     ventana: a 1024 medía 369px y a 1100, 317. La dirección seguía el salto y
+     encogía sola al estirar el navegador.
+
+     Así crece parejo hasta los 24rem, que es donde la dirección llega a su
+     cuerpo máximo, y de ahí todo lo que sobra se lo lleva el formulario, que
+     es lo que la sección quiere que pase. */
   .plana {
-    grid-template-columns: minmax(0, 26fr) minmax(0, 74fr);
+    grid-template-columns: minmax(0, clamp(17rem, 32vw, 24rem)) minmax(0, 1fr);
     column-gap: 0;
   }
   .columna { padding-right: clamp(1.5rem, 4vw, 2.5rem); }
@@ -369,3 +466,4 @@
     border-right: var(--filete);
   }
 }
+

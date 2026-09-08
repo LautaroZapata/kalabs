@@ -89,13 +89,17 @@
   line-height: 1.5;
 }
 
+/* El dominio y el «ver el sitio» comparten renglón mientras entren. En una
+   columna de 270px «oleocaceres-web.vercel.app» los deja al borde: si no dan,
+   bajan en vez de encimarse. */
 .pieNota {
   padding-top: 0.55rem;
   border-top: var(--filete);
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 0.2rem 0.75rem;
   color: var(--bone-dim);
 }
 
@@ -162,10 +166,37 @@
 
 .avisoAccion { color: var(--ember); white-space: nowrap; }
 
-/* ============ escritorio: todo en una pantalla ============ */
-@media (min-width: 900px) {
+/* ============ tablet: la nota se acuesta ============
+   Entre 620 y 1000 no hay ancho para tres columnas, pero sobra para una: a
+   pantalla completa la captura queda del tamaño de un afiche y hay que bajar
+   tres veces. Acá la captura se pone al costado del texto y cada proyecto
+   entra en un golpe de vista. */
+@media (min-width: 620px) and (max-width: 999.98px) {
+  .nota {
+    grid-template-columns: minmax(0, 40%) minmax(0, 1fr);
+    column-gap: clamp(1rem, 3vw, 1.75rem);
+  }
+
+  .slug { grid-column: 1 / -1; }
+  /* La maqueta es el `<figure>` de Maqueta.tsx: se la ubica desde acá porque
+     el que decide la composición de la nota es este archivo. */
+  .nota > figure {
+    grid-column: 1;
+    grid-row: 2 / span 2;
+    align-self: start;
+  }
+  .cuerpo { grid-column: 2; grid-row: 2; }
+  .pieNota { grid-column: 2; grid-row: 3; align-self: end; }
+}
+
+/* ============ escritorio: todo en una pantalla ============
+   El corte estaba en 900px y ahí las tres columnas quedaban en 240px cada
+   una: el título partido, el dominio contra el «ver el sitio» y la captura
+   del tamaño de un sello. Mil es donde las tres columnas empiezan a ser
+   columnas. */
+@media (min-width: 1000px) {
   .pagina {
-    min-height: calc(100svh - var(--folio-h));
+    min-height: calc(100svh - var(--folio-safe));
     display: flex;
     flex-direction: column;
   }
@@ -197,5 +228,24 @@
     align-items: center;
     justify-content: space-between;
     gap: clamp(1.5rem, 4vw, 3.5rem);
+  }
+
+  /* Cada nota armaba su propia grilla, así que las cuatro filas no se
+     correspondían de una columna a la otra: como Oleo Cáceres tiene subtítulo,
+     su texto ocupa más y su captura terminaba más arriba que las otras dos.
+     Las tres cajas en fila con los pies a distinta altura es exactamente lo
+     que una plana de diario no hace.
+
+     Con `subgrid` las filas las manda la plana y las tres notas las comparten:
+     los sumarios en una línea, los pies de captura en otra, los dominios en
+     otra. Donde no haya `subgrid`, cada nota sigue con su grilla propia —se
+     ve como hasta ahora, no se rompe—. */
+  @supports (grid-template-rows: subgrid) {
+    .plana { grid-template-rows: auto minmax(140px, 1fr) auto auto; }
+
+    .nota {
+      grid-row: span 4;
+      grid-template-rows: subgrid;
+    }
   }
 }

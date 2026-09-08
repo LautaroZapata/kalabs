@@ -38,12 +38,35 @@
   color: var(--terra-lit);
 }
 
+/* La dirección se va al margen derecho, como en el cintillo de un diario. Eso
+   vale mientras el cintillo entra en un renglón: cuando envuelve, el `auto`
+   la deja sola en una línea y pegada a la derecha, colgando de la nada. En
+   pantallas chicas sigue el renglón como un dato más. */
 .cintilloMail {
-  margin-left: auto;
   color: var(--ember);
   border-bottom: 1px solid currentColor;
 }
 .cintilloMail:hover { color: var(--bone); }
+
+@media (min-width: 760px) {
+  .cintilloMail { margin-left: auto; }
+}
+
+/* Igual que la dirección grande del contacto: el blanco táctil crece a 45px
+   sin correr el cintillo. El subrayado pasa a fondo para que quede pegado a
+   la letra y no al borde del relleno. */
+@media (pointer: coarse) {
+  .cintilloMail {
+    display: inline-block;
+    padding-block: 0.75rem;
+    margin-block: -0.75rem;
+    border-bottom: 0;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-size: 100% 1px;
+    background-position: left calc(100% - 0.75rem);
+  }
+}
 
 /* ---------------- cabecera ---------------- */
 .cabecera {
@@ -52,6 +75,10 @@
   border-bottom: var(--filete-med);
   /* el filete doble de verdad: una segunda línea fina bajo la gruesa */
   box-shadow: 0 5px 0 -2px var(--terra-dim);
+  /* La cabecera se mide para que el nombre sepa cuánto ancho tiene de verdad:
+     con la caja de composición al lado no es el de la ventana. */
+  container-type: inline-size;
+  container-name: cabecera;
 }
 
 /* Desde que hay ancho de sobra, la caja de composición se sienta al lado del
@@ -63,13 +90,23 @@
     align-items: end;
     column-gap: clamp(1.5rem, 4vw, 3.5rem);
   }
+
+  /* La primera columna es `auto`: no se encoge, así que un nombre demasiado
+     grande empuja la composición fuera de la página. En un monitor de 1920 el
+     tope de 17rem lo hacía. Acá el cuerpo se mide contra la cabecera y deja
+     lugar para la caja de al lado. */
+  .nombre { font-size: min(clamp(4.5rem, 21vw, 17rem), 17cqi); }
 }
 
 /* El nombre en caja baja y al ras. Fraunces con SOFT y WONK al máximo: los
    remates se redondean y las formas se tuercen, así no parece dibujada por
    una máquina. */
 .nombre {
-  font-size: clamp(4.5rem, 21vw, 17rem);
+  /* El `24cqi` es el piso de seguridad: en un teléfono de 320px el mínimo del
+     clamp —4.5rem— ya no entraba en el ancho útil y la última letra quedaba
+     cortada contra el margen. Medido contra la cabecera, «Kalabs» entra
+     siempre, en cualquier pantalla. */
+  font-size: min(clamp(4.5rem, 21vw, 17rem), 24cqi);
   color: var(--bone);
   /* pega la letra al filete de abajo, como una cabecera impresa */
   margin-bottom: -0.09em;

@@ -18,6 +18,12 @@ export default function Contacto() {
   const quieto = useReducedMotion();
   const anio = new Date().getFullYear();
 
+  /* La dirección va partida en dos para poder marcar dónde corta si no entra
+     en una línea. Es una sola palabra para el navegador: sin este `<wbr>` el
+     corte cae donde toque —"hola@kalab / s.dev"— o directamente se sale de la
+     columna. Cortando después del arroba se lee como dirección igual. */
+  const [usuario, dominio] = SITE.email.split("@");
+
   return (
     <section id="contacto" className={s.pagina} aria-labelledby="contacto-t">
       <Cabezal
@@ -30,7 +36,10 @@ export default function Contacto() {
         {/* ---------------- columna de contacto ---------------- */}
         <motion.div className={s.columna} {...entrada({ quieto, y: 24 })}>
           <a className={s.mailto} href={`mailto:${SITE.email}`}>
-            <span className={`${s.mailtoTitular} titular`}>{SITE.email}</span>
+            <span className={`${s.mailtoTitular} titular`}>
+              {usuario}@<wbr />
+              {dominio}
+            </span>
           </a>
 
           <ul className={s.enlaces}>

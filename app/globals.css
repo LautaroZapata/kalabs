@@ -38,10 +38,21 @@
   --filete-med:  2px solid var(--terra);
   --filete-grue: 5px solid var(--bone);
 
-  /* --- ritmo --- */
+  /* --- ritmo ---
+     El margen nunca baja del área segura: con `viewport-fit=cover` un celular
+     con muesca en horizontal se come el margen izquierdo entero y el texto
+     queda debajo del recorte de la pantalla. */
   --gut: clamp(1rem, 4vw, 2.5rem);
-  --edge: clamp(1rem, 5vw, 4rem);
+  --edge: max(
+    clamp(1rem, 5vw, 4rem),
+    env(safe-area-inset-left, 0px),
+    env(safe-area-inset-right, 0px)
+  );
   --folio-h: 38px;
+  /* Lo que el folio ocupa de verdad: la barra más la franja del indicador de
+     inicio en iOS. Es lo que hay que descontarle al alto de la ventana y lo
+     que el cuerpo tiene que dejar libre abajo. */
+  --folio-safe: calc(var(--folio-h) + env(safe-area-inset-bottom, 0px));
 
   /* --- la caja ---
      El ancho del pliego. Sin tope, en un monitor de 2560 la línea de texto se
@@ -58,6 +69,14 @@
   color-scheme: dark;
 }
 
+/* Con el dedo el blanco tiene que ser más grande que con el mouse. La barra
+   del pie es lo único del sitio que está siempre a mano, así que crece a los
+   44px que pide cualquier guía táctil; todo lo demás la sigue por
+   `--folio-safe`. */
+@media (pointer: coarse) {
+  :root { --folio-h: 44px; }
+}
+
 /* ---------- reset ---------- */
 *,
 *::before,
@@ -67,6 +86,9 @@ html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
   scroll-padding-top: 2rem;
+  /* El folio está fijo al pie: sin esto, saltar a #contacto deja el final de
+     la sección debajo de la barra. */
+  scroll-padding-bottom: calc(var(--folio-safe) + 1rem);
 }
 
 body {
@@ -77,7 +99,7 @@ body {
   font-size: 1.0625rem;
   line-height: 1.62;
   overflow-x: hidden;
-  padding-bottom: var(--folio-h);
+  padding-bottom: var(--folio-safe);
   -webkit-font-smoothing: antialiased;
   font-variant-numeric: oldstyle-nums;
 }
@@ -132,6 +154,10 @@ input, textarea, select {
   line-height: 0.94;
   letter-spacing: -0.021em;
   text-wrap: balance;
+  /* Red de contención para las pantallas angostas: una palabra que no entra
+     en la columna se parte antes que sobresalir. `break-word` y no `anywhere`
+     —parte sólo cuando no queda otra, no en cuanto conviene—. */
+  overflow-wrap: break-word;
 }
 
 /* ---- rugosidad ----
