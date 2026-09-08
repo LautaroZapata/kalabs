@@ -14,6 +14,30 @@ Gmail, y se escriben una vez.
 Para usarla: `⋮` → **Plantillas** → elegir. Se pega en el cuerpo y se edita lo
 que haga falta.
 
+## Cuáles llevan diseño y cuáles no
+
+No todas. El corte no es por pereza:
+
+| | Formato | Por qué |
+| --- | --- | --- |
+| 1, 2, 4, 5 | **Texto plano** | Son conversación entre dos personas. Un «Hola Marcela, gracias por escribirnos» dentro de un marco de marca se lee como newsletter, y a quien espera una respuesta humana eso le baja la confianza |
+| 3 y 6 | **HTML** | Son documentos. El cliente los imprime, los reenvía a su jefe y los compara con otro presupuesto |
+| Firma | **HTML** | Aparece en todos los correos: es donde el diseño rinde más por menos |
+
+Las tres piezas con diseño están en [`plantillas/`](plantillas/) como archivos HTML
+sueltos. Van sobre **papel claro y no sobre el fondo negro del sitio**: un
+presupuesto en ink se imprime pésimo y queda raro citado dentro de un hilo de
+respuestas. El sitio es la edición de noche; el documento es el papel.
+
+### Cómo se pegan en Gmail
+
+1. Abrí el archivo `.html` **en el navegador** — doble clic sobre él.
+2. Seleccioná desde la marca `▼ COPIAR DESDE ACÁ` hasta `▲ HASTA ACÁ` y copiá.
+   → Se copia **lo que ves**, no el código. Si abrís el archivo en el editor y
+   copiás las etiquetas, Gmail las pega como texto.
+3. Pegá en la ventana de redacción. Gmail conserva los estilos en línea.
+4. Reemplazá los `[corchetes]` y guardá como plantilla.
+
 ## Cómo están escritas
 
 Tres reglas, y las tres salen de lo que el sitio ya promete:
