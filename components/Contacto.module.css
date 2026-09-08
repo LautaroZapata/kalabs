@@ -218,6 +218,48 @@
 .enviar:hover,
 .enviar:focus-visible { background: transparent; color: var(--ember); }
 
+.enviar:disabled {
+  background: var(--ember-dim);
+  border-color: var(--ember-dim);
+  cursor: progress;
+}
+
+/* La trampa para robots. Fuera de la pantalla y no `display: none`: los bots
+   que valen algo descartan lo que está oculto por esa vía. El `aria-hidden` y
+   el `tabindex="-1"` los pone el componente, así que nadie la encuentra. */
+.trampa {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* El error del envío. Va en bordo aclarado —el bordo pleno no pasa contraste
+   sobre texto— y con el filete a la izquierda de una acotación de imprenta. */
+.error {
+  border-left: 3px solid var(--terra-lit);
+  padding-left: 0.75rem;
+  margin-bottom: 1rem;
+  color: var(--bone);
+  font-size: 0.95rem;
+  font-style: italic;
+}
+
+/* ---------------- acuse de recibo ---------------- */
+.acuseTitulo {
+  font-size: clamp(1.4rem, 4.5vw, 2rem);
+  color: var(--bone);
+  margin-top: 0.5rem;
+}
+
+.acuseCuerpo {
+  color: var(--bone-dim);
+  font-style: italic;
+  font-size: 1.0625rem;
+  max-width: 34ch;
+}
+
 
 /* ---------------- fichas de autor ---------------- */
 .autores {

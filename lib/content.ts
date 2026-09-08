@@ -193,6 +193,11 @@ export const UI = {
     respuesta: "Respuesta en 24 horas",
     nombre: "Nombre",
     nombrePh: "Nombre y apellido",
+    /* El correo no estaba mientras el formulario armaba un `mailto:`: lo ponía
+       el cliente de correo. Ahora que manda el servidor, sin este campo llegan
+       consultas que no se pueden contestar. */
+    correo: "Correo",
+    correoPh: "donde te contestamos",
     negocio: "Empresa (opcional)",
     negocioPh: "Nombre o rubro",
     servicio: "Servicio de interés",
@@ -200,5 +205,23 @@ export const UI = {
     mensaje: "Mensaje",
     mensajePh: "Contanos brevemente qué necesitás.",
     enviar: "Enviar mensaje",
+    enviando: "Enviando…",
+
+    /* Acuse de recibo. Reemplaza al formulario una vez enviado: dejar los
+       campos llenos invita a apretar de nuevo y mandar todo por duplicado. */
+    okKicker: "Recibido",
+    okTitulo: "Tu mensaje está en camino.",
+    okCuerpo: "Te contestamos dentro de las 24 horas al correo que dejaste.",
+
+    /* Los errores dicen qué campo y qué hacer. «Error en el formulario» no le
+       sirve a nadie. */
+    errorNombre: "Falta tu nombre.",
+    errorCorreo: "Revisá el correo: no parece una dirección válida.",
+    errorMensaje: "Contanos un poco más: al menos una línea.",
+    errorLargo: "El mensaje es muy largo. Resumilo y lo charlamos por correo.",
+    errorServidor:
+      "No pudimos enviarlo. Probá de nuevo en un minuto o escribinos directo a " +
+      SITE.email +
+      ".",
   },
 };

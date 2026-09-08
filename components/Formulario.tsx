@@ -1,14 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useActionState, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { SERVICIOS, SITE, UI } from "@/lib/content";
+import { SERVICIOS, UI } from "@/lib/content";
+import { enviarConsulta, VALORES_VACIOS, type Estado } from "@/lib/enviar";
 import s from "./Contacto.module.css";
 
 /**
- * Sin backend: el formulario arma un mailto: con todo cargado.
- * Si algún día hace falta guardar los mensajes, acá entra Supabase sin
- * tocar el resto del sitio.
+ * El envío lo hace `enviarConsulta`, una Server Action. Eso importa por algo
+ * concreto: el formulario sigue funcionando con JavaScript deshabilitado —el
+ * navegador hace el POST y Next lo atiende igual—, en línea con el resto del
+ * sitio, que también entra sin bundle.
  *
  * El servicio no se elige con un desplegable. Son cuatro opciones: esconderlas
  * detrás de un menú que encima el navegador dibuja a su manera —gris sistema
@@ -29,30 +31,35 @@ const TRAZOS = [
   { x1: 16, y1: 4, x2: 4, y2: 16 },
 ];
 
+const INICIAL: Estado = { estado: "inicial" };
+
 export default function Formulario() {
   const quieto = useReducedMotion();
-  const [nombre, setNombre] = useState("");
-  const [negocio, setNegocio] = useState("");
-  const [necesito, setNecesito] = useState(OPCIONES[0]);
-  const [mensaje, setMensaje] = useState("");
+  const [estado, accion, enviando] = useActionState(enviarConsulta, INICIAL);
 
-  function enviar(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const asunto = `[Kalabs] ${necesito} — ${negocio || nombre}`;
-    const cuerpo = [
-      `Nombre: ${nombre}`,
-      `Negocio: ${negocio || "—"}`,
-      `Necesito: ${necesito}`,
-      "",
-      mensaje,
-    ].join("\n");
-    window.location.href = `mailto:${SITE.email}?subject=${encodeURIComponent(
-      asunto
-    )}&body=${encodeURIComponent(cuerpo)}`;
+  /* Si el envío falló, los campos vuelven con lo que ya estaba escrito. */
+  const previo = estado.estado === "error" ? estado.valores : VALORES_VACIOS;
+  const [necesito, setNecesito] = useState(previo.necesito);
+
+  /* Enviado: el formulario se va y queda el acuse. Dejar los campos llenos
+     invita a apretar otra vez y mandar la misma consulta por duplicado. */
+  if (estado.estado === "ok") {
+    return (
+      <div className={s.ficha} role="status">
+        <p className={`${s.fichaTop} dato dato--caja`}>
+          <span>
+            <b aria-hidden="true">¶</b> {UI.form.okKicker}
+          </span>
+          <span>{UI.form.respuesta}</span>
+        </p>
+        <p className={`${s.acuseTitulo} titular titular--sec`}>{UI.form.okTitulo}</p>
+        <p className={s.acuseCuerpo}>{UI.form.okCuerpo}</p>
+      </div>
+    );
   }
 
   return (
-    <form className={s.ficha} onSubmit={enviar}>
+    <form className={s.ficha} action={accion}>
       <p className={`${s.fichaTop} dato dato--caja`}>
         <span>
           <b aria-hidden="true">¶</b> {UI.form.titulo}
@@ -65,11 +72,23 @@ export default function Formulario() {
         <input
           className={s.input}
           name="nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
+          defaultValue={previo.nombre}
           required
           autoComplete="name"
           placeholder={UI.form.nombrePh}
+        />
+      </label>
+
+      <label className={s.campo}>
+        <span className={`${s.label} dato dato--caja`}>{UI.form.correo}</span>
+        <input
+          className={s.input}
+          name="correo"
+          type="email"
+          defaultValue={previo.correo}
+          required
+          autoComplete="email"
+          placeholder={UI.form.correoPh}
         />
       </label>
 
@@ -78,8 +97,7 @@ export default function Formulario() {
         <input
           className={s.input}
           name="negocio"
-          value={negocio}
-          onChange={(e) => setNegocio(e.target.value)}
+          defaultValue={previo.negocio}
           autoComplete="organization"
           placeholder={UI.form.negocioPh}
         />
@@ -130,15 +148,30 @@ export default function Formulario() {
         <textarea
           className={s.area}
           name="mensaje"
-          value={mensaje}
-          onChange={(e) => setMensaje(e.target.value)}
+          defaultValue={previo.mensaje}
           required
           placeholder={UI.form.mensajePh}
         />
       </label>
 
-      <button className={s.enviar} type="submit">
-        {UI.form.enviar}
+      {/* Trampa para robots. No se ve, no se tabula y no la anuncia un lector
+          de pantalla; un humano no puede llenarla ni queriendo. Va sin captcha
+          a propósito: un captcha le cobra el peaje a la persona equivocada. */}
+      <div className={s.trampa} aria-hidden="true">
+        <label>
+          Apellido
+          <input name="apellido" type="text" tabIndex={-1} autoComplete="off" />
+        </label>
+      </div>
+
+      {estado.estado === "error" && (
+        <p className={s.error} role="alert">
+          {estado.mensaje}
+        </p>
+      )}
+
+      <button className={s.enviar} type="submit" disabled={enviando}>
+        {enviando ? UI.form.enviando : UI.form.enviar}
       </button>
     </form>
   );

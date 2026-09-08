@@ -180,8 +180,37 @@ nítida y no se pierde nada.
 - CSS Modules + custom properties — sin framework de estilos, para que el
   layout no arrastre las convenciones de nadie
 - [Motion](https://motion.dev) para las entradas por scroll
-- Sin backend: el formulario arma un `mailto:` con todo cargado. Si algún día
-  hay que guardar los mensajes, ahí entra Supabase sin tocar el resto.
+- Sin base de datos: el formulario envía por una Server Action que llama a la
+  API de Brevo, la misma cuenta que autentica el dominio para el correo
+  saliente. Es un `fetch`, sin dependencia nueva. Si algún día hay que guardar
+  los mensajes en vez de sólo recibirlos, ahí entra Supabase sin tocar el resto.
+
+### El formulario
+
+Antes armaba un `mailto:`. Eso no era un envío: abría el cliente de correo del
+visitante y le dejaba a él la última tecla. En el celular muchas veces no abre
+nada, y de los que abre, buena parte no le da a enviar. Cada consulta perdida
+ahí no dejaba rastro: no había forma de saber cuántas hubo.
+
+- **Pide el correo.** Con `mailto:` no hacía falta —lo ponía el cliente—, pero
+  con envío real, sin ese campo llegan consultas que no se pueden contestar.
+- **Remite el dominio propio y quien escribió va en `replyTo`.** Mandar con el
+  `from` de un tercero es lo que hace que el correo caiga en spam; así el
+  mensaje llega firmado por `kalabs.dev` y responder desde la bandeja le llega
+  a la persona.
+- **Anda sin JavaScript.** Es una Server Action: el navegador hace el POST y
+  Next lo atiende igual, en línea con la portada, que también entra sin bundle.
+- **Trampa para robots, no captcha.** Un campo fuera de pantalla que ningún
+  humano ve ni puede tabular. El captcha le cobra el peaje a la persona
+  equivocada.
+- **Enviado, el formulario se va y queda el acuse.** Dejar los campos llenos
+  invita a apretar otra vez y mandar la misma consulta por duplicado.
+- **Si falla, los campos vuelven con lo escrito.** Sin JavaScript la página se
+  rerenderiza entera, y perder el mensaje redactado por un campo mal puesto es
+  la forma más rápida de que se vaya.
+
+Necesita `BREVO_API_KEY` en el entorno. Sin esa variable el envío responde el
+error de servidor y deja el motivo en el log; no falla el build.
 
 ### Notas de implementación
 
