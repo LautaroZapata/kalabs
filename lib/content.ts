@@ -3,10 +3,10 @@ export const SITE = {
   tagline: "Estudio digital",
   ciudad: "Montevideo",
   pais: "Uruguay",
-  email: "hola@kalabs.uy",
+  email: "hola@kalabs.dev",
   descripcion:
     "Estudio digital de Montevideo. Desarrollo web, automatizaciones y sistemas a medida.",
-  url: "https://kalabs.uy",
+  url: "https://kalabs.dev",
 };
 
 /** La portada: cintillo y nombre, nada más. */

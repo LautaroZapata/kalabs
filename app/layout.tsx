@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { display, body } from "./fonts";
 import Rugosidad from "@/components/Rugosidad";
-import { SITE } from "@/lib/content";
+import { SITE, SERVICIOS, EQUIPO } from "@/lib/content";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -11,6 +11,7 @@ export const metadata: Metadata = {
     template: `%s · ${SITE.nombre}`,
   },
   description: SITE.descripcion,
+  alternates: { canonical: "/" },
   keywords: [
     "desarrollo web Uruguay",
     "automatizaciones",
@@ -40,6 +41,49 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
+/**
+ * Datos estructurados para búsqueda local. Es lo que le permite a Google
+ * entender que atrás de la página hay un estudio en Montevideo y no un texto
+ * cualquiera, y lo que alimenta la ficha del negocio.
+ *
+ * `ProfessionalService` en lugar de `LocalBusiness` a secas: no hay local a la
+ * calle ni horario de atención, así que se declara el área de trabajo y no una
+ * dirección que no existe.
+ */
+const datosEstructurados = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: SITE.nombre,
+  url: SITE.url,
+  email: SITE.email,
+  description: SITE.descripcion,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: SITE.ciudad,
+    addressCountry: "UY",
+  },
+  areaServed: { "@type": "Country", name: SITE.pais },
+  knowsLanguage: ["es"],
+  employee: EQUIPO.map((persona) => ({
+    "@type": "Person",
+    name: persona.nombre,
+    jobTitle: persona.rol,
+    sameAs: persona.linkedin,
+  })),
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Áreas de trabajo",
+    itemListElement: SERVICIOS.map((servicio) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: servicio.titulo,
+        description: servicio.cuerpo,
+      },
+    })),
+  },
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
@@ -59,6 +103,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <Rugosidad />
         <div className="grain" aria-hidden="true" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(datosEstructurados) }}
+        />
       </body>
     </html>
   );
