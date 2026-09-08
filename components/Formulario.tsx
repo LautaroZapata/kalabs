@@ -2,8 +2,9 @@
 
 import { useActionState, useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { SERVICIOS, UI } from "@/lib/content";
-import { enviarConsulta, VALORES_VACIOS, type Estado } from "@/lib/enviar";
+import { UI } from "@/lib/content";
+import { ESTADO_INICIAL, OPCIONES, VALORES_VACIOS } from "@/lib/consulta";
+import { enviarConsulta } from "@/lib/enviar";
 import s from "./Contacto.module.css";
 
 /**
@@ -22,20 +23,15 @@ import s from "./Contacto.module.css";
  * marcada a mano. Debajo siguen siendo radios: teclado, lector de pantalla y
  * el envío del formulario funcionan sin que haya que reimplementar nada.
  */
-/* Los tres servicios más la salida para quien todavía no sabe cuál pedir. */
-const OPCIONES = [...SERVICIOS.map((s) => s.titulo), UI.form.servicioOtro];
-
 /* Los dos trazos de la cruz, en el orden en que los haría una mano. */
 const TRAZOS = [
   { x1: 4, y1: 4, x2: 16, y2: 16 },
   { x1: 16, y1: 4, x2: 4, y2: 16 },
 ];
 
-const INICIAL: Estado = { estado: "inicial" };
-
 export default function Formulario() {
   const quieto = useReducedMotion();
-  const [estado, accion, enviando] = useActionState(enviarConsulta, INICIAL);
+  const [estado, accion, enviando] = useActionState(enviarConsulta, ESTADO_INICIAL);
 
   /* Si el envío falló, los campos vuelven con lo que ya estaba escrito. */
   const previo = estado.estado === "error" ? estado.valores : VALORES_VACIOS;

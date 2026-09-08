@@ -1,6 +1,7 @@
 "use server";
 
-import { SERVICIOS, SITE, UI } from "./content";
+import { SITE, UI } from "./content";
+import { OPCIONES, type Estado, type Valores } from "./consulta";
 
 /**
  * El formulario dejó de armar un `mailto:`.
@@ -13,34 +14,10 @@ import { SERVICIOS, SITE, UI } from "./content";
  * Ahora lo manda el servidor por la API de Brevo, que es la misma cuenta que
  * ya autentica el dominio para el correo saliente. Sin dependencias nuevas
  * —es un `fetch`— y sin una cuenta más que mantener.
+ *
+ * Este archivo exporta una sola cosa y es async, que es lo único que admite un
+ * módulo `"use server"`. Los tipos y las constantes viven en `consulta.ts`.
  */
-
-/** Las opciones válidas del campo «servicio», las mismas que dibuja el form. */
-const OPCIONES = [...SERVICIOS.map((s) => s.titulo), UI.form.servicioOtro];
-
-export type Estado =
-  | { estado: "inicial" }
-  | { estado: "ok" }
-  /* El error vuelve con lo que la persona ya había escrito: sin JavaScript la
-     página se rerenderiza entera, y perder el mensaje redactado por un campo
-     mal puesto es la forma más rápida de que se vaya. */
-  | { estado: "error"; mensaje: string; valores: Valores };
-
-export type Valores = {
-  nombre: string;
-  negocio: string;
-  correo: string;
-  necesito: string;
-  mensaje: string;
-};
-
-export const VALORES_VACIOS: Valores = {
-  nombre: "",
-  negocio: "",
-  correo: "",
-  necesito: OPCIONES[0],
-  mensaje: "",
-};
 
 /* Validación deliberadamente laxa: la única forma de saber si una dirección
    existe es escribirle. Esto descarta lo que no puede ser un correo y nada
