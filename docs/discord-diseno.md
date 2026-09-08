@@ -134,7 +134,7 @@ brasa             6.6:1
 tinta s/ brasa    6.6:1
 ```
 
-- **Ningún estado se transmite sólo con color.** Lleva la palabra completa: `En producción`, `Abierto`
+- **Ninguna información se transmite sólo con color.** El proyecto activo del pase se marca con el punto lleno y con `aria-current`; cada fila del índice dice de qué es en palabras
 - **El pase de la obra tiene botón de pausa** y arranca pausado con `prefers-reduced-motion`: una imagen que cambia sola y no se puede detener es exactamente lo que pide que se apague
 - Con el dedo, los puntos del pase crecen al blanco de 44px con un pseudoelemento transparente, sin cambiar de tamaño a la vista
 - Las pastillas de servicio del formulario son radios escondidos: teclado y lector de pantalla funcionan sin reimplementar nada

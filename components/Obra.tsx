@@ -148,10 +148,7 @@ export default function Obra() {
                 <span className={`${s.nombre} titular`}>
                   {p.nombreLargo ?? p.nombre}
                 </span>
-                <span className={s.meta}>
-                  <span className={`${s.etiqueta} et`}>{p.estado}</span>
-                  <span className="et">{p.rubro}</span>
-                </span>
+                <span className={`${s.meta} et`}>{p.rubro}</span>
               </a>
             </Reveal>
           ))}
@@ -166,11 +163,8 @@ export default function Obra() {
               <span className={`${s.nombre} titular`}>
                 {UI.proyectosCierreTitulo}
               </span>
-              <span className={s.meta}>
-                <span className={`${s.etiqueta} et`}>
-                  {UI.proyectosCierreEstado}
-                </span>
-                <span className="et">{UI.proyectosCierreAccion}</span>
+              <span className={`${s.meta} et`}>
+                {UI.proyectosCierreAccion}
               </span>
             </a>
           </Reveal>

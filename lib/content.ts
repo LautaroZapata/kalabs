@@ -34,7 +34,6 @@ export type Proyecto = {
   nombreLargo?: string;
   pitch: string;
   detalle: string;
-  estado: string;
   /** El sitio en vivo. La ficha entera enlaza acá. */
   href: string;
   /** Dominio que se muestra en la ficha. */
@@ -54,7 +53,6 @@ export const PROYECTOS: Proyecto[] = [
     pitch: "Flotas de grúas en tiempo real.",
     detalle:
       "Choferes, servicios y unidades en una sola vista. Quién está libre y quién está en camino, sin un solo llamado.",
-    estado: "En producción",
     href: "https://via-grua.vercel.app",
     sitio: "via-grua.vercel.app",
     rubro: "Flotas en tiempo real",
@@ -69,7 +67,6 @@ export const PROYECTOS: Proyecto[] = [
     pitch: "Finanzas personales.",
     detalle:
       "Presupuesto, ahorro y flujo del mes en una pantalla. Y el detalle de en qué se fue.",
-    estado: "En producción",
     href: "https://urugastos.vercel.app",
     sitio: "urugastos.vercel.app",
     rubro: "Finanzas personales",
@@ -84,7 +81,6 @@ export const PROYECTOS: Proyecto[] = [
     pitch: "Sitio institucional industrial.",
     detalle:
       "Veinte años de oficio contados en una página: qué fabrican, qué reparan y para quién trabajan. Con ANCAP, UTE y la Armada entre los clientes, la web tenía que estar a esa altura.",
-    estado: "En producción",
     href: "https://oleocaceres-web.vercel.app",
     sitio: "oleocaceres-web.vercel.app",
     rubro: "ANCAP · UTE · Armada",
@@ -208,7 +204,7 @@ export const UI = {
   portadaNotaFuerte: "La primera consulta no tiene costo.",
 
   /* obra */
-  obraRotulo: "Tres sistemas en producción",
+  obraRotulo: "Proyectos",
   obraAnterior: "Proyecto anterior",
   obraSiguiente: "Proyecto siguiente",
   obraPausar: "Pausar el pase de proyectos",
@@ -216,12 +212,11 @@ export const UI = {
   obraIr: (nombre: string) => `Ver ${nombre}`,
   proyectosVer: "Ver el sitio",
   proyectosCierreTitulo: "Tu proyecto acá",
-  proyectosCierreEstado: "Abierto",
   proyectosCierreAccion: "Escribinos",
 
   /* servicios */
   serviciosAntetitulo: "Lo que hacemos",
-  serviciosTitulo: "Tres cosas hacemos, y las tres terminan en producción.",
+  serviciosTitulo: "Nos ajustamos a lo que necesitás.",
   serviciosEntregables: "Incluye",
 
   /* banner: las tres promesas, en movimiento. Se frena al pasarle el mouse
@@ -249,7 +244,9 @@ export const UI = {
        el cliente de correo. Ahora que manda el servidor, sin este campo llegan
        consultas que no se pueden contestar. */
     correo: "Correo",
-    correoPh: "donde te contestamos",
+    /* Un ejemplo con arroba y no «donde te contestamos»: la forma del dato
+       dice más rápido qué va acá que una frase explicándolo. */
+    correoPh: "nombre@empresa.com",
     negocio: "Empresa (opcional)",
     negocioPh: "Nombre o rubro",
     servicio: "Servicio de interés",

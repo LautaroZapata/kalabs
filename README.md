@@ -121,8 +121,9 @@ Las reglas que sostienen el sistema:
   exactamente lo que pide que se apague.
 - Con el dedo, los puntos del pase crecen al blanco de 44px con un
   pseudoelemento transparente, sin cambiar de tamaño a la vista.
-- Ningún estado se transmite sólo con color: lleva la palabra completa
-  (`En producción`, `Abierto`).
+- Ninguna información se transmite sólo con color: el proyecto activo del pase
+  se marca con el punto lleno **y** con `aria-current`, y cada fila del índice
+  dice de qué es en palabras.
 - Con JavaScript deshabilitado el contenido sigue visible: un `<noscript>`
   neutraliza el estado inicial de las entradas por scroll.
 - Enlace «Saltar al contenido», jerarquía de encabezados `h1 → h2 → h3` y la

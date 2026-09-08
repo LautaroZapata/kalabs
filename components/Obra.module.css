@@ -189,27 +189,20 @@
   line-height: 1;
 }
 
+/* Lo que era una pastilla «En producción» más el rubro quedó en el rubro solo:
+   los tres proyectos estaban en producción, así que la etiqueta no distinguía
+   nada —repetía en cada fila lo que el rótulo de la sección ya decía—. */
 .meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 0.6rem;
+  justify-self: end;
+  opacity: 0.75;
 }
 
-.etiqueta {
-  border: 1px solid currentColor;
-  border-radius: 999px;
-  padding: 0.24rem 0.65rem;
-  opacity: 0.7;
-}
-
-/* Angosto: el nombre manda y los datos bajan debajo, alineados con él. */
+/* Angosto: el nombre manda y el rubro baja debajo, alineado con él. */
 @media (max-width: 700px) {
   .fila { grid-template-columns: auto minmax(0, 1fr); }
   .meta {
     grid-column: 2;
-    justify-content: flex-start;
+    justify-self: start;
   }
 }
 
