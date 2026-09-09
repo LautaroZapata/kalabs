@@ -173,11 +173,10 @@ export const ENLACES = [
  * los filetes; lo que dicen se edita desde acá sin abrir una plantilla HTML.
  */
 export const CORREO = {
-  /* El que te llega a vos con la consulta. */
+  /* El que te llega a vos con la consulta. Va sin título ni cintillo: el asunto
+     ya dice qué es y de quién, y todo lo demás era decoración que lo mandaba a
+     Promociones. */
   aviso: {
-    kicker: "Consulta desde el sitio",
-    titulo: "Nueva consulta.",
-    mensajeLabel: "Mensaje",
     pie: "Respondé este correo y le llega directo a quien escribió.",
   },
 
@@ -196,9 +195,6 @@ export const CORREO = {
     copiaLabel: "Copia de lo que nos mandaste",
     pie: "No hace falta que respondas este correo si no querés agregar nada.",
   },
-
-  /* Común a los dos. */
-  verSitio: "Ver el sitio",
 } as const;
 
 /** Microcopy de interfaz. Todo el texto del sitio vive en este archivo. */

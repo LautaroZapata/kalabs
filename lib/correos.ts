@@ -5,8 +5,12 @@ import type { Valores } from "./consulta";
  * Las dos plantillas de correo del formulario: el aviso que recibe el estudio
  * y el acuse que recibe quien escribió.
  *
- * Van en tablas y con todo el estilo en línea, que en 2026 sigue siendo la
- * única forma de que un correo se vea igual en Gmail, Apple Mail y Outlook.
+ * No comparten forma, y es a propósito. El acuse es la cara del estudio ante
+ * un desconocido y va con el diseño del sitio. El aviso es una alerta interna
+ * y va desnudo, por las razones que están anotadas más abajo.
+ *
+ * El acuse va en tablas y con todo el estilo en línea, que en 2026 sigue siendo
+ * la única forma de que un correo se vea igual en Gmail, Apple Mail y Outlook.
  * Nada de flex, de grid ni de hojas de estilo: Outlook de escritorio compone
  * con el motor de Word y descarta casi todo lo demás.
  *
@@ -31,6 +35,12 @@ const TERRA_DIM = "#6b2b1a";
 const TERRA_LIT = "#cc7256";
 
 const SERIF = "Georgia, 'Times New Roman', Times, serif";
+
+/* La del aviso interno: la que el lector ya tiene puesta en su cliente. Pedir
+   una tipografía es una decisión de diseño, y el aviso no quiere parecer una
+   pieza diseñada. */
+const SISTEMA =
+  "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
 
 /**
  * Escapa lo que escribió un desconocido antes de meterlo en el HTML.
@@ -59,6 +69,13 @@ const parrafos = (texto: string) =>
           "<br />",
         )}</p>`,
     )
+    .join("");
+
+/** Los mismos saltos para el aviso, que hereda color y tipografía del cuerpo. */
+const parrafosPlano = (texto: string) =>
+  escapar(texto)
+    .split(/\n{2,}/)
+    .map((p) => `<p style="margin:0 0 12px;">${p.replace(/\n/g, "<br />")}</p>`)
     .join("");
 
 /* --- piezas compartidas --- */
@@ -128,8 +145,13 @@ function envoltorio({
           <div style="height:1px;background:${TERRA_DIM};font-size:0;line-height:0;">&nbsp;</div>
           <div style="height:16px;font-size:0;line-height:0;">&nbsp;</div>
           <p style="margin:0 0 10px;font:italic 400 14px/1.6 ${SERIF};color:${BONE_DIM};">${escapar(pie)}</p>
-          <p style="margin:0;">
-            <a href="${SITE.url}" style="color:${EMBER};text-decoration:none;font:400 13px/1.4 ${SERIF};letter-spacing:.1em;text-transform:uppercase;">${CORREO.verSitio} &rarr;</a>
+          <!-- El pie nombra el dominio pero no lo enlaza. Brevo reescribe todo
+               enlace con su dominio de tracking, y un enlace que no coincide
+               con el remitente empuja el correo a Promociones. Escrito como
+               texto, el cliente de correo lo autoenlaza si quiere y Brevo no
+               llega a tocarlo. -->
+          <p style="margin:0;font:400 13px/1.4 ${SERIF};letter-spacing:.08em;text-transform:uppercase;color:${TERRA_LIT};">
+            ${SITE.nombre} &middot; ${SITE.url.replace(/^https?:\/\//, "")}
           </p>
         </td></tr>
 
@@ -140,42 +162,48 @@ function envoltorio({
 </body></html>`;
 }
 
-/** Una fila de la ficha de datos: etiqueta en versalitas y el valor al lado. */
-const fila = (etiqueta: string, valor: string) => `
-  <tr>
-    <td style="padding:0 14px 10px 0;vertical-align:top;white-space:nowrap;">${versalita(etiqueta, TERRA_LIT)}</td>
-    <td style="padding:0 0 10px;vertical-align:top;font:400 16px/1.5 ${SERIF};color:${BONE};">${escapar(valor)}</td>
-  </tr>`;
+/* --- el aviso que le llega al estudio ---
 
-/* --- el aviso que le llega al estudio --- */
+   Este no lleva diseño, y ahí está la decisión.
+
+   Iba en el mismo envoltorio que el acuse: tarjeta de 600px centrada, orla
+   naranja, cintillo en versalitas y un enlace al sitio al pie. Esa silueta
+   —tarjeta, banda de color, botón al final— es exactamente la que Gmail
+   aprendió a leer como boletín, y el aviso terminaba en Promociones. Una
+   consulta que aparece en la pestaña equivocada se contesta dos días tarde,
+   que para quien escribió es lo mismo que no contestarla.
+
+   Acá no hay nada que promocionar: es una alerta para adentro. Va como la
+   escribiría una persona —tipografía del sistema, alineado a la izquierda, sin
+   fondo— y sobre todo sin un solo `a href`. Brevo reescribe cada enlace para
+   contar clics, y un enlace que apunta a un dominio ajeno al remitente es de
+   las señales de promoción que más pesan. El sitio propio no hace falta
+   enlazarlo en un correo que sólo leemos nosotros.
+
+   El diseño se lo queda el acuse, que sí es la cara del estudio. */
 
 export function avisoHtml(datos: Valores) {
-  const cuerpo = `
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-      ${fila("Nombre", datos.nombre)}
-      ${fila("Correo", datos.correo)}
-      ${fila("Empresa", datos.negocio || "—")}
-      ${fila("Servicio", datos.necesito)}
-    </table>
+  const linea = (etiqueta: string, valor: string) =>
+    `<div style="margin:0 0 4px;"><strong>${etiqueta}:</strong> ${escapar(valor)}</div>`;
 
-    <div style="height:16px;font-size:0;line-height:0;">&nbsp;</div>
-    <div style="margin:0 0 10px;">${versalita(CORREO.aviso.mensajeLabel, TERRA_LIT)}</div>
+  return `<!doctype html>
+<html lang="es"><head><meta charset="utf-8" /><meta name="viewport" content="width=device-width" /></head>
+<body style="margin:0;padding:0;">
+  <div style="font:400 15px/1.6 ${SISTEMA};color:#1a1a1a;max-width:640px;">
+    ${linea("Nombre", datos.nombre)}
+    ${linea("Correo", datos.correo)}
+    ${linea("Empresa", datos.negocio || "—")}
+    ${linea("Servicio", datos.necesito)}
 
-    <!-- El mensaje va contra un filete al margen, como una cita de diario. -->
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-      <tr>
-        <td style="width:3px;background:${TERRA};font-size:0;line-height:0;">&nbsp;</td>
-        <td style="padding:0 0 0 16px;">${parrafos(datos.mensaje)}</td>
-      </tr>
-    </table>`;
+    <!-- El mensaje contra un filete al margen: es la única marca de imprenta
+         que sobrevive, y sirve para separar lo que escribió otro. -->
+    <div style="margin:18px 0 0;padding:0 0 0 14px;border-left:3px solid #d4d4d4;">
+      ${parrafosPlano(datos.mensaje)}
+    </div>
 
-  return envoltorio({
-    preheader: `${datos.nombre} — ${datos.necesito}`,
-    kicker: CORREO.aviso.kicker,
-    titulo: CORREO.aviso.titulo,
-    cuerpo,
-    pie: CORREO.aviso.pie,
-  });
+    <p style="margin:18px 0 0;font-size:14px;color:#6a6a6a;">${escapar(CORREO.aviso.pie)}</p>
+  </div>
+</body></html>`;
 }
 
 export function avisoTexto(datos: Valores) {
