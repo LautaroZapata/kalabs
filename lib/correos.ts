@@ -123,27 +123,24 @@ function envoltorio({
         <tr><td style="height:6px;background:${EMBER};font-size:0;line-height:0;">&nbsp;</td></tr>
 
         <tr><td style="padding:26px 32px 0;">
-          <!-- Cintillo. A la izquierda va el isotipo y no la palabra "KALABS":
-               es lo único que le pone cara al correo. Gmail no muestra el logo
-               del remitente en la lista —eso es BIMI, y BIMI pide un
-               certificado de marca registrada que no tenemos—, así que la
-               primera vez que alguien ve la K es acá adentro.
+          <!-- Cintillo. La palabra "KALABS" en versalitas y no el isotipo: acá
+               hubo un <img> al PNG de la K y lo que veía casi todo el mundo era
+               el ícono de imagen rota de Gmail. Gmail bloquea las imágenes de
+               un remitente que no está en los contactos, que en un acuse es el
+               caso normal y no la excepción, y sobre el bloqueo dibuja su
+               propio recuadro: el texto alternativo no lo salva.
 
-               PNG y no el SVG de components/Marca.tsx: Gmail descarta los SVG
-               de los correos. Va al triple de resolución y achicado por
-               atributo, que es como se ve nítido en pantallas densas.
+               Tampoco hay forma de incrustarla. Un cid: la mandaría en el
+               cuerpo del mensaje, pero Brevo —lo que usa lib/enviar.ts— sólo
+               adjunta archivos, y un adjunto suma el clip al lado del asunto.
 
-               Los estilos de tipografía en la imagen no son de más: si el
-               cliente las bloquea —que es lo que hace Gmail con un remitente
-               desconocido, o sea el caso más común acá— lo que queda es el
-               texto alternativo, y con esto cae en las mismas versalitas de
-               brasa que tenía la palabra antes. -->
+               Así que el cintillo se apoya en lo único que ningún cliente
+               puede bloquear, que es el texto. La K sigue viva en el sitio
+               (components/Marca.tsx) y en el avatar del remitente. -->
           <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
             <tr>
-              <td align="left" valign="middle">
-                <img src="${SITE.url}/marca-correo.png" width="31" height="30" alt="${SITE.nombre.toUpperCase()}" style="display:block;border:0;outline:none;width:31px;height:30px;font:400 12px/1.4 ${SERIF};letter-spacing:.16em;text-transform:uppercase;color:${EMBER};" />
-              </td>
-              <td align="right" valign="middle">${versalita(`${SITE.ciudad}, ${SITE.pais}`)}</td>
+              <td align="left">${versalita(SITE.nombre.toUpperCase(), EMBER)}</td>
+              <td align="right">${versalita(`${SITE.ciudad}, ${SITE.pais}`)}</td>
             </tr>
           </table>
 
