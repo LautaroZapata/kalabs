@@ -14,5 +14,9 @@ yarn.lock
 !.env.example
 .vercel
 *.tsbuildinfo
+
+# Tablero de prospectos: fuente del Apps Script y datos de contacto de
+# negocios reales. Vive en Drive, no acá.
+prospectos/
 next-env.d.ts
 tsconfig.tsbuildinfo
