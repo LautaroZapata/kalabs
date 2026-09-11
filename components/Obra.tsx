@@ -135,14 +135,11 @@ export default function Obra() {
         <div className={s.lista}>
           {PROYECTOS.map((p, i) => (
             <Reveal key={p.num} as="div" delay={i * 0.04}>
-              {/* La fila lleva al caso y ya no al sitio del cliente.
-                  Enlazando afuera, el primer click del visitante lo sacaba del
-                  sitio y todo lo que hicimos quedaba contado en un renglón. El
-                  enlace al sitio en vivo está adentro del caso, que es donde
-                  alguien que ya leyó lo quiere. */}
               <a
                 className={s.fila}
-                href={`/obra/${p.slug}`}
+                href={p.href}
+                target="_blank"
+                rel="noreferrer noopener"
                 onPointerEnter={(e) => {
                   if (e.pointerType === "mouse") setEspiado(i);
                 }}

@@ -1,12 +1,14 @@
 .pie {
   display: flex;
-  flex-direction: column;
-  gap: 2rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   width: 100%;
   max-width: var(--ancho);
   margin-inline: auto;
   border-radius: var(--r) var(--r) 0 0;
-  padding: 2.5rem clamp(1.2rem, 3vw, 2rem) 2rem;
+  padding: 2rem clamp(1.2rem, 3vw, 2rem);
   /* El área segura de abajo: en un celular con barra de gestos, sin esto la
      última línea queda debajo del indicador de inicio. */
   padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
@@ -15,46 +17,6 @@
 }
 
 .pie a:hover { color: var(--ember); }
-
-/* ---------- el mapa: tres columnas que se apilan ---------- */
-
-.mapa {
-  display: grid;
-  /* Se reacomodan solas: tres columnas donde entran, dos en tablet, una en
-     celular. Sin puntos de quiebre escritos a mano. */
-  grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr));
-  gap: 1.75rem 2rem;
-}
-
-.columna {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.45rem;
-}
-
-.columna a {
-  font-size: 0.95rem;
-  line-height: 1.35;
-  color: var(--bone-dim);
-}
-
-.rotulo {
-  margin-bottom: 0.35rem;
-  color: var(--papel);
-}
-
-/* ---------- el filete: lo que ya estaba ---------- */
-
-.filete {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(247, 242, 231, 0.14);
-}
 
 .marca {
   display: flex;

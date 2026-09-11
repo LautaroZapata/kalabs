@@ -124,17 +124,6 @@ export default function Servicios() {
                   </li>
                 ))}
               </ul>
-
-              {/* La puerta a la página del servicio. Los tres paneles se
-                  renderizan siempre —el que no está elegido va con `hidden`—,
-                  así que los tres enlaces están en el HTML y un buscador los
-                  encuentra sin tener que apretar una pestaña. */}
-              <a
-                className={`${s.mas} pastilla pastilla--brasa`}
-                href={`/servicios/${serv.slug}`}
-              >
-                {UI.verServicio(serv.titulo)} →
-              </a>
             </div>
           ))}
         </div>
