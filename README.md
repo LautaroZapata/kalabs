@@ -171,10 +171,9 @@ Las reglas que sostienen el sistema:
 - Sin librería de animación. Estaba Motion y se fue con el rediseño: para un
   fundido de veinte pixeles alcanzan un `IntersectionObserver` de doce líneas
   (`components/Reveal.tsx`) y una transición de CSS.
-- Sin base de datos: el formulario envía por una Server Action que llama a la
-  API de Brevo, la misma cuenta que autentica el dominio para el correo
-  saliente. Es un `fetch`, sin dependencia nueva. Si algún día hay que guardar
-  los mensajes en vez de sólo recibirlos, ahí entra Supabase sin tocar el resto.
+- Sin base de datos: el formulario envía por una Server Action que manda un
+  correo por el SMTP de Gmail. Si algún día hay que guardar los mensajes en vez
+  de sólo recibirlos, ahí entra Supabase sin tocar el resto.
 
 ### El formulario
 
@@ -184,11 +183,9 @@ nada, y de los que abre, buena parte no le da a enviar. Cada consulta perdida
 ahí no dejaba rastro: no había forma de saber cuántas hubo.
 
 - **Pide el correo.** Con `mailto:` no hacía falta —lo ponía el cliente—, pero
-  con envío real, sin ese campo llegan consultas que no se pueden contestar.
-- **Remite el dominio propio y quien escribió va en `replyTo`.** Mandar con el
-  `from` de un tercero es lo que hace que el correo caiga en spam; así el
-  mensaje llega firmado por `kalabs.dev` y responder desde la bandeja le llega
-  a la persona.
+  con envío real, sin ese campo llegan consultas que no se pueden contestar. Va
+  en el `Reply-To`, así que apretar «responder» en la bandeja le escribe a quien
+  completó el formulario.
 - **Anda sin JavaScript.** Es una Server Action: el navegador hace el POST y
   Next lo atiende igual, en línea con la portada, que también entra sin bundle.
 - **Trampa para robots, no captcha.** Un campo fuera de pantalla que ningún
@@ -200,39 +197,56 @@ ahí no dejaba rastro: no había forma de saber cuántas hubo.
   rerenderiza entera, y perder el mensaje redactado por un campo mal puesto es
   la forma más rápida de que se vaya.
 
-Necesita `BREVO_API_KEY` en el entorno. Sin esa variable el envío responde el
-error de servidor y deja el motivo en el log; no falla el build.
+Necesita `GMAIL_USUARIO` y `GMAIL_CLAVE_APP` en el entorno. Sin esas variables el
+envío responde el error de servidor y deja el motivo en el log; no falla el
+build.
 
-### Los dos correos
+### El correo del formulario
 
-Cada consulta dispara dos: el **aviso** al estudio y el **acuse** a quien
-escribió. El acuse antes no existía —veía la confirmación en pantalla y no le
-quedaba nada en la casilla—, y un mail que confirma es también la primera
-prueba de que del otro lado hay alguien.
+Cada consulta manda **un** correo: el aviso al estudio. Sale por
+`smtp.gmail.com` con la cuenta del estudio, que es la misma bandeja donde caen
+`hola@`, `lautaro@` y `matias@` por Cloudflare Email Routing. Es Gmail
+mandándose un correo a sí mismo: sin servicio en el medio, sin cuota que
+vigilar, sin nada que autenticar en el DNS.
 
-- **El aviso es el que no puede fallar.** Si no sale, la consulta se perdió y
-  hay que decirlo. El acuse es cortesía: si Brevo lo rechaza queda en el log y
-  no se le muestra un error a alguien cuyo mensaje sí llegó.
-- **Las dos plantillas viven en `lib/correos.ts` y el texto en `lib/content.ts`**
-  (`CORREO`), igual que el resto del sitio: el markup en un archivo, lo que
-  dice en otro.
-- **Tablas y estilo en línea.** Es la única forma de que un correo se vea igual
-  en Gmail, Apple Mail y Outlook, que compone con el motor de Word y descarta
-  casi todo lo demás. Nada de flex, de grid ni de hojas de estilo.
-- **Georgia y no la tipografía del sitio.** Un correo no puede cargar fuentes
-  con garantías,
-  así que se usa la serif que ya está instalada en todos lados.
-- **Todo lo que escribió un desconocido se escapa antes de entrar al HTML.** El
-  cuerpo lo redacta cualquiera que pase por el formulario; sin eso, una
-  etiqueta en el campo mensaje se interpreta al abrir el correo en la bandeja
-  del estudio.
-- **Los dos llevan versión de texto plano.** No es un trámite: es lo que ve
-  quien lee en modo texto y lo que miran los filtros de spam al decidir si esto
-  es legítimo.
+- **El `from` es `hola@kalabs.dev` y no la casilla de Gmail.** Gmail lo respeta
+  porque esa dirección está verificada como «Enviar como» en la cuenta. Si
+  dejara de estarlo, reescribe el remitente por el de la cuenta sin avisar —es
+  el único hilo del que cuelga esto.
+- **Quien escribió va en el `Reply-To`.** Apretar «responder» en la bandeja le
+  escribe a la persona. Poner su dirección en el `from` sería lo que manda un
+  correo a spam: ni el SPF ni el DKIM firman a nombre de nadie más.
+- **El correo es el único rastro de la consulta.** No hay base de datos ni copia
+  en ningún lado, así que si no sale hay que decirlo en pantalla: el error manda
+  a escribir directo a la casilla del estudio.
+- **El transporte vive en el módulo, con pool y tres tiempos de espera.** Fluid
+  Compute reutiliza la instancia, así que dos consultas seguidas comparten la
+  conexión TLS. Sin los tiempos de espera, un SMTP que acepta el socket y se
+  queda mudo cuelga la Server Action hasta el tope de la función —300 segundos—
+  con la persona mirando el botón en «Enviando…».
+- **Si el envío falla, el transporte se descarta.** Una conexión del pool
+  envenenada —Gmail cortó la sesión, la clave de aplicación se revocó— haría
+  fallar también todas las consultas que vengan después.
+
+#### El acuse que no está
+
+Hubo un segundo correo: un acuse automático para quien escribía, con el diseño
+del sitio. Se fue con Brevo y no volvió. Mandarle un correo autenticado a un
+desconocido pide un DKIM del dominio propio, y el dominio ya no firma nada:
+Gmail gratis firma como `gmail.com`. La confirmación la da la pantalla
+(`UI.form.okTitulo`), que no promete un mail que no va a llegar, y la respuesta
+la escribe una persona dentro de las 24 horas.
+
+El DNS quedó, entonces, con lo mínimo: los MX de Email Routing para recibir, el
+DKIM que Cloudflare pone solo para firmar lo que reenvía, y un SPF que habilita
+a Google. DMARC va en `p=none` y no más duro: Gmail gratis firma como
+`gmail.com`, así que para `kalabs.dev` no alinea nunca y algo más estricto
+rebotaría nuestras propias respuestas.
 
 Las plantillas para escribirle a clientes —primer contacto, presupuesto,
 seguimiento, entrega— están en [`docs/plantillas-correo.md`](docs/plantillas-correo.md).
-Ésas no son código: van en las plantillas de Gmail.
+Ésas no son código: van en las plantillas de Gmail, y ahora cargan con el acuse
+que antes mandaba el servidor.
 
 ### Notas de implementación
 

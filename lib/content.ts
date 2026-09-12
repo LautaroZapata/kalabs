@@ -166,11 +166,16 @@ export const ENLACES = [
 ];
 
 /**
- * El texto de los dos correos que dispara el formulario.
+ * El texto del correo que dispara el formulario.
  *
  * Vive acá y no en `correos.ts` por la misma regla que el resto del sitio: el
- * texto en un solo archivo, el markup en otro. `correos.ts` arma las tablas y
- * los filetes; lo que dicen se edita desde acá sin abrir una plantilla HTML.
+ * texto en un solo archivo, el markup en otro.
+ *
+ * Era plural: había también un acuse automático para quien escribía. Se fue con
+ * Brevo, porque mandarle un correo autenticado a un desconocido pide un DKIM
+ * del dominio propio y el dominio dejó de mandar. La confirmación la da la
+ * pantalla (`UI.form.okTitulo`) y la respuesta la escribe una persona, con las
+ * plantillas de `docs/plantillas-correo.md`.
  */
 export const CORREO = {
   /* El que te llega a vos con la consulta. Va sin título ni cintillo: el asunto
@@ -178,22 +183,6 @@ export const CORREO = {
      Promociones. */
   aviso: {
     pie: "Respondé este correo y le llega directo a quien escribió.",
-  },
-
-  /* El acuse automático para quien completó el formulario. Antes no existía:
-     veía el acuse en pantalla y no le quedaba nada en la casilla. Un mail que
-     confirma es también la primera prueba de que del otro lado hay alguien. */
-  acuse: {
-    asunto: "Recibimos tu mensaje",
-    kicker: "Acuse de recibo",
-    titulo: "Recibimos tu mensaje.",
-    saludo: (nombre: string) => `Hola ${nombre},`,
-    cuerpo: [
-      "Gracias por escribirnos. Tu consulta ya está en nuestra bandeja y te contestamos dentro de las 24 horas hábiles.",
-      "Si necesitás agregar algo, respondé este mismo correo: llega a la misma conversación.",
-    ],
-    copiaLabel: "Copia de lo que nos mandaste",
-    pie: "No hace falta que respondas este correo si no querés agregar nada.",
   },
 } as const;
 

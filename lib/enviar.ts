@@ -1,20 +1,31 @@
 "use server";
 
-import { CORREO, SITE, UI } from "./content";
+import nodemailer, { type Transporter } from "nodemailer";
+
+import { SITE, UI } from "./content";
 import { OPCIONES, type Estado, type Valores } from "./consulta";
-import { acuseHtml, acuseTexto, avisoHtml, avisoTexto } from "./correos";
+import { avisoHtml, avisoTexto } from "./correos";
 
 /**
- * El formulario dejó de armar un `mailto:`.
+ * El formulario manda un correo, y lo manda Gmail.
  *
- * El `mailto:` no era un envío: abría el cliente de correo del visitante y le
- * dejaba a él la última tecla. En el celular muchas veces no abre nada, y de
- * los que abre, buena parte no le da a enviar. Cada consulta perdida ahí no
- * dejaba rastro: no había forma de saber cuántas hubo.
+ * Tuvo tres vidas. Primero armaba un `mailto:`, que no era un envío: abría el
+ * cliente de correo del visitante y le dejaba a él la última tecla. En el
+ * celular muchas veces no abría nada, y de lo que abría, buena parte no le daba
+ * a enviar. Después lo mandó el servidor por la API de Brevo, en dos correos
+ * —el aviso al estudio y un acuse automático—, y eso trajo una cuenta de
+ * terceros, un DKIM más en el DNS y dos plantillas que había que pelear contra
+ * el clasificador de Gmail.
  *
- * Ahora lo manda el servidor por la API de Brevo, que es la misma cuenta que
- * ya autentica el dominio para el correo saliente. Sin dependencias nuevas
- * —es un `fetch`— y sin una cuenta más que mantener.
+ * Ahora sale por `smtp.gmail.com` con la cuenta del estudio, que es la misma
+ * bandeja donde caen `hola@`, `lautaro@` y `matias@` vía Cloudflare Email
+ * Routing. No hay servicio en el medio ni cuota que vigilar: es Gmail
+ * mandándose un correo a sí mismo.
+ *
+ * El acuse al visitante no volvió. Ese sí necesitaba un DKIM de `kalabs.dev`
+ * para llegar a la casilla de un desconocido, y el dominio ya no firma nada:
+ * Gmail gratis firma como `gmail.com`. La confirmación la da la pantalla y la
+ * respuesta la escribe una persona.
  *
  * Este archivo exporta una sola cosa y es async, que es lo único que admite un
  * módulo `"use server"`. Los tipos y las constantes viven en `consulta.ts`.
@@ -28,53 +39,34 @@ const ES_CORREO = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const texto = (dato: FormDataEntryValue | null) =>
   typeof dato === "string" ? dato.trim() : "";
 
-type Mensaje = {
-  a: { email: string; name: string };
-  responderA: { email: string; name: string };
-  asunto: string;
-  html: string;
-  plano: string;
-};
-
 /**
- * Una llamada a Brevo. Devuelve si salió o no, sin tirar: quién decide qué
- * hacer con un fallo depende de cuál de los dos correos era.
+ * El transporte vive en el módulo y no adentro de la función a propósito.
  *
- * El remitente siempre es el dominio propio. Mandar con el `from` de un
- * tercero —el correo de quien completó el formulario, por ejemplo— es lo que
- * hace que el mensaje caiga en spam: el SPF y el DKIM de `kalabs.dev` no
- * firman a nombre de nadie más.
+ * Fluid Compute reutiliza la instancia entre invocaciones, así que dos consultas
+ * seguidas comparten la conexión TLS en vez de rehacer el saludo con Gmail
+ * cada vez. `pool` la mantiene abierta; el máximo en uno porque acá nunca hay
+ * dos correos a la vez y Gmail corta las cuentas que abren conexiones de más.
+ *
+ * Los tres tiempos de espera no son decorativos. Sin ellos, un SMTP que acepta
+ * el socket y después se queda mudo deja la Server Action colgada hasta el
+ * tope de la función —300 segundos— con la persona mirando el botón en
+ * «Enviando…». Diez segundos y se corta.
  */
-async function mandar(clave: string, mensaje: Mensaje): Promise<boolean> {
-  try {
-    const respuesta = await fetch("https://api.brevo.com/v3/smtp/email", {
-      method: "POST",
-      headers: {
-        "api-key": clave,
-        "content-type": "application/json",
-        accept: "application/json",
-      },
-      body: JSON.stringify({
-        sender: { name: SITE.nombre, email: SITE.email },
-        to: [mensaje.a],
-        replyTo: mensaje.responderA,
-        subject: mensaje.asunto,
-        htmlContent: mensaje.html,
-        /* La versión plana no es un trámite: es lo que ve quien lee en modo
-           texto y lo que miran los filtros al decidir si esto es legítimo. */
-        textContent: mensaje.plano,
-      }),
-    });
+let transporte: Transporter | null = null;
 
-    if (!respuesta.ok) {
-      console.error("[contacto] Brevo respondió", respuesta.status, await respuesta.text());
-      return false;
-    }
-    return true;
-  } catch (falla) {
-    console.error("[contacto] no se pudo llamar a Brevo", falla);
-    return false;
-  }
+function obtenerTransporte(usuario: string, clave: string) {
+  transporte ??= nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: { user: usuario, pass: clave },
+    pool: true,
+    maxConnections: 1,
+    connectionTimeout: 10_000,
+    greetingTimeout: 10_000,
+    socketTimeout: 10_000,
+  });
+  return transporte;
 }
 
 export async function enviarConsulta(_previo: Estado, form: FormData): Promise<Estado> {
@@ -101,40 +93,49 @@ export async function enviarConsulta(_previo: Estado, form: FormData): Promise<E
      falsea el envío. Se normaliza en vez de rechazar. */
   const necesito = OPCIONES.includes(valores.necesito) ? valores.necesito : OPCIONES[0];
 
-  const clave = process.env.BREVO_API_KEY;
-  if (!clave) {
-    console.error("[contacto] falta BREVO_API_KEY: la consulta no se envió");
+  const usuario = process.env.GMAIL_USUARIO;
+  const clave = process.env.GMAIL_CLAVE_APP;
+  if (!usuario || !clave) {
+    console.error("[contacto] faltan GMAIL_USUARIO o GMAIL_CLAVE_APP: la consulta no se envió");
     return error(UI.form.errorServidor);
   }
 
   const datos: Valores = { ...valores, necesito };
-  const persona = { email: valores.correo, name: valores.nombre };
-  const estudio = { email: SITE.email, name: SITE.nombre };
 
-  /* El aviso al estudio es el que no puede fallar: si no sale, la consulta se
-     perdió y hay que decírselo a quien la escribió. */
-  const salio = await mandar(clave, {
-    a: estudio,
-    responderA: persona,
-    asunto: `[${SITE.nombre}] ${necesito} — ${valores.negocio || valores.nombre}`,
-    html: avisoHtml(datos),
-    plano: avisoTexto(datos),
-  });
+  /* El asunto tiene que servir en una lista de veinte: quién y de qué, sin
+     abrir. El corchete con el nombre del estudio es lo que deja filtrarlos. */
+  const asunto = `[${SITE.nombre}] ${necesito} — ${valores.negocio || valores.nombre}`;
 
-  if (!salio) return error(UI.form.errorServidor);
+  try {
+    await obtenerTransporte(usuario, clave).sendMail({
+      /* El `from` es la dirección publicada y no la casilla de Gmail. Gmail lo
+         respeta porque `hola@kalabs.dev` está verificada como «Enviar como» en
+         esa cuenta; si dejara de estarlo, reescribiría el remitente por el de
+         la cuenta sin avisar. Ahí está el único hilo del que cuelga esto. */
+      from: { name: SITE.nombre, address: SITE.email },
+      to: usuario,
+      /* Lo que hace que el aviso sirva: apretar «responder» en la bandeja le
+         escribe a quien completó el formulario, no a nosotros mismos. */
+      replyTo: { name: valores.nombre, address: valores.correo },
+      subject: asunto,
+      html: avisoHtml(datos),
+      /* La versión plana no es un trámite: es lo que ve quien lee en modo texto
+         y lo que miran los filtros al decidir si esto es legítimo. */
+      text: avisoTexto(datos),
+    });
+  } catch (falla) {
+    /* Este correo es el único rastro que deja una consulta: no hay base de
+       datos ni copia en ningún lado. Si no sale, la consulta se perdió y hay
+       que decirlo en pantalla —`errorServidor` manda a escribir directo a la
+       casilla—, porque nadie del otro lado se va a enterar de otra forma.
 
-  /* El acuse es cortesía: la consulta ya está en la bandeja del estudio. Si
-     Brevo lo rechaza —una casilla que no existe, la cuota del día— queda en el
-     log y no se le muestra un error a alguien cuyo mensaje sí llegó. */
-  const acuse = await mandar(clave, {
-    a: persona,
-    responderA: estudio,
-    asunto: `${CORREO.acuse.asunto} — ${SITE.nombre}`,
-    html: acuseHtml(datos),
-    plano: acuseTexto(datos),
-  });
-
-  if (!acuse) console.error("[contacto] el aviso salió pero el acuse no:", valores.correo);
+       El transporte se descarta: si la conexión del pool quedó envenenada
+       —Gmail cortó la sesión, la clave de aplicación se revocó—, guardarla hace
+       que fallen también todas las consultas que vengan después. */
+    console.error("[contacto] Gmail rechazó el envío", falla);
+    transporte = null;
+    return error(UI.form.errorServidor);
+  }
 
   return { estado: "ok" };
 }

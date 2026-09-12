@@ -39,19 +39,21 @@ https://www.opengraph.xyz
 
 ## Correo
 
-Todas las direcciones caen en la misma bandeja (`kalabsuy@gmail.com`), y todas pueden usarse como remitente desde Gmail.
+Las tres direcciones caen en la misma bandeja (`kalabsuy@gmail.com`), y todas pueden usarse como remitente desde Gmail.
 
 ```
-hola@kalabs.dev      la publicada en el sitio y en el formulario
+hola@kalabs.dev      la publicada en el sitio
 lautaro@kalabs.dev   Lautaro
 matias@kalabs.dev    Matías
-rxman@kalabs.dev     alias interno
-sxsa@kalabs.dev      alias interno
 ```
 
-**Cómo funciona:** entra por Cloudflare Email Routing y reenvía a Gmail. Sale por SMTP de Brevo con el "Enviar como" de Gmail. El dominio está autenticado con SPF, DKIM y DMARC.
+**Cómo funciona:** entra por Cloudflare Email Routing y reenvía a Gmail. Sale por los servidores de Gmail con el "Enviar como", sin servicio de correo de terceros en el medio.
 
 ⚠️ **Un dominio admite un solo registro SPF.** Si alguna vez hay que sumar otro servicio de correo, se **edita** la línea existente. Crear un segundo TXT de SPF invalida los dos y tira todo el correo a spam.
+
+⚠️ **El formulario del sitio ya no manda acuse.** La consulta llega a la bandeja como siempre, pero quien escribe no recibe nada: la confirmación se la da la pantalla y la respuesta la escribimos a mano, dentro de las 24 horas.
+
+⚠️ **No saques `hola@kalabs.dev` de «Enviar como» en Gmail.** El formulario manda con ese remitente, y Gmail sólo lo respeta mientras la dirección siga verificada ahí. Si se borra, los avisos empiezan a llegar como `kalabsuy@gmail.com` sin previo aviso.
 
 ---
 
