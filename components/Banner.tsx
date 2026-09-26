@@ -1,43 +1,73 @@
+import type { CSSProperties } from "react";
 import { UI } from "@/lib/content";
+import BandaDibujo from "./BandaDibujo";
 import s from "./Banner.module.css";
 
 /**
- * La cinta con las tres promesas, cruzando el ancho de la pantalla.
+ * La banda con las tres promesas, cruzando el ancho de la pantalla.
  *
- * Se frena al pasarle el mouse por encima: una cinta que no para no se puede
- * leer, y lo que dice —consulta sin costo, presupuesto cerrado, 24 horas— es
- * justamente lo que alguien quiere terminar de leer.
+ * Antes era una cinta que corría sola en loop. Ahora es una frase quieta: se
+ * lee de un vistazo, sin esperar a que pase lo que uno quería terminar de leer.
  *
- * Las tandas van cuatro veces y sólo la primera la lee un lector de pantalla:
- * las otras son copias para que el bucle no muestre el corte, no contenido
- * nuevo.
+ * Lo único que se mueve lo mueve el scroll: al bajar, las palabras pasan de
+ * apagadas a encendidas una por una. Sin soporte de `animation-timeline` o con
+ * movimiento reducido, la frase queda encendida entera desde el principio.
  *
- * **Cuántas copias**: el bucle salta hacia atrás una copia entera, así que en
- * ese instante las que quedan tienen que seguir tapando la pantalla. Con dos
- * copias quedaba una sola —1148px— y arriba de esa ancho aparecía el hueco: a
- * 1920 se veía casi la mitad de la banda vacía antes del salto. Con cuatro
- * quedan tres, 3444px, que cubre hasta un monitor ultrapanorámico.
+ * Se parte en palabras para que cada una tenga su tramo del recorrido; el
+ * lector de pantalla lee la frase entera desde la etiqueta y no palabra por
+ * palabra.
  *
- * Si algún día cambian las frases, la regla es: `(copias - 1) × ancho de una
- * copia` tiene que ser mayor que la pantalla más ancha que se quiera soportar.
+ * A la derecha, en escritorio, un dibujo que se arma con el mismo scroll:
+ * cada pieza llega a la par de la promesa que ilustra. Es decorado —la frase
+ * ya lo dijo—, por eso va oculto para el lector de pantalla y desaparece
+ * cuando no entra al costado.
  */
 export default function Banner() {
+  const palabras = UI.bandaFrase.flatMap(([texto, marcado], tramo) =>
+    texto
+      .split(/(?<=\s)/)
+      .filter(Boolean)
+      .map((p) => ({ p, marcado, tramo })),
+  );
+  const total = palabras.length;
+  const frase = UI.bandaFrase.map(([t]) => t).join("");
+
+  /* Dónde cae cada promesa dentro de la frase, en palabras: [primera, última+1]. */
+  const promesas = UI.bandaFrase
+    .map(([, marcado], tramo) => ({ marcado, tramo }))
+    .filter((t) => t.marcado)
+    .map(({ tramo }) => {
+      const idx = palabras.flatMap((w, i) => (w.tramo === tramo ? [i] : []));
+      return [idx[0], idx[idx.length - 1] + 1];
+    });
+
+  const [cobra, cierra, horas] = promesas as [number, number][];
+
   return (
     <div className={s.banner}>
-      <div className={s.pista}>
-        {[0, 1, 2, 3].map((tanda) => (
-          <ul
-            key={tanda}
-            className={s.tanda}
-            aria-hidden={tanda > 0 ? "true" : undefined}
-          >
-            {UI.banner.map((frase) => (
-              <li key={frase} className={s.frase}>
-                {frase}
-              </li>
-            ))}
-          </ul>
-        ))}
+      <div className={`${s.grilla} caja`}>
+        <p className={`${s.frase} titular`} aria-label={frase}>
+          {palabras.map(({ p, marcado }, i) => (
+            <span
+              key={i}
+              aria-hidden="true"
+              className={marcado ? `${s.palabra} ${s.marcada}` : s.palabra}
+              style={
+                { "--desde": i, "--hasta": i + 1, "--n": total } as CSSProperties
+              }
+            >
+              {p}
+            </span>
+          ))}
+        </p>
+
+        <BandaDibujo
+          n={total}
+          titulo={[0, cobra[0]]}
+          tarjeta={cobra}
+          lista={cierra}
+          globo={horas}
+        />
       </div>
     </div>
   );

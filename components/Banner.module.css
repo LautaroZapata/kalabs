@@ -2,58 +2,150 @@
    eso corta la página en dos —arriba lo que hacemos, abajo cómo escribirnos—. */
 .banner {
   margin-top: clamp(3rem, 8vh, 6rem);
-  padding: 1rem 0;
+  padding: clamp(3.5rem, 12vh, 7rem) 0;
   background: var(--ink);
   color: var(--papel);
-  overflow: hidden;
+  view-timeline-name: --banda;
 }
 
-.pista {
-  display: flex;
-  width: max-content;
-  animation: corre 30s linear infinite;
+/* La frase manda; el dibujo va al costado sólo cuando hay lugar para los
+   dos. Debajo de ese ancho no se apila: repetiría lo que la frase ya dijo. */
+.grilla {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
 }
 
-.banner:hover .pista { animation-play-state: paused; }
-
-.tanda {
-  display: flex;
-  gap: 3rem;
-  padding-right: 3rem;
+@media (max-width: 1000px) {
+  .grilla { grid-template-columns: 1fr; }
+  .dibujo { display: none; }
 }
 
 .frase {
-  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: clamp(1.9rem, 4.6vw, 3.8rem);
   font-weight: 600;
-  font-variation-settings: "opsz" 24;
-  font-size: 1.05rem;
-  letter-spacing: -0.015em;
-  white-space: nowrap;
+  max-width: 22ch;
 }
 
-.frase::before {
-  content: "◆";
-  margin-right: 1rem;
-  font-size: 0.7rem;
-  vertical-align: middle;
-  color: var(--ember);
+/* El estado final es el de reposo: sin animación, así se ve. */
+.palabra { color: var(--papel); }
+.marcada { color: var(--ember); }
+
+/* ---------- el dibujo ---------- */
+.dibujo {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 560px;
+  justify-self: end;
 }
 
-/* Una copia de las cuatro: -25% de la pista. Al llegar, el fotograma final es
-   idéntico al inicial y el salto no se ve. El porcentaje y la cantidad de
-   copias van atados —cuatro copias, 100/4—: cambiar uno sin el otro es
-   exactamente lo que hacía que la banda se cortara a la mitad. */
-@keyframes corre {
-  to { transform: translateX(-25%); }
+.trazo,
+.trazoBrasa {
+  stroke: var(--ink);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+/* Sin relleno salvo que una clase de color, declarada después, lo pida. */
+.trazo { fill: none; }
+.trazoBrasa { fill: none; stroke: var(--ember); stroke-width: 3.5; }
+
+.tinta { fill: var(--ink); }
+.tinta2 { fill: var(--ink-4); }
+.hueso { fill: var(--bone); }
+.papel { fill: var(--papel); }
+.brasa { fill: var(--ember); }
+.terra { fill: var(--terra); }
+.gris { fill: var(--bone-dim); }
+.piel { fill: #d9a27c; }
+/* Los personajes van sin tinta: sobre la banda oscura el pelo o un pantalón
+   negro desaparecen. Todo lo que pisa el fondo sale de la paleta clara. */
+.pelo { fill: var(--terra); }
+.pelo2 { fill: var(--ember-dim); }
+.pantalon { fill: var(--bone-dim); }
+.pantalon2 { fill: var(--bone); }
+.zapato { fill: var(--papel); }
+.piso {
+  fill: none;
+  stroke: rgba(185, 178, 164, 0.35);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.piel2 { fill: #8d5a3b; }
+
+.brasaOsc { fill: var(--ember-dim); }
+
+/* Brazos en dos tramos: la manga más gruesa, el antebrazo de piel. */
+.brazo,
+.antebrazo {
+  fill: none;
+  stroke-linecap: round;
+}
+.brazo { stroke-width: 13; }
+.antebrazo { stroke-width: 9; }
+.mangaBrasa { stroke: var(--ember); }
+.mangaBrasaOsc { stroke: var(--ember-dim); }
+.mangaTerra { stroke: var(--terra); }
+.mangaTerraOsc { stroke: var(--terra-dim); }
+.pielTrazo { stroke: #d9a27c; }
+.piel2Trazo { stroke: #8d5a3b; }
+
+.globoTexto {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.02em;
+  fill: var(--ink);
 }
 
-/* Sin movimiento la cinta no se puede leer entera: se corta el bucle y queda
-   la primera tanda quieta, que dice lo mismo. */
-@media (prefers-reduced-motion: reduce) {
-  .pista {
-    animation: none;
-    flex-wrap: wrap;
-    width: 100%;
+.pieza { transform-box: fill-box; }
+.tender { transform-origin: left center; }
+.entrar { transform-origin: right bottom; }
+.brotar { transform-origin: 30% 100%; }
+.tildar { stroke-dasharray: 1; }
+
+/* Cada palabra se enciende en su tramo: entre el 15 % y el 50 % del paso de
+   la banda por la pantalla, repartido en partes iguales. `--desde` y
+   `--hasta` se cuentan en palabras de la frase: 
+   cada pieza del dibujo se arma en el tramo
+   de las palabras de su promesa, y termina a la par de ellas. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .palabra { animation: encender linear both; }
+    .tender { animation: tender var(--ease) both; }
+    .entrar { animation: entrar var(--ease) both; }
+    .tildar { animation: tildar linear both; }
+    .brotar { animation: brotar var(--spring) both; }
+
+    /* Después del shorthand: `animation` resetea el timeline y el tramo. */
+    .palabra,
+    .pieza {
+      animation-timeline: --banda;
+      animation-range:
+        cover calc(15% + 35% * var(--desde) / var(--n))
+        cover calc(15% + 35% * var(--hasta) / var(--n));
+    }
   }
-  .tanda { flex-wrap: wrap; }
+}
+
+@keyframes encender {
+  from { color: rgba(247, 242, 231, 0.18); }
+}
+
+@keyframes tender {
+  from { transform: scaleX(0); }
+}
+
+@keyframes entrar {
+  from { transform: translate(40px, 24px) rotate(6deg); opacity: 0; }
+}
+
+@keyframes tildar {
+  from { stroke-dashoffset: 1; }
+}
+
+@keyframes brotar {
+  from { transform: scale(0); opacity: 0; }
 }

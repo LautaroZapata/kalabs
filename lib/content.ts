@@ -241,14 +241,26 @@ export const UI = {
      qué son las tres pestañas antes de leer la primera. */
   serviciosLista: "Servicios",
 
-  /* banner: las tres promesas, en movimiento. Se frena al pasarle el mouse
-     por encima —una cinta que no para no se puede leer—. */
+  /* Las promesas sueltas. Las usa el feed; en el sitio van como frase, en
+     `bandaFrase`. */
   banner: [
     "Primera consulta sin costo",
     "Presupuesto cerrado antes de empezar",
     "Respuesta en 24 horas",
     "Montevideo, Uruguay",
   ],
+
+  /* La banda que parte la página: las mismas promesas, dichas como frase.
+     Cada tramo es [texto, marcado]; lo marcado va en brasa. */
+  bandaFrase: [
+    ["La primera consulta ", false],
+    ["no se cobra", true],
+    [". El presupuesto ", false],
+    ["se cierra antes de empezar", true],
+    [". Y te contestamos ", false],
+    ["en 24 horas", true],
+    [".", false],
+  ] as [string, boolean][],
 
   /* estudio */
   equipoAntetitulo: "Equipo",
