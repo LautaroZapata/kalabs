@@ -3,11 +3,6 @@
   scroll-margin-top: 5rem;
 }
 
-.rotulo {
-  color: var(--terra);
-  margin-bottom: 0.7rem;
-}
-
 .plana {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);

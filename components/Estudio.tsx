@@ -18,8 +18,6 @@ import s from "./Estudio.module.css";
 export default function Estudio() {
   return (
     <section id="estudio" className={s.estudio} aria-labelledby="estudio-t">
-      <p className={`${s.rotulo} et`}>{UI.equipoAntetitulo}</p>
-
       <div className={s.plana}>
         <Reveal>
           <h2 id="estudio-t" className={`${s.titulo} titular`}>

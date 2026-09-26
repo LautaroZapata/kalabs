@@ -62,7 +62,6 @@ export default function Servicios() {
 
   return (
     <section id="servicios" className={s.servicios} aria-labelledby="servicios-t">
-      <p className={`${s.rotulo} et`}>{UI.serviciosAntetitulo}</p>
       <h2 id="servicios-t" className={`${s.titulo} titular`}>
         {UI.serviciosTitulo}
       </h2>
