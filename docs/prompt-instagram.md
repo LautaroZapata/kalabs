@@ -167,38 +167,27 @@ Para cada post te doy: **formato**, **qué imagen usar**, **composición**,
   automatizaciones y sistemas a medida para negocios que necesitan que algo
   funcione mejor. La primera consulta no tiene costo. → kalabs.dev»
 
-### 02 · Ficha de proyecto — ViaGrúa
+### 02 · Ficha de proyecto — cupo
 
 - **Formato:** 1080 × 1350.
-- **Imagen:** `viagrua.png`.
+- **Imagen:** `cupo.webp` (y `cupo-movil.webp` si la pieza muestra el
+  celular).
 - **Composición:** fondo papel. Captura enmarcada arriba, ocupando dos tercios.
   Debajo, el nombre en Bricolage grande y la línea de qué es. Rótulo de rubro en
   versalitas sobre bordo.
 - **Texto en la pieza:**
-  - Rótulo: `PROYECTO · FLOTAS EN TIEMPO REAL`
-  - Titular: `ViaGrúa`
-  - Apoyo: `Choferes, servicios y unidades en una sola vista.`
-- **Caption:** «ViaGrúa: quién está libre y quién está en camino, sin un solo
-  llamado. Toda la flota en una pantalla, actualizada en tiempo real. Mirala
-  andando en via-grua.vercel.app»
+  - Rótulo: `PROYECTO · RESERVAS ONLINE`
+  - Titular: `cupo` (siempre en minúscula: así lo escribe su marca)
+  - Apoyo: `Reservas online para centros de estética y barberías.`
+- **Caption:** «cupo: un enlace en la bio de Instagram con servicios, precios y
+  horarios. El cliente reserva en un minuto, el turno entra a la agenda del
+  centro y el recordatorio sale solo. cupo.uy»
 
-### 03 · Ficha de proyecto — ROG
+### 03 · Ficha de proyecto — Oleo Cáceres
 
 - **Formato:** 1080 × 1350.
-- **Imagen:** `rog.png`.
+- **Imagen:** `oleocaceres.webp` (y `oleocaceres-movil.webp`).
 - **Composición:** igual que la 02, para que se lean como serie.
-- **Texto en la pieza:**
-  - Rótulo: `PROYECTO · FINANZAS PERSONALES`
-  - Titular: `República Oriental de los Gastos`
-  - Apoyo: `Presupuesto, ahorro y flujo del mes en una pantalla.`
-- **Caption:** «ROG — República Oriental de los Gastos. Cuánto entra, cuánto
-  sale y en qué se fue, sin planilla. urugastos.vercel.app»
-
-### 04 · Ficha de proyecto — Oleo Cáceres
-
-- **Formato:** 1080 × 1350.
-- **Imagen:** `oleocaceres.png`.
-- **Composición:** igual que la 02 y la 03.
 - **Texto en la pieza:**
   - Rótulo: `PROYECTO · INSTITUCIONAL INDUSTRIAL`
   - Titular: `Oleohidráulica Cáceres`
@@ -206,6 +195,19 @@ Para cada post te doy: **formato**, **qué imagen usar**, **composición**,
 - **Caption:** «Con ANCAP, UTE y la Armada entre sus clientes, la web tenía que
   estar a esa altura. Qué fabrican, qué reparan y para quién trabajan, en una
   sola página. oleocaceres-web.vercel.app»
+
+### 04 · Ficha de proyecto — ViaGrúa
+
+- **Formato:** 1080 × 1350.
+- **Imagen:** `viagrua.webp` (y `viagrua-movil.webp`).
+- **Composición:** igual que la 02 y la 03.
+- **Texto en la pieza:**
+  - Rótulo: `PROYECTO · FLOTAS EN TIEMPO REAL`
+  - Titular: `ViaGrúa`
+  - Apoyo: `Choferes, servicios y unidades en una sola vista.`
+- **Caption:** «ViaGrúa: quién está libre y quién está en camino, sin un solo
+  llamado. Toda la flota en una pantalla, actualizada en tiempo real. Mirala
+  andando en via-grua.vercel.app»
 
 ### 05 · Servicio — Desarrollo web
 
@@ -361,7 +363,8 @@ Máximo cinco por post, en el primer comentario y no en el caption:
 
 1. Copiar el bloque entre `--- INICIO ---` y `--- FIN ---`.
 2. Adjuntar el isotipo (`app/icon.svg` o `components/Marca.tsx` exportado a
-   PNG) y las capturas de `public/proyectos/`.
-3. Cerrar con: «Generá el post 02 (ViaGrúa) en 1080 × 1350».
+   PNG) y las capturas de `public/proyectos/` (escritorio y `-movil`, en
+   WebP; las rehace `scripts/capturas.mjs`).
+3. Cerrar con: «Generá el post 02 (cupo) en 1080 × 1350».
 4. Los textos salen de `lib/content.ts`. Si cambia el contenido del sitio,
    este archivo se actualiza con él.
