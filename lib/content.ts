@@ -38,44 +38,36 @@ export type Proyecto = {
   href: string;
   /** Dominio que se muestra en la ficha. */
   sitio: string;
-  /** De qué es el proyecto, en tres palabras. Va en la fila del índice. */
+  /** De qué es el proyecto, en tres palabras. Va al pie de la carta. */
   rubro: string;
-  /** Captura real del proyecto, en public/proyectos/. */
+  /** Captura real del proyecto en escritorio, en public/proyectos/. La
+      sacan `scripts/capturas.mjs`, a densidad 2. */
   imagen: string;
+  /** La misma portada en un celular. Es decorativa: el alt va en la otra. */
+  imagenMovil: string;
   /** Qué se ve en la captura, para el alt. */
   imagenAlt: string;
 };
 
 export const PROYECTOS: Proyecto[] = [
+  /* Primero porque es el producto propio del estudio, en producción en su
+     dominio. «cupo» va en minúscula: así lo escribe su marca. */
   {
     num: "01",
-    nombre: "ViaGrúa",
-    pitch: "Flotas de grúas en tiempo real.",
+    nombre: "cupo",
+    pitch: "Reservas online para centros de estética y barberías.",
     detalle:
-      "Choferes, servicios y unidades en una sola vista. Quién está libre y quién está en camino, sin un solo llamado.",
-    href: "https://via-grua.vercel.app",
-    sitio: "via-grua.vercel.app",
-    rubro: "Flotas en tiempo real",
-    imagen: "/proyectos/viagrua.png",
+      "Un enlace en la bio de Instagram con servicios, precios y horarios. El cliente reserva en un minuto, el turno entra a la agenda del centro y el recordatorio sale solo. Cada negocio tiene su dirección propia y sus datos aparte.",
+    href: "https://cupo.uy",
+    sitio: "cupo.uy",
+    rubro: "Reservas online",
+    imagen: "/proyectos/cupo.webp",
+    imagenMovil: "/proyectos/cupo-movil.webp",
     imagenAlt:
-      "Portada de ViaGrúa: el titular «Sabé qué hace cada chofer sin tener que llamarlo» junto al panel de traslados en un celular.",
+      "Portada de cupo: el titular «Tus clientes reservan solos. Y es gratis.» junto a la agenda de próximos turnos de un centro.",
   },
   {
     num: "02",
-    nombre: "ROG",
-    nombreLargo: "República Oriental de los Gastos",
-    pitch: "Finanzas personales.",
-    detalle:
-      "Presupuesto, ahorro y flujo del mes en una pantalla. Y el detalle de en qué se fue.",
-    href: "https://urugastos.vercel.app",
-    sitio: "urugastos.vercel.app",
-    rubro: "Finanzas personales",
-    imagen: "/proyectos/rog.png",
-    imagenAlt:
-      "Portada de República Oriental de los Gastos: el resumen mensual con cuentas, presupuesto y ahorro.",
-  },
-  {
-    num: "03",
     nombre: "Oleo Cáceres",
     nombreLargo: "Oleohidráulica Cáceres",
     pitch: "Sitio institucional industrial.",
@@ -84,9 +76,24 @@ export const PROYECTOS: Proyecto[] = [
     href: "https://oleocaceres-web.vercel.app",
     sitio: "oleocaceres-web.vercel.app",
     rubro: "ANCAP · UTE · Armada",
-    imagen: "/proyectos/oleocaceres.png",
+    imagen: "/proyectos/oleocaceres.webp",
+    imagenMovil: "/proyectos/oleocaceres-movil.webp",
     imagenAlt:
       "Portada de Oleohidráulica Cáceres: el nombre de la empresa a gran tamaño y la fila de logos de los clientes con los que trabaja.",
+  },
+  {
+    num: "03",
+    nombre: "ViaGrúa",
+    pitch: "Flotas de grúas en tiempo real.",
+    detalle:
+      "Choferes, servicios y unidades en una sola vista. Quién está libre y quién está en camino, sin un solo llamado.",
+    href: "https://via-grua.vercel.app",
+    sitio: "via-grua.vercel.app",
+    rubro: "Flotas en tiempo real",
+    imagen: "/proyectos/viagrua.webp",
+    imagenMovil: "/proyectos/viagrua-movil.webp",
+    imagenAlt:
+      "Portada de ViaGrúa: el titular «Sabé qué hace cada chofer sin tener que llamarlo» junto al panel de traslados en un celular.",
   },
 ];
 
@@ -223,13 +230,6 @@ export const UI = {
   portadaNotaFuerte: "La primera consulta no tiene costo.",
 
   /* obra */
-  obraRotulo: "Proyectos",
-  obraAnterior: "Proyecto anterior",
-  obraSiguiente: "Proyecto siguiente",
-  obraPausar: "Pausar el pase de proyectos",
-  obraSeguir: "Seguir con el pase de proyectos",
-  obraIr: (nombre: string) => `Ver ${nombre}`,
-  proyectosVer: "Ver el sitio",
   proyectosCierreTitulo: "Tu proyecto acá",
   proyectosCierreAccion: "Escribinos",
 

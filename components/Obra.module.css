@@ -1,250 +1,371 @@
 .obra { padding-top: 1rem; }
 
-/* ---------- la escena ----------
-   Va a sangre dentro de la caja: el plano de brasa toca los dos márgenes y
-   se corta con la curva de la casa. */
-.escena {
-  position: relative;
-  isolation: isolate;
+/* ---------- la pila ----------
+   Las medidas viven acá como variables porque las usan dos cosas: la
+   maquetación de la pila y los rangos de la animación, que tienen que saber
+   exactamente en qué punto del scroll una carta empieza a tapar a la otra. */
+.pila {
+  --alto: max(500px, min(80svh, 700px));
+  /* El hueco entre cartas es el tiempo que cada una se queda sola en
+     pantalla antes de que llegue la siguiente: más hueco, más lectura. */
+  --hueco: clamp(5rem, 24svh, 13rem);
+  /* Dónde se pega la primera, debajo de la barra, y cuánto más abajo cada
+     una de las que siguen: el canto de las de abajo asoma arriba. */
+  --tope: 5.4rem;
+  --paso: 0.9rem;
+
   display: grid;
-  place-items: center;
-  min-height: clamp(360px, 70svh, 720px);
-  padding: clamp(1.4rem, 5vw, 3.6rem);
-  border-radius: var(--r);
-  background: var(--ember);
-  overflow: hidden;
+  gap: var(--hueco);
+  view-timeline: --pila block;
+  /* Sin esto el rango toma el `scroll-padding` del documento (5rem, por la
+     barra) y todas las cuentas de abajo quedan corridas. */
+  view-timeline-inset: 0;
 }
 
-/* El isotipo a tamaño de mural, en tinta, saliendo por la esquina de abajo a
-   la derecha y derivando despacio.
+/* Un hueco más al final, para que la pila completa se quede quieta un momento
+   antes de irse entera. Es un elemento vacío y no un `padding`: una carta
+   pegada sólo puede llegar hasta el borde del contenido de la lista, y el
+   relleno no cuenta. Mide cero; el hueco lo pone el `gap`. */
+.pila::after { content: ""; }
 
-   Centrado y más grande no funcionaba: la captura le tapa el centro y lo que
-   asoma arriba y abajo son cuatro puntas negras que no se leen como nada. En
-   la esquina se ve el trazo entero —el brazo largo y el remate—, que es lo
-   único que hace falta para reconocerlo. */
-.trazo {
-  position: absolute;
-  z-index: 0;
-  right: -6%;
-  bottom: -14%;
-  width: auto;
-  height: 78%;
-  color: var(--ink);
-  pointer-events: none;
-  animation: deriva 28s ease-in-out infinite alternate;
+.lugar {
+  position: sticky;
+  top: calc(var(--tope) + var(--i) * var(--paso));
+  view-timeline: --carta block;
+  view-timeline-inset: 0;
 }
 
-@keyframes deriva {
-  from { transform: translate3d(-2.5%, 0, 0); }
-  to { transform: translate3d(2.5%, -1.5%, 0); }
-}
-
-.marco {
+/* ---------- la carta ---------- */
+.carta {
   position: relative;
-  z-index: 1;
-  width: min(900px, 100%);
-  aspect-ratio: 16 / 10;
-  border-radius: 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  height: var(--alto);
+  border-radius: var(--r);
   overflow: hidden;
-  background: var(--ink);
-  box-shadow: 0 30px 80px -34px rgba(15, 18, 20, 0.6);
+  transform-origin: 50% 0;
+  isolation: isolate;
+  /* La sombra va hacia arriba: es la que separa una carta de la que tapa. */
+  box-shadow:
+    0 -1px 0 rgba(255, 255, 255, 0.06),
+    0 -24px 50px -34px rgba(15, 18, 20, 0.55);
 }
 
-.diapo {
+/* Cada tono lleva una luz apenas más clara arriba a la derecha, donde está
+   la captura: le da al plano una curvatura que el color pleno no tiene. */
+.carta[data-tono="brasa"] {
+  color: var(--ink);
+  background: radial-gradient(110% 85% at 88% 0%, #ff8743 0%, var(--ember) 58%);
+}
+.carta[data-tono="tinta"] {
+  color: var(--papel);
+  background: radial-gradient(110% 85% at 88% 0%, #232a2e 0%, var(--ink) 62%);
+}
+.carta[data-tono="hueso"] {
+  color: var(--ink);
+  background: radial-gradient(110% 85% at 88% 0%, #f8f1e2 0%, var(--bone) 60%);
+}
+
+/* El apagado de la carta que queda debajo. Una capa con opacidad y no un
+   `filter`: filtrar una carta entera con dos capturas en cada cuadro de
+   scroll es caro, y la opacidad va por el compositor. */
+.sombra {
   position: absolute;
   inset: 0;
-  opacity: 0;
-  transition: opacity 0.9s var(--ease);
-}
-
-.diapo[data-activa="true"] { opacity: 1; }
-
-.captura { object-fit: cover; object-position: top center; }
-
-.pie {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1.4rem 1rem 0.85rem;
-  color: var(--papel);
-  background: linear-gradient(transparent, rgba(15, 18, 20, 0.9));
-}
-
-.pieNombre {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 700;
-  font-size: 1.05rem;
-  letter-spacing: -0.02em;
-}
-
-.pieSitio { opacity: 0.8; }
-
-.mando {
-  position: absolute;
-  z-index: 2;
-  left: clamp(1rem, 3vw, 2rem);
-  bottom: clamp(1rem, 3vw, 2rem);
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-}
-
-.boton {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 999px;
-  background: var(--papel);
-  color: var(--ink);
-  font-size: 0.8rem;
-  transition: transform 0.35s var(--spring);
-}
-
-.boton:hover { transform: scale(1.1); }
-
-.puntos { display: flex; gap: 0.4rem; }
-
-.punto {
-  width: 8px;
-  height: 8px;
-  padding: 0;
-  border-radius: 999px;
-  background: rgba(15, 18, 20, 0.32);
-  transition:
-    background 0.3s var(--ease),
-    transform 0.3s var(--spring);
-}
-
-.punto[data-activo="true"] {
+  z-index: 3;
   background: var(--ink);
-  transform: scale(1.35);
+  opacity: var(--apagado, 0);
+  pointer-events: none;
 }
 
-/* Con el dedo, ocho pixeles no son un blanco: el punto crece a 44 sin cambiar
-   de tamaño a la vista, con un pseudoelemento transparente alrededor. */
-@media (pointer: coarse) {
-  .punto { position: relative; }
-  .punto::after {
-    content: "";
-    position: absolute;
-    inset: -18px;
-  }
-}
-
-/* En el celular la captura es de un sitio de escritorio: un marco vertical la
-   recorta hasta que no se entiende. Marco apaisado, anclada arriba a la
-   izquierda —donde está el titular de cada proyecto— y sin el dominio, que
-   ocupa media captura para decir lo que ya dice el enlace. */
-@media (max-width: 640px) {
-  /* Y el plano se achica con ella: el alto de escritorio dejaba media pantalla
-     de brasa vacía debajo de una captura chica. */
-  .escena { min-height: clamp(320px, 54svh, 520px); }
-  /* El trazo baja de tamaño con el plano, si no le come el aire a la captura. */
-  .trazo {
-    height: 58%;
-    right: -14%;
-    bottom: -10%;
-  }
-  .marco { aspect-ratio: 4 / 3; }
-  .captura { object-position: top left; }
-  .pieSitio { display: none; }
-}
-
-/* ---------- el índice ---------- */
-.indice { padding-top: clamp(3rem, 8vh, 5rem); }
-
-.rotulo {
-  color: var(--terra);
-  margin-bottom: 0.9rem;
-}
-
-.lista { border-top: 2px solid var(--ink); }
-
-.fila {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.5rem 1.6rem;
-  padding: 1.25rem 0.2rem;
-  border-bottom: var(--linea);
-  transition:
-    padding-left 0.45s var(--ease),
-    color 0.3s var(--ease);
-}
-
-.fila:hover {
-  padding-left: 1.1rem;
-  color: var(--terra);
-}
-
-.num {
-  font-size: 0.8rem;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  opacity: 0.45;
+/* ---------- el texto ---------- */
+.texto {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: clamp(1.6rem, 3.4vw, 3rem);
 }
 
 .nombre {
-  font-size: clamp(1.35rem, 3.8vw, 2.6rem);
-  line-height: 1;
+  font-size: clamp(2.4rem, 5.2vw, 4.6rem);
+  line-height: 0.96;
 }
 
-/* Lo que era una pastilla «En producción» más el rubro quedó en el rubro solo:
-   los tres proyectos estaban en producción, así que la etiqueta no distinguía
-   nada —repetía en cada fila lo que el rótulo de la sección ya decía—. */
-.meta {
-  justify-self: end;
-  opacity: 0.75;
+.pitch {
+  font-size: clamp(1.15rem, 1.7vw, 1.45rem);
+  line-height: 1.2;
 }
 
-/* Angosto: el nombre manda y el rubro baja debajo, alineado con él. */
-@media (max-width: 700px) {
-  .fila { grid-template-columns: auto minmax(0, 1fr); }
-  .meta {
-    grid-column: 2;
-    justify-self: start;
+.carta[data-tono="hueso"] .pitch { color: var(--terra); }
+.carta[data-tono="tinta"] .pitch { color: var(--ember); }
+
+.detalle { opacity: 0.82; }
+
+.pie {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem 1.2rem;
+}
+
+.rubro { opacity: 0.7; }
+
+.num {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.55;
+}
+
+/* Sobre tinta la pastilla heredaría el color de papel de la carta: se le
+   devuelve la tinta, y al pasar el mouse se prende en brasa en vez de
+   fundirse con el fondo. */
+.carta[data-tono="tinta"] .enlace {
+  color: var(--ink);
+  border-color: transparent;
+}
+.carta[data-tono="tinta"] .enlace:hover {
+  background: var(--ember);
+  color: var(--ink);
+}
+
+/* ---------- la escena: escritorio atrás, celular adelante ---------- */
+.escena {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+/* La ventana sale por el borde derecho de la carta: un sitio de escritorio
+   no entra entero en media carta, y cortado contra el borde se lee como algo
+   que sigue, no como una miniatura. */
+.ventana {
+  position: absolute;
+  top: clamp(2rem, 4.4vw, 3.4rem);
+  left: 7%;
+  width: 104%;
+  /* Apenas más apaisada que la captura (16:10): recorta abajo la franja donde
+     empieza la sección siguiente de cada sitio, que asomaba como un filete
+     claro sin explicación. */
+  aspect-ratio: 16 / 9.1;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--ink-2);
+  border: 1px solid rgba(15, 18, 20, 0.12);
+  box-shadow:
+    0 1px 2px rgba(15, 18, 20, 0.08),
+    0 10px 24px -8px rgba(15, 18, 20, 0.22),
+    0 44px 90px -36px rgba(15, 18, 20, 0.55);
+  transition: transform 0.8s var(--ease);
+}
+
+.carta[data-tono="tinta"] .ventana { border-color: rgba(247, 242, 231, 0.12); }
+
+/* El celular: la pantalla con un canto oscuro y nada más. Sin muesca ni
+   botones dibujados: un teléfono de utilería distrae de lo que muestra.
+   Va a la derecha, sobre la parte de la ventana que igual se corta contra el
+   borde: a la izquierda tapaba el titular y los botones de cada sitio. */
+.telefono {
+  position: absolute;
+  right: clamp(1.5rem, 4.5vw, 4rem);
+  bottom: clamp(-5rem, -5vw, -2.5rem);
+  width: clamp(150px, 26%, 236px);
+  aspect-ratio: 390 / 800;
+  border: 6px solid #111517;
+  border-radius: 32px;
+  overflow: hidden;
+  background: #111517;
+  box-shadow:
+    0 0 0 1px rgba(247, 242, 231, 0.1),
+    0 2px 6px rgba(15, 18, 20, 0.18),
+    0 36px 70px -24px rgba(15, 18, 20, 0.65);
+  transition: transform 0.8s var(--ease);
+}
+
+.img {
+  object-fit: cover;
+  object-position: top left;
+}
+
+/* Al pasar el mouse las dos se levantan, el celular el doble: el mismo
+   paralaje de la entrada, chiquito. Es `transform` y no `translate` para
+   sumarse al movimiento del scroll en vez de pisarlo. */
+@media (hover: hover) {
+  .escena:hover .ventana { transform: translateY(-6px); }
+  .escena:hover .telefono { transform: translateY(-14px); }
+}
+
+/* ---------- el cierre ---------- */
+.cierre {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding: clamp(1.6rem, 4vw, 2.6rem) 0;
+  border-top: 2px solid var(--ink);
+  border-bottom: var(--linea);
+}
+
+.cierreTitulo {
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  transition: color 0.3s var(--ease);
+}
+
+.cierre:hover .cierreTitulo { color: var(--terra); }
+
+/* ==========================================================================
+   MOVIMIENTO ATADO AL SCROLL
+   ========================================================================== */
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* --- el hundimiento ---
+       La carta i empieza a hundirse cuando la siguiente le toca el borde de
+       abajo y termina cuando la siguiente llega a su lugar. Con la pila
+       arrancando arriba de la pantalla (exit-crossing 0), la siguiente está
+       en (i+1)·(alto+hueco) y se pega en tope+(i+1)·paso; de ahí salen los
+       dos extremos. Las más viejas se achican más: de frente, la pila se lee
+       como un mazo. */
+    .carta,
+    .sombra {
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: --pila;
+      animation-range-start: exit-crossing
+        calc(
+          (var(--i) + 1) * (var(--alto) + var(--hueco)) - var(--tope) -
+            var(--i) * var(--paso) - var(--alto)
+        );
+      animation-range-end: exit-crossing
+        calc(
+          (var(--i) + 1) * (var(--alto) + var(--hueco)) - var(--tope) -
+            (var(--i) + 1) * var(--paso)
+        );
+    }
+    .carta { animation-name: hunde; }
+    .sombra { animation-name: apaga; }
+
+    .lugar:last-child .carta,
+    .lugar:last-child .sombra { animation: none; }
+
+    @keyframes hunde {
+      to { scale: calc(1 - (var(--total) - var(--i)) * 0.035); }
+    }
+    @keyframes apaga {
+      to { opacity: 0.45; }
+    }
+
+    /* --- la entrada ---
+       Mientras la carta sube desde abajo, la escena llega a dos velocidades
+       y el texto aparece un poco después que el plano. Todo termina antes de
+       que la carta se pegue: quieta, la carta está entera. */
+    .ventana,
+    .telefono,
+    .nombre,
+    .pitch,
+    .detalle,
+    .pie {
+      animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+      animation-fill-mode: both;
+      animation-timeline: --carta;
+    }
+
+    .ventana {
+      animation-name: sube-lento;
+      animation-range: entry 0% entry 100%;
+    }
+    .telefono {
+      animation-name: sube-rapido;
+      animation-range: entry 10% entry 100%;
+    }
+    .nombre,
+    .pitch {
+      animation-name: asoma;
+      animation-range: entry 15% entry 65%;
+    }
+    .pitch { animation-range: entry 22% entry 72%; }
+    .detalle,
+    .pie {
+      animation-name: aparece;
+      animation-range: entry 35% entry 85%;
+    }
+
+    @keyframes sube-lento {
+      from { translate: 0 22%; scale: 1.03; }
+      to { translate: 0 0; scale: 1; }
+    }
+    @keyframes sube-rapido {
+      from { translate: 0 60%; }
+      to { translate: 0 0; }
+    }
+    @keyframes asoma {
+      from { translate: 0 0.6em; opacity: 0; }
+      to { translate: 0 0; opacity: 1; }
+    }
+    @keyframes aparece {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
   }
 }
 
-/* ---------- el espía ---------- */
-.espia {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 600;
-  width: 280px;
-  aspect-ratio: 16 / 11;
-  margin: -0.5px 0 0 -140px; /* centra el recuadro en el cursor */
-  border-radius: 16px;
-  overflow: hidden;
-  pointer-events: none;
-  opacity: 0;
-  transform: translateY(-50%) scale(0.94);
-  transition:
-    opacity 0.3s var(--ease),
-    transform 0.4s var(--spring);
-  box-shadow: 0 22px 55px -22px rgba(15, 18, 20, 0.55);
+/* El reset global de movimiento reducido acorta duraciones, y una animación
+   atada al scroll no tiene duración que acortar: se apagan a mano. */
+@media (prefers-reduced-motion: reduce) {
+  .carta,
+  .sombra,
+  .ventana,
+  .telefono,
+  .nombre,
+  .pitch,
+  .detalle,
+  .pie { animation: none; }
 }
 
-.espia[data-visible="true"] {
-  opacity: 1;
-  transform: translateY(-50%) scale(1);
+/* ==========================================================================
+   ANGOSTO: el texto arriba, la escena abajo
+   ========================================================================== */
+@media (max-width: 860px) {
+  .pila {
+    --alto: max(540px, min(84svh, 760px));
+    --hueco: clamp(4rem, 18svh, 9rem);
+    --tope: 4.6rem;
+    --paso: 0.6rem;
+  }
+  .carta {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+  .texto { gap: 0.7rem; }
+  /* En el celular la carta no da para el detalle: queda el nombre, la frase
+     y el enlace. El detalle sigue en el sitio de cada proyecto. */
+  .detalle { display: none; }
+  .pie { margin-top: 0.4rem; }
+  .ventana {
+    top: 0.6rem;
+    left: 26%;
+    width: 112%;
+    border-radius: 10px;
+  }
+  .telefono {
+    right: clamp(1rem, 5vw, 1.6rem);
+    bottom: -2.2rem;
+    width: min(44%, 210px);
+    border-width: 5px;
+    border-radius: 26px;
+  }
 }
 
-.espiaImg {
-  object-fit: cover;
-  object-position: top center;
-  opacity: 0;
-}
-
-.espiaImg[data-activa="true"] { opacity: 1; }
-
-@media (pointer: coarse) {
-  .espia { display: none; }
+/* Pantallas bajas —un celular acostado—: una carta pegada que no entra se
+   come el contenido. Ahí la pila se desarma en una lista. */
+@media (max-height: 560px) {
+  .lugar { position: static; }
+  .carta { height: auto; min-height: 480px; }
+  .carta,
+  .sombra { animation: none; }
 }
