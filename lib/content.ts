@@ -55,16 +55,16 @@ export const PROYECTOS: Proyecto[] = [
   {
     num: "01",
     nombre: "cupo",
-    pitch: "Reservas online para centros de estética y barberías.",
+    pitch: "Reservas online para cualquier negocio con turnos.",
     detalle:
-      "Un enlace en la bio de Instagram con servicios, precios y horarios. El cliente reserva en un minuto, el turno entra a la agenda del centro y el recordatorio sale solo. Cada negocio tiene su dirección propia y sus datos aparte.",
+      "Barberías, consultorios, canchas y clases. El cliente elige el horario y confirma en un minuto desde el celular; la reserva entra a la agenda del negocio y el recordatorio sale solo. Sin comisión por reserva, y los datos de los clientes son del negocio.",
     href: "https://cupo.uy",
     sitio: "cupo.uy",
     rubro: "Reservas online",
     imagen: "/proyectos/cupo.webp",
     imagenMovil: "/proyectos/cupo-movil.webp",
     imagenAlt:
-      "Portada de cupo: el titular «Tus clientes reservan solos. Y es gratis.» junto a la agenda de próximos turnos de un centro.",
+      "Portada de cupo: el titular «Buscamos 10 negocios para usar Cupo gratis, para siempre.» junto a las reservas del día de una barbería, una cancha de pádel y un estudio de yoga.",
   },
   {
     num: "02",

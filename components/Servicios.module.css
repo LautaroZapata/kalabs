@@ -32,12 +32,10 @@
   display: block;
   width: 100%;
   text-align: left;
-  font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 600;
-  font-variation-settings: "opsz" 96;
   font-size: clamp(1.6rem, 3.6vw, 3rem);
   line-height: 1.04;
-  letter-spacing: -0.035em;
+  letter-spacing: -0.03em;
   padding: 0.75rem 0;
   border-bottom: 1px solid rgba(247, 242, 231, 0.14);
   color: var(--bone-dim);

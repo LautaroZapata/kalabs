@@ -27,10 +27,10 @@ const ISO =
  * declaran. Satori sólo lee TTF/OTF/WOFF, así que se pide la hoja con un
  * User-Agent viejo para que conteste con el TTF.
  */
-async function bricolage(peso: 600 | 800): Promise<ArrayBuffer | null> {
+async function hanken(peso: 600 | 800): Promise<ArrayBuffer | null> {
   try {
     const css = await fetch(
-      `https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@96,${peso}`,
+      `https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@${peso}`,
       { headers: { "User-Agent": "Mozilla/4.0" } },
     ).then((r) => r.text());
     const url = css.match(/src:\s*url\((https:[^)]+)\)/)?.[1];
@@ -44,9 +44,9 @@ async function bricolage(peso: 600 | 800): Promise<ArrayBuffer | null> {
 }
 
 export default async function Imagen() {
-  const [media, negra] = await Promise.all([bricolage(600), bricolage(800)]);
+  const [media, negra] = await Promise.all([hanken(600), hanken(800)]);
   const hayFuente = Boolean(media && negra);
-  const familia = hayFuente ? "Bricolage" : "sans-serif";
+  const familia = hayFuente ? "Hanken" : "sans-serif";
 
   /* La misma pregunta que abre el sitio: si alguien ve la tarjeta en un chat,
      lo primero que lee es lo mismo que va a leer al entrar. */
@@ -107,7 +107,7 @@ export default async function Imagen() {
             fontSize: 104,
             fontWeight: 800,
             lineHeight: 1.04,
-            letterSpacing: "-0.04em",
+            letterSpacing: "-0.03em",
             maxWidth: 900,
           }}
         >
@@ -147,13 +147,13 @@ export default async function Imagen() {
       fonts: hayFuente
         ? [
             {
-              name: "Bricolage",
+              name: "Hanken",
               data: media as ArrayBuffer,
               weight: 600 as const,
               style: "normal" as const,
             },
             {
-              name: "Bricolage",
+              name: "Hanken",
               data: negra as ArrayBuffer,
               weight: 800 as const,
               style: "normal" as const,

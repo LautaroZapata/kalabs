@@ -178,10 +178,10 @@ Para cada post te doy: **formato**, **qué imagen usar**, **composición**,
 - **Texto en la pieza:**
   - Rótulo: `PROYECTO · RESERVAS ONLINE`
   - Titular: `cupo` (siempre en minúscula: así lo escribe su marca)
-  - Apoyo: `Reservas online para centros de estética y barberías.`
-- **Caption:** «cupo: un enlace en la bio de Instagram con servicios, precios y
-  horarios. El cliente reserva en un minuto, el turno entra a la agenda del
-  centro y el recordatorio sale solo. cupo.uy»
+  - Apoyo: `Reservas online para cualquier negocio con turnos.`
+- **Caption:** «cupo: reservas online para barberías, consultorios, canchas
+  y clases. El cliente confirma en un minuto desde el celular, la reserva entra
+  a la agenda del negocio y el recordatorio sale solo. cupo.uy»
 
 ### 03 · Ficha de proyecto — Oleo Cáceres
 

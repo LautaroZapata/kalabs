@@ -93,7 +93,6 @@
 .piel2Trazo { stroke: #8d5a3b; }
 
 .globoTexto {
-  font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 700;
   font-size: 17px;
   letter-spacing: -0.02em;

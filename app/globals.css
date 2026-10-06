@@ -39,6 +39,9 @@
   --r: 24px;          /* la curva de la casa: bloques, escena, pie */
   --r-chico: 12px;    /* campos del formulario */
   --ancho: 1440px;    /* la caja */
+  /* El alto de la barra pegajosa. Lo fija la barra y lo descuenta la portada,
+     que ocupa el resto de la primera pantalla. */
+  --barra: 4.25rem;
 
   --linea: 1px solid rgba(15, 18, 20, 0.18);
 
@@ -110,14 +113,13 @@ input, textarea, select {
    TIPOGRAFÍA
    ========================================================================== */
 
-/* Titulares. Bricolage al máximo de su eje óptico: a este cuerpo cierra el
-   espaciado y afina las curvas. El tracking negativo lo acompaña. */
+/* Titulares. La misma Hanken del cuerpo y de la barra, en peso alto: una sola
+   familia, recta y formal. Antes iba Bricolage, una grotesca de curvas
+   caprichosas que se leía más jugada que el resto del sitio. */
 .titular {
-  font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 700;
-  font-variation-settings: "opsz" 96;
-  line-height: 1.02;
-  letter-spacing: -0.035em;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
   text-wrap: balance;
   /* Red de contención: una palabra que no entra en la columna se parte antes
      que sobresalir. `break-word` y no `anywhere` —parte sólo cuando no queda
