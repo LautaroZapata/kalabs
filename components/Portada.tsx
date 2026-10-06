@@ -115,7 +115,7 @@ export default function Portada() {
 
   return (
     <section id="portada" className={s.portada} aria-label="Portada">
-      <h1 className={`${s.pregunta} titular`}>
+      <h1 className={`${s.pregunta} titular acento`}>
         {antes}
         <b>{medio}</b>
         {despues}

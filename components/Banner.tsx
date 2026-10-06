@@ -46,7 +46,7 @@ export default function Banner() {
   return (
     <div className={s.banner}>
       <div className={`${s.grilla} caja`}>
-        <p className={`${s.frase} titular`} aria-label={frase}>
+        <p className={`${s.frase} titular acento`} aria-label={frase}>
           {palabras.map(({ p, marcado }, i) => (
             <span
               key={i}

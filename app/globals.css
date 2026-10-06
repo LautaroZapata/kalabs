@@ -113,9 +113,8 @@ input, textarea, select {
    TIPOGRAFÍA
    ========================================================================== */
 
-/* Titulares. La misma Hanken del cuerpo y de la barra, en peso alto: una sola
-   familia, recta y formal. Antes iba Bricolage, una grotesca de curvas
-   caprichosas que se leía más jugada que el resto del sitio. */
+/* Titulares. La misma Hanken del cuerpo y de la barra, en peso alto: recta y
+   formal. Los pocos que llevan Bricolage suman `.acento`. */
 .titular {
   font-weight: 700;
   line-height: 1.04;
@@ -125,6 +124,16 @@ input, textarea, select {
      que sobresalir. `break-word` y no `anywhere` —parte sólo cuando no queda
      otra, no en cuanto conviene—. */
   overflow-wrap: break-word;
+}
+
+/* El acento: Bricolage al máximo de su eje óptico, que a este cuerpo cierra el
+   espaciado y afina las curvas. Va sólo en los momentos de voz alta —la
+   pregunta de la portada, los nombres de los proyectos, la frase del banner—;
+   si aparece en todos lados deja de ser acento y vuelve a mandar ella. */
+.acento {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-variation-settings: "opsz" 96;
+  letter-spacing: -0.035em;
 }
 
 /* Titular secundario: mismo idioma, un punto menos de peso. */

@@ -93,7 +93,7 @@ export default function Obra() {
               data-tono={TONOS[i % TONOS.length]}
             >
               <div className={s.texto}>
-                <h3 className={`${s.nombre} titular`}>
+                <h3 className={`${s.nombre} titular acento`}>
                   {p.nombreLargo ?? p.nombre}
                 </h3>
                 <p className={`${s.pitch} titular titular--sec`}>{p.pitch}</p>
@@ -160,7 +160,7 @@ export default function Obra() {
       </ol>
 
       <a className={s.cierre} href="#contacto">
-        <span className={`${s.cierreTitulo} titular`}>
+        <span className={`${s.cierreTitulo} titular acento`}>
           {UI.proyectosCierreTitulo}
         </span>
         <span className="pastilla pastilla--brasa">

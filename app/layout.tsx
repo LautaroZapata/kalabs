@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { body } from "./fonts";
+import { display, body } from "./fonts";
 import { SITE } from "@/lib/content";
 import "./globals.css";
 
@@ -49,7 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="es-UY"
-      className={body.variable}
+      className={`${display.variable} ${body.variable}`}
     >
       <body>
         <a className="skip" href="#contenido">
