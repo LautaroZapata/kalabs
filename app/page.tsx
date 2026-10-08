@@ -6,7 +6,7 @@ import Obra from "@/components/Obra";
 import Pie from "@/components/Pie";
 import Portada from "@/components/Portada";
 import Servicios from "@/components/Servicios";
-import { EQUIPO, PROYECTOS, SERVICIOS, SITE } from "@/lib/content";
+import { ENLACES, EQUIPO, PROYECTOS, SERVICIOS, SITE } from "@/lib/content";
 
 /**
  * Datos estructurados: que Google entienda que esto es un estudio de
@@ -19,14 +19,22 @@ import { EQUIPO, PROYECTOS, SERVICIOS, SITE } from "@/lib/content";
  * `ProfessionalService` en lugar de `LocalBusiness` a secas: no hay local a la
  * calle ni horario de atención, así que se declara la ciudad y el área de
  * trabajo en vez de inventar una dirección.
+ *
+ * El `WebSite` de al lado es lo que Google lee para el nombre que pone arriba
+ * del resultado: sin él, a un dominio nuevo le inventa uno a partir del título.
  */
-const jsonLd = {
-  "@context": "https://schema.org",
+const negocio = {
   "@type": "ProfessionalService",
+  "@id": `${SITE.url}/#estudio`,
   name: SITE.nombre,
-  description: SITE.descripcion,
+  description: SITE.resumenBuscador,
   url: SITE.url,
   email: SITE.email,
+  logo: `${SITE.url}/icon.svg`,
+  image: `${SITE.url}/opengraph-image`,
+  /* Los perfiles del estudio, salvo el correo, que ya va en `email`. Es lo
+     que ata la cuenta de Instagram al sitio en el panel de conocimiento. */
+  sameAs: ENLACES.filter((e) => e.href.startsWith("https://")).map((e) => e.href),
   address: {
     "@type": "PostalAddress",
     addressLocality: SITE.ciudad,
@@ -53,6 +61,21 @@ const jsonLd = {
     url: p.href,
     applicationCategory: "BusinessApplication",
   })),
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${SITE.url}/#sitio`,
+      name: SITE.nombre,
+      url: SITE.url,
+      inLanguage: "es-UY",
+      publisher: { "@id": negocio["@id"] },
+    },
+    negocio,
+  ],
 };
 
 export default function Page() {

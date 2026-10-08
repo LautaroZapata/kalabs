@@ -6,6 +6,14 @@ export const SITE = {
   email: "hola@kalabs.dev",
   descripcion:
     "Estudio digital de Montevideo. Desarrollo web, automatizaciones y sistemas a medida.",
+  /* Lo que muestra Google: el título y el resumen del resultado. Van aparte de
+     `tagline` y `descripcion` porque esos los usa la imagen social, donde
+     entran a 104px y a 720px de ancho, y acá lo que manda es nombrar lo que
+     alguien escribe en el buscador —el oficio y la ciudad— dentro de los ~60
+     y ~155 caracteres que Google muestra sin cortar. */
+  tituloBuscador: "Kalabs — Desarrollo web y automatizaciones en Montevideo",
+  resumenBuscador:
+    "Estudio digital en Montevideo, Uruguay. Hacemos sitios web, bots de WhatsApp, automatizaciones y sistemas a medida para negocios. Primera consulta sin costo.",
   /* Con www: es el dominio que Vercel tiene como principal y al que redirige
      el apex. La canónica, el sitemap y la imagen OG tienen que nombrar el host
      que efectivamente sirve, no el que rebota. */

@@ -6,10 +6,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
-    default: `${SITE.nombre} — ${SITE.tagline}`,
+    default: SITE.tituloBuscador,
     template: `%s · ${SITE.nombre}`,
   },
-  description: SITE.descripcion,
+  description: SITE.resumenBuscador,
   alternates: { canonical: "/" },
   keywords: [
     "desarrollo web Uruguay",
@@ -25,13 +25,13 @@ export const metadata: Metadata = {
     locale: "es_UY",
     url: SITE.url,
     siteName: SITE.nombre,
-    title: `${SITE.nombre} — ${SITE.tagline}`,
-    description: SITE.descripcion,
+    title: SITE.tituloBuscador,
+    description: SITE.resumenBuscador,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${SITE.nombre} — ${SITE.tagline}`,
-    description: SITE.descripcion,
+    title: SITE.tituloBuscador,
+    description: SITE.resumenBuscador,
   },
 };
 
