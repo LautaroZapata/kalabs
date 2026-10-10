@@ -67,6 +67,16 @@ librería entera.
 | **Skiper UI** | — (registro `skiper-ui.com`) | Componentes poco comunes sobre shadcn: card swipers, efectos de scroll (sus marquees quedan fuera: ver excluyentes). 24 gratis, el resto pago. | Cuando el eje pide un gesto raro que Magic UI no tiene. Verificar que el componente sea de los gratis. |
 | **unlumen UI** | — (registro `ui.unlumen.com`) | 132 componentes cuya premisa es movimiento que responde a la página, no a un temporizador: scroll reveal, count-up, scramble text, matriz de LEDs. | Cuando el scroll tiene que sentirse vivo sin montar GSAP. |
 
+#### Gráficos
+
+No es parte del ritual: entra sólo si el proyecto tiene datos reales que
+mostrar (un panel, precios, evolución de algo que el cliente lleva). Nunca como
+adorno ni para inventar cifras: ver métricas de relleno en excluyentes.
+
+| Recurso | Skill instalada | Qué aporta | Cuándo elegirlo |
+| --- | --- | --- | --- |
+| **TanStack Charts** | — (`pnpm add @tanstack/charts`, docs en `tanstack.com/charts/latest`) | Gramática de gráficos tipada y tree-shakable, estilo Observable Plot: marcas, escalas, transformaciones, interacción y motion. Headless, SVG por defecto y Canvas cuando hay muchos puntos. v1 estable en React; ~29 kB gzip un gráfico de línea básico. | Paneles de administración o secciones que necesitan un gráfico de verdad. Se diseña con los tokens del prospecto, no con el look por defecto. |
+
 #### Herramientas externas
 
 | Recurso | Qué es | Cómo usarlo |
@@ -107,10 +117,62 @@ alguna, el prospecto se rehace antes de mostrarse:
 
 ### Base fija, al margen de lo elegido
 
-Se revisan **siempre**: `frontend-design` (dirección estética, anti-look-genérico)
-y `better-typography` al empezar; `web-design-guidelines` y `web-design-reviewer`
-al cerrar. El catálogo largo de skills y recursos vive en
+Se revisan **siempre**: `frontend-design` (dirección estética, anti-look-genérico),
+`better-typography` y `landing-page-design` (una oferta, un público, una acción:
+estructura, secciones, copy de conversión y SEO) al empezar;
+`web-design-guidelines` y `web-design-reviewer` al cerrar. Las reglas visuales de
+`landing-page-design` ceden ante el eje estético del prospecto y ante este
+archivo: si chocan, gana Kalabs. El catálogo largo de skills y recursos vive en
 `docs/skills-diseno.md`.
+
+## QA
+
+Todo lo que es QA de un prospecto o de este sitio pasa por **e2e** de
+TesterArmy (`github.com/tester-army/e2e`, Apache-2.0). No es una skill: es un
+framework de tests end-to-end donde el test se escribe como objetivo en lenguaje
+natural ("pedir una cita y ver la confirmación") y un agente maneja la app hasta
+cumplirlo. Corre sobre Playwright (Chromium, Firefox, WebKit) y también en
+simuladores iOS/Android.
+
+- Se arranca con `pnpm dlx e2e init`, nunca con `npx`: elige motor (web o
+  mobile) y proveedor de modelos, y deja configuración y tests de ejemplo.
+- Necesita API key de un proveedor de modelos. La primera corrida de cada test
+  gasta tokens; después la repite grabada sin llamar al modelo hasta que la app
+  cambia.
+- Qué se prueba siempre: los flujos que venden (contacto, pedido por WhatsApp o
+  correo, formularios), los filtros y buscadores de catálogo, y el panel admin
+  cuando lo hay. Un prospecto no se muestra con un flujo de esos sin probar.
+
+La seguridad va aparte, con la skill **`security-audit`** de Cloudflare
+(`cloudflare/security-audit-skill`, ya instalada en `~/.claude/skills`). Lee el
+código, no ataca nada en vivo, y sólo da por confirmado un hallazgo que cruza un
+límite real (quién puede ver o tocar qué), con el arreglo más chico posible.
+
+- Por defecto trabaja en modo guía: preguntas puntuales o revisar un flujo
+  concreto. Se usa así en cada prospecto con panel admin, login, formularios que
+  escriben datos o API propia, antes de mostrarlo.
+- La auditoría completa (seis fases, varios agentes, informe en
+  `~/security-audit-skill/<repo>/run-N`) se pide explícitamente y sólo para
+  proyectos que van a producción con datos de clientes: gasta muchas
+  invocaciones de agente.
+
+## Bibliotecas de cabecera
+
+Cuando el proyecto tiene la necesidad, se usa esta y no otra. Se instala sólo lo
+que el proyecto usa de verdad, con `pnpm add`; nada se suma "por si acaso".
+
+| Necesidad | Librería | Paquete | Nota |
+| --- | --- | --- | --- |
+| Validaciones | **Zod** | `zod` | Formularios, server actions, datos de entrada. Un esquema, tipos inferidos. |
+| Fechas | **Temporal** | nativo; `temporal-polyfill` donde falte | Turnos, horarios, reservas. Nada de `Date` a mano ni Moment. |
+| Tablas | **TanStack Table** | `@tanstack/react-table` | Headless: paneles admin, listados con orden y filtro. |
+| Auth | **Better Auth** | `better-auth` | Login de paneles admin. |
+| Animaciones | **Motion** | `motion` | Es la misma de la tabla de motion: sigue valiendo una sola librería de motion por proyecto. |
+| Tipografías | **Fontsource** | `@fontsource-variable/<fuente>` | En Next manda `next/font`; Fontsource para lo que no es Next (Remotion en `videos/`, Vite). |
+| Gráficos simples | **Chart.js** | `chart.js` | Canvas, rápido de armar. Si el gráfico pide diseño propio o tipado fino, TanStack Charts. Uno solo por proyecto. |
+| Estado global | **Zustand** | `zustand` | Sólo si el estado cruza componentes lejanos; antes, estado local o URL. |
+| Drag & drop | **Pragmatic drag and drop** | `@atlaskit/pragmatic-drag-and-drop` | Reordenar fotos o ítems en el panel. |
+| Estado en la URL | **nuqs** | `nuqs` | Filtros y buscadores de catálogo: la búsqueda queda en el link y se comparte. |
 
 ## Gestor de paquetes
 
