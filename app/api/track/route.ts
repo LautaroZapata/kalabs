@@ -5,9 +5,30 @@ import { PANEL_PROJECTS } from "@/lib/panel";
 
 const VALIDOS = new Set(PANEL_PROJECTS.map((p) => p.slug));
 
+/* sendBeacon con Blob application/json sale en modo CORS con credenciales:
+   pide preflight y no acepta "*", hay que devolver el origin. No filtra por
+   origin porque el endpoint igual es público; valida el slug. */
+function cors(req: Request): Record<string, string> {
+  const origin = req.headers.get("origin");
+  if (!origin) return {};
+  return {
+    "Access-Control-Allow-Origin": origin,
+    "Access-Control-Allow-Credentials": "true",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "content-type",
+    "Access-Control-Max-Age": "86400",
+    Vary: "Origin",
+  };
+}
+
+export function OPTIONS(req: Request) {
+  return new Response(null, { status: 204, headers: cors(req) });
+}
+
 /* Entrada única de analítica. Los sitios externos (ViaGrúa, Oleo, Cupo)
    pegan contra este endpoint: no necesitan clave de Supabase. */
 export async function POST(req: Request) {
+  const headers = cors(req);
   let dato: {
     project?: string;
     path?: string;
@@ -18,11 +39,11 @@ export async function POST(req: Request) {
   try {
     dato = await req.json();
   } catch {
-    return NextResponse.json({ ok: false }, { status: 400 });
+    return NextResponse.json({ ok: false }, { status: 400, headers });
   }
   const project = String(dato.project ?? "").slice(0, 40);
   if (!VALIDOS.has(project as never))
-    return NextResponse.json({ ok: false }, { status: 400 });
+    return NextResponse.json({ ok: false }, { status: 400, headers });
   const path = String(dato.path ?? "/").slice(0, 300) || "/";
   const referrer = String(dato.referrer ?? "").slice(0, 300);
   const session = String(dato.session ?? "").slice(0, 64) || "anon";
@@ -57,7 +78,7 @@ export async function POST(req: Request) {
     }
   } catch (falla) {
     console.error("[track] supabase falló", falla);
-    return NextResponse.json({ ok: false }, { status: 500 });
+    return NextResponse.json({ ok: false }, { status: 500, headers });
   }
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true }, { headers });
 }
