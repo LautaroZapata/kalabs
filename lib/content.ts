@@ -249,8 +249,8 @@ export const UI = {
      qué son las tres pestañas antes de leer la primera. */
   serviciosLista: "Servicios",
 
-  /* Las promesas sueltas. Las usa el feed; en el sitio van como frase, en
-     `bandaFrase`. */
+  /* Las promesas sueltas. Las usa el feed; en el sitio van como tres frases,
+     en `promesas`. */
   banner: [
     "Primera consulta sin costo",
     "Presupuesto cerrado antes de empezar",
@@ -258,17 +258,20 @@ export const UI = {
     "Montevideo, Uruguay",
   ],
 
-  /* La banda que parte la página: las mismas promesas, dichas como frase.
-     Cada tramo es [texto, marcado]; lo marcado va en brasa. */
-  bandaFrase: [
-    ["La primera consulta ", false],
-    ["no se cobra", true],
-    [". El presupuesto ", false],
-    ["se cierra antes de empezar", true],
-    [". Y te contestamos ", false],
-    ["en 24 horas", true],
-    [".", false],
-  ] as [string, boolean][],
+  /* La banda que parte la página: las mismas promesas, una por paso del
+     sitio que se construye en el monitor. Cada una es [antes, marcado,
+     después]; lo marcado va en brasa. */
+  promesas: [
+    ["La primera consulta ", "no se cobra", "."],
+    ["El presupuesto ", "se cierra antes de empezar", "."],
+    ["Y te contestamos ", "en 24 horas", "."],
+  ] as [string, string, string][],
+  escritorio: {
+    /* El contador del riel: «1 de 3». */
+    de: "de",
+    descripcion:
+      "Un escritorio con monitor, servidor, teclado y taza. En la pantalla se construye un sitio en tres pasos: el boceto, la estructura y el sitio terminado, y con cada paso se prende una luz del servidor.",
+  },
 
   /* estudio */
   equipoAntetitulo: "Equipo",

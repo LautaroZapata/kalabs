@@ -2,150 +2,458 @@
    eso corta la página en dos —arriba lo que hacemos, abajo cómo escribirnos—. */
 .banner {
   margin-top: clamp(3rem, 8vh, 6rem);
-  padding: clamp(3.5rem, 12vh, 7rem) 0;
   background: var(--ink);
   color: var(--papel);
   view-timeline-name: --banda;
 }
 
-/* La frase manda; el dibujo va al costado sólo cuando hay lugar para los
-   dos. Debajo de ese ancho no se apila: repetiría lo que la frase ya dijo. */
-.grilla {
+.pegado {
+  padding: clamp(3.5rem, 10vh, 6rem) 0;
+}
+
+/* ---------- la ficha ----------
+   Una sola pieza partida en dos: el dibujo y la promesa. Un tono más clara
+   que la banda, con la curva de la casa y un filete entre las dos mitades. */
+.ficha {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  align-items: center;
-  gap: clamp(2rem, 5vw, 5rem);
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  border-radius: var(--r);
+  background: var(--ink-2);
+  box-shadow: inset 0 0 0 1px rgba(247, 242, 231, 0.1);
+  overflow: hidden;
 }
 
-@media (max-width: 1000px) {
-  .grilla { grid-template-columns: 1fr; }
-  .dibujo { display: none; }
+.lamina {
+  margin: 0;
+  padding: clamp(1rem, 2.5vw, 2rem);
+  display: grid;
+  place-items: center;
 }
 
-.frase {
-  font-size: clamp(1.9rem, 4.6vw, 3.8rem);
-  font-weight: 600;
-  max-width: 22ch;
-}
-
-/* El estado final es el de reposo: sin animación, así se ve. */
-.palabra { color: var(--papel); }
-.marcada { color: var(--ember); }
-
-/* ---------- el dibujo ---------- */
 .dibujo {
   display: block;
   width: 100%;
   height: auto;
-  max-width: 560px;
-  justify-self: end;
+  overflow: visible;
 }
 
-.trazo,
-.trazoBrasa {
-  stroke: var(--ink);
-  stroke-width: 3;
+.texto {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2.5rem;
+  padding: clamp(2rem, 4vw, 3.5rem);
+  border-left: 1px solid rgba(247, 242, 231, 0.1);
+}
+
+/* La frase ocupa el alto que sobra y queda en el medio; el riel, abajo. */
+.promesas {
+  flex: 1;
+  display: grid;
+  align-content: center;
+  gap: 1.6rem;
+}
+
+/* La entrada, chica y en papel apagado; la promesa, grande y en brasa. Las
+   dos en Hanken: la frase la lleva el tamaño, no un cambio de familia. */
+.promesa {
+  display: grid;
+  /* Sin esto, las frases cortas estiran sus renglones al alto de la más
+     larga —comparten la celda— y la máscara deja de recortar. */
+  align-content: center;
+  gap: 0.3rem;
+  color: var(--papel);
+}
+
+/* La máscara de cada línea. El relleno de abajo, medido en el cuerpo de
+   cada línea, deja lugar a las colas de la g y la p, que con el interlineado
+   apretado quedarían cortadas. */
+.linea {
+  display: block;
+  overflow: hidden;
+}
+.linea > span {
+  display: block;
+  padding-bottom: 0.1em;
+}
+
+.antes {
+  font-size: clamp(1.1rem, 1.55vw, 1.5rem);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--bone-dim);
+}
+
+.grande {
+  font-size: clamp(2.7rem, 4.9vw, 5rem);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  max-width: 10ch;
+}
+
+.marcada { color: var(--ember); }
+
+/* El riel sólo tiene sentido cuando las frases cambian con el recorrido. */
+.riel {
+  display: none;
+  align-items: center;
+  gap: 1.1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--bone-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.cuenta {
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  white-space: nowrap;
+}
+.cuentaTramo {
+  grid-area: 1 / 1;
+  color: var(--papel);
+  text-align: right;
+}
+.cuentaTotal { grid-area: 1 / 2; white-space: pre; }
+
+.via {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  background: rgba(247, 242, 231, 0.16);
+}
+.avance {
+  position: absolute;
+  inset: 0;
+  background: var(--ember);
+  transform-origin: left center;
+}
+.parada {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--en) * 100%);
+  width: 9px;
+  height: 9px;
+  margin: -4.5px 0 0 -4.5px;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 0 3px var(--ink-2);
+}
+
+@media (max-width: 1000px) {
+  .ficha { grid-template-columns: 1fr; }
+  .texto {
+    border-left: 0;
+    border-top: 1px solid rgba(247, 242, 231, 0.1);
+    gap: 1.6rem;
+  }
+  .antes { font-size: clamp(1rem, 4.2vw, 1.25rem); }
+  .grande {
+    font-size: clamp(2.3rem, 10.5vw, 3.6rem);
+    max-width: 12ch;
+  }
+}
+
+/* ==========================================================================
+   EL KIT DE ANATOMY
+   Los mismos nombres de clase que usa `lib/iso` al dibujar, con la paleta
+   del sitio: tinta cálida en lugar de grises, papel en lugar de blanco.
+   ========================================================================== */
+.lamina {
+  --anatomy-paper: var(--ink-2);
+  --anatomy-face: #1f2427;
+  --anatomy-top: #2c3337;
+  --anatomy-shade-0: #181c1f;
+  --anatomy-shade-1: #1d2225;
+  --anatomy-shade-2: #22282b;
+  --anatomy-shade-3: #282e32;
+  --anatomy-lit-top: #3a4145;
+  --anatomy-lit-shade: #2b3236;
+  --anatomy-hi: #e9e3d6;
+  --anatomy-mid: #8d877b;
+  --anatomy-lo: #555550;
+  --anatomy-faint: #30363a;
+  --anatomy-lit: var(--papel);
+  --anatomy-halo: #030404;
+  --anatomy-halo-opacity: 0.85;
+  --anatomy-dot: var(--bone);
+  --anatomy-weight: 0.6px;
+}
+
+.dibujo :global(path),
+.dibujo :global(circle) { vector-effect: non-scaling-stroke; }
+.dibujo :global(.iso-fill) { fill: var(--anatomy-paper); stroke: none; }
+.dibujo :global(.iso-shade),
+.dibujo :global(.iso-top) { stroke: none; }
+.dibujo :global(.iso-shade[data-shade="0"]) { fill: var(--anatomy-shade-0); }
+.dibujo :global(.iso-shade[data-shade="1"]) { fill: var(--anatomy-shade-1); }
+.dibujo :global(.iso-shade[data-shade="2"]) { fill: var(--anatomy-shade-2); }
+.dibujo :global(.iso-shade[data-shade="3"]) { fill: var(--anatomy-shade-3); }
+.dibujo :global(.iso-top) { fill: var(--anatomy-top); }
+.dibujo :global(.iso-solid[data-lit] > .iso-fill) { fill: var(--anatomy-face); }
+.dibujo :global(.iso-solid[data-lit] > .iso-top) { fill: var(--anatomy-lit-top); }
+.dibujo :global(.iso-solid[data-lit] > .iso-shade) { fill: var(--anatomy-lit-shade); }
+.dibujo :global(.iso-solid[data-lit] > .iso-edge) { stroke: var(--anatomy-lit); }
+.dibujo :global(.iso-solid[data-seamless] > .iso-shade),
+.dibujo :global(.iso-solid[data-seamless] > .iso-top) { stroke-width: 0.4; stroke-linejoin: round; }
+.dibujo :global(.iso-solid[data-seamless] > .iso-shade[data-shade="0"]) { stroke: var(--anatomy-shade-0); }
+.dibujo :global(.iso-solid[data-seamless] > .iso-shade[data-shade="1"]) { stroke: var(--anatomy-shade-1); }
+.dibujo :global(.iso-solid[data-seamless] > .iso-shade[data-shade="2"]) { stroke: var(--anatomy-shade-2); }
+.dibujo :global(.iso-solid[data-seamless] > .iso-shade[data-shade="3"]) { stroke: var(--anatomy-shade-3); }
+.dibujo :global(.iso-solid[data-seamless][data-lit] > .iso-shade) { stroke: var(--anatomy-lit-shade); }
+.dibujo :global(.iso-halo) {
+  fill: var(--anatomy-halo);
+  stroke: none;
+  filter: blur(9px);
+  opacity: var(--anatomy-halo-opacity);
+  transform: translateY(3px);
+}
+.dibujo :global(.iso-line) {
+  fill: none;
+  stroke: var(--anatomy-lo);
+  stroke-width: var(--anatomy-weight);
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-/* Sin relleno salvo que una clase de color, declarada después, lo pida. */
-.trazo { fill: none; }
-.trazoBrasa { fill: none; stroke: var(--ember); stroke-width: 3.5; }
+.dibujo :global(.iso-line[data-tone="hi"]) { stroke: var(--anatomy-hi); }
+.dibujo :global(.iso-line[data-tone="mid"]) { stroke: var(--anatomy-mid); }
+.dibujo :global(.iso-line[data-tone="lo"]) { stroke: var(--anatomy-lo); }
+.dibujo :global(.iso-line[data-tone="faint"]) { stroke: var(--anatomy-faint); }
+.dibujo :global(.iso-line[data-tone="lit"]) { stroke: var(--anatomy-lit); }
+.dibujo :global(.iso-dots circle) { fill: var(--anatomy-dot); stroke: none; opacity: 0.32; }
+.dibujo :global(.iso-dots[data-tone="hi"] circle) { opacity: 0.85; }
+.dibujo :global(.iso-dots[data-tone="mid"] circle) { opacity: 0.45; }
+.dibujo :global(.iso-dots[data-tone="lo"] circle) { opacity: 0.22; }
 
-.tinta { fill: var(--ink); }
-.tinta2 { fill: var(--ink-4); }
-.hueso { fill: var(--bone); }
-.papel { fill: var(--papel); }
-.brasa { fill: var(--ember); }
-.terra { fill: var(--terra); }
-.gris { fill: var(--bone-dim); }
-.piel { fill: #d9a27c; }
-/* Los personajes van sin tinta: sobre la banda oscura el pelo o un pantalón
-   negro desaparecen. Todo lo que pisa el fondo sale de la paleta clara. */
-.pelo { fill: var(--terra); }
-.pelo2 { fill: var(--ember-dim); }
-.pantalon { fill: var(--bone-dim); }
-.pantalon2 { fill: var(--bone); }
-.zapato { fill: var(--papel); }
-.piso {
-  fill: none;
-  stroke: rgba(185, 178, 164, 0.35);
-  stroke-width: 3;
-  stroke-linecap: round;
-}
-.piel2 { fill: #8d5a3b; }
 
-.brasaOsc { fill: var(--ember-dim); }
-
-/* Brazos en dos tramos: la manga más gruesa, el antebrazo de piel. */
-.brazo,
-.antebrazo {
-  fill: none;
-  stroke-linecap: round;
-}
-.brazo { stroke-width: 13; }
-.antebrazo { stroke-width: 9; }
-.mangaBrasa { stroke: var(--ember); }
-.mangaBrasaOsc { stroke: var(--ember-dim); }
-.mangaTerra { stroke: var(--terra); }
-.mangaTerraOsc { stroke: var(--terra-dim); }
-.pielTrazo { stroke: #d9a27c; }
-.piel2Trazo { stroke: #8d5a3b; }
-
-.globoTexto {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 700;
-  font-size: 17px;
-  letter-spacing: -0.02em;
-  fill: var(--ink);
-}
-
-.pieza { transform-box: fill-box; }
-.tender { transform-origin: left center; }
-.entrar { transform-origin: right bottom; }
-.brotar { transform-origin: 30% 100%; }
-.tildar { stroke-dasharray: 1; }
-
-/* Cada palabra se enciende en su tramo: entre el 15 % y el 50 % del paso de
-   la banda por la pantalla, repartido en partes iguales. `--desde` y
-   `--hasta` se cuentan en palabras de la frase: 
-   cada pieza del dibujo se arma en el tramo
-   de las palabras de su promesa, y termina a la par de ellas. */
+/* ==========================================================================
+   EL RECORRIDO
+   La sección se estira y la ficha queda pegada: el tramo que se baja es el
+   que construye el sitio del monitor. Los porcentajes se cuentan sobre
+   `contain`, el trecho en que la sección cubre la pantalla entera. Un tercio
+   por promesa.
+   ========================================================================== */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .palabra { animation: encender linear both; }
-    .tender { animation: tender var(--ease) both; }
-    .entrar { animation: entrar var(--ease) both; }
-    .tildar { animation: tildar linear both; }
-    .brotar { animation: brotar var(--spring) both; }
+    .banner { height: 300svh; }
 
-    /* Después del shorthand: `animation` resetea el timeline y el tramo. */
-    .palabra,
-    .pieza {
+    .pegado {
+      position: sticky;
+      top: var(--barra);
+      height: calc(100svh - var(--barra));
+      display: grid;
+      align-items: center;
+      padding: 1.25rem 0;
+    }
+
+    /* La ficha entra entera en la pantalla. */
+    .dibujo { max-height: calc(100svh - var(--barra) - 6.5rem); }
+
+    .riel { display: flex; }
+
+    /* Las frases se apilan en la misma celda y se ve la del tramo: el alto
+       de la ficha no cambia mientras cambian. */
+    .promesas { gap: 0; }
+    .promesa,
+    .cuentaTramo { grid-area: 1 / 1; }
+
+    .linea > span,
+    .cuentaTramo,
+    .avance,
+    .parada {
       animation-timeline: --banda;
-      animation-range:
-        cover calc(15% + 35% * var(--desde) / var(--n))
-        cover calc(15% + 35% * var(--hasta) / var(--n));
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+    }
+
+    .cuentaTramo[data-tramo="0"] { animation-name: salir; animation-range: contain 0% contain 36%; }
+    .cuentaTramo[data-tramo="1"] { animation-name: turno; animation-range: contain 30% contain 69%; }
+    .cuentaTramo[data-tramo="2"] { animation-name: entrar; animation-range: contain 63% contain 69%; }
+
+    /* Las líneas suben por su máscara: la que se va sale por arriba y la que
+       llega entra por abajo. La promesa grande llega un poco después que su
+       entrada y se va un poco antes. */
+    .promesa[data-tramo="0"] .linea > span { animation-name: lineaSalir; }
+    .promesa[data-tramo="0"] .antes { animation-range: contain 0% contain 35%; }
+    .promesa[data-tramo="0"] .grande { animation-range: contain 0% contain 33%; }
+    .promesa[data-tramo="1"] .linea > span { animation-name: lineaTurno; }
+    .promesa[data-tramo="1"] .antes { animation-range: contain 31% contain 68%; }
+    .promesa[data-tramo="1"] .grande { animation-range: contain 33% contain 66%; }
+    .promesa[data-tramo="2"] .linea > span { animation-name: lineaEntrar; }
+    .promesa[data-tramo="2"] .antes { animation-range: contain 64% contain 69%; }
+    .promesa[data-tramo="2"] .grande { animation-range: contain 66% contain 71%; }
+
+    .avance { animation-name: avanzar; animation-range: contain 2% contain 92%; }
+    .parada { animation-name: llegar; }
+    .parada[data-tramo="0"] { animation-range: contain 1% contain 3%; }
+    .parada[data-tramo="1"] { animation-range: contain 46% contain 48%; }
+    .parada[data-tramo="2"] { animation-range: contain 91% contain 93%; }
+
+    @media (max-width: 1000px) {
+      .pegado { padding: 0.75rem 0; }
+      .dibujo { max-height: 46svh; }
     }
   }
 }
 
-@keyframes encender {
-  from { color: rgba(247, 242, 231, 0.18); }
+/* Por la máscara: la primera se va, la del medio entra y se va, la última
+   entra. */
+@keyframes lineaSalir {
+  0%, 84% { transform: none; }
+  100% { transform: translateY(-110%); }
+}
+@keyframes lineaTurno {
+  0% { transform: translateY(110%); }
+  16%, 84% { transform: none; }
+  100% { transform: translateY(-110%); }
+}
+@keyframes lineaEntrar {
+  from { transform: translateY(110%); }
+  to { transform: none; }
 }
 
-@keyframes tender {
+/* El contador: la primera cifra se va, la del medio entra y se va, la última
+   entra. */
+@keyframes salir {
+  0%, 83% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translateY(-0.4em); }
+}
+@keyframes turno {
+  0% { opacity: 0; transform: translateY(0.4em); }
+  15%, 85% { opacity: 1; transform: none; }
+  100% { opacity: 0; transform: translateY(-0.4em); }
+}
+@keyframes entrar {
+  from { opacity: 0; transform: translateY(0.4em); }
+}
+
+@keyframes avanzar {
   from { transform: scaleX(0); }
 }
-
-@keyframes entrar {
-  from { transform: translate(40px, 24px) rotate(6deg); opacity: 0; }
+@keyframes llegar {
+  from {
+    background: var(--ink-2);
+    box-shadow: 0 0 0 3px var(--ink-2), inset 0 0 0 1px rgba(247, 242, 231, 0.35);
+  }
 }
 
-@keyframes tildar {
+@keyframes asentar {
+  from { opacity: 0; }
+}
+
+/* ==========================================================================
+   EL ESCRITORIO
+   El estado de reposo es el final: el sitio terminado, las tres luces del
+   servidor prendidas y el aviso de la respuesta.
+   ========================================================================== */
+.dibujo :global(.pc-vidrio) { fill: #0b0e10; }
+.dibujo :global(.pc-fondo) { fill: var(--papel); }
+.dibujo :global(.pc-barra) { fill: #e3dccb; }
+.dibujo :global(.pc-punto) { fill: var(--bone-dim); }
+.dibujo :global(.pc-punto--brasa) { fill: var(--ember); }
+.dibujo :global(.pc-direccion) { fill: var(--papel); }
+.dibujo :global(.pc-chip) { fill: var(--ink); }
+.dibujo :global(.pc-texto) {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-weight: 600;
+}
+.dibujo :global(.pc-texto--direccion) { font-size: 2.5px; fill: var(--ink-4); }
+.dibujo :global(.pc-texto--chip) { font-size: 2.4px; fill: var(--papel); }
+
+.dibujo :global(.pc-trazo) {
+  fill: none;
+  stroke: var(--ink-4);
+  stroke-width: 0.5;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+.dibujo :global(.pc-bloque) { fill: #cfc7b6; }
+.dibujo :global(.pc-color--logo),
+.dibujo :global(.pc-color--titulo) { fill: var(--ink); }
+.dibujo :global(.pc-color--link) { fill: var(--ink-4); }
+.dibujo :global(.pc-color--texto) { fill: var(--bone-dim); }
+.dibujo :global(.pc-color--boton) { fill: var(--ember); }
+.dibujo :global(.pc-color--tarjeta) { fill: var(--bone); stroke: #d8cfbd; stroke-width: 0.4; }
+.dibujo :global(.pc-color--cielo) { fill: #f3d6bd; }
+.dibujo :global(.pc-color--sol) { fill: var(--ember); }
+.dibujo :global(.pc-color--cerro) { fill: var(--terra); }
+.dibujo :global(.pc-flecha) {
+  fill: var(--ink);
+  stroke: var(--papel);
+  stroke-width: 0.4;
+  stroke-linejoin: round;
+}
+
+.dibujo :global(.pc-aviso) { opacity: 0; }
+.dibujo :global(.pc-aviso[data-tramo="2"]) { opacity: 1; }
+
+.dibujo :global(.pc-bahia) { fill: #1a1e21; }
+.dibujo :global(.pc-rejilla path) {
+  fill: #0b0e10;
+  stroke: var(--anatomy-lo);
+  stroke-width: 0.4;
+}
+.dibujo :global(.pc-boton) { fill: var(--anatomy-shade-2); }
+.dibujo :global(.pc-led) { fill: var(--ember); }
+.dibujo :global(.pc-tornillo) { fill: var(--bone); opacity: 0.5; }
+.dibujo :global(.pc-luz-monitor) { fill: var(--ember); }
+.dibujo :global(.pc-cafe) { fill: #3b2416; }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .dibujo :global(.pc-trazo),
+    .dibujo :global(.pc-capa--estructura),
+    .dibujo :global(.pc-capa--terminado),
+    .dibujo :global(.pc-cursor),
+    .dibujo :global(.pc-led),
+    .dibujo :global(.pc-aviso) {
+      animation-timeline: --banda;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+    }
+
+    /* El boceto se traza, la estructura se rellena y el sitio toma color. */
+    .dibujo :global(.pc-trazo) { animation-name: trazar; animation-range: contain 3% contain 28%; }
+    .dibujo :global(.pc-capa--estructura) { animation-name: asentar; animation-range: contain 36% contain 54%; }
+    .dibujo :global(.pc-capa--terminado) { animation-name: asentar; animation-range: contain 69% contain 84%; }
+    .dibujo :global(.pc-cursor) {
+      animation-name: apuntar;
+      animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1);
+      animation-range: contain 78% contain 94%;
+    }
+
+    .dibujo :global(.pc-led) { animation-name: prender; }
+    .dibujo :global(.pc-led[data-tramo="0"]) { animation-range: contain 26% contain 28%; }
+    .dibujo :global(.pc-led[data-tramo="1"]) { animation-range: contain 58% contain 60%; }
+    .dibujo :global(.pc-led[data-tramo="2"]) { animation-range: contain 92% contain 94%; }
+
+    .dibujo :global(.pc-aviso[data-tramo="0"]) { animation-name: soloSalir; animation-range: contain 0% contain 36%; }
+    .dibujo :global(.pc-aviso[data-tramo="1"]) { animation-name: soloTurno; animation-range: contain 30% contain 69%; }
+    .dibujo :global(.pc-aviso[data-tramo="2"]) { animation-name: soloEntrar; animation-range: contain 63% contain 69%; }
+  }
+}
+
+@keyframes trazar {
   from { stroke-dashoffset: 1; }
 }
-
-@keyframes brotar {
-  from { transform: scale(0); opacity: 0; }
+@keyframes apuntar {
+  from { transform: translate(34px, 16px); opacity: 0; }
+  25% { opacity: 1; }
+}
+@keyframes prender {
+  from { fill: #2a2f32; }
+}
+@keyframes soloSalir {
+  0%, 83% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes soloTurno {
+  0%, 100% { opacity: 0; }
+  15%, 85% { opacity: 1; }
+}
+@keyframes soloEntrar {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
