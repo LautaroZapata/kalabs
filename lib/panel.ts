@@ -11,7 +11,7 @@ export const PANEL_PROJECTS = [
   {
     slug: "oleofin",
     nombre: "OleoFin",
-    url: "https://oleocaceresfin.vercel.app",
+    url: "https://oleocaceres.vercel.app",
   },
 ] as const;
 
