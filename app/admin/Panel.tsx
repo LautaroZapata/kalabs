@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@supabase/supabase-js";
 
+import { SUPABASE_ANON, SUPABASE_URL } from "@/lib/panel";
+
 type Proyecto = {
   slug: string;
   nombre: string;
@@ -13,9 +15,6 @@ type Proyecto = {
   topPaths: { path: string; n: number }[];
   sesiones: { path: string }[];
 };
-
-const URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const ANON = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
 /* Panel interno: 4 fichas, un número grande por ficha y nada más.
    Polling cada 10s + Realtime como gatillo: si el socket se cae,
@@ -37,7 +36,7 @@ export default function Panel({ token }: { token: string }) {
   useEffect(() => {
     cargar();
     const t = setInterval(cargar, 10_000);
-    const sb = createClient(URL, ANON);
+    const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
     const ch = sb
       .channel("kalabs-panel")
       .on(

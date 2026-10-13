@@ -2,21 +2,12 @@ import { NextResponse } from "next/server";
 
 import { supabaseServidor } from "@/lib/supabase";
 import { PANEL_PROJECTS } from "@/lib/panel";
+import { tokenDeRequest, tokenValido } from "@/lib/panel-acceso";
 
-/* El token es opcional: si KALABS_ADMIN_TOKEN no está, el panel queda
-   abierto (desarrollo). Si está, hay que mandar ?token= o
-   Authorization: Bearer. Tauri lo lleva en la URL fija. */
-export function tokenOk(req: Request): boolean {
-  const esperado = process.env.KALABS_ADMIN_TOKEN;
-  if (!esperado) return true;
-  const url = new URL(req.url);
-  if (url.searchParams.get("token") === esperado) return true;
-  const auth = req.headers.get("authorization") ?? "";
-  return auth === `Bearer ${esperado}`;
-}
+/* Pide ?token= o Authorization: Bearer. Tauri lo lleva en la URL fija. */
 
 export async function GET(req: Request) {
-  if (!tokenOk(req)) return NextResponse.json({ ok: false }, { status: 401 });
+  if (!tokenValido(tokenDeRequest(req))) return NextResponse.json({ ok: false }, { status: 401 });
   const sb = supabaseServidor();
   const ahora = Date.now();
   const hace60s = new Date(ahora - 60_000).toISOString();

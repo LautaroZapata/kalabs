@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { tokenValido } from "@/lib/panel-acceso";
+
 import Panel from "./Panel";
 
 export const metadata: Metadata = {
@@ -8,16 +10,15 @@ export const metadata: Metadata = {
 };
 
 /* /admin es interno: no se enlaza del sitio ni sale en el sitemap.
-   Si KALABS_ADMIN_TOKEN está definido, pide ?token=. Tauri lo abre con
+   Siempre pide ?token= (ver lib/panel-acceso.ts). Tauri lo abre con
    el token fijo en la URL y el navegador lo guarda en sessionStorage. */
 export default async function AdminPage({
   searchParams,
 }: {
   searchParams: Promise<{ token?: string }>;
 }) {
-  const esperado = process.env.KALABS_ADMIN_TOKEN ?? "";
   const dado = (await searchParams).token ?? "";
-  const abierto = !esperado || dado === esperado;
+  const abierto = tokenValido(dado);
   return (
     <main className="caja admin">
       <h1>Panel Kalabs</h1>
