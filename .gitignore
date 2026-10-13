@@ -18,5 +18,13 @@ yarn.lock
 # Tablero de prospectos: fuente del Apps Script y datos de contacto de
 # negocios reales. Vive en Drive, no acá.
 prospectos/
+
+# Las piezas del feed van a Drive —«J:\Mi unidad\IG Feed», ver scripts/feed.mjs—
+# y no al repo: lo que se versiona es el catálogo y el diseño, no los PNG.
+# Esta línea queda como red por si alguien apunta FEED_OUT acá adentro.
+feed-out/
 next-env.d.ts
 tsconfig.tsbuildinfo
+
+# Panel escritorio (Tauri): binarios y bundles se generan con `tauri build`.
+apps/desktop/src-tauri/target/

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { display, body } from "./fonts";
 import { SITE } from "@/lib/content";
+import Tracker from "@/components/Tracker";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -62,6 +63,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <style>{`.rev{opacity:1!important;transform:none!important}`}</style>
         </noscript>
         {children}
+        {/* Medición propia: view + latido cada 25s a /api/track. */}
+        <Tracker project="kalabs" />
       </body>
     </html>
   );

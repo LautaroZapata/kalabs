@@ -1,0 +1,1 @@
+{"default":{"identifier":"default","description":"Panel interno: solo muestra la web remota, sin APIs nativas.","local":true,"windows":["main"],"permissions":["core:default"]}}

@@ -37,6 +37,9 @@
   ],
   "exclude": [
     "node_modules",
-    "prospectos"
+    "prospectos",
+    "videos",
+    "aiav",
+    "feed-capturas"
   ]
 }
