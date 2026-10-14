@@ -1,9 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { createClient } from "@supabase/supabase-js";
-
-import { SUPABASE_ANON, SUPABASE_URL } from "@/lib/panel";
 
 type Proyecto = {
   slug: string;
@@ -16,9 +13,9 @@ type Proyecto = {
   sesiones: { path: string }[];
 };
 
-/* Panel interno: 4 fichas, un número grande por ficha y nada más.
-   Polling cada 10s + Realtime como gatillo: si el socket se cae,
-   el polling sostiene los números. */
+/* Panel interno: una ficha por proyecto, un número grande y nada más.
+   Consulta /api/panel cada 5s; sin Realtime para no abrir las tablas a
+   la anon key (ver supabase/kalabs-panel.sql). */
 export default function Panel({ token }: { token: string }) {
   const [datos, setDatos] = useState<Proyecto[]>([]);
   const [hace, setHace] = useState("-");
@@ -26,29 +23,22 @@ export default function Panel({ token }: { token: string }) {
 
   const cargar = useCallback(async () => {
     const q = token ? `?token=${encodeURIComponent(token)}` : "";
-    const r = await fetch(`/api/panel${q}`, { cache: "no-store" });
-    if (!r.ok) return;
-    const j = await r.json();
-    setDatos(j.proyectos);
-    setHace(new Date().toLocaleTimeString("es-UY"));
+    try {
+      const r = await fetch(`/api/panel${q}`, { cache: "no-store" });
+      if (!r.ok) throw new Error(String(r.status));
+      const j = await r.json();
+      setDatos(j.proyectos);
+      setHace(new Date().toLocaleTimeString("es-UY"));
+      setVivo(true);
+    } catch {
+      setVivo(false);
+    }
   }, [token]);
 
   useEffect(() => {
     cargar();
-    const t = setInterval(cargar, 10_000);
-    const sb = createClient(SUPABASE_URL, SUPABASE_ANON);
-    const ch = sb
-      .channel("kalabs-panel")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "kalabs_presence" },
-        () => cargar(),
-      )
-      .subscribe((s) => setVivo(s === "SUBSCRIBED"));
-    return () => {
-      clearInterval(t);
-      sb.removeChannel(ch);
-    };
+    const t = setInterval(cargar, 5_000);
+    return () => clearInterval(t);
   }, [cargar]);
 
   const total = datos.reduce((a, p) => a + p.activos, 0);
@@ -56,7 +46,7 @@ export default function Panel({ token }: { token: string }) {
   return (
     <div>
       <p className="et">
-        {vivo ? "En vivo" : "Conectando…"} · {total} activos ahora · act. {hace}
+        {vivo ? "En vivo" : "Sin conexión"} · {total} activos ahora · act. {hace}
       </p>
       <div className="grilla">
         {datos.map((p) => (

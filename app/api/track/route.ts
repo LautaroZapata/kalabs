@@ -41,6 +41,9 @@ export async function POST(req: Request) {
   } catch {
     return NextResponse.json({ ok: false }, { status: 400, headers });
   }
+  /* Los dev servers locales de cualquier sitio no cuentan visitas. */
+  if (/^https?:\/\/(localhost|127\.0\.0\.1)(:|$)/.test(req.headers.get("origin") ?? ""))
+    return NextResponse.json({ ok: true }, { headers });
   const project = String(dato.project ?? "").slice(0, 40);
   if (!VALIDOS.has(project as never))
     return NextResponse.json({ ok: false }, { status: 400, headers });
@@ -55,27 +58,15 @@ export async function POST(req: Request) {
   } catch {}
 
   try {
-    const sb = supabaseServidor();
-    await sb.from("kalabs_presence").upsert(
-      {
-        project_slug: project,
-        session_id: session,
-        path,
-        user_agent: ua,
-        last_seen: new Date().toISOString(),
-      },
-      { onConflict: "project_slug,session_id" },
-    );
-    /* Solo el view cuenta visita. El ping solo refresca presencia:
-       si no, cada pestaña abierta suma 2-3 visitas por minuto. */
-    if (evento === "view") {
-      await sb.from("kalabs_page_views").insert({
-        project_slug: project,
-        path,
-        referrer,
-        session_id: session,
-      });
-    }
+    const { error } = await supabaseServidor().rpc("kalabs_track", {
+      p_project: project,
+      p_path: path,
+      p_session: session,
+      p_ua: ua,
+      p_referrer: referrer,
+      p_evento: evento,
+    });
+    if (error) throw error;
   } catch (falla) {
     console.error("[track] supabase falló", falla);
     return NextResponse.json({ ok: false }, { status: 500, headers });

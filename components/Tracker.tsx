@@ -9,6 +9,7 @@ import { LATIDO_MS } from "@/lib/panel";
    sessionStorage. Si /api/track no responde, no rompe la página. */
 export default function Tracker({ project }: { project: string }) {
   useEffect(() => {
+    if (process.env.NODE_ENV !== "production") return;
     let id = sessionStorage.getItem("kalabs-sid");
     if (!id) {
       id = crypto.randomUUID();

@@ -4,57 +4,46 @@ import { supabaseServidor } from "@/lib/supabase";
 import { PANEL_PROJECTS } from "@/lib/panel";
 import { tokenDeRequest, tokenValido } from "@/lib/panel-acceso";
 
-/* Pide ?token= o Authorization: Bearer. Tauri lo lleva en la URL fija. */
+type Stats = {
+  activos: number;
+  visitasHoy: number;
+  visitas7d: number;
+  topPaths: { path: string; n: number }[];
+  sesiones: { path: string }[];
+};
 
+const VACIO: Stats = {
+  activos: 0,
+  visitasHoy: 0,
+  visitas7d: 0,
+  topPaths: [],
+  sesiones: [],
+};
+
+/* Pide ?token= o Authorization: Bearer. Tauri lo lleva en la URL fija.
+   Los números salen de kalabs_stats, que vuelve a validar el token: las
+   tablas no se leen directo con la anon key. */
 export async function GET(req: Request) {
-  if (!tokenValido(tokenDeRequest(req))) return NextResponse.json({ ok: false }, { status: 401 });
-  const sb = supabaseServidor();
-  const ahora = Date.now();
-  const hace60s = new Date(ahora - 60_000).toISOString();
-  const hoy0 = new Date();
-  hoy0.setHours(0, 0, 0, 0);
-  const hace7d = new Date(ahora - 7 * 24 * 3600_000).toISOString();
+  const token = tokenDeRequest(req);
+  if (!tokenValido(token)) return NextResponse.json({ ok: false }, { status: 401 });
 
-  const [pres, viewsHoy, views7d] = await Promise.all([
-    sb
-      .from("kalabs_presence")
-      .select("project_slug,path,last_seen")
-      .gte("last_seen", hace60s)
-      .limit(500),
-    sb
-      .from("kalabs_page_views")
-      .select("project_slug,path")
-      .gte("created_at", hoy0.toISOString())
-      .limit(2000),
-    sb
-      .from("kalabs_page_views")
-      .select("project_slug")
-      .gte("created_at", hace7d)
-      .limit(5000),
-  ]);
-
-  const por = (slug: string) => {
-    const activos = (pres.data ?? []).filter((r) => r.project_slug === slug);
-    const hoy = (viewsHoy.data ?? []).filter((r) => r.project_slug === slug);
-    const semana = (views7d.data ?? []).filter((r) => r.project_slug === slug);
-    const top = new Map<string, number>();
-    for (const v of hoy) top.set(v.path, (top.get(v.path) ?? 0) + 1);
-    return {
-      slug,
-      activos: activos.length,
-      visitasHoy: hoy.length,
-      visitas7d: semana.length,
-      topPaths: [...top.entries()]
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 5)
-        .map(([path, n]) => ({ path, n })),
-      // Para el detalle live: hasta 8 sesiones con su path.
-      sesiones: activos.slice(0, 8).map((a) => ({ path: a.path })),
-    };
-  };
-
-  return NextResponse.json({
-    ok: true,
-    proyectos: PANEL_PROJECTS.map((p) => ({ ...p, ...por(p.slug) })),
+  const { data, error } = await supabaseServidor().rpc("kalabs_stats", {
+    p_token: token,
   });
+  if (error || !data) {
+    console.error("[panel] kalabs_stats falló", error);
+    return NextResponse.json({ ok: false }, { status: 500 });
+  }
+  const stats = data as Record<string, Stats>;
+
+  return NextResponse.json(
+    {
+      ok: true,
+      proyectos: PANEL_PROJECTS.map((p) => ({
+        ...p,
+        ...(stats[p.slug] ?? VACIO),
+      })),
+    },
+    { headers: { "Cache-Control": "no-store" } },
+  );
 }

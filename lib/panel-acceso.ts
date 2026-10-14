@@ -1,7 +1,8 @@
 import { createHash, timingSafeEqual } from "node:crypto";
 
-/* SHA-256 del token del panel. Si KALABS_ADMIN_TOKEN está, manda la env;
-   si no, se compara contra este hash. Nunca queda abierto. */
+/* SHA-256 del token del panel. El mismo hash vive en kalabs_config
+   (supabase/kalabs-panel.sql): kalabs_stats lo vuelve a chequear, así
+   que si se cambia el token hay que cambiarlo en los dos lados. */
 const TOKEN_SHA256 =
   "b114646494649f67a0484fa41517052a3af1edf4372d0be5cc92c7583686252f";
 
@@ -9,9 +10,7 @@ const sha = (s: string) => createHash("sha256").update(s).digest();
 
 export function tokenValido(dado: string | null | undefined): boolean {
   if (!dado) return false;
-  const env = process.env.KALABS_ADMIN_TOKEN;
-  const esperado = env ? sha(env) : Buffer.from(TOKEN_SHA256, "hex");
-  return timingSafeEqual(sha(dado), esperado);
+  return timingSafeEqual(sha(dado), Buffer.from(TOKEN_SHA256, "hex"));
 }
 
 export function tokenDeRequest(req: Request): string | null {
