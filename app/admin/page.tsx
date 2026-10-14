@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { tokenValido } from "@/lib/panel-acceso";
 
 import Panel from "./Panel";
+import s from "./Panel.module.css";
 
 export const metadata: Metadata = {
   title: "Panel",
@@ -20,38 +21,28 @@ export default async function AdminPage({
   const dado = (await searchParams).token ?? "";
   const abierto = tokenValido(dado);
   return (
-    <main className="caja admin">
-      <h1>Panel Kalabs</h1>
-      <p className="bajada">
-        Usuarios en línea y visitas de kalabs.dev, cupo.uy, ViaGrúa, Oleo
-        Cáceres y OleoFin.
-      </p>
+    <main id="contenido" className={`caja ${s.admin}`}>
       {abierto ? (
         <Panel token={dado} />
       ) : (
-        <form method="get" action="/admin" className="ficha">
-          <label htmlFor="token">Clave del panel</label>
-          <input id="token" name="token" type="password" autoComplete="off" />
-          <button type="submit">Entrar</button>
-        </form>
+        <>
+          <header className={s.cabeza}>
+            <h1 className={s.titulo}>Panel Kalabs</h1>
+          </header>
+          <form method="get" action="/admin" className={s.acceso}>
+            <label htmlFor="token">Clave del panel</label>
+            <input
+              id="token"
+              name="token"
+              type="password"
+              autoComplete="current-password"
+              required
+            />
+            {dado && <p className={s.error}>La clave no es correcta.</p>}
+            <button type="submit">Entrar</button>
+          </form>
+        </>
       )}
-      <style>{`
-        .admin { padding: 3rem 0 5rem; }
-        .admin h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); }
-        .bajada { color: var(--ink-4); margin: .4rem 0 1.6rem; }
-        .ficha {
-          background: var(--bone); border-radius: var(--r);
-          padding: 1.4rem; display: grid; gap: .7rem; max-width: 22rem;
-        }
-        input {
-          border: 1px solid rgba(15,18,20,.18); border-radius: var(--r-chico);
-          background: var(--papel); padding: .7rem .9rem;
-        }
-        button {
-          background: var(--ember); color: var(--ink);
-          border-radius: 999px; padding: .7rem 1.2rem; font-weight: 700;
-        }
-      `}</style>
     </main>
   );
 }

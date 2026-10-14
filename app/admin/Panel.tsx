@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 
+import s from "./Panel.module.css";
+
 type Proyecto = {
   slug: string;
   nombre: string;
@@ -12,6 +14,13 @@ type Proyecto = {
   topPaths: { path: string; n: number }[];
   sesiones: { path: string }[];
 };
+
+const HORA = new Intl.DateTimeFormat("es-UY", {
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+  hourCycle: "h23",
+});
 
 /* Panel interno: una ficha por proyecto, un número grande y nada más.
    Consulta /api/panel cada 5s; sin Realtime para no abrir las tablas a
@@ -28,7 +37,7 @@ export default function Panel({ token }: { token: string }) {
       if (!r.ok) throw new Error(String(r.status));
       const j = await r.json();
       setDatos(j.proyectos);
-      setHace(new Date().toLocaleTimeString("es-UY"));
+      setHace(HORA.format(new Date()));
       setVivo(true);
     } catch {
       setVivo(false);
@@ -42,105 +51,81 @@ export default function Panel({ token }: { token: string }) {
   }, [cargar]);
 
   const total = datos.reduce((a, p) => a + p.activos, 0);
+  const hoy = datos.reduce((a, p) => a + p.visitasHoy, 0);
+  const semana = datos.reduce((a, p) => a + p.visitas7d, 0);
 
   return (
-    <div>
-      <p className="et">
-        {vivo ? "En vivo" : "Sin conexión"} · {total} activos ahora · act. {hace}
-      </p>
-      <div className="grilla">
+    <>
+      <header className={s.cabeza}>
+        <div>
+          <h1 className={s.titulo}>Panel Kalabs</h1>
+          <p className={s.bajada}>Usuarios en línea y visitas de los cinco sitios.</p>
+        </div>
+        <p className={s.estado} data-vivo={vivo} aria-live="polite">
+          <span className={s.luz} aria-hidden="true" />
+          {vivo ? "En vivo" : "Sin conexión"} · actualizado {hace}
+        </p>
+      </header>
+
+      <dl className={s.resumen} aria-label="Totales">
+        <div>
+          <dt>en línea ahora</dt>
+          <dd>{total}</dd>
+        </div>
+        <div>
+          <dt>visitas hoy</dt>
+          <dd>{hoy}</dd>
+        </div>
+        <div>
+          <dt>últimos 7 días</dt>
+          <dd>{semana}</dd>
+        </div>
+      </dl>
+
+      <ul className={s.lista}>
+        {datos.length === 0 && <li className={s.cargando}>Cargando…</li>}
         {datos.map((p) => (
-          <article key={p.slug} className="ficha">
-            <h2>
-              <span className="punto" data-on={p.activos > 0} />
-              {p.nombre}
-            </h2>
-            <p className="numero">
-              {p.activos}
-              <span> en línea</span>
-            </p>
-            <p className="meta">
-              Hoy {p.visitasHoy} visitas · 7d {p.visitas7d}
-            </p>
-            <a href={p.url} target="_blank" rel="noreferrer">
-              {p.url.replace("https://", "")}
-            </a>
-            {p.topPaths.length > 0 && (
-              <ul>
-                {p.topPaths.map((t) => (
-                  <li key={t.path}>
-                    <span>{t.path}</span>
-                    <b>{t.n}</b>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </article>
+          <li key={p.slug} className={s.fila} data-on={p.activos > 0}>
+            <div className={s.sitio}>
+              <h2>
+                <span className={s.punto} aria-hidden="true" />
+                {p.nombre}
+              </h2>
+              <a href={p.url} target="_blank" rel="noreferrer">
+                {p.url.replace("https://", "")}
+              </a>
+            </div>
+            <dl className={s.numeros}>
+              <div className={s.principal}>
+                <dt>en línea</dt>
+                <dd>{p.activos}</dd>
+              </div>
+              <div>
+                <dt>hoy</dt>
+                <dd>{p.visitasHoy}</dd>
+              </div>
+              <div>
+                <dt>7 días</dt>
+                <dd>{p.visitas7d}</dd>
+              </div>
+            </dl>
+            <div className={s.paginas}>
+              {p.topPaths.length > 0 ? (
+                <ol aria-label={`Páginas más vistas hoy en ${p.nombre}`}>
+                  {p.topPaths.map((t) => (
+                    <li key={t.path}>
+                      <span title={t.path}>{t.path}</span>
+                      <b>{t.n}</b>
+                    </li>
+                  ))}
+                </ol>
+              ) : (
+                <p className={s.nada}>Sin visitas hoy</p>
+              )}
+            </div>
+          </li>
         ))}
-      </div>
-      <style jsx>{`
-        .et {
-          font-size: 0.7rem;
-          letter-spacing: 0.14em;
-          text-transform: uppercase;
-          color: var(--terra);
-          margin-bottom: 1rem;
-        }
-        .grilla {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-          gap: 1rem;
-        }
-        .ficha {
-          background: var(--bone);
-          border-radius: var(--r);
-          padding: 1.2rem 1.3rem;
-        }
-        h2 {
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-size: 1.05rem;
-        }
-        .punto {
-          width: 0.6rem;
-          height: 0.6rem;
-          border-radius: 50%;
-          background: #bbb;
-        }
-        .punto[data-on="true"] {
-          background: var(--ember);
-        }
-        .numero {
-          font-size: 3rem;
-          font-weight: 800;
-          line-height: 1;
-          margin: 0.6rem 0 0.2rem;
-        }
-        .numero span {
-          font-size: 1rem;
-          font-weight: 400;
-        }
-        .meta {
-          color: var(--ink-4);
-          margin-bottom: 0.4rem;
-        }
-        a {
-          font-size: 0.85rem;
-          text-decoration: underline;
-        }
-        ul {
-          margin-top: 0.8rem;
-          border-top: var(--linea);
-          padding-top: 0.6rem;
-        }
-        li {
-          display: flex;
-          justify-content: space-between;
-          font-size: 0.85rem;
-          padding: 0.15rem 0;
-        }
-      `}</style>
-    </div>
+      </ul>
+    </>
   );
 }

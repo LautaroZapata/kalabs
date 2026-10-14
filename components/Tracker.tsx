@@ -9,7 +9,9 @@ import { LATIDO_MS } from "@/lib/panel";
    sessionStorage. Si /api/track no responde, no rompe la página. */
 export default function Tracker({ project }: { project: string }) {
   useEffect(() => {
+    // En dev no cuenta, y el panel (también abierto desde Tauri) tampoco.
     if (process.env.NODE_ENV !== "production") return;
+    if (location.pathname.startsWith("/admin")) return;
     let id = sessionStorage.getItem("kalabs-sid");
     if (!id) {
       id = crypto.randomUUID();

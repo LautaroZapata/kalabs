@@ -31,7 +31,7 @@ export async function GET(req: Request) {
     p_token: token,
   });
   if (error || !data) {
-    console.error("[panel] kalabs_stats falló", error);
+    console.error("[panel] kalabs_stats falló", error?.code, error?.message);
     return NextResponse.json({ ok: false }, { status: 500 });
   }
   const stats = data as Record<string, Stats>;
