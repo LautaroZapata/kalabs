@@ -1,0 +1,62 @@
+/* La escena ocupa la pantalla entera, de borde a borde y por debajo de la
+   barra transparente. */
+.marco {
+  height: 100svh;
+  min-height: 520px;
+}
+
+/* `container-type: size`: lo de adentro (la portada) se mide contra la escena,
+   no contra la ventana. */
+.escena {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: #0b0d10;
+  container-type: size;
+  touch-action: pan-y;
+}
+
+.video,
+.lienzo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* El video es el respaldo (movimiento reducido o sin WebGL): mismo foco que el
+   shader, así no salta cuando el lienzo aparece encima. */
+.video {
+  object-fit: cover;
+  object-position: var(--foco);
+}
+
+.lienzo {
+  opacity: 0;
+  transition: opacity 0.6s var(--ease);
+}
+
+.escena[data-gl="1"] .lienzo {
+  opacity: 1;
+}
+
+/* La portada ocupa la escena entera: se ubica sola respecto de la esfera. */
+.texto {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.filtros {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.relevo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}

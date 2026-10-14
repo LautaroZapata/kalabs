@@ -98,3 +98,154 @@
   .buscador,
   .nota { animation: none; }
 }
+
+/* Fuera de la escena el campo y la nota van en la columna de siempre. */
+.pila {
+  display: contents;
+}
+
+/* ===== Sobre la escena del héroe =====
+   La portada ocupa la escena entera y se ubica respecto de la esfera del
+   video: --ox y --oy son su centro, --od su diámetro y --of el tamaño de las
+   letras de la palabra (los escribe Escena.tsx en cada cuadro). --alto es lo
+   más alto entre la esfera y la caja alta de las letras. */
+.sobreEscena {
+  position: absolute;
+  inset: 0;
+  display: block;
+  min-height: 0;
+  padding: 0;
+  color: #f4ecdc;
+  --hueco: calc(var(--of, 120px) * 0.05);
+  --alto: max(var(--od, 100px), calc(var(--of, 120px) * 0.7));
+}
+
+.titulo {
+  margin: 0;
+  font: inherit;
+}
+
+/* El filtro de la toma, también en el texto: crema y no blanco, apenas
+   blando como el video, con un halo cálido como el bloom y el grano encima
+   (el filtro SVG de Escena, que se mueve como el del video). */
+.film {
+  color: #f6eedf;
+  filter: blur(0.3px) url(#grano-texto);
+  /* El bloom del revelado, en capas: un núcleo que quema apenas el borde, un
+     halo medio cálido y una corona ancha y tenue, como la luz del video. */
+  text-shadow:
+    0 0 0.03em rgba(255, 250, 238, 0.85),
+    0 0 0.12em rgba(255, 236, 205, 0.55),
+    0 0 0.45em rgba(255, 214, 165, 0.35),
+    0 0 1.2em rgba(255, 190, 130, 0.22);
+}
+
+.letras {
+  position: absolute;
+  top: var(--oy, 50%);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: var(--of, 120px);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+  /* La caja es la altura de las mayúsculas: así quedan centradas con la esfera. */
+  text-box: trim-both cap alphabetic;
+  transform: translateY(-50%);
+}
+
+.izq { right: calc(100% - var(--ox, 50%) + var(--od, 100px) / 2 + var(--hueco)); }
+.der { left: calc(var(--ox, 50%) + var(--od, 100px) / 2 + var(--hueco)); }
+
+/* "Contanos qué hay que": chico, arriba de la palabra, centrado en la esfera. */
+.antes {
+  position: absolute;
+  left: var(--ox, 50%);
+  bottom: calc(100% - var(--oy, 50%) + var(--alto) / 2 + var(--of, 120px) * 0.2);
+  transform: translateX(-50%);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.15rem, calc(var(--of, 120px) * 0.28), 2.3rem);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+/* El campo y la nota, debajo de la palabra. El campo es una píldora de vidrio
+   esmerilado, tipo buscador, con el botón brasa adentro; la nota va suelta
+   debajo. El filtro de la toma va en los textos, no en la píldora: un `filter`
+   en el contenedor anula el desenfoque de atrás. */
+.debajo {
+  position: absolute;
+  left: var(--ox, 50%);
+  top: calc(var(--oy, 50%) + var(--alto) / 2 + var(--of, 120px) * 0.3);
+  transform: translateX(-50%);
+  width: min(560px, calc(100% - 2.5rem));
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.8rem;
+}
+
+.sobreEscena .buscador {
+  width: 100%;
+  padding: 0.4rem 0.45rem 0.4rem 1.4rem;
+  border: 1px solid rgba(246, 238, 223, 0.3);
+  border-radius: 999px;
+  background: rgba(12, 18, 26, 0.38);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  box-shadow: 0 0 0 1px rgba(255, 214, 165, 0.06), 0 12px 40px rgba(5, 10, 20, 0.3);
+}
+.sobreEscena .buscador:focus-within { border-color: rgba(255, 107, 26, 0.85); }
+.sobreEscena .campo {
+  color: #f6eedf;
+  font-size: 1.08rem;
+  text-shadow: 0 0 0.12em rgba(255, 236, 205, 0.45), 0 0 0.5em rgba(255, 214, 165, 0.25);
+}
+.sobreEscena .campo::placeholder { color: rgba(246, 238, 223, 0.86); }
+.sobreEscena .flecha {
+  width: 44px;
+  height: 44px;
+  background: var(--ember);
+  color: var(--ink);
+  box-shadow: 0 0 22px rgba(255, 107, 26, 0.45);
+}
+.sobreEscena .nota {
+  margin: 0;
+  color: rgba(246, 238, 223, 0.9);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(5, 10, 20, 0.7), 0 0 14px rgba(5, 10, 20, 0.45);
+}
+.sobreEscena .nota b { color: #f6eedf; }
+
+/* Los textos del héroe son imagen, no contenido para copiar: no se seleccionan.
+   El campo sí, para poder escribir. */
+.sobreEscena .titulo,
+.sobreEscena .nota,
+.sobreEscena .flecha {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* La entrada de siempre, pero sin mover lo que se calza con la esfera. */
+.sobreEscena .antes,
+.sobreEscena .letras,
+.sobreEscena .debajo {
+  animation: aparece 1.2s var(--ease) both;
+}
+.sobreEscena .letras { animation-delay: 0.15s; }
+.sobreEscena .debajo { animation-delay: 0.3s; }
+
+@keyframes aparece {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sobreEscena .antes,
+  .sobreEscena .letras,
+  .sobreEscena .debajo { animation: none; }
+}

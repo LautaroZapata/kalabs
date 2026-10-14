@@ -33,5 +33,8 @@ export const display = Bricolage_Grotesque({
 export const body = Hanken_Grotesk({
   subsets: ["latin"],
   display: "swap",
+  /* La itálica es sólo para la entrada de la portada sobre el video
+     ("Lo que necesitás es"): una línea, un gesto. */
+  style: ["normal", "italic"],
   variable: "--font-body",
 });

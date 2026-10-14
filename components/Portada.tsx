@@ -31,8 +31,11 @@ const ARRANQUE = 900; /* deja leer la pregunta antes de empezar a escribir */
  *
  * Si lo manda vacío no pasa nada raro: baja igual al formulario. Un campo que
  * no hace nada cuando lo apretás es peor que uno que no está.
+ *
+ * `sobreEscena`: la misma portada encima del video del héroe, en claro y
+ * medida contra la escena, no contra la ventana (ver Escena.module.css).
  */
-export default function Portada() {
+export default function Portada({ sobreEscena = false }: { sobreEscena?: boolean }) {
   const [texto, setTexto] = useState("");
   const [antes, medio, despues] = UI.portadaPregunta;
 
@@ -114,13 +117,36 @@ export default function Portada() {
   }
 
   return (
-    <section id="portada" className={s.portada} aria-label="Portada">
-      <h1 className={`${s.pregunta} titular acento`}>
-        {antes}
-        <b>{medio}</b>
-        {despues}
-      </h1>
+    <section id="portada" className={`${s.portada} ${sobreEscena ? s.sobreEscena : ""}`} aria-label="Portada">
+      {sobreEscena ? (
+        /* Sobre el video la palabra se arma alrededor de la esfera de la toma:
+           "RES" a la izquierda, "LVER" a la derecha y la O es la esfera misma.
+           La escena escribe dónde está (--ox, --oy, --od) y el tamaño de letra
+           (--of); el lector de pantalla lee la frase entera. */
+        <h1 className={s.titulo}>
+          <span className="sr">
+            {UI.escenaEntrada} {medio}
+            {despues}
+          </span>
+          <span className={`${s.antes} ${s.film}`} aria-hidden="true">
+            {UI.escenaEntrada}
+          </span>
+          <span className={`${s.letras} ${s.izq} ${s.film}`} data-letras="izq" aria-hidden="true">
+            {medio.slice(0, medio.indexOf("o")).toUpperCase()}
+          </span>
+          <span className={`${s.letras} ${s.der} ${s.film}`} data-letras="der" aria-hidden="true">
+            {medio.slice(medio.indexOf("o") + 1).toUpperCase()}
+          </span>
+        </h1>
+      ) : (
+        <h1 className={`${s.pregunta} titular acento`}>
+          {antes}
+          <b>{medio}</b>
+          {despues}
+        </h1>
+      )}
 
+      <div className={sobreEscena ? s.debajo : s.pila} data-debajo>
       <form className={s.buscador} onSubmit={llevarAlFormulario}>
         <input
           className={s.campo}
@@ -142,6 +168,7 @@ export default function Portada() {
       <p className={s.nota}>
         {UI.portadaNota} <b>{UI.portadaNotaFuerte}</b>
       </p>
+      </div>
     </section>
   );
 }

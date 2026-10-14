@@ -211,6 +211,9 @@ export const UI = {
      sí mismo, viene con un problema; el campo de abajo es para escribirlo, y
      lo que escriba viaja al formulario de contacto. */
   portadaPregunta: ["Contanos qué hay que ", "resolver", "."],
+  /* La misma idea sobre el video del héroe: la entrada va en itálica, chica,
+     y "resolver" se arma alrededor de la esfera de la toma (la O es ella). */
+  escenaEntrada: "Lo que necesitás es",
   /* El placeholder de arranque y el que queda cuando el campo está enfocado o
      el sistema pide movimiento reducido. Es también el que ve quien entra sin
      JavaScript, así que tiene que funcionar solo. */

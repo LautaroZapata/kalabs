@@ -64,6 +64,12 @@ html {
   scroll-padding-top: 5rem;
 }
 
+/* La barra es fija y no ocupa lugar: el contenido arranca debajo. Si lo
+   primero es la escena del héroe, va hasta el borde de arriba, debajo de la
+   barra transparente. */
+#contenido { padding-top: var(--barra); }
+#contenido:has(> [data-escena]) { padding-top: 0; }
+
 body {
   margin: 0;
   background: var(--papel);

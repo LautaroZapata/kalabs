@@ -4,25 +4,36 @@
    monitor ancho se vería el corte—; lo que se alinea con el resto del sitio es
    el contenido de adentro. */
 .barra {
-  position: sticky;
-  top: 0;
+  /* Fija y transparente: el sitio pasa por debajo y la barra se adapta a lo
+     que tiene detrás (BarraTono marca cada lado como claro u oscuro). Sin
+     fondo, sin desenfoque y sin filete: sobre el héroe a pantalla completa
+     cualquier banda se vería como un corte. */
+  position: fixed;
+  inset: 0 0 auto;
   z-index: 700;
-  /* Antes acá había un degradado de papel a transparente. Se veía bien con la
-     página arriba de todo y mal apenas se scrolleaba: la mitad de abajo de la
-     barra dejaba pasar el contenido difuminado y las pastillas quedaban
-     tapadas a medias. Ahora es papel translúcido con desenfoque —lo que pasa
-     por debajo se insinúa, no compite— y las pastillas tienen fondo propio. */
-  background: rgba(247, 242, 231, 0.88);
-  backdrop-filter: blur(16px) saturate(1.3);
-  -webkit-backdrop-filter: blur(16px) saturate(1.3);
-  /* El filete de abajo le da borde a la banda. Sin él, sobre la captura oscura
-     del proyecto la barra se agrisa y parece que se está despintando. */
-  border-bottom: var(--linea);
+  color: var(--ink);
+  pointer-events: none;
 }
 
-/* Sin soporte de `backdrop-filter` no hay medias tintas: papel opaco. */
-@supports not (backdrop-filter: blur(1px)) {
-  .barra { background: var(--papel); }
+.barra a { pointer-events: auto; }
+
+.marca { transition: color 0.35s var(--ease); }
+.barra[data-izq="oscuro"] .marca { color: var(--papel); }
+
+/* Las pastillas pasan a contorno: oscuras sobre lo claro, claras sobre lo oscuro.
+   La de escribir sigue en brasa: es la acción, se ve sobre cualquier fondo. */
+.barra :global(.pastilla:not(.pastilla--brasa)) {
+  background: transparent;
+  transition: background 0.3s var(--ease), color 0.35s var(--ease), border-color 0.35s var(--ease), transform 0.3s var(--ease);
+}
+.barra[data-der="oscuro"] :global(.pastilla:not(.pastilla--brasa)) {
+  color: var(--papel);
+  border-color: rgba(247, 242, 231, 0.45);
+}
+.barra[data-der="oscuro"] :global(.pastilla:not(.pastilla--brasa):hover) {
+  background: var(--papel);
+  color: var(--ink);
+  border-color: var(--papel);
 }
 
 .interior {
