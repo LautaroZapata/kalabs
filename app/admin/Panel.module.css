@@ -270,6 +270,10 @@
   .paginas {
     grid-column: 1 / -1;
   }
+  /* El "0 hoy" ya lo dice; en escritorio queda para alinear la columna. */
+  .paginas:has(.nada) {
+    display: none;
+  }
 }
 
 /* Celular: todo en una columna; los totales en dos, con "en línea" arriba. */
