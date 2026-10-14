@@ -2,7 +2,7 @@
    eso corta la página en dos —arriba lo que hacemos, abajo cómo escribirnos—. */
 .banner {
   margin-top: clamp(3rem, 8vh, 6rem);
-  background: var(--ink);
+  background: var(--plano);
   color: var(--papel);
   view-timeline-name: --banda;
 }
@@ -11,30 +11,115 @@
   padding: clamp(3.5rem, 10vh, 6rem) 0;
 }
 
+/* La banda va a sangre, así que la ficha puede ser más ancha que la caja del
+   resto del sitio: en pantallas grandes la foto gana lugar en vez de dejar
+   aire a los costados. */
+.caja {
+  width: 100%;
+  max-width: 1800px;
+  margin-inline: auto;
+  padding-inline: var(--edge);
+}
+
 /* ---------- la ficha ----------
-   Una sola pieza partida en dos: el dibujo y la promesa. Un tono más clara
+   Una sola pieza partida en dos: la toma y la promesa. Un tono más clara
    que la banda, con la curva de la casa y un filete entre las dos mitades. */
 .ficha {
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  /* La foto toma todo lo que sobra; el texto, una columna de lectura. */
+  grid-template-columns: minmax(0, 1fr) clamp(20rem, 27vw, 32rem);
   border-radius: var(--r);
-  background: var(--ink-2);
+  background: var(--plano-2);
   box-shadow: inset 0 0 0 1px rgba(247, 242, 231, 0.1);
   overflow: hidden;
 }
 
+/* La foto del puesto, siempre cubriendo la mitad de la ficha. La escena es
+   una caja 16:9 que cubre la lámina (con unidades del contenedor), así la
+   pantalla SVG se ubica en porcentajes de la foto y queda calzada al vidrio
+   del monitor sea cual sea el recorte. */
 .lamina {
+  position: relative;
   margin: 0;
-  padding: clamp(1rem, 2.5vw, 2rem);
-  display: grid;
-  place-items: center;
+  /* La proporción de la foto: entra el escritorio entero, con la lámpara. */
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #0a0b0c;
+  container-type: size;
 }
 
-.dibujo {
-  display: block;
-  width: 100%;
-  height: auto;
-  overflow: visible;
+.escena {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: max(100cqw, 177.78cqh);
+  aspect-ratio: 16 / 9;
+  translate: -50% -50%;
+  /* El acercamiento va hacia el monitor, no al centro de la foto. */
+  transform-origin: 50.6% 42.8%;
+}
+
+.foto { object-fit: cover; }
+
+/* El vidrio del monitor en la foto: x 319–976, y 125–487 de 1280 × 720. */
+.pantalla {
+  position: absolute;
+  left: 24.92%;
+  top: 17.36%;
+  width: 51.33%;
+  height: 50.28%;
+  overflow: hidden;
+  border-radius: 0.3%;
+  /* La pantalla alumbra: un halo frío apenas fuera del vidrio. */
+  filter: drop-shadow(0 0 2.2cqw rgba(150, 190, 220, 0.18));
+}
+
+/* ---------- lo que hay en la pantalla ---------- */
+.pVidrio { fill: #0f1d25; }
+.pBarra { fill: #16262f; }
+.pPunto { fill: #2c414c; }
+.pPuntoBrasa { fill: var(--ember); }
+.pDireccion { fill: #0c171d; }
+.pDireccionTexto {
+  font: 600 11px var(--font-body), system-ui, sans-serif;
+  fill: #8fa3ad;
+}
+
+.pTrazo {
+  fill: none;
+  stroke: #e9e2d2;
+  stroke-width: 1.6;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  opacity: 0.75;
+  filter: drop-shadow(0 0 3px rgba(233, 226, 210, 0.35));
+}
+
+.pBloque { fill: #2a404c; }
+.pBloqueBrasa { fill: var(--ember); filter: drop-shadow(0 0 10px rgba(255, 107, 26, 0.6)); }
+
+.pMarca {
+  font: 700 16px var(--font-body), system-ui, sans-serif;
+  fill: var(--papel);
+}
+.pPastilla { fill: rgba(247, 242, 231, 0.12); stroke: rgba(247, 242, 231, 0.45); stroke-width: 1; }
+.pPastillaBrasa { fill: var(--ember); }
+.pEntrada {
+  font: italic 500 19px var(--font-body), system-ui, sans-serif;
+  fill: var(--papel);
+}
+.pTitulo {
+  font: 800 108px var(--font-body), system-ui, sans-serif;
+  letter-spacing: -0.03em;
+  fill: #f1ead9;
+}
+.pCampo { fill: rgba(12, 20, 26, 0.55); stroke: rgba(247, 242, 231, 0.35); stroke-width: 1; }
+.pLinea { fill: rgba(247, 242, 231, 0.6); }
+
+/* Las luces de estado. En reposo, las tres prendidas. */
+.pLed {
+  fill: var(--ember);
+  filter: drop-shadow(0 0 5px rgba(255, 107, 26, 0.9));
 }
 
 .texto {
@@ -74,7 +159,9 @@
 }
 .linea > span {
   display: block;
-  padding-bottom: 0.1em;
+  /* Lugar para los descendentes: con 0,1em la máscara le cortaba la cola a
+     la "p" de «empezar». */
+  padding-bottom: 0.2em;
 }
 
 .antes {
@@ -139,7 +226,7 @@
   margin: -4.5px 0 0 -4.5px;
   border-radius: 50%;
   background: var(--ember);
-  box-shadow: 0 0 0 3px var(--ink-2);
+  box-shadow: 0 0 0 3px var(--plano-2);
 }
 
 @media (max-width: 1000px) {
@@ -157,81 +244,9 @@
 }
 
 /* ==========================================================================
-   EL KIT DE ANATOMY
-   Los mismos nombres de clase que usa `lib/iso` al dibujar, con la paleta
-   del sitio: tinta cálida en lugar de grises, papel en lugar de blanco.
-   ========================================================================== */
-.lamina {
-  --anatomy-paper: var(--ink-2);
-  --anatomy-face: #1f2427;
-  --anatomy-top: #2c3337;
-  --anatomy-shade-0: #181c1f;
-  --anatomy-shade-1: #1d2225;
-  --anatomy-shade-2: #22282b;
-  --anatomy-shade-3: #282e32;
-  --anatomy-lit-top: #3a4145;
-  --anatomy-lit-shade: #2b3236;
-  --anatomy-hi: #e9e3d6;
-  --anatomy-mid: #8d877b;
-  --anatomy-lo: #555550;
-  --anatomy-faint: #30363a;
-  --anatomy-lit: var(--papel);
-  --anatomy-halo: #030404;
-  --anatomy-halo-opacity: 0.85;
-  --anatomy-dot: var(--bone);
-  --anatomy-weight: 0.6px;
-}
-
-.dibujo :global(path),
-.dibujo :global(circle) { vector-effect: non-scaling-stroke; }
-.dibujo :global(.iso-fill) { fill: var(--anatomy-paper); stroke: none; }
-.dibujo :global(.iso-shade),
-.dibujo :global(.iso-top) { stroke: none; }
-.dibujo :global(.iso-shade[data-shade="0"]) { fill: var(--anatomy-shade-0); }
-.dibujo :global(.iso-shade[data-shade="1"]) { fill: var(--anatomy-shade-1); }
-.dibujo :global(.iso-shade[data-shade="2"]) { fill: var(--anatomy-shade-2); }
-.dibujo :global(.iso-shade[data-shade="3"]) { fill: var(--anatomy-shade-3); }
-.dibujo :global(.iso-top) { fill: var(--anatomy-top); }
-.dibujo :global(.iso-solid[data-lit] > .iso-fill) { fill: var(--anatomy-face); }
-.dibujo :global(.iso-solid[data-lit] > .iso-top) { fill: var(--anatomy-lit-top); }
-.dibujo :global(.iso-solid[data-lit] > .iso-shade) { fill: var(--anatomy-lit-shade); }
-.dibujo :global(.iso-solid[data-lit] > .iso-edge) { stroke: var(--anatomy-lit); }
-.dibujo :global(.iso-solid[data-seamless] > .iso-shade),
-.dibujo :global(.iso-solid[data-seamless] > .iso-top) { stroke-width: 0.4; stroke-linejoin: round; }
-.dibujo :global(.iso-solid[data-seamless] > .iso-shade[data-shade="0"]) { stroke: var(--anatomy-shade-0); }
-.dibujo :global(.iso-solid[data-seamless] > .iso-shade[data-shade="1"]) { stroke: var(--anatomy-shade-1); }
-.dibujo :global(.iso-solid[data-seamless] > .iso-shade[data-shade="2"]) { stroke: var(--anatomy-shade-2); }
-.dibujo :global(.iso-solid[data-seamless] > .iso-shade[data-shade="3"]) { stroke: var(--anatomy-shade-3); }
-.dibujo :global(.iso-solid[data-seamless][data-lit] > .iso-shade) { stroke: var(--anatomy-lit-shade); }
-.dibujo :global(.iso-halo) {
-  fill: var(--anatomy-halo);
-  stroke: none;
-  filter: blur(9px);
-  opacity: var(--anatomy-halo-opacity);
-  transform: translateY(3px);
-}
-.dibujo :global(.iso-line) {
-  fill: none;
-  stroke: var(--anatomy-lo);
-  stroke-width: var(--anatomy-weight);
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-.dibujo :global(.iso-line[data-tone="hi"]) { stroke: var(--anatomy-hi); }
-.dibujo :global(.iso-line[data-tone="mid"]) { stroke: var(--anatomy-mid); }
-.dibujo :global(.iso-line[data-tone="lo"]) { stroke: var(--anatomy-lo); }
-.dibujo :global(.iso-line[data-tone="faint"]) { stroke: var(--anatomy-faint); }
-.dibujo :global(.iso-line[data-tone="lit"]) { stroke: var(--anatomy-lit); }
-.dibujo :global(.iso-dots circle) { fill: var(--anatomy-dot); stroke: none; opacity: 0.32; }
-.dibujo :global(.iso-dots[data-tone="hi"] circle) { opacity: 0.85; }
-.dibujo :global(.iso-dots[data-tone="mid"] circle) { opacity: 0.45; }
-.dibujo :global(.iso-dots[data-tone="lo"] circle) { opacity: 0.22; }
-
-
-/* ==========================================================================
    EL RECORRIDO
-   La sección se estira y la ficha queda pegada: el tramo que se baja es el
-   que construye el sitio del monitor. Los porcentajes se cuentan sobre
+   La sección se estira y la ficha queda pegada: el tramo que se baja es la
+   hora del día en el lago. Los porcentajes se cuentan sobre
    `contain`, el trecho en que la sección cubre la pantalla entera. Un tercio
    por promesa.
    ========================================================================== */
@@ -249,7 +264,28 @@
     }
 
     /* La ficha entra entera en la pantalla. */
-    .dibujo { max-height: calc(100svh - var(--barra) - 6.5rem); }
+    .lamina { max-height: calc(100svh - var(--barra) - 2.5rem); }
+
+    /* El sitio de la pantalla avanza con las frases: el boceto se traza, la
+       estructura se asienta y la portada aparece. Una luz por tramo. La
+       cámara se acerca al monitor durante todo el recorrido. */
+    .pTrazo,
+    .pEstructura,
+    .pTerminado,
+    .pLed,
+    .escena {
+      animation-timeline: --banda;
+      animation-fill-mode: both;
+      animation-timing-function: linear;
+    }
+    .pTrazo { animation-name: trazar; animation-range: contain 3% contain 28%; }
+    .pEstructura { animation-name: asentar; animation-range: contain 36% contain 54%; }
+    .pTerminado { animation-name: asentar; animation-range: contain 69% contain 84%; }
+    .pLed { animation-name: prender; }
+    .pLed[data-tramo="0"] { animation-range: contain 26% contain 28%; }
+    .pLed[data-tramo="1"] { animation-range: contain 58% contain 60%; }
+    .pLed[data-tramo="2"] { animation-range: contain 92% contain 94%; }
+    .escena { animation-name: acercar; animation-range: contain 0% contain 100%; }
 
     .riel { display: flex; }
 
@@ -293,7 +329,7 @@
 
     @media (max-width: 1000px) {
       .pegado { padding: 0.75rem 0; }
-      .dibujo { max-height: 46svh; }
+      .lamina { max-height: 46svh; }
     }
   }
 }
@@ -334,126 +370,21 @@
 }
 @keyframes llegar {
   from {
-    background: var(--ink-2);
-    box-shadow: 0 0 0 3px var(--ink-2), inset 0 0 0 1px rgba(247, 242, 231, 0.35);
-  }
-}
-
-@keyframes asentar {
-  from { opacity: 0; }
-}
-
-/* ==========================================================================
-   EL ESCRITORIO
-   El estado de reposo es el final: el sitio terminado, las tres luces del
-   servidor prendidas y el aviso de la respuesta.
-   ========================================================================== */
-.dibujo :global(.pc-vidrio) { fill: #0b0e10; }
-.dibujo :global(.pc-fondo) { fill: var(--papel); }
-.dibujo :global(.pc-barra) { fill: #e3dccb; }
-.dibujo :global(.pc-punto) { fill: var(--bone-dim); }
-.dibujo :global(.pc-punto--brasa) { fill: var(--ember); }
-.dibujo :global(.pc-direccion) { fill: var(--papel); }
-.dibujo :global(.pc-chip) { fill: var(--ink); }
-.dibujo :global(.pc-texto) {
-  font-family: var(--font-body), system-ui, sans-serif;
-  font-weight: 600;
-}
-.dibujo :global(.pc-texto--direccion) { font-size: 2.5px; fill: var(--ink-4); }
-.dibujo :global(.pc-texto--chip) { font-size: 2.4px; fill: var(--papel); }
-
-.dibujo :global(.pc-trazo) {
-  fill: none;
-  stroke: var(--ink-4);
-  stroke-width: 0.5;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 0;
-}
-.dibujo :global(.pc-bloque) { fill: #cfc7b6; }
-.dibujo :global(.pc-color--logo),
-.dibujo :global(.pc-color--titulo) { fill: var(--ink); }
-.dibujo :global(.pc-color--link) { fill: var(--ink-4); }
-.dibujo :global(.pc-color--texto) { fill: var(--bone-dim); }
-.dibujo :global(.pc-color--boton) { fill: var(--ember); }
-.dibujo :global(.pc-color--tarjeta) { fill: var(--bone); stroke: #d8cfbd; stroke-width: 0.4; }
-.dibujo :global(.pc-color--cielo) { fill: #f3d6bd; }
-.dibujo :global(.pc-color--sol) { fill: var(--ember); }
-.dibujo :global(.pc-color--cerro) { fill: var(--terra); }
-.dibujo :global(.pc-flecha) {
-  fill: var(--ink);
-  stroke: var(--papel);
-  stroke-width: 0.4;
-  stroke-linejoin: round;
-}
-
-.dibujo :global(.pc-aviso) { opacity: 0; }
-.dibujo :global(.pc-aviso[data-tramo="2"]) { opacity: 1; }
-
-.dibujo :global(.pc-bahia) { fill: #1a1e21; }
-.dibujo :global(.pc-rejilla path) {
-  fill: #0b0e10;
-  stroke: var(--anatomy-lo);
-  stroke-width: 0.4;
-}
-.dibujo :global(.pc-boton) { fill: var(--anatomy-shade-2); }
-.dibujo :global(.pc-led) { fill: var(--ember); }
-.dibujo :global(.pc-tornillo) { fill: var(--bone); opacity: 0.5; }
-.dibujo :global(.pc-luz-monitor) { fill: var(--ember); }
-.dibujo :global(.pc-cafe) { fill: #3b2416; }
-
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .dibujo :global(.pc-trazo),
-    .dibujo :global(.pc-capa--estructura),
-    .dibujo :global(.pc-capa--terminado),
-    .dibujo :global(.pc-cursor),
-    .dibujo :global(.pc-led),
-    .dibujo :global(.pc-aviso) {
-      animation-timeline: --banda;
-      animation-fill-mode: both;
-      animation-timing-function: linear;
-    }
-
-    /* El boceto se traza, la estructura se rellena y el sitio toma color. */
-    .dibujo :global(.pc-trazo) { animation-name: trazar; animation-range: contain 3% contain 28%; }
-    .dibujo :global(.pc-capa--estructura) { animation-name: asentar; animation-range: contain 36% contain 54%; }
-    .dibujo :global(.pc-capa--terminado) { animation-name: asentar; animation-range: contain 69% contain 84%; }
-    .dibujo :global(.pc-cursor) {
-      animation-name: apuntar;
-      animation-timing-function: cubic-bezier(0.3, 0, 0.2, 1);
-      animation-range: contain 78% contain 94%;
-    }
-
-    .dibujo :global(.pc-led) { animation-name: prender; }
-    .dibujo :global(.pc-led[data-tramo="0"]) { animation-range: contain 26% contain 28%; }
-    .dibujo :global(.pc-led[data-tramo="1"]) { animation-range: contain 58% contain 60%; }
-    .dibujo :global(.pc-led[data-tramo="2"]) { animation-range: contain 92% contain 94%; }
-
-    .dibujo :global(.pc-aviso[data-tramo="0"]) { animation-name: soloSalir; animation-range: contain 0% contain 36%; }
-    .dibujo :global(.pc-aviso[data-tramo="1"]) { animation-name: soloTurno; animation-range: contain 30% contain 69%; }
-    .dibujo :global(.pc-aviso[data-tramo="2"]) { animation-name: soloEntrar; animation-range: contain 63% contain 69%; }
+    background: var(--plano-2);
+    box-shadow: 0 0 0 3px var(--plano-2), inset 0 0 0 1px rgba(247, 242, 231, 0.35);
   }
 }
 
 @keyframes trazar {
   from { stroke-dashoffset: 1; }
 }
-@keyframes apuntar {
-  from { transform: translate(34px, 16px); opacity: 0; }
-  25% { opacity: 1; }
+@keyframes asentar {
+  from { opacity: 0; }
 }
 @keyframes prender {
-  from { fill: #2a2f32; }
+  from { fill: #2c414c; filter: none; }
 }
-@keyframes soloSalir {
-  0%, 83% { opacity: 1; }
-  100% { opacity: 0; }
-}
-@keyframes soloTurno {
-  0%, 100% { opacity: 0; }
-  15%, 85% { opacity: 1; }
-}
-@keyframes soloEntrar {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes acercar {
+  from { scale: 1; }
+  to { scale: 1.06; }
 }

@@ -17,6 +17,26 @@
 
 .barra a { pointer-events: auto; }
 
+/* Fuera del héroe, el fondo esmerilado: papel sobre lo claro, petróleo sobre
+   lo oscuro. Aparece con un fundido, no de golpe. */
+.barra::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background: rgba(247, 242, 231, 0.8);
+  border-bottom: 1px solid rgba(15, 18, 20, 0.08);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  backdrop-filter: blur(14px) saturate(1.15);
+  transition: opacity 0.35s var(--ease), background 0.35s var(--ease), border-color 0.35s var(--ease);
+}
+.barra[data-fondo="si"]::before { opacity: 1; }
+.barra[data-fondo="si"][data-der="oscuro"]::before {
+  background: rgba(12, 26, 33, 0.78);
+  border-bottom-color: rgba(247, 242, 231, 0.08);
+}
+
 .marca { transition: color 0.35s var(--ease); }
 .barra[data-izq="oscuro"] .marca { color: var(--papel); }
 

@@ -59,7 +59,7 @@
 }
 .carta[data-tono="tinta"] {
   color: var(--papel);
-  background: radial-gradient(110% 85% at 88% 0%, #232a2e 0%, var(--ink) 62%);
+  background: radial-gradient(110% 85% at 88% 0%, var(--plano-luz) 0%, var(--plano) 62%);
 }
 .carta[data-tono="hueso"] {
   color: var(--ink);
@@ -99,7 +99,10 @@
 }
 
 .carta[data-tono="hueso"] .pitch { color: var(--terra); }
-.carta[data-tono="tinta"] .pitch { color: var(--ember); }
+.carta[data-tono="tinta"] .pitch {
+  color: var(--ember);
+  text-shadow: var(--brillo-texto);
+}
 
 .detalle { opacity: 0.82; }
 
@@ -152,7 +155,7 @@
      empieza la sección siguiente de cada sitio, que asomaba como un filete
      claro sin explicación. */
   aspect-ratio: 16 / 9.1;
-  border-radius: 14px;
+  border-radius: var(--r);
   overflow: hidden;
   background: var(--ink-2);
   border: 1px solid rgba(15, 18, 20, 0.12);
@@ -350,7 +353,7 @@
     top: 0.6rem;
     left: 26%;
     width: 112%;
-    border-radius: 10px;
+    border-radius: var(--r);
   }
   .telefono {
     right: clamp(1rem, 5vw, 1.6rem);

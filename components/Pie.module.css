@@ -12,7 +12,7 @@
   /* El área segura de abajo: en un celular con barra de gestos, sin esto la
      última línea queda debajo del indicador de inicio. */
   padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
-  background: var(--ink);
+  background: var(--plano);
   color: var(--bone-dim);
 }
 

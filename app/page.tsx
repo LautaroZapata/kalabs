@@ -6,6 +6,7 @@ import Obra from "@/components/Obra";
 import Pie from "@/components/Pie";
 import Portada from "@/components/Portada";
 import Servicios from "@/components/Servicios";
+import Escena from "@/components/heroe/Escena";
 import { ENLACES, EQUIPO, PROYECTOS, SERVICIOS, SITE } from "@/lib/content";
 
 /**
@@ -87,16 +88,21 @@ export default function Page() {
       />
       <Barra />
 
-      {/* Todo se compone dentro de la caja menos el banner, que cruza la
-          pantalla entera: es lo que parte la página en dos —arriba lo que
-          hicimos, lo que hacemos y quiénes somos, abajo cómo escribirnos—.
+      {/* Todo se compone dentro de la caja menos la escena de la portada y el
+          banner, que cruzan la pantalla entera. El banner es lo que parte la
+          página en dos —arriba lo que hicimos, lo que hacemos y quiénes somos,
+          abajo cómo escribirnos—.
 
           El orden es el mismo que nombra la barra, y no por prolijidad: dos
           pastillas contiguas que bajan en orden invertido hacen dudar de si la
           navegación hace lo que dice. */}
       <main id="contenido">
+        {/* La portada va sobre el video del lago, a sangre y debajo de la
+            barra transparente; el resto se compone en la caja. */}
+        <Escena variante="lago">
+          <Portada sobreEscena />
+        </Escena>
         <div className="caja">
-          <Portada />
           <Obra />
           <Servicios />
           <Estudio />

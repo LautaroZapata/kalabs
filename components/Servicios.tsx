@@ -7,27 +7,28 @@ import { SERVICIOS, UI } from "@/lib/content";
 import s from "./Servicios.module.css";
 
 /**
- * Servicios: el mostrador.
+ * Servicios: una ventana de navegador.
  *
- * Un solo plano de tinta del ancho de la caja y del alto de una pantalla. A la
- * izquierda los tres nombres en tamaño de titular, siempre los tres; a la
- * derecha, el elegido: su dibujo, su cuerpo y sus entregables.
+ * La misma pantalla encendida del monitor del banner, ahora a tamaño real:
+ * vidrio petróleo, las tres luces arriba a la izquierda y los tres servicios
+ * como pestañas. La barra de dirección cambia con la pestaña elegida, y
+ * adentro está el dibujo grande del servicio, su cuerpo y sus entregables.
+ * Es la interfaz misma, no una ilustración de una.
  *
- * Antes eran tres fichas que se abrían. Funcionaban, pero plegadas ocupaban
- * tres renglones y se pasaban de largo: la sección donde se dice qué hacemos
- * medía menos que cualquier otra de la página. Es el mismo trato de uno por
- * vez, sin plegar nada —la sección mide siempre lo mismo, esté elegido el que
- * esté— y con los nombres enormes de entrada.
- *
- * El plano es tinta y no brasa a propósito: la brasa ya es el plano de la
- * obra, y dos planos naranjas en la misma página compiten en vez de repartirse
- * el trabajo.
- *
- * Los tres nombres son pestañas de verdad —flechas para moverse, Home y End
- * para los extremos— y los tres paneles se renderizan siempre: el que no está
+ * Las pestañas son pestañas de verdad —flechas para moverse, Home y End para
+ * los extremos— y los tres paneles se renderizan siempre: el que no está
  * elegido va con `hidden`, así el texto de los tres está en el HTML para quien
  * llegue sin JavaScript y para quien lo lea con un buscador.
  */
+
+/* "Sistemas a medida" → "sistemas-a-medida", para la barra de dirección. */
+function ruta(titulo: string) {
+  return titulo
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, "-");
+}
 
 const TECLAS: Record<string, number> = {
   ArrowRight: 1,
@@ -67,41 +68,47 @@ export default function Servicios() {
       </h2>
 
       <Reveal>
-        <div className={s.mostrador}>
-          <div
-            className={s.lista}
-            role="tablist"
-            aria-orientation="vertical"
-            aria-label={UI.serviciosLista}
-          >
-            {SERVICIOS.map((serv, i) => (
-              <button
-                key={serv.num}
-                type="button"
-                role="tab"
-                id={`serv-t-${serv.num}`}
-                aria-controls={`serv-p-${serv.num}`}
-                aria-selected={i === activo}
-                /* Un tablist es una sola parada de tabulador: adentro se mueve
-                   con las flechas, no tabulando tres veces. */
-                tabIndex={i === activo ? 0 : -1}
-                ref={(nodo) => {
-                  tabs.current[i] = nodo;
-                }}
-                className={s.nombre}
-                onClick={() => setActivo(i)}
-                /* Con el mouse alcanza con pasar por encima: es una vidriera,
-                   no un formulario. Con el dedo no pasa nada hasta el toque,
-                   que ya es el click. */
-                onPointerEnter={(e) => {
-                  if (e.pointerType === "mouse") setActivo(i);
-                }}
-                onKeyDown={(e) => teclas(e, i)}
-              >
-                {serv.titulo}
-              </button>
-            ))}
+        <div className={s.ventana}>
+          <div className={s.barra}>
+            <span className={s.luces} aria-hidden="true">
+              <i />
+              <i />
+              <i />
+            </span>
+            <div
+              className={s.pestanas}
+              role="tablist"
+              aria-label={UI.serviciosLista}
+            >
+              {SERVICIOS.map((serv, i) => (
+                <button
+                  key={serv.num}
+                  type="button"
+                  role="tab"
+                  id={`serv-t-${serv.num}`}
+                  aria-controls={`serv-p-${serv.num}`}
+                  aria-selected={i === activo}
+                  /* Un tablist es una sola parada de tabulador: adentro se
+                     mueve con las flechas, no tabulando tres veces. */
+                  tabIndex={i === activo ? 0 : -1}
+                  ref={(nodo) => {
+                    tabs.current[i] = nodo;
+                  }}
+                  className={s.pestana}
+                  onClick={() => setActivo(i)}
+                  onKeyDown={(e) => teclas(e, i)}
+                >
+                  <span className={s.favicon} aria-hidden="true" />
+                  {serv.titulo}
+                </button>
+              ))}
+            </div>
           </div>
+
+          {/* La dirección repite la pestaña: decorativa para el lector. */}
+          <p className={s.direccion} aria-hidden="true">
+            kalabs.dev/servicios/<b>{ruta(SERVICIOS[activo].titulo)}</b>
+          </p>
 
           {SERVICIOS.map((serv, i) => (
             <div
@@ -114,15 +121,17 @@ export default function Servicios() {
               hidden={i !== activo}
             >
               <Lamina serv={serv} />
-              <p className={`${s.cuerpo} parrafo`}>{serv.cuerpo}</p>
-              <p className="sr">{UI.serviciosEntregables}:</p>
-              <ul className={s.entregables}>
-                {serv.entregables.map((e) => (
-                  <li key={e} className={`${s.entregable} et`}>
-                    {e}
-                  </li>
-                ))}
-              </ul>
+              <div className={s.textoPanel}>
+                <p className={`${s.cuerpo} parrafo`}>{serv.cuerpo}</p>
+                <p className="sr">{UI.serviciosEntregables}:</p>
+                <ul className={s.entregables}>
+                  {serv.entregables.map((e) => (
+                    <li key={e} className={`${s.entregable} et`}>
+                      {e}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           ))}
         </div>

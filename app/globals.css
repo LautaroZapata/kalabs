@@ -1,9 +1,17 @@
 /* ==========================================================================
    KALABS — sistema base
 
+   Eje (2026-10-14): "Kalabs en fílmico". El héroe es una toma revelada como
+   película —luz real, grano, brillo— y el resto del sitio comparte ese
+   material: grano en toda la página, planos oscuros del color de la sombra
+   del lago, la brasa con el brillo de la esfera, cantos casi rectos como un
+   cuadro de película y movimiento lento, de cámara. Sigue siendo un estudio
+   de software: las capturas, los datos y los formularios se leen nítidos; la
+   textura acompaña, no tapa.
+
    Papel cálido, tinta encima y un solo plano de color pleno: la brasa.
-   La jerarquía la hacen el tamaño y el aire, no los bordes: lo que agrupa es
-   una curva de 24px, y lo que separa es un filete de un pixel al 18%.
+   La jerarquía la hacen el tamaño y el aire, no los bordes: lo que separa es
+   un filete de un pixel al 18%.
 
    Antes acá había un broadsheet: filetes de tres grosores, folio al pie,
    versalitas de diario. Se fue entero con el rediseño; si algo de esto vuelve
@@ -27,6 +35,17 @@
   --terra:    #9c3f26;  /* segunda voz: rótulos y palabras marcadas */
   --terra-dim:#6b2b1a;
 
+  /* --- planos oscuros ---
+     La sombra del agua del héroe, no un gris neutro: los bloques oscuros son
+     del mismo lago. La tinta sigue siendo el color del texto. */
+  --plano:    #0c1a21;
+  --plano-2:  #122631;  /* un tono más: fichas sobre el plano */
+  --plano-luz:#1c3542;  /* la luz que curva el plano arriba a la derecha */
+
+  /* El brillo de la esfera: halación cálida alrededor de la brasa. */
+  --brillo: 0 0 0 1px rgba(255, 107, 26, 0.35), 0 0 22px -2px rgba(255, 107, 26, 0.55);
+  --brillo-texto: 0 0 28px rgba(255, 107, 26, 0.45);
+
   /* --- ritmo ---
      El margen nunca baja del área segura: con `viewport-fit=cover` un celular
      con muesca en horizontal se come el margen entero y el texto queda debajo
@@ -36,8 +55,10 @@
     env(safe-area-inset-left, 0px),
     env(safe-area-inset-right, 0px)
   );
-  --r: 24px;          /* la curva de la casa: bloques, escena, pie */
-  --r-chico: 12px;    /* campos del formulario */
+  /* Cantos casi rectos, como el cuadro de una película. La píldora queda
+     sólo para lo que se toca: botones, pastillas, campos de una línea. */
+  --r: 6px;           /* bloques, fichas, capturas, pie */
+  --r-chico: 4px;     /* campos del formulario */
   --ancho: 1440px;    /* la caja */
   /* El alto de la barra pegajosa. Lo fija la barra y lo descuenta la portada,
      que ocupa el resto de la primera pantalla. */
@@ -46,7 +67,9 @@
   --linea: 1px solid rgba(15, 18, 20, 0.18);
 
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --spring: cubic-bezier(0.34, 1.3, 0.44, 1);
+  /* Antes rebotaba (1.3 de sobrepaso). Ahora llega y frena, como un dolly:
+     sin rebote en todo el sitio. El nombre queda para no tocar cada uso. */
+  --spring: cubic-bezier(0.22, 1, 0.36, 1);
 
   color-scheme: light;
 }
@@ -210,6 +233,7 @@ input, textarea, select {
   background: var(--ember);
   border-color: var(--ember);
   color: var(--ink);
+  box-shadow: var(--brillo);
 }
 
 .pastilla--brasa:hover {
@@ -244,14 +268,47 @@ input, textarea, select {
    en un módulo porque la usan cinco secciones distintas. */
 .rev {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(8px);
   transition:
-    opacity 0.8s var(--ease),
-    transform 0.8s var(--ease);
+    opacity 1.1s var(--ease),
+    transform 1.1s var(--ease);
 }
 .rev[data-visible="true"] {
   opacity: 1;
   transform: none;
+}
+
+/* ---------- grano de film ----------
+   Una capa fija sobre toda la página, con el mismo ruido monocromo del texto
+   del héroe. Va en `overlay` y muy baja: en el papel apenas se nota, en los
+   planos oscuros se siente, y las capturas siguen leyéndose nítidas. Cambia
+   a 12 cuadros por segundo moviendo la capa (compositor, no repinta).
+   La escena del héroe va por encima: ya trae su grano del shader. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  z-index: 200;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='2 0 0 0 -0.5 2 0 0 0 -0.5 2 0 0 0 -0.5 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  background-size: 220px;
+  mix-blend-mode: overlay;
+  opacity: 0.28;
+  animation: grano 0.5s steps(1) infinite;
+}
+
+[data-escena] {
+  position: relative;
+  z-index: 201;
+}
+
+@keyframes grano {
+  0%   { transform: translate(0, 0); }
+  17%  { transform: translate(-6%, 3%); }
+  33%  { transform: translate(4%, -5%); }
+  50%  { transform: translate(-3%, -7%); }
+  67%  { transform: translate(7%, 2%); }
+  83%  { transform: translate(-5%, 6%); }
 }
 
 /* ---------- movimiento reducido ---------- */
@@ -263,4 +320,5 @@ input, textarea, select {
     transition-duration: 0.001ms !important;
   }
   .rev { opacity: 1; transform: none; }
+  body::after { animation: none; }
 }

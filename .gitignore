@@ -29,5 +29,3 @@ tsconfig.tsbuildinfo
 # Panel escritorio (Tauri): binarios y bundles se generan con `tauri build`.
 apps/desktop/src-tauri/target/
 
-# Vista previa local del héroe con video (pesado, no se publica)
-public/heroe/

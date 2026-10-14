@@ -5,12 +5,11 @@ import { esferaEnEscena, montar, type Ajustes, type Encuadre } from "./motor";
 import s from "./Escena.module.css";
 
 /**
- * Vista previa del héroe con video: el clip revelado en loop, dibujado en
- * WebGL con paralaje según la profundidad, y la portada encima, en la franja
- * de cielo de cada escena. Es una prueba local para elegir entre el lago y la
- * sierra; no está en la portada del sitio.
+ * El héroe con video: el clip revelado del lago en loop, dibujado en WebGL
+ * con paralaje según la profundidad y grano en vivo, y la portada encima, con
+ * RESOLVER calzado a la esfera de la toma. Es la portada de la home.
  */
-type Variante = "lago" | "sierra";
+type Variante = "lago";
 
 type Escena = Ajustes & {
   alt: string;
@@ -29,16 +28,7 @@ const ESCENAS: Record<Variante, Escena> = {
     esfera: { x: 0.516, y: 0.522, r: 0.076 },
     grano: 0.036,
   },
-  sierra: {
-    alt: "Lomas verdes de día bajo un cielo azul, con un ombú solo en la cima y una esfera de luz naranja que sale por detrás de su copa.",
-    foco: { x: 0.53, y: 0.5 },
-    zoom: 1.06,
-    paralaje: 0.022,
-    profundidad: "/heroe/sierra-profundidad.png",
-    tono: "oscuro",
-  },
 };
-
 
 /** `archivo`: otro video para la misma escena (mismo encuadre), para comparar versiones. */
 export default function Escena({

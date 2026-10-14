@@ -269,11 +269,13 @@ export const UI = {
     ["El presupuesto ", "se cierra antes de empezar", "."],
     ["Y te contestamos ", "en 24 horas", "."],
   ] as [string, string, string][],
-  escritorio: {
+  /* El banner: el puesto de trabajo de noche, y en el monitor esta misma
+     portada construyéndose. La foto sale del lab (aiav/outputs/puesto). */
+  puesto: {
     /* El contador del riel: «1 de 3». */
     de: "de",
     descripcion:
-      "Un escritorio con monitor, servidor, teclado y taza. En la pantalla se construye un sitio en tres pasos: el boceto, la estructura y el sitio terminado, y con cada paso se prende una luz del servidor.",
+      "Un escritorio de noche, con la pantalla y una lámpara de esfera naranja como únicas luces. En el monitor se construye la portada de Kalabs en tres pasos: el boceto, la estructura y la portada terminada, con el lago y la esfera.",
   },
 
   /* estudio */
