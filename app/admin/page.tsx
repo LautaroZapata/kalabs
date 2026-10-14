@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 };
 
 /* /admin es interno: no se enlaza del sitio ni sale en el sitemap.
-   Siempre pide ?token= (ver lib/panel-acceso.ts). Tauri lo abre con
-   el token fijo en la URL y el navegador lo guarda en sessionStorage. */
+   Siempre pide ?token= (ver lib/panel-acceso.ts). No se recuerda: la app
+   de Tauri también abre /admin a secas y pide la clave. */
 export default async function AdminPage({
   searchParams,
 }: {

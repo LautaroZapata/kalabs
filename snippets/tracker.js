@@ -1,6 +1,7 @@
-/* Snippet vanilla para ViaGrúa, Oleo Cáceres y Cupo.
+/* Snippet vanilla para sitios sin React (ver docs/panel.md).
    Pegar antes de </body> cambiando PROJECT por su slug:
-   kalabs | cupo | viagrua | oleocaceres
+   kalabs | cupo | viagrua | oleocaceres | oleofin
+   Si el sitio tiene CSP, sumar https://www.kalabs.dev a connect-src.
    No necesita clave de Supabase: habla con /api/track de kalabs.dev,
    que valida el slug y escribe en Supabase del lado servidor. */
 (function () {
