@@ -1,0 +1,189 @@
+/* La página entera mide por lo menos la pantalla: el pie queda abajo aunque
+   el aviso sea corto. */
+.pagina {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* La barra de la portada es fija y descuenta su alto del contenido. Esta va
+   en el flujo, así que el contenido no tiene nada que descontar. */
+.pagina :global(#contenido) { padding-top: 0; }
+
+.barra {
+  width: 100%;
+  max-width: var(--ancho);
+  margin-inline: auto;
+  min-height: var(--barra);
+  padding: 0 var(--edge);
+  display: flex;
+  align-items: center;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-variation-settings: "opsz" 24;
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: -0.03em;
+}
+
+.iso {
+  width: 1.15rem;
+  height: auto;
+  color: var(--ember);
+  transition: transform 0.4s var(--spring);
+}
+.marca:hover .iso { transform: rotate(-8deg) scale(1.08); }
+
+@media (min-width: 700px) {
+  .marca { gap: 0.6rem; font-size: 1.35rem; }
+  .iso { width: 1.5rem; }
+  .barra { padding-block: 0.9rem; }
+}
+
+/* ---------- el aviso ----------
+   Texto a la izquierda, cuadro a la derecha y más ancho: lo que se lee va
+   primero, lo que se mira acompaña. */
+.main {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+  padding-block: clamp(2rem, 8vh, 6rem);
+}
+
+.texto {
+  display: grid;
+  gap: 1.4rem;
+  justify-items: start;
+}
+
+.titulo {
+  font-size: clamp(2.4rem, 5.2vw, 4.6rem);
+  max-width: 12ch;
+}
+
+.marcado { color: var(--terra); }
+
+.cuerpo {
+  font-size: clamp(1.02rem, 1.3vw, 1.15rem);
+  color: var(--ink-4);
+  max-width: 44ch;
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+/* Las pastillas acá son la acción principal de la página: un punto más
+   grandes que en la barra, y con el blanco de toque de un dedo. */
+.acciones :global(.pastilla) {
+  font-size: 0.9rem;
+  padding: 0.7rem 1.25rem;
+  min-height: 2.75rem;
+}
+
+/* ---------- el cuadro ----------
+   Un fotograma del plano del lago. La perforación de la película corre por
+   los dos costados: dos tiras de huecos en papel apagado. */
+.cuadro {
+  --perfo: clamp(1.4rem, 2.6vw, 2.2rem);
+  position: relative;
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--r);
+  overflow: hidden;
+  color: var(--papel);
+  background:
+    radial-gradient(120% 90% at 85% 10%, var(--plano-luz), transparent 60%),
+    var(--plano);
+  padding-inline: var(--perfo);
+}
+
+.cuadro::before,
+.cuadro::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--perfo);
+  /* Un hueco cada 1.6rem: el gradiente pinta el 56% del alto de cada tramo.
+     Rectos, como la perforación de un 35 mm. */
+  background: linear-gradient(
+    to bottom,
+    transparent 0 22%,
+    rgba(247, 242, 231, 0.14) 22% 78%,
+    transparent 78% 100%
+  );
+  background-size: 44% 1.6rem;
+  background-repeat: repeat-y;
+  background-position: center top 0.5rem;
+}
+.cuadro::before { left: 0; border-right: 1px solid rgba(247, 242, 231, 0.08); }
+.cuadro::after { right: 0; border-left: 1px solid rgba(247, 242, 231, 0.08); }
+
+.toma {
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+/* El número: Bricolage al tope del eje óptico, en brasa y con el brillo de
+   la esfera. Es lo único del sitio que se permite este tamaño. */
+.numero {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-variation-settings: "opsz" 96;
+  font-weight: 800;
+  font-size: clamp(6rem, 17vw, 15rem);
+  line-height: 0.85;
+  letter-spacing: -0.06em;
+  color: var(--ember);
+  text-shadow: var(--brillo-texto);
+  font-variant-numeric: tabular-nums;
+}
+
+.isotipo {
+  width: clamp(5rem, 14vw, 10rem);
+  height: auto;
+  color: var(--ember);
+  filter: drop-shadow(0 0 22px rgba(255, 107, 26, 0.45));
+}
+
+/* La dirección pedida o el código, abajo y a la izquierda del fotograma,
+   como la anotación al canto de la película. Una dirección larga se corta
+   con puntos suspensivos antes que romper el cuadro. */
+.leyenda {
+  position: absolute;
+  left: calc(var(--perfo) + 1rem);
+  right: calc(var(--perfo) + 1rem);
+  bottom: 1rem;
+  display: flex;
+  gap: 0.6rem;
+  color: var(--bone-dim);
+  white-space: nowrap;
+}
+.leyenda > :last-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--papel);
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 860px) {
+  .main {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+  /* En el celular el cuadro va abajo y más bajo: lo primero que se lee es
+     qué pasó y el botón para salir. */
+  .cuadro { aspect-ratio: 16 / 10; }
+}

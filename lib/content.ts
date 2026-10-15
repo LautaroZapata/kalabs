@@ -327,4 +327,24 @@ export const UI = {
       SITE.email +
       ".",
   },
+
+  /* Lo que no estaba en los planes: una dirección que no existe y una falla
+     nuestra. Las dos dicen qué pasó, de quién es la culpa y por dónde seguir;
+     ninguna deja al visitante en un callejón. */
+  noExiste: {
+    titulo: ["Esta página ", "no existe", "."],
+    cuerpo:
+      "Puede que el enlace esté mal escrito o que la página se haya movido. Lo que buscabas seguramente está en el inicio.",
+    pedida: "Dirección pedida",
+    escribir: "Escribinos",
+  },
+  falla: {
+    titulo: ["Algo ", "falló", " de nuestro lado."],
+    cuerpo:
+      "No es nada que hayas hecho. Probá de nuevo en un momento; si sigue pasando, escribinos a " +
+      SITE.email +
+      " y lo revisamos.",
+    reintentar: "Probar de nuevo",
+    codigo: "Código de la falla",
+  },
 };

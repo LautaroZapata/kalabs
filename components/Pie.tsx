@@ -5,8 +5,11 @@ import s from "./Pie.module.css";
 /**
  * El pie: tinta, con la curva de la casa arriba, para que el papel termine
  * antes del borde de la pantalla y la página se cierre en vez de cortarse.
+ *
+ * `volver` sube a la portada por ancla: fuera de la portada (la 404, la falla)
+ * esa ancla no existe y el enlace se apaga.
  */
-export default function Pie() {
+export default function Pie({ volver = true }: { volver?: boolean }) {
   const anio = new Date().getFullYear();
 
   return (
@@ -21,9 +24,11 @@ export default function Pie() {
       <a className="et" href={`mailto:${SITE.email}`}>
         {SITE.email}
       </a>
-      <a className={`${s.volver} et`} href="#portada">
-        {UI.volver} ↑
-      </a>
+      {volver && (
+        <a className={`${s.volver} et`} href="#portada">
+          {UI.volver} ↑
+        </a>
+      )}
     </footer>
   );
 }
