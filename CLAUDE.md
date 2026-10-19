@@ -37,6 +37,7 @@ agente: leer el `SKILL.md` antes de confiar en una nueva.
 | **Design DNA** | `design-dna` | Analiza screenshots o URLs de referencia y devuelve un JSON con tres dimensiones: tokens, estilo cualitativo y efectos visuales (canvas, WebGL, shaders, scroll). Después genera diseño desde ese JSON. | El cliente ya tiene marca, local pintado o packaging, o trae una referencia que le gusta. |
 | **Skeudesign** | `skeuomorphic-ui`, `high-contrast-skeuomorphic-clean` | Superficies con relieve: gradientes apilados, sombras internas y externas, bordes reflectantes, microtextura, texto grabado. | Oficios y productos físicos: barbería, panadería, taller, cerrajería. Hace que el sitio se sienta tocable. |
 | **Retro UI** | `vintage` (skill) + registro `retroui.dev` | Nostalgia 50s-90s con textura granulada y tipografía pixel; el registro suma 50+ componentes neobrutalistas (bordes gruesos, sombras duras, color fuerte, 7 temas). | Marcas con historia o con ganas de ser ruidosas. El neobrutalismo es el opuesto exacto del look IA. |
+| **Anatomy** | `anatomy` | Explica una idea construyéndola como un objeto real que funciona: figura isométrica interactiva en SVG, con muchas piezas chicas y precisas (tornillos, resortes, perillas moleteadas, reglas con marcas), lectura en vivo y movimiento calmo. Shaders WebGL opcionales (fuego, agua, luz) y modo 3D en beta. Sale como HTML suelto, SVG o componente React/Next. | El rubro tiene un mecanismo o un proceso que contar: taller, cerrajería, automotora, un servicio que se entiende mejor viéndolo andar. Una figura por sitio, nunca decoración; una Figure lleva 30-90 min, una Hero 2-4 h. |
 | **Spline** | `spline-interactive` | Escena 3D hecha en editor visual y exportada a React. | Un solo héroe 3D, nunca decoración. Pesa: justificarlo o descartarlo. |
 | **Flair.ai** | — (servicio web) | Fotos de producto y escenas de marca generadas. | El cliente no tiene fotos usables y el rubro las necesita sí o sí. |
 
@@ -66,6 +67,12 @@ librería entera.
 | **Smooth UI** | — (registro `smoothui.dev`) | 75+ componentes animados con Motion, MIT, respeta `prefers-reduced-motion`. | Pulir botones, inputs y tarjetas ya construidos. |
 | **Skiper UI** | — (registro `skiper-ui.com`) | Componentes poco comunes sobre shadcn: card swipers, efectos de scroll (sus marquees quedan fuera: ver excluyentes). 24 gratis, el resto pago. | Cuando el eje pide un gesto raro que Magic UI no tiene. Verificar que el componente sea de los gratis. |
 | **unlumen UI** | — (registro `ui.unlumen.com`) | 132 componentes cuya premisa es movimiento que responde a la página, no a un temporizador: scroll reveal, count-up, scramble text, matriz de LEDs. | Cuando el scroll tiene que sentirse vivo sin montar GSAP. |
+| **beUI** | — (registro `beui.dev`) | Componentes con Motion y Tailwind 4 para React 19. Lo gratis es MIT; Pro (220+) es pago único. | Alternativa a Magic UI cuando el proyecto ya eligió Motion. |
+| **Arc UI** | — (registro `uiarc.dev`) | 159 componentes animados y 91 bloques sobre shadcn, con `llms.txt` y MCP. Pro USD 199 pago único: lo animado fuerte y los bloques enteros son Pro. | Lo gratis, pieza por pieza. Los bloques enteros traen su propia composición: chocan con el eje. |
+| **Kobra** | — (registro `@kobra`, `kobra.systems`) | 81 componentes sobre shadcn con Motion; sólo 10 gratis, el resto con `KOBRA_TOKEN`. Fuerte en controles: input OTP, menús, carrusel. | Un control de formulario puntual que shadcn resuelve pobre. Verificar que sea de los gratis. |
+| **affectUI** | — (registro `affectui.com/r/<slug>.json`) | 96 piezas, cada una un `.tsx` con estilos adentro: sin Tailwind ni librería de motion. 39 gratis (MIT), Pro pago único; tiene MCP. Pensada para productos con IA y SaaS. | Paneles admin y piezas de datos (Change Summary, Cover Flow). Al no traer Motion, no rompe el cupo de librería de motion. |
+| **BoardUI** | — (`boardui.com`, GitHub MIT) | 85 componentes, gráficos, plantillas y tokens para React 19 + Tailwind, orientado a interfaces de agentes y dashboards. Pro €149-349; MCP para instalar desde CLI. | Paneles admin densos. No para la cara pública del prospecto. |
+| **transitions.dev** | — (`transitions.dev`) | 43+ transiciones listas (página lado a lado, abrir y cerrar modal) en CSS y React. Gratis lo esencial, Pro el resto. Su "Motion Agent" se instala con `npx transitions-agent`: no se usa hasta revisarlo, y si se usa es con `pnpm dlx`. | Transiciones entre vistas del panel o del catálogo. Tomar la versión CSS cuando el proyecto no eligió Motion. |
 
 #### Gráficos
 
@@ -76,6 +83,7 @@ adorno ni para inventar cifras: ver métricas de relleno en excluyentes.
 | Recurso | Skill instalada | Qué aporta | Cuándo elegirlo |
 | --- | --- | --- | --- |
 | **TanStack Charts** | — (`pnpm add @tanstack/charts`, docs en `tanstack.com/charts/latest`) | Gramática de gráficos tipada y tree-shakable, estilo Observable Plot: marcas, escalas, transformaciones, interacción y motion. Headless, SVG por defecto y Canvas cuando hay muchos puntos. v1 estable en React; ~29 kB gzip un gráfico de línea básico. | Paneles de administración o secciones que necesitan un gráfico de verdad. Se diseña con los tokens del prospecto, no con el look por defecto. |
+| **EvilCharts** | — (registro `@evilcharts`, `evilcharts.com`) | Gráficos animados sobre shadcn, open source, con dos motores a elegir: Recharts (SVG) o Apache ECharts. Se copia el componente, pero arrastra el motor como dependencia. | Panel con shadcn que necesita gráficos lindos ya. Cuenta como la librería de gráficos del proyecto: no se suma a Chart.js ni a TanStack Charts. |
 
 #### Herramientas externas
 
@@ -84,6 +92,22 @@ adorno ni para inventar cifras: ver métricas de relleno en excluyentes.
 | **Manus.im** | Agente generalista: bocetos, variantes, assets sueltos. | Explorar direcciones antes del paso 2. Nunca para producir el sitio final. |
 | **10Web.io** | Generador de sitios del mundo WordPress. | Solo como referencia de rubro y de qué hace la competencia. No se entrega nada suyo. |
 | **Neurosinc.com** | No es un recurso de diseño: es un producto de audio de neuro-sincronización. Su sitio es una landing one-page minimalista, fondo claro, titulares grandes, mucho aire, narrativa de scroll por secciones numeradas. | Referencia de landing de producto premium y de ritmo de scroll. Mirarlo, no copiarlo. |
+
+#### Referencias
+
+Sirven para los pasos 1 y 2: mirar qué existe antes de nombrar el eje. No
+cuentan contra el cupo del paso 3 y nada sale de acá tal cual: una referencia
+copiada entera es un sitio de otro rubro con el logo cambiado.
+
+| Recurso | Qué es | Cómo usarlo |
+| --- | --- | --- |
+| **minimal.gallery** | Galería curada de sitios reales desde 2013, por categoría (estudios, tiendas, portfolios). Gratis. | Buscar dirección cuando el cliente no trae referencia. Las capturas que convencen pasan a `design-dna`. |
+| **Mobbin** | 600K+ pantallas y flujos de apps y webs publicadas. Gratis limitado; MCP desde el plan Pro+. | Cómo resuelven otros un flujo concreto: reserva, checkout, filtros, alta en un panel. Patrón de UX, no estética. |
+| **Kage** | 490+ interfaces de productos reales y 2.500+ componentes, por componente, industria y estilo; cada uno se convierte en prompt. | Ver cómo se resolvió una pieza puntual (precios, navegación). El prompt generado se lee, no se pega: trae la estética del original. |
+| **Refero Styles** | 2.000+ sistemas de diseño extraídos de sitios de producto, con colores, tipografía, espaciado y componentes, exportables como `DESIGN.md`. | Atajo de `design-dna` cuando la referencia ya está ahí. El `DESIGN.md` se adapta al eje y se resume en el `CLAUDE.md` del prospecto, no se adopta entero. |
+| **designmd.ai** | Comunidad de sistemas de diseño en formato `DESIGN.md`, gratis; tiene CLI y MCP. | Igual que Refero. Si se usa la CLI, con `pnpm dlx`. |
+| **Iconography Encyclopedia** | Glosario de diseño de iconos de The Iconography Company (`encyclopedia.iconography.co`): 150+ entradas sobre grilla, peso de trazo, pixel snapping, iconos compuestos, coherencia de familia. No vende ni descarga iconos. | Consultarlo siempre que el prospecto lleve iconos: elegir **una** familia, un peso de trazo y una grilla, y dibujar los que falten con esas reglas. Es la defensa contra "iconos de librería sin criterio" de la lista negra. |
+| **VibePrompt** | 286 prompts de layout Tailwind en 15 categorías (auth, precios, dashboards). | Sólo para piezas funcionales sin identidad: login del panel, tablas, formularios internos. Nunca héroe ni secciones de venta: es exactamente el look que la lista negra prohíbe. |
 
 ### Lista negra anti-genérico
 
@@ -173,6 +197,13 @@ que el proyecto usa de verdad, con `pnpm add`; nada se suma "por si acaso".
 | Estado global | **Zustand** | `zustand` | Sólo si el estado cruza componentes lejanos; antes, estado local o URL. |
 | Drag & drop | **Pragmatic drag and drop** | `@atlaskit/pragmatic-drag-and-drop` | Reordenar fotos o ítems en el panel. |
 | Estado en la URL | **nuqs** | `nuqs` | Filtros y buscadores de catálogo: la búsqueda queda en el link y se comparte. |
+
+## Feed de Instagram
+
+**Antes de crear publicaciones nuevas, leer `docs/feed.md` entero.** Tiene el
+tono (formal, de usted), la línea de diseño, el registro de temas ya usados y
+dónde quedan las publicadas en Drive. Al terminar una tanda, se suman los temas
+nuevos a ese registro.
 
 ## Gestor de paquetes
 

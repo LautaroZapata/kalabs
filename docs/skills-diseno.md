@@ -48,10 +48,14 @@ Instalar con `pnpm dlx skills add <id-del-skill>`.
 
 15. **TanStack Charts** (`@tanstack/charts`, https://tanstack.com/charts/latest) — no es skill, es librería. Gramática de gráficos tipada y tree-shakable estilo Observable Plot, headless, SVG o Canvas. v1 estable en React, ~29 kB gzip una línea básica. Sólo con datos reales (paneles, precios, evolución); nunca de adorno.
 
+### Ilustración
+
+16. **anatomy** (`wheresryan22/anatomy`, MIT, instalada) — explica una idea inventando un objeto físico cuyo funcionamiento *es* la idea (un caché como una cerradura de pernos, un contexto GPU como un plotter) y lo arma en SVG isométrico con 40-150 piezas, sombreado en cuatro tonos y orden de pintado probado por auditoría. WebGL opcional para fuego, agua o luz; modo 3D en beta. Sirve sin framework (script Node que escribe HTML) o en React/Next copiando `kit/` al proyecto. Pide Node 20.10+ y Chrome para sus chequeos. Revisada: sin red, los scripts sólo levantan Chrome headless local para capturas.
+
 ### QA
 
-16. **e2e** (TesterArmy, `tester-army/e2e`, Apache-2.0) — no es skill, es framework de tests end-to-end. El test se escribe como objetivo en lenguaje natural y un agente maneja la app hasta cumplirlo; corre sobre Playwright (Chromium, Firefox, WebKit) y también iOS/Android. Graba la primera corrida y la repite sin llamar al modelo hasta que algo cambia. Arranca con `pnpm dlx e2e init`. Necesita API key de un proveedor de modelos: cada corrida nueva cuesta tokens.
-17. **security-audit** (`cloudflare/security-audit-skill`, instalada) — auditoría de seguridad defensiva sobre el código: sólo confirma hallazgos que cruzan un límite real y propone el arreglo mínimo. Modo guía por defecto; la auditoría completa de seis fases es multiagente y cara, sólo a pedido. Snyk la marca "Med Risk": revisada, no hace llamadas de red ni ataca nada en vivo.
+17. **e2e** (TesterArmy, `tester-army/e2e`, Apache-2.0) — no es skill, es framework de tests end-to-end. El test se escribe como objetivo en lenguaje natural y un agente maneja la app hasta cumplirlo; corre sobre Playwright (Chromium, Firefox, WebKit) y también iOS/Android. Graba la primera corrida y la repite sin llamar al modelo hasta que algo cambia. Arranca con `pnpm dlx e2e init`. Necesita API key de un proveedor de modelos: cada corrida nueva cuesta tokens.
+18. **security-audit** (`cloudflare/security-audit-skill`, instalada) — auditoría de seguridad defensiva sobre el código: sólo confirma hallazgos que cruzan un límite real y propone el arreglo mínimo. Modo guía por defecto; la auditoría completa de seis fases es multiagente y cara, sólo a pedido. Snyk la marca "Med Risk": revisada, no hace llamadas de red ni ataca nada en vivo.
 
 ## Bibliotecas de cabecera
 
@@ -76,6 +80,30 @@ No son skills: son las librerías que se usan cuando aparece la necesidad. La ta
 - **ComposioHQ/awesome-claude-skills** y **VoltAgent/awesome-agent-skills** — catálogos masivos.
 - **anthropics/skills** (GitHub) + notebook `prompting_for_frontend_aesthetics` (cookbooks) — fuente oficial, gratis.
 
+## Referencias de diseño
+
+Para mirar antes de nombrar el eje. Criterio de uso en el `CLAUDE.md` raíz, sección "Referencias".
+
+- **minimal.gallery** (https://minimal.gallery/) — galería curada de sitios reales por categoría. Gratis.
+- **Mobbin** (https://mobbin.com/) — 600K+ pantallas y flujos de apps y webs. Gratis limitado; MCP en Pro+, API en Team.
+- **Kage** (https://kage.design/) — 490+ interfaces y 2.500+ componentes de productos reales, cada uno convertible en prompt.
+- **Refero Styles** (https://styles.refero.design/) — 2.000+ sistemas de diseño extraídos de sitios de producto, exportables como `DESIGN.md`.
+- **designmd.ai** (https://designmd.ai/) — sistemas de diseño en formato `DESIGN.md`, gratis, con CLI y MCP.
+- **VibePrompt** (https://vibeprompts.dev/) — 286 prompts de layout Tailwind. Sólo piezas funcionales (login, tablas, formularios); nunca secciones de venta.
+
+## Registros de componentes
+
+Se copia el componente que se usa con `pnpm dlx shadcn@latest add <url>`. Criterio en la tabla "Componentes" del `CLAUDE.md` raíz.
+
+- **beUI** (https://beui.dev/) — Motion + Tailwind 4, gratis MIT, Pro pago único.
+- **Arc UI** (https://uiarc.dev/) — 159 componentes y 91 bloques sobre shadcn; Pro USD 199; MCP.
+- **Iconography Encyclopedia** (https://encyclopedia.iconography.co/#view=directory) — glosario de diseño de iconos (150+ entradas: grilla, trazo, pixel snapping, coherencia). Referencia, no catálogo.
+- **Kobra** (https://kobra.systems/) — 81 componentes sobre shadcn, 10 gratis; fuerte en controles (input OTP).
+- **affectUI** (https://www.affectui.com/) — 96 piezas de un archivo, sin Tailwind ni Motion; 39 gratis MIT; MCP.
+- **BoardUI** (https://www.boardui.com/) — 85 componentes para dashboards y agentes; gratis MIT, Pro €149-349.
+- **transitions.dev** (https://transitions.dev/) — 43+ transiciones en CSS y React. Su agente (`transitions-agent`) sin revisar.
+- **EvilCharts** (https://evilcharts.com/) — gráficos shadcn sobre Recharts o ECharts; cuenta como la librería de gráficos del proyecto.
+
 ## Criterio de uso
 
 1. Antes de diseñar, revisar `frontend-design` + `web-design-guidelines`.
@@ -85,7 +113,7 @@ No son skills: son las librerías que se usan cuando aparece la necesidad. La ta
 5. Si se usa shadcn/ui, consultar `shadcn-context` para usar componentes reales en vez de reinventarlos.
 6. Para assets, usar `design-assets` (paletas, favicons, SVG, optimización de imágenes) y JSON-LD con `seo-local-business` cuando aplique.
 7. Para landings, pasar por `landing-page-design` antes de elegir secciones, titulares y CTA.
-8. Si hay datos reales que graficar, `TanStack Charts`.
+8. Si hay datos reales que graficar, `TanStack Charts`. Si hay un mecanismo o proceso que explicar, una figura con `anatomy`.
 9. Todo flujo que importe (pedido, contacto, panel, filtros) se prueba con `e2e` antes de mostrarlo; si hay panel, login o datos que se escriben, pasa también por `security-audit` en modo guía.
 10. Al cerrar un prospecto, pasar `antislop` con `antislop-ui` y `antislop-human` como auditoría (modo después), junto a `web-design-guidelines`; para textos, `antislop-copywriting`.
 11. Ante duda entre skills, chequear installs en skills.sh y tabla en top-agent-skills.com.
