@@ -1,0 +1,10 @@
+# venv, pesos y salidas locales: nada de esto se commitea.
+.venv/
+models/
+__pycache__/
+*.pyc
+outputs/*
+!outputs/.gitkeep
+workflows/.tmp/
+.env
+datasets/

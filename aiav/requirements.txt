@@ -1,0 +1,15 @@
+# Base del lab. Torch se instala aparte con el índice CUDA (ver README),
+# para no mezclar el índice PyTorch con PyPI en un solo archivo.
+--extra-index-url https://download.pytorch.org/whl/cu126
+diffusers>=0.32
+transformers>=4.48
+accelerate>=1.0
+safetensors>=0.4
+huggingface_hub>=0.26
+opencv-python>=4.10
+imageio>=2.36
+imageio-ffmpeg>=0.5
+numpy<2
+pillow>=10
+sentencepiece>=0.2
+ftfy>=6.1
