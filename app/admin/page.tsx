@@ -5,6 +5,8 @@ import { tokenValido } from "@/lib/panel-acceso";
 import Panel from "./Panel";
 import s from "./Panel.module.css";
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: "Panel",
   robots: { index: false, follow: false },

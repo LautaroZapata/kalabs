@@ -1,0 +1,129 @@
+[
+  {
+    "slug": "kalabs",
+    "nombre": "Kalabs Studio",
+    "url": "https://www.kalabs.dev",
+    "categoria": "propio",
+    "estado": "produccion",
+    "repoGithub": "kalabsuy/kalabs",
+    "pathLocal": "C:\\development\\kalabs",
+    "frecuenciaMantenimientoDias": 30,
+    "ultimoMantenimientoAt": "2026-10-24T22:15:58.465Z",
+    "notas": "Sitio principal de la agencia y panel administrativo central.",
+    "ultimoCheck": {
+      "statusCode": 200,
+      "latenciaMs": 233,
+      "sslDiasRestantes": 43,
+      "estaOnline": true,
+      "errorMensaje": null,
+      "checkedAt": "2026-10-25T02:00:24.526Z"
+    },
+    "historialMantenimiento": [
+      {
+        "id": "maint_1792880158464_pzou",
+        "tipo": "preventivo",
+        "titulo": "Prueba de mantenimiento",
+        "descripcion": "Verificación del Command Center",
+        "realizadoAt": "2026-10-24T22:15:58.465Z"
+      }
+    ]
+  },
+  {
+    "slug": "cupo",
+    "nombre": "Cupo.uy",
+    "url": "https://cupo.uy",
+    "categoria": "cliente",
+    "estado": "produccion",
+    "pathLocal": null,
+    "frecuenciaMantenimientoDias": 30,
+    "ultimoMantenimientoAt": "2026-10-10T14:30:00Z",
+    "notas": "Plataforma en producción para clientes.",
+    "ultimoCheck": {
+      "statusCode": 200,
+      "latenciaMs": 558,
+      "sslDiasRestantes": 70,
+      "estaOnline": true,
+      "errorMensaje": null,
+      "checkedAt": "2026-10-25T02:00:24.527Z"
+    }
+  },
+  {
+    "slug": "viagrua",
+    "nombre": "ViaGrúa",
+    "url": "https://via-grua.vercel.app",
+    "categoria": "cliente",
+    "estado": "produccion",
+    "pathLocal": "C:\\development\\ViaGrua",
+    "frecuenciaMantenimientoDias": 30,
+    "ultimoMantenimientoAt": "2026-09-20T10:00:00Z",
+    "notas": "Aplicación y landing de auxilio mecánico y grúas.",
+    "ultimoCheck": {
+      "statusCode": 200,
+      "latenciaMs": 316,
+      "sslDiasRestantes": 33,
+      "estaOnline": true,
+      "errorMensaje": null,
+      "checkedAt": "2026-10-25T02:00:24.528Z"
+    }
+  },
+  {
+    "slug": "oleocaceres",
+    "nombre": "Oleo Cáceres Web",
+    "url": "https://oleocaceres-web.vercel.app",
+    "categoria": "cliente",
+    "estado": "produccion",
+    "pathLocal": "C:\\development\\oleocaceres-web",
+    "frecuenciaMantenimientoDias": 45,
+    "ultimoMantenimientoAt": "2026-09-15T11:00:00Z",
+    "notas": "Portal web de Oleo Cáceres.",
+    "ultimoCheck": {
+      "statusCode": 200,
+      "latenciaMs": 221,
+      "sslDiasRestantes": 33,
+      "estaOnline": true,
+      "errorMensaje": null,
+      "checkedAt": "2026-10-25T02:00:24.529Z"
+    }
+  },
+  {
+    "slug": "oleofin",
+    "nombre": "OleoFin",
+    "url": "https://oleocaceres.vercel.app",
+    "categoria": "cliente",
+    "estado": "produccion",
+    "pathLocal": "C:\\development\\OleoCaceresFin",
+    "frecuenciaMantenimientoDias": 45,
+    "ultimoMantenimientoAt": "2026-09-12T16:00:00Z",
+    "notas": "Sistema de finanzas y gestión de Oleo Cáceres.",
+    "ultimoCheck": {
+      "statusCode": 200,
+      "latenciaMs": 1264,
+      "sslDiasRestantes": 33,
+      "estaOnline": true,
+      "errorMensaje": null,
+      "checkedAt": "2026-10-25T02:00:25.227Z"
+    }
+  },
+  {
+    "slug": "miagendauy",
+    "nombre": "MiAgenda UY",
+    "url": null,
+    "categoria": "propio",
+    "estado": "desarrollo",
+    "pathLocal": "C:\\development\\miagendauy",
+    "frecuenciaMantenimientoDias": 30,
+    "ultimoMantenimientoAt": "2026-10-20T20:00:00Z",
+    "notas": "Next.js con Cloudflare Workers y Neon Postgres para reservas."
+  },
+  {
+    "slug": "censopuerrul",
+    "nombre": "Censo Puerrul",
+    "url": null,
+    "categoria": "prospecto",
+    "estado": "mantenimiento",
+    "pathLocal": "C:\\development\\kalabs\\prospectos\\censopuerrul",
+    "frecuenciaMantenimientoDias": 60,
+    "ultimoMantenimientoAt": "2026-10-23T22:00:00Z",
+    "notas": "Prospecto reciente en desarrollo."
+  }
+]

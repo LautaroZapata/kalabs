@@ -55,7 +55,7 @@ Instalar con `pnpm dlx skills add <id-del-skill>`.
 ### QA
 
 17. **e2e** (TesterArmy, `tester-army/e2e`, Apache-2.0) — no es skill, es framework de tests end-to-end. El test se escribe como objetivo en lenguaje natural y un agente maneja la app hasta cumplirlo; corre sobre Playwright (Chromium, Firefox, WebKit) y también iOS/Android. Graba la primera corrida y la repite sin llamar al modelo hasta que algo cambia. Arranca con `pnpm dlx e2e init`. Necesita API key de un proveedor de modelos: cada corrida nueva cuesta tokens.
-18. **security-audit** (`cloudflare/security-audit-skill`, instalada) — auditoría de seguridad defensiva sobre el código: sólo confirma hallazgos que cruzan un límite real y propone el arreglo mínimo. Modo guía por defecto; la auditoría completa de seis fases es multiagente y cara, sólo a pedido. Snyk la marca "Med Risk": revisada, no hace llamadas de red ni ataca nada en vivo.
+18. **security-audit** (`cloudflare/security-audit-skill`, obligatoria en cada cierre) — auditoría de seguridad defensiva sobre el código. Es **OBLIGATORIA y sin excepciones al terminar cualquier prospecto o implementación nueva** para verificar exhaustivamente todas las vulnerabilidades (fugas de secrets/API keys, inyecciones, Server Actions, IDOR, SSRF, auth y headers). Si no está disponible en el entorno, debe descargarse de inmediato (`pnpm dlx skills add cloudflare/security-audit-skill` o clonando en `.agents/skills/security-audit`). Snyk la marca "Med Risk": revisada, no hace llamadas de red ni ataca nada en vivo.
 
 ## Bibliotecas de cabecera
 
@@ -104,6 +104,69 @@ Se copia el componente que se usa con `pnpm dlx shadcn@latest add <url>`. Criter
 - **transitions.dev** (https://transitions.dev/) — 43+ transiciones en CSS y React. Su agente (`transitions-agent`) sin revisar.
 - **EvilCharts** (https://evilcharts.com/) — gráficos shadcn sobre Recharts o ECharts; cuenta como la librería de gráficos del proyecto.
 
+## Tipografías de referencia (más allá de Switzer y Chillax)
+
+> **Regla anti-inercia**: No usar la dupla Switzer (cuerpo) + Chillax (titulares) como comodín por defecto. Chillax tiene glifos alternativos y redondeces que no encajan en rubros serios, técnicos o industriales; y Switzer se convirtió en la "nueva Inter" de las agencias de IA. La tipografía se define por el rubro, el material del cliente y el tono del negocio.
+
+### 1. Sans y grotescas de lectura (Cuerpo y estructura sólida — alternativas a Switzer)
+
+| Familia | Fuente / Paquete | Qué aporta | Dónde usarla |
+| --- | --- | --- | --- |
+| **Hanken Grotesk** | `next/font/google` | Ancha, abierta, neutra pero con aire propio. Excelente legibilidad en párrafos y versalitas chicas sin competir con el titular. | La que sostiene el sitio de Kalabs. Ideal para servicios, consultoría y cuerpos de texto limpios. |
+| **Instrument Sans** | `next/font/google` | Grotesca moderna inspirada en el modernismo editorial de los 70s. Más humana y orgánica que Switzer o Inter. | Portafolios, estudios de diseño, arquitectura, gastronomía cuidada. |
+| **Plus Jakarta Sans** | `next/font/google` | Geométrica limpia con aperturas frescas y espíritu contemporáneo. Gran rendimiento en pantalla. | SaaS, productos digitales, salud privada, tecnología sobria. |
+| **Albert Sans** | `next/font/google` | Geométrica cálida inspirada en la tipografía escandinava. Amable y luminosa sin verse infantil. | Educación, bienestar, psicología, proyectos cercanos. |
+| **Satoshi** | Fontshare / `@fontsource/satoshi` | Geométrica racionalista pura, proporciones pulidas y elegantes si se busca un corte geométrico limpio. | Marcas de producto, diseño industrial, moda sobria. |
+| **General Sans** | Fontshare | Grotesca francesa clásica, estructurada, formal y contundente. | Empresas, consultoría de negocios, firmas contables. |
+
+### 2. Display y titulares con carácter (Fuerza y presencia — alternativas a Chillax)
+
+| Familia | Fuente / Paquete | Qué aporta | Dónde usarla |
+| --- | --- | --- | --- |
+| **Bricolage Grotesque** | `next/font/google` | Variable con eje óptico (`opsz`). A cuerpo grande cierra espaciado y acentúa curvas expresivas; a cuerpo chico abre. | Titulares con carácter propio sin caer en lo juguetón de Chillax. Usada en Kalabs. |
+| **Clash Display** | Fontshare / `@fontsource/clash-display` | Display brutalista contemporánea, peso concentrado, esquinas filosas y presencia contundente. | Eventos, moda urbana, música, lanzamientos de impacto, diseño audaz. |
+| **Syne** | `next/font/google` | Experimental, artística, pesos `Extra-Bold` y `Black` con contrastes extremos de ancho. | Arte, diseño de autor, gastronomía conceptual, galerías, cultura. |
+| **Cabinet Grotesk** | Fontshare | Grotesca display con terminaciones secas y proporciones condensadas. | Donde Chillax queda infantil o blanda: identidad fuerte, afiches, editorial moderno. |
+| **Space Grotesk** | `next/font/google` | Grotesca técnica derivada de Space Mono con espaciado proporcional. | Software, infraestructura, ingeniería, laboratorios. |
+| **Krona One** | `next/font/google` | Baja, ancha, de proporciones horizontales pesadas y geométricas. | Titulares muy cortos de impacto horizontal, tecnología, automovilismo. |
+
+### 3. Técnicas, condensadas e industriales (Oficios, deporte, taller, logística)
+
+| Familia | Fuente / Paquete | Qué aporta | Dónde usarla |
+| --- | --- | --- | --- |
+| **Archivo** | `next/font/google` (`axes: ["wdth"]`) | Navaja suiza variable: peso (100–900) y ancho (`wdth` 62%–125%). Permite titulares monolíticos en mayúsculas condensadas y cifras de tabla precisas. | Gimnasios y centros de entrenamiento (Sismo Club), automotoras (Ro Cars), canchas, estadísticas. |
+| **Barlow / Barlow Condensed** | `next/font/google` | Inspirada en la señalética de autopistas de California. Industrial, sincera, sin firuletes. | Ligas deportivas (Liga Clandestina), depósitos, logística, transporte, talleres mecánicos. |
+| **Bebas Neue** | `next/font/google` | Clásica condensada display en mayúsculas puras. Máxima pegada vertical. | Precios destacados, carteles de almacén, promociones directas, ofertas. |
+| **Chivo** | `next/font/google` | Grotesca de alta energía y pesos gruesos sólidos. | Maquinaria, construcción, transporte pesado, proyectos de fuerza. |
+
+### 4. Serifas editoriales y cálidas (Salud, derecho, estética, alta gama, literatura)
+
+| Familia | Fuente / Paquete | Qué aporta | Dónde usarla |
+| --- | --- | --- | --- |
+| **Fraunces** | `next/font/google` | Serif variable de espíritu 70s con ejes `SOFT` (suavidad) y `opsz`. Calidez humana y artesanía. | Consultorios de salud (Cibils), estética holística, panaderías artesanales, estudios boutique. |
+| **Instrument Serif** | `next/font/google` | Serif estilizada con alto contraste de trazo e itálica elegante de revista de moda. | Marcas de indumentaria (Vilary), joyería, hotelería, editoriales premium. |
+| **Newsreader** | `next/font/google` | Diseñada específicamente para lectura continua de textos largos y periódicos. | Estudios jurídicos, notarías, manifiestos serios, publicaciones extensas. |
+| **Bodoni Moda** | `next/font/google` | Didona monumental de contraste extremo entre trazos gruesos y finos. | Belleza, alta costura, sesiones fotográficas (Brava Studio). |
+| **Cormorant Garamond** | `next/font/google` | Tradición clásica, nobleza y fineza en las curvas. | Bodegas, restaurantes de mantel largo, herencia familiar. |
+
+### 5. Monoespaciadas funcionales (Datos duros, fichas técnicas, código)
+
+| Familia | Fuente / Paquete | Qué aporta | Dónde usarla |
+| --- | --- | --- | --- |
+| **IBM Plex Mono** | `next/font/google` | Ingeniería pura, sobria, balanceada. Diferencia clara entre caracteres. | Fichas técnicas, datos de protocolo, fórmulas (Victoria Grenno). |
+| **Space Mono** | `next/font/google` | Geométrica con personalidad retro-computacional. | Proyectos con estética sci-fi, web técnica o hardware. |
+| **JetBrains Mono** | `next/font/google` | Diseñada para legibilidad técnica y cifras tabulares (`tabular-nums`). | Paneles de datos, logs, terminales, comparativas numéricas. |
+
+### Duplas probadas por rubro
+
+- **Estudio / Agencia digital**: Bricolage Grotesque (titular) + Hanken Grotesk (cuerpo)
+- **Automotora / Taller**: Archivo condensada con `font-stretch` (titular) + Instrument Sans (cuerpo)
+- **Consultorio médico / Psicología**: Fraunces (titular cálido) + Plus Jakarta Sans o Albert Sans (cuerpo)
+- **Estudio jurídico / Escribanía**: Newsreader (titular formal) + Instrument Sans (cuerpo)
+- **Moda / Cosmética premium**: Instrument Serif o Bodoni Moda (titular) + Nunito o Instrument Sans (cuerpo)
+- **Club / Centro deportivo**: Archivo o Barlow Condensed (titular en mayúsculas) + Barlow o Hanken (cuerpo)
+- **Ingeniería / Paneles de datos**: Space Grotesk (titular) + Plus Jakarta Sans (cuerpo) + IBM Plex Mono (datos)
+
 ## Criterio de uso
 
 1. Antes de diseñar, revisar `frontend-design` + `web-design-guidelines`.
@@ -114,6 +177,7 @@ Se copia el componente que se usa con `pnpm dlx shadcn@latest add <url>`. Criter
 6. Para assets, usar `design-assets` (paletas, favicons, SVG, optimización de imágenes) y JSON-LD con `seo-local-business` cuando aplique.
 7. Para landings, pasar por `landing-page-design` antes de elegir secciones, titulares y CTA.
 8. Si hay datos reales que graficar, `TanStack Charts`. Si hay un mecanismo o proceso que explicar, una figura con `anatomy`.
-9. Todo flujo que importe (pedido, contacto, panel, filtros) se prueba con `e2e` antes de mostrarlo; si hay panel, login o datos que se escriben, pasa también por `security-audit` en modo guía.
+9. Todo flujo que importe (pedido, contacto, panel, filtros) se prueba con `e2e` antes de mostrarlo. **SIEMPRE, al terminar cualquier prospecto o implementación nueva, es OBLIGATORIO ejecutar `security-audit` de Cloudflare para comprobar exhaustivamente todas las vulnerabilidades antes de dar por cerrada la tarea.**
 10. Al cerrar un prospecto, pasar `antislop` con `antislop-ui` y `antislop-human` como auditoría (modo después), junto a `web-design-guidelines`; para textos, `antislop-copywriting`.
-11. Ante duda entre skills, chequear installs en skills.sh y tabla en top-agent-skills.com.
+11. Elegir la tipografía según el oficio y el eje del cliente (consultar la sección de tipografías de referencia y evitar la inercia de Switzer + Chillax).
+12. Ante duda entre skills, chequear installs en skills.sh y tabla en top-agent-skills.com.

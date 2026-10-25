@@ -297,6 +297,13 @@ body::after {
   animation: grano 0.5s steps(1) infinite;
 }
 
+/* En el panel administrativo se desactiva el grano para maximo rendimiento */
+body:has(#contenido.admin)::after,
+body:has(.admin)::after {
+  display: none !important;
+  animation: none !important;
+}
+
 [data-escena] {
   position: relative;
   z-index: 201;

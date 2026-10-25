@@ -51,8 +51,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="es-UY"
       className={`${display.variable} ${body.variable}`}
+      suppressHydrationWarning
     >
-      <body>
+      <body suppressHydrationWarning>
         <a className="skip" href="#contenido">
           Saltar al contenido
         </a>

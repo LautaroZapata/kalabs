@@ -19,7 +19,7 @@ identidad visual es lo único que separa un negocio del de al lado.
 4. **Dejar la decisión escrita** en el `CLAUDE.md` del prospecto, con el eje
    estético, los recursos elegidos y el motivo. Sirve para que el próximo cambio
    no rompa la dirección.
-5. **Pasar la lista negra anti-genérico** antes de dar por cerrado el diseño.
+5. **Pasar la lista negra anti-genérico, QA y la auditoría obligatoria de seguridad con `security-audit` de Cloudflare** antes de dar por cerrado cualquier prospecto o implementación.
 
 ### Tabla de recursos
 
@@ -115,7 +115,7 @@ Si el prospecto tiene alguna de estas, el diseño no está terminado:
 
 - Degradado violeta o azul sobre fondo oscuro.
 - Héroe centrado + tres tarjetas iguales + CTA, en ese orden.
-- Inter, Geist o la tipografía por defecto del framework en todo el sitio.
+- Inter, Geist o la tipografía por defecto del framework en todo el sitio. Tampoco caer en el comodín perezoso de agencia IA: repetir siempre la dupla Switzer (cuerpo) + Chillax (titulares) sin importar el rubro del negocio.
 - Fotos de stock genéricas cuando el cliente tiene fotos reales del local.
 - Iconos de librería sin criterio, uno por tarjeta.
 - Bordes redondeados iguales en absolutamente todo.
@@ -144,13 +144,33 @@ alguna, el prospecto se rehace antes de mostrarse:
 Se revisan **siempre**: `frontend-design` (dirección estética, anti-look-genérico),
 `better-typography` y `landing-page-design` (una oferta, un público, una acción:
 estructura, secciones, copy de conversión y SEO) al empezar;
-`web-design-guidelines` y `web-design-reviewer` al cerrar. Las reglas visuales de
+`web-design-guidelines` y `web-design-reviewer` al cerrar el diseño;
+y **`security-audit` de Cloudflare de forma obligatoria e ineludible al terminar cualquier prospecto o implementación nueva** para auditar y comprobar todas las vulnerabilidades antes de darlo por finalizado. Las reglas visuales de
 `landing-page-design` ceden ante el eje estético del prospecto y ante este
 archivo: si chocan, gana Kalabs. El catálogo largo de skills y recursos vive en
 `docs/skills-diseno.md`.
 
-## QA
+### Tipografías: criterio y familias predilectas
 
+Ni Inter, ni Geist, ni clavar siempre **Switzer + Chillax** por inercia: la tipografía se define por el rubro y el material del cliente. El catálogo completo y comentado vive en [`docs/skills-diseno.md`](docs/skills-diseno.md).
+
+| Rubro / Tono | Titulares predilectos | Cuerpo predilecto | Criterio |
+| --- | --- | --- | --- |
+| **Estudio / Agencia digital** | **Bricolage Grotesque** (con `opsz`) | **Hanken Grotesk** | Expresiva arriba, calma y espaciosa abajo (como Kalabs). |
+| **Taller / Automotora / Deporte** | **Archivo** (variable `wdth`, mayúsculas) | **Instrument Sans** o **Barlow** | Potencia industrial, números tabulares, cero firuletes. |
+| **Salud / Clínica / Psicología** | **Fraunces** (serif cálida) | **Plus Jakarta Sans** o **Albert Sans** | Humanidad, confianza y legibilidad serena. |
+| **Jurídico / Escribanía** | **Newsreader** (serif prensa) | **Instrument Sans** | Sobriedad institucional, lectura corrida impecable. |
+| **Moda / Belleza / Alta gama** | **Instrument Serif** o **Bodoni Moda** | **Instrument Sans** o **Nunito** | Contraste editorial fino y distinción de revista. |
+| **SaaS / Tecnología / Datos** | **Space Grotesk** | **Plus Jakarta Sans** (+ **IBM Plex Mono** datos) | Técnica, moderna y limpia sin sentirse genérica. |
+
+**Reglas tipográficas:**
+- **Máximo dos familias** (o una sola variable como Archivo o Bricolage que cubra títulos y cuerpo con sus ejes).
+- **Contraste deliberado**: nunca dos sans casi iguales.
+- **En Next.js**: usar siempre `next/font/google` (self-hosted automático en build, sin layout shift). Fontsource para lo que no sea Next.
+
+## QA y Auditoría de Seguridad
+
+### Flujos y E2E
 Todo lo que es QA de un prospecto o de este sitio pasa por **e2e** de
 TesterArmy (`github.com/tester-army/e2e`, Apache-2.0). No es una skill: es un
 framework de tests end-to-end donde el test se escribe como objetivo en lenguaje
@@ -167,18 +187,22 @@ simuladores iOS/Android.
   correo, formularios), los filtros y buscadores de catálogo, y el panel admin
   cuando lo hay. Un prospecto no se muestra con un flujo de esos sin probar.
 
-La seguridad va aparte, con la skill **`security-audit`** de Cloudflare
-(`cloudflare/security-audit-skill`, ya instalada en `~/.claude/skills`). Lee el
-código, no ataca nada en vivo, y sólo da por confirmado un hallazgo que cruza un
-límite real (quién puede ver o tocar qué), con el arreglo más chico posible.
+### Auditoría de Seguridad Obligatoria: `security-audit` de Cloudflare
 
-- Por defecto trabaja en modo guía: preguntas puntuales o revisar un flujo
-  concreto. Se usa así en cada prospecto con panel admin, login, formularios que
-  escriben datos o API propia, antes de mostrarlo.
-- La auditoría completa (seis fases, varios agentes, informe en
-  `~/security-audit-skill/<repo>/run-N`) se pide explícitamente y sólo para
-  proyectos que van a producción con datos de clientes: gasta muchas
-  invocaciones de agente.
+**SIEMPRE, SIN EXCEPCIONES: Al terminar cualquier prospecto o implementación nueva que hagamos, es OBLIGATORIO usar la skill `security-audit` de Cloudflare (`cloudflare/security-audit-skill`) para comprobar exhaustivamente todas las vulnerabilidades.**
+
+- **Descarga e instalación**: La skill debe estar descargada y lista para usarse. Si no está en el entorno local (`.agents/skills/security-audit`, `~/.claude/skills/security-audit` o `~/.gemini/config/skills/security-audit`), se debe descargar de inmediato antes de dar por cerrada la tarea con:
+  `pnpm dlx skills add cloudflare/security-audit-skill -g -s security-audit`
+  o clonando el repositorio oficial en `.agents/skills/security-audit`.
+- **Obligatoriedad en cada cierre**: Aplica a **TODO** prospecto o funcionalidad nueva que se desarrolle (no solo paneles o apps complejas, sino landings, endpoints, Server Actions, formularios, manejo de cookies y headers).
+- **Qué audita y comprueba**: Lee el código fuente y audita todas las vulnerabilidades:
+  - Fugas de credenciales, API keys o tokens de servicio expuestos en el frontend o bundles cliente.
+  - Vulnerabilidades de inyección (SQL, HTML/XSS, comandos).
+  - Autorización rota, IDOR y control de acceso (quién puede leer o escribir qué).
+  - Validación y saneamiento de datos en Server Actions, rutas API y formularios.
+  - Server-Side Request Forgery (SSRF) y llamadas externas no restringidas.
+  - Seguridad en dependencias y headers HTTP.
+- **Criterio de finalización**: Ningún prospecto ni código nuevo se da por finalizado, aprobado o desplegado sin haber ejecutado la auditoría con `security-audit` y haber resuelto con el arreglo mínimo y efectivo cada vulnerabilidad confirmada.
 
 ## Bibliotecas de cabecera
 
